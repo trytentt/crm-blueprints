@@ -161,7 +161,7 @@ def test_log_is_written_and_redacted(design, tmp_path):
     path, adapter = make_plan_file(design, tmp_path)
     adapter.fail_on = next(c.target for c in adapter.plan(design, adapter.read_state()).changes if c.risk == "safe")
     secret = "hunter2-very-secret-value"
-    env = {"ATTIO_API_KEY": secret}
+    env = {"ATTIO_ACCESS_TOKEN": secret}
     # The adapter's error echoes the credential and an email address.
     from dataclasses import replace
     original = adapter.apply

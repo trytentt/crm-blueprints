@@ -140,12 +140,12 @@ def test_registry_missing_credentials_and_success(monkeypatch):
     class Module:
         @staticmethod
         def make_adapter(env, *, target, production):
-            return ("adapter", get_credential("ATTIO_API_KEY", dict(env)), target, production)
+            return ("adapter", get_credential("ATTIO_ACCESS_TOKEN", dict(env)), target, production)
 
     monkeypatch.setattr(registry, "import_module", lambda name: Module)
-    with pytest.raises(registry.RegistryError, match="ATTIO_API_KEY"):
+    with pytest.raises(registry.RegistryError, match="ATTIO_ACCESS_TOKEN"):
         registry.get_adapter("attio", {}, None, False)
-    got = registry.get_adapter("attio", {"ATTIO_API_KEY": "abc"}, "sbx", False)
+    got = registry.get_adapter("attio", {"ATTIO_ACCESS_TOKEN": "abc"}, "sbx", False)
     assert got == ("adapter", "abc", "sbx", False)
 
 
