@@ -1,0 +1,440 @@
+extends: core
+name: B2B SaaS, sales-led
+description: >-
+  A software company that sells annual contracts through a sales team. New business and renewals
+  run as separate deal pipelines. Each signed contract becomes a subscription, and onboarding is
+  tracked on its own object so delivery never clutters the sales pipeline.
+
+add_objects:
+  - key: subscription
+    label: Subscription
+    plural_label: Subscriptions
+    description: >-
+      One customer contract for one plan: its term, annual recurring revenue and renewal date.
+      Created when a new-business deal is won. Renewal and expansion deals point back to it.
+  - key: onboarding
+    label: Onboarding
+    plural_label: Onboardings
+    description: >-
+      The work of getting a new subscription live. Owned by customer success, separate from the
+      sales deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: customer_status
+    label: Customer status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options: {prospect: Prospect, customer: Customer, former_customer: Former customer}
+  - object: company
+    key: segment
+    label: Segment
+    type: select
+    description: Size band used for routing, pricing and reporting.
+    options: {smb: SMB, mid_market: Mid-market, enterprise: Enterprise}
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options:
+      inbound: Inbound
+      outbound: Outbound
+      partner: Partner
+      event: Event
+      referral: Referral
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in the buying decision. Used to check deals are multi-threaded.
+    options:
+      economic_buyer: Economic buyer
+      champion: Champion
+      technical_evaluator: Technical evaluator
+      end_user: End user
+      blocker: Blocker
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost or the customer churned. Required on every lost stage.
+    options:
+      no_budget: No budget
+      no_decision: No decision made
+      competitor: Chose a competitor
+      product_gap: Product gap
+      price: Price
+      bad_timing: Bad timing
+      champion_left: Champion left
+      acquired: Company acquired
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: competitor
+    label: Competitor
+    type: text
+    description: The main alternative the buyer is considering, in their words.
+  - object: deal
+    key: pain_summary
+    label: Pain summary
+    type: long_text
+    description: The problem the buyer wants solved and what it costs them today.
+  - object: deal
+    key: budget_confirmed
+    label: Budget confirmed
+    type: checkbox
+    description: The economic buyer has said a budget exists for this purchase.
+  - object: deal
+    key: decision_process
+    label: Decision process
+    type: long_text
+    description: Who signs, who else must approve, and the steps and dates to get there.
+  - object: deal
+    key: security_review
+    label: Security review
+    type: select
+    description: Progress of the buyer's security and procurement review.
+    options: {not_needed: Not needed, requested: Requested, in_progress: In progress, passed: Passed}
+  - object: deal
+    key: contract_term_months
+    label: Contract term (months)
+    type: number
+    description: Length of the contract in months.
+  - object: deal
+    key: renewal_type
+    label: Renewal type
+    type: select
+    description: Whether a renewals-pipeline deal is a straight renewal or adds revenue.
+    options: {renewal: Renewal, upsell: Upsell, cross_sell: Cross-sell}
+  - object: deal
+    key: renewal_risk
+    label: Renewal risk
+    type: select
+    description: Customer success view of how likely the renewal is to close.
+    options: {low: Low, medium: Medium, high: High}
+  # Subscription
+  - object: subscription
+    key: name
+    label: Name
+    type: text
+    description: Company name and plan, for example Acme Business annual.
+    required: true
+  - object: subscription
+    key: status
+    label: Status
+    type: select
+    description: Where the subscription is in its life.
+    options:
+      pending_start: Pending start
+      active: Active
+      in_renewal: In renewal
+      churned: Churned
+  - object: subscription
+    key: plan
+    label: Plan
+    type: select
+    description: The plan the customer is on.
+    options: {team: Team, business: Business, enterprise: Enterprise}
+  - object: subscription
+    key: start_date
+    label: Start date
+    type: date
+    description: First day of the current term.
+  - object: subscription
+    key: renewal_date
+    label: Renewal date
+    type: date
+    description: Last day of the current term. A renewal deal opens 90 days before it.
+  - object: subscription
+    key: term_months
+    label: Term (months)
+    type: number
+    description: Length of the current term in months.
+  - object: subscription
+    key: arr
+    label: ARR
+    type: currency
+    description: Annual recurring revenue for this subscription at current prices.
+  - object: subscription
+    key: seats
+    label: Seats
+    type: number
+    description: Number of licensed seats, where the plan is priced per seat.
+  - object: subscription
+    key: billing_frequency
+    label: Billing frequency
+    type: select
+    description: How often the customer is invoiced.
+    options: {annual: Annual, quarterly: Quarterly, monthly: Monthly}
+  - object: subscription
+    key: auto_renews
+    label: Auto-renews
+    type: checkbox
+    description: The contract renews by itself unless the customer gives notice.
+  - object: subscription
+    key: success_owner
+    label: Success owner
+    type: user
+    description: The customer success manager responsible for this customer.
+  # Onboarding
+  - object: onboarding
+    key: name
+    label: Name
+    type: text
+    description: Company name and the word onboarding.
+    required: true
+  - object: onboarding
+    key: status
+    label: Status
+    type: select
+    description: Where onboarding stands.
+    options:
+      not_started: Not started
+      kickoff_booked: Kickoff booked
+      in_progress: In progress
+      live: Live
+      stalled: Stalled
+  - object: onboarding
+    key: kickoff_date
+    label: Kickoff date
+    type: date
+    description: The date of the kickoff call.
+  - object: onboarding
+    key: go_live_date
+    label: Go-live date
+    type: date
+    description: The date the customer first uses the product in production.
+  - object: onboarding
+    key: owner
+    label: Owner
+    type: user
+    description: The team member running onboarding.
+
+add_relationships:
+  - key: subscription_company
+    from: subscription
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Subscriptions
+    purpose: Shows every contract a customer has had.
+  - key: deal_subscription
+    from: deal
+    to: subscription
+    cardinality: many_to_one
+    from_label: Subscription
+    to_label: Deals
+    purpose: Ties the deal that created a subscription, and every later renewal or expansion deal, to it.
+  - key: onboarding_subscription
+    from: onboarding
+    to: subscription
+    cardinality: many_to_one
+    from_label: Subscription
+    to_label: Onboardings
+    purpose: Tracks the work of getting each subscription live.
+
+pipelines:
+  - object: deal
+    key: new_business
+    name: New business
+    stages:
+      - key: qualified
+        label: Qualified
+        type: open
+        probability: 10
+        exit_criteria: Entered when a discovery call is booked with a person who has a buying role.
+        required_fields: [next_step_date]
+      - key: discovery
+        label: Discovery
+        type: open
+        probability: 20
+        exit_criteria: Entered when the first discovery call has happened and the pain is written down.
+        required_fields: [next_step_date]
+      - key: solution_fit
+        label: Solution fit
+        type: open
+        probability: 35
+        exit_criteria: Entered when the buyer has seen a tailored demo and agreed the product fits the pain.
+        required_fields: [pain_summary, next_step_date]
+      - key: technical_validation
+        label: Technical validation
+        type: open
+        probability: 50
+        exit_criteria: Entered when a trial or technical review is agreed, with named evaluators and dates.
+        required_fields: [decision_process, next_step_date]
+      - key: proposal
+        label: Proposal
+        type: open
+        probability: 65
+        exit_criteria: Entered when the economic buyer has confirmed budget and asked for pricing.
+        required_fields: [budget_confirmed, amount, contract_term_months]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 80
+        exit_criteria: Entered when the buyer has reviewed the proposal and is discussing terms.
+        required_fields: [amount, close_date, security_review]
+      - key: contract_out
+        label: Contract out
+        type: open
+        probability: 90
+        exit_criteria: Entered when final terms are agreed and the contract has been sent for signature.
+        required_fields: [amount, close_date, contract_term_months]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed contract is received and the subscription record is created.
+        required_fields: [amount, close_date]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: deal
+    key: renewals_expansion
+    name: Renewals and expansion
+    stages:
+      - key: upcoming
+        label: Upcoming
+        type: open
+        probability: 60
+        exit_criteria: Entered when the subscription is 90 days from its renewal date.
+        required_fields: [renewal_type]
+      - key: outreach
+        label: Outreach
+        type: open
+        probability: 65
+        exit_criteria: Entered when the success owner has contacted the champion about the renewal.
+        required_fields: [renewal_risk, next_step_date]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 75
+        exit_criteria: Entered when a renewal quote has been sent to the buyer.
+        required_fields: [amount, contract_term_months]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 85
+        exit_criteria: Entered when the buyer has asked for changes to price or terms.
+        required_fields: [amount, close_date]
+      - key: awaiting_signature
+        label: Awaiting signature
+        type: open
+        probability: 95
+        exit_criteria: Entered when the final renewal contract has been sent for signature.
+        required_fields: [amount, close_date, contract_term_months]
+      - key: renewed
+        label: Renewed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed renewal is received and the subscription dates are updated.
+        required_fields: [amount, close_date]
+      - key: churned
+        label: Churned
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the customer confirms they will not renew, or the term ends unsigned.
+        required_fields: [lost_reason]
+
+decisions:
+  - key: renewals_as_deals
+    question: Are renewals and expansions tracked as deals on the same Deal object as new business?
+    recommended_default: >-
+      Yes. A second pipeline on Deal keeps one revenue report. The deal links to its subscription
+      so the history stays together.
+  - key: delivery_on_own_object
+    question: Is onboarding tracked on its own object rather than as stages on the sales pipeline?
+    recommended_default: >-
+      Yes. Delivery has a different owner and different dates, so onboarding gets its own object
+      and the sales pipeline ends at closed won.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects?
+    recommended_default: >-
+      Check before the build. If it does not, model Subscription and Onboarding as a deal pipeline
+      plus custom properties and record the gap in the client notes.
+  - key: multi_year_terms
+    question: Do multi-year contracts need a separate record per year?
+    recommended_default: >-
+      No. One subscription per contract, with term and ARR on it. Add a record per year only if
+      finance needs year-by-year revenue in the CRM.
+  - key: product_lines
+    question: Does the company sell more than one product that customers buy separately?
+    recommended_default: >-
+      No for the first build. Use the plan field. Add a product object if reporting needs it.
+
+automations:
+  - key: create_subscription_on_win
+    name: Create subscription on closed won
+    trigger: A deal in the new business pipeline moves to closed won.
+    action: >-
+      Create a subscription from the deal's amount, term and close date, link it to the deal and
+      the company, and set the company's customer status to customer.
+  - key: start_onboarding
+    name: Start onboarding
+    trigger: A subscription is created with status pending start.
+    action: Create an onboarding record linked to the subscription and assign it to customer success.
+  - key: open_renewal_deal
+    name: Open renewal deal
+    trigger: A subscription's renewal date is 90 days away and its status is active.
+    action: >-
+      Create a deal in the renewals and expansion pipeline at upcoming, linked to the subscription,
+      and set the subscription status to in renewal.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+  - key: mark_churned
+    name: Mark churn
+    trigger: A deal in the renewals and expansion pipeline moves to churned.
+    action: Set the subscription status to churned and the company's customer status to former customer.
+
+views:
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: renewals_next_90_days
+    name: Renewals in the next 90 days
+    object: subscription
+    filter: Status is active or in renewal and renewal date is within 90 days.
+    sort: Renewal date, soonest first.
+  - key: onboarding_in_flight
+    name: Onboarding in flight
+    object: onboarding
+    filter: Status is not live.
+    sort: Kickoff date, oldest first.
+  - key: customers
+    name: Customers
+    object: company
+    filter: Customer status is customer.
+    sort: Name, A to Z.
+
+platform_overrides:
+  attio:
+    objects:
+      subscription: {api_slug: subscriptions}
+      onboarding: {api_slug: onboardings}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      subscription: {api_name: Subscription__c}
+      onboarding: {api_name: Onboarding__c}

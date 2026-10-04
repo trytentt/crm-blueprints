@@ -1,0 +1,203 @@
+# The platform-agnostic core: Company, Person and Deal.
+# Every design extends this. See model/schema.md for the format.
+#
+# `native` lists the platforms where the field exists out of the box.
+# `native_names` gives the platform's own name for it (Attio attribute slug,
+# HubSpot property name, Salesforce field API name).
+# A field is marked native only where we are confident it exists. Otherwise it is built as custom.
+# A later research pass will check and correct every native name in this file.
+name: core
+description: Company, Person and Deal with the fields and links every CRM needs.
+
+objects:
+  - key: company
+    label: Company
+    plural_label: Companies
+    description: An organisation we sell to, buy from or work with.
+    native_names: {attio: companies, hubspot: companies, salesforce: Account}
+  - key: person
+    label: Person
+    plural_label: People
+    description: One human. A person has one record, however many companies or deals they touch.
+    native_names: {attio: people, hubspot: contacts, salesforce: Contact}
+  - key: deal
+    label: Deal
+    plural_label: Deals
+    description: A commercial opportunity that moves through a sales pipeline.
+    native_names: {attio: deals, hubspot: deals, salesforce: Opportunity}
+
+fields:
+  # Company
+  - object: company
+    key: name
+    label: Name
+    type: text
+    description: The company's trading name.
+    required: true
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: name, hubspot: name, salesforce: Name}
+  - object: company
+    key: domain
+    label: Domain
+    type: text
+    description: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+    native: [attio, hubspot]
+    native_names: {attio: domains, hubspot: domain}
+  - object: company
+    key: description
+    label: Description
+    type: long_text
+    description: A short plain description of what the company does.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: description, hubspot: description, salesforce: Description}
+  - object: company
+    key: employee_count
+    label: Employee count
+    type: number
+    description: Approximate number of employees.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: numberofemployees, salesforce: NumberOfEmployees}
+  - object: company
+    key: linkedin_url
+    label: LinkedIn URL
+    type: url
+    description: The company's LinkedIn page.
+    native: [attio, hubspot]
+    native_names: {attio: linkedin, hubspot: linkedin_company_page}
+  - object: company
+    key: phone
+    label: Phone
+    type: phone
+    description: Main switchboard number.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: phone, salesforce: Phone}
+  - object: company
+    key: owner
+    label: Owner
+    type: user
+    description: The team member responsible for the account.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: hubspot_owner_id, salesforce: OwnerId}
+
+  # Person
+  - object: person
+    key: first_name
+    label: First name
+    type: text
+    description: Given name.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: name, hubspot: firstname, salesforce: FirstName}
+  - object: person
+    key: last_name
+    label: Last name
+    type: text
+    description: Family name.
+    required: true
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: name, hubspot: lastname, salesforce: LastName}
+  - object: person
+    key: email
+    label: Email
+    type: email
+    description: Work email address. Used to find duplicates.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: email_addresses, hubspot: email, salesforce: Email}
+  - object: person
+    key: phone
+    label: Phone
+    type: phone
+    description: Direct or mobile number.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: phone_numbers, hubspot: phone, salesforce: Phone}
+  - object: person
+    key: job_title
+    label: Job title
+    type: text
+    description: Their role as they describe it.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: job_title, hubspot: jobtitle, salesforce: Title}
+  - object: person
+    key: linkedin_url
+    label: LinkedIn URL
+    type: url
+    description: The person's LinkedIn profile.
+    native: [attio, hubspot]
+    native_names: {attio: linkedin, hubspot: hs_linkedin_url}
+  - object: person
+    key: owner
+    label: Owner
+    type: user
+    description: The team member responsible for the relationship.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: hubspot_owner_id, salesforce: OwnerId}
+
+  # Deal
+  - object: deal
+    key: name
+    label: Name
+    type: text
+    description: A short name for the deal, usually the company and what is being bought.
+    required: true
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: name, hubspot: dealname, salesforce: Name}
+  - object: deal
+    key: amount
+    label: Amount
+    type: currency
+    description: The value of the deal in the account currency.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: value, hubspot: amount, salesforce: Amount}
+  - object: deal
+    key: close_date
+    label: Close date
+    type: date
+    description: The date the deal is expected to close, or did close.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: closedate, salesforce: CloseDate}
+  - object: deal
+    key: owner
+    label: Owner
+    type: user
+    description: The team member who owns the deal.
+    native: [attio, hubspot, salesforce]
+    native_names: {attio: owner, hubspot: hubspot_owner_id, salesforce: OwnerId}
+  - object: deal
+    key: description
+    label: Description
+    type: long_text
+    description: What is being bought and why.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: description, salesforce: Description}
+  - object: deal
+    key: next_step
+    label: Next step
+    type: text
+    description: The single next action agreed with the buyer.
+    native: [hubspot, salesforce]
+    native_names: {hubspot: hs_next_step, salesforce: NextStep}
+
+relationships:
+  - key: person_company
+    from: person
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: People
+    purpose: Links each person to the company they work for.
+    native: [attio, hubspot, salesforce]
+  - key: deal_company
+    from: deal
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Deals
+    purpose: Links each deal to the company buying.
+    native: [attio, hubspot, salesforce]
+  - key: deal_person
+    from: deal
+    to: person
+    cardinality: many_to_many
+    from_label: People
+    to_label: Deals
+    purpose: Links a deal to the people involved in the buying decision.
+    native: [attio, hubspot, salesforce]
