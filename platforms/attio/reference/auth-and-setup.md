@@ -11,7 +11,7 @@
 | OAuth 2.0 access token | A public app used across many workspaces | Authorization code flow. Authorize at `https://app.attio.com/authorize`, token at `https://app.attio.com/oauth/token`. Needs a Developer Console app (build.attio.com). |
 | User-level OAuth token | Acting as one member | Needs PKCE and admin approval. Most config endpoints accept `workspace` and `user` levels. Webhook endpoints are workspace level only. |
 
-Recommendation for the toolkit: one workspace access token per client workspace, read from an environment variable (`ATTIO_API_KEY`). OAuth adds nothing for single-client build work.
+Recommendation for the toolkit: one workspace access token per client workspace, read from an environment variable (`ATTIO_ACCESS_TOKEN`). OAuth adds nothing for single-client build work.
 
 ## Making a request
 
@@ -26,7 +26,7 @@ Recommendation for the toolkit: one workspace access token per client workspace,
 3. Click **+ New access token**.
 4. Name it (for example `crm-blueprints read-only`).
 5. Tick the scopes below.
-6. Copy the token once and store it in `.env` as `ATTIO_API_KEY`.
+6. Copy the token once and store it in `.env` as `ATTIO_ACCESS_TOKEN`.
 
 Only workspace admins can create tokens. Tokens can be edited or deleted later.
 

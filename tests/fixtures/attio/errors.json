@@ -1,0 +1,9 @@
+{
+  "slug_conflict": {"status_code": 409, "type": "invalid_request_error", "code": "slug_conflict",
+                    "message": "An attribute with the same API slug already exists on this list. Please choose a different API slug."},
+  "rate_limit": {"status_code": 429, "type": "rate_limit_error", "code": "rate_limit_exceeded",
+                 "message": "Rate limit exceeded, please try again later"},
+  "quota_exceeded": {"status_code": 400, "type": "invalid_request_error", "code": "quota_exceeded",
+                     "message": "Object limit reached for this plan."},
+  "inactive_self": {"active": false}
+}

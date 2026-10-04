@@ -261,35 +261,38 @@ def list_requests(design: Design, pipeline: Pipeline) -> list[dict[str, Any]]:
     return reqs
 
 
+def status_request(pipeline: Pipeline, stage: Stage) -> dict[str, Any]:
+    """The create-status request for one stage. Won stages get the celebration flag."""
+    return {
+        "method": "POST",
+        "path": f"/v2/lists/{pipeline.key}/attributes/stage/statuses",
+        "body": {"data": {"title": stage.label, "celebration_enabled": stage.type == "won"}},
+    }
+
+
 def status_requests(pipeline: Pipeline) -> list[dict[str, Any]]:
     """One status per stage in design order. Won stages get the celebration flag."""
-    return [
-        {
-            "method": "POST",
-            "path": f"/v2/lists/{pipeline.key}/attributes/stage/statuses",
-            "body": {"data": {"title": s.label, "celebration_enabled": s.type == "won"}},
-        }
-        for s in pipeline.stages
-    ]
+    return [status_request(pipeline, s) for s in pipeline.stages]
+
+
+def object_request(design: Design, obj: ObjectDef) -> dict[str, Any]:
+    """The create-object request for one custom object."""
+    return {
+        "method": "POST",
+        "path": "/v2/objects",
+        "body": {
+            "data": {
+                "api_slug": object_slug(design, obj),
+                "singular_noun": obj.label,
+                "plural_noun": obj.plural_label,
+            }
+        },
+    }
 
 
 def build_payloads(design: Design) -> dict[str, dict[str, Any]]:
     """The five JSON documents, keyed by file name."""
-    objects: list[dict[str, Any]] = []
-    for obj in design.custom_objects:
-        objects.append(
-            {
-                "method": "POST",
-                "path": "/v2/objects",
-                "body": {
-                    "data": {
-                        "api_slug": object_slug(design, obj),
-                        "singular_noun": obj.label,
-                        "plural_noun": obj.plural_label,
-                    }
-                },
-            }
-        )
+    objects = [object_request(design, obj) for obj in design.custom_objects]
 
     attributes: list[dict[str, Any]] = []
     for obj in design.objects:

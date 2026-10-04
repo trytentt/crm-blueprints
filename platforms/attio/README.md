@@ -42,4 +42,4 @@ One list per pipeline, with a `stage` status attribute on the list. Won and lost
 
 ## Credentials
 
-Workspace access token created by a client admin: Workspace settings, Developers, New access token. Build scopes: `object_configuration:read-write`, `list_configuration:read-write` (add `record_permission:read-write` for seeding). Read-only scopes: `object_configuration:read`, `list_configuration:read`. Environment variable: `ATTIO_API_KEY`.
+Workspace access token created by a client admin: Workspace settings, Developers, New access token. Build scopes: `object_configuration:read-write`, `list_configuration:read-write` (add `record_permission:read-write` for seeding). Read-only scopes: `object_configuration:read`, `list_configuration:read`. Environment variable: `ATTIO_ACCESS_TOKEN`.

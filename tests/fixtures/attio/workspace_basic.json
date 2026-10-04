@@ -1,0 +1,971 @@
+{
+  "GET /v2/self": {
+    "active": true,
+    "scope": "object_configuration:read list_configuration:read",
+    "token_level": "workspace",
+    "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+    "workspace_name": "Example Test Workspace",
+    "workspace_slug": "example-test"
+  },
+  "GET /v2/objects": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "obj-people"
+        },
+        "api_slug": "people",
+        "singular_noun": "Person",
+        "plural_noun": "People",
+        "created_at": "2026-01-01T00:00:00.000000000Z"
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "obj-companies"
+        },
+        "api_slug": "companies",
+        "singular_noun": "Company",
+        "plural_noun": "Companies",
+        "created_at": "2026-01-01T00:00:00.000000000Z"
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "obj-deals"
+        },
+        "api_slug": "deals",
+        "singular_noun": "Deal",
+        "plural_noun": "Deals",
+        "created_at": "2026-01-01T00:00:00.000000000Z"
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "obj-projects"
+        },
+        "api_slug": "projects",
+        "singular_noun": "Project",
+        "plural_noun": "Projects",
+        "created_at": "2026-01-01T00:00:00.000000000Z"
+      }
+    ]
+  },
+  "GET /v2/objects/people/attributes": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-name"
+        },
+        "title": "Name",
+        "description": "",
+        "api_slug": "name",
+        "type": "personal-name",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-email_addresses"
+        },
+        "title": "Email addresses",
+        "description": "",
+        "api_slug": "email_addresses",
+        "type": "email-address",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": true,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-phone_numbers"
+        },
+        "title": "Phone numbers",
+        "description": "",
+        "api_slug": "phone_numbers",
+        "type": "phone-number",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": true,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-job_title"
+        },
+        "title": "Job title",
+        "description": "",
+        "api_slug": "job_title",
+        "type": "text",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-company"
+        },
+        "title": "Company",
+        "description": "",
+        "api_slug": "company",
+        "type": "record-reference",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-person_owner"
+        },
+        "title": "Owner",
+        "description": "",
+        "api_slug": "person_owner",
+        "type": "actor-reference",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      }
+    ]
+  },
+  "GET /v2/objects/companies/attributes": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-name"
+        },
+        "title": "Name",
+        "description": "",
+        "api_slug": "name",
+        "type": "text",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-domains"
+        },
+        "title": "Domains",
+        "description": "",
+        "api_slug": "domains",
+        "type": "domain",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": true,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-description"
+        },
+        "title": "Description",
+        "description": "",
+        "api_slug": "description",
+        "type": "text",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-projects"
+        },
+        "title": "Projects",
+        "description": "",
+        "api_slug": "projects",
+        "type": "record-reference",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": true,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        },
+        "relationship": {
+          "object_slug": "projects",
+          "title": "Company",
+          "api_slug": "company",
+          "is_multiselect": false
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-employee_count"
+        },
+        "title": "Employee count",
+        "description": "",
+        "api_slug": "employee_count",
+        "type": "number",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-phone"
+        },
+        "title": "Phone",
+        "description": "",
+        "api_slug": "phone",
+        "type": "phone-number",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-company_owner"
+        },
+        "title": "Owner",
+        "description": "",
+        "api_slug": "company_owner",
+        "type": "actor-reference",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      }
+    ]
+  },
+  "GET /v2/objects/deals/attributes": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-name"
+        },
+        "title": "Name",
+        "description": "",
+        "api_slug": "name",
+        "type": "text",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-value"
+        },
+        "title": "Value",
+        "description": "",
+        "api_slug": "value",
+        "type": "currency",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-owner"
+        },
+        "title": "Owner",
+        "description": "",
+        "api_slug": "owner",
+        "type": "actor-reference",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-stage"
+        },
+        "title": "Stage",
+        "description": "",
+        "api_slug": "stage",
+        "type": "status",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-next_step_date"
+        },
+        "title": "Next step date",
+        "description": "",
+        "api_slug": "next_step_date",
+        "type": "date",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-lost_reason"
+        },
+        "title": "Lost reason",
+        "description": "",
+        "api_slug": "lost_reason",
+        "type": "select",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-close_date"
+        },
+        "title": "Close date",
+        "description": "",
+        "api_slug": "close_date",
+        "type": "date",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-description"
+        },
+        "title": "Description",
+        "description": "",
+        "api_slug": "description",
+        "type": "text",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "x",
+          "attribute_id": "a-next_step"
+        },
+        "title": "Next step",
+        "description": "",
+        "api_slug": "next_step",
+        "type": "text",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {}
+      }
+    ]
+  },
+  "GET /v2/objects/projects/attributes": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-name"
+        },
+        "title": "Name",
+        "description": "",
+        "api_slug": "name",
+        "type": "text",
+        "is_system_attribute": true,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-status"
+        },
+        "title": "Status",
+        "description": "",
+        "api_slug": "status",
+        "type": "select",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-company"
+        },
+        "title": "Company",
+        "description": "",
+        "api_slug": "company",
+        "type": "record-reference",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        },
+        "relationship": {
+          "object_slug": "companies",
+          "title": "Projects",
+          "api_slug": "projects",
+          "is_multiselect": true
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-old_field"
+        },
+        "title": "Old field",
+        "description": "",
+        "api_slug": "old_field",
+        "type": "text",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": true,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      }
+    ]
+  },
+  "GET /v2/objects/deals/attributes/lost_reason/options": {
+    "data": [
+      {
+        "id": {
+          "option_id": "o1"
+        },
+        "title": "Price",
+        "is_archived": false
+      },
+      {
+        "id": {
+          "option_id": "o2"
+        },
+        "title": "Timing",
+        "is_archived": false
+      },
+      {
+        "id": {
+          "option_id": "o3"
+        },
+        "title": "Legacy",
+        "is_archived": true
+      }
+    ]
+  },
+  "GET /v2/objects/projects/attributes/status/options": {
+    "data": [
+      {
+        "id": {
+          "option_id": "o4"
+        },
+        "title": "Not started",
+        "is_archived": false
+      },
+      {
+        "id": {
+          "option_id": "o5"
+        },
+        "title": "Live",
+        "is_archived": false
+      }
+    ]
+  },
+  "GET /v2/lists": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "list_id": "l1"
+        },
+        "api_slug": "sales",
+        "name": "Sales",
+        "parent_object": [
+          "deals"
+        ],
+        "workspace_access": "full-access",
+        "workspace_member_access": []
+      }
+    ]
+  },
+  "GET /v2/lists/sales/attributes": {
+    "data": [
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-stage"
+        },
+        "title": "Stage",
+        "description": "",
+        "api_slug": "stage",
+        "type": "status",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-probability"
+        },
+        "title": "Probability",
+        "description": "",
+        "api_slug": "probability",
+        "type": "number",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      },
+      {
+        "id": {
+          "workspace_id": "14beef7a-0000-0000-0000-000000000000",
+          "object_id": "97052eb9-0000-0000-0000-000000000000",
+          "attribute_id": "a-lost_reason"
+        },
+        "title": "Lost reason",
+        "description": "",
+        "api_slug": "lost_reason",
+        "type": "select",
+        "is_system_attribute": false,
+        "is_writable": true,
+        "is_required": false,
+        "is_unique": false,
+        "is_multiselect": false,
+        "is_default_value_enabled": false,
+        "is_archived": false,
+        "default_value": null,
+        "created_at": "2026-01-01T00:00:00.000Z",
+        "config": {
+          "currency": {
+            "default_currency_code": null,
+            "display_type": null
+          },
+          "record_reference": {
+            "allowed_object_ids": []
+          }
+        }
+      }
+    ]
+  },
+  "GET /v2/lists/sales/attributes/stage/statuses": {
+    "data": [
+      {
+        "id": {
+          "status_id": "s1"
+        },
+        "title": "Discovery",
+        "is_archived": false,
+        "celebration_enabled": false,
+        "target_time_in_status": null
+      },
+      {
+        "id": {
+          "status_id": "s2"
+        },
+        "title": "Won",
+        "is_archived": false,
+        "celebration_enabled": true,
+        "target_time_in_status": null
+      },
+      {
+        "id": {
+          "status_id": "s3"
+        },
+        "title": "Lost",
+        "is_archived": false,
+        "celebration_enabled": false,
+        "target_time_in_status": null
+      },
+      {
+        "id": {
+          "status_id": "s4"
+        },
+        "title": "Old default",
+        "is_archived": true,
+        "celebration_enabled": false,
+        "target_time_in_status": null
+      }
+    ]
+  }
+}
