@@ -1,0 +1,207 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.referral_agreement}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Employer and insurer contracts",
+        "displayOrder": 1,
+        "pipelineId": "employer_insurer_contracts",
+        "stages": [
+          {
+            "label": "Qualified",
+            "displayOrder": 0,
+            "stageId": "employer_insurer_contracts__qualified",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Discovery",
+            "displayOrder": 1,
+            "stageId": "employer_insurer_contracts__discovery",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Proposal",
+            "displayOrder": 2,
+            "stageId": "employer_insurer_contracts__proposal",
+            "metadata": {
+              "probability": "0.45"
+            }
+          },
+          {
+            "label": "Governance review",
+            "displayOrder": 3,
+            "stageId": "employer_insurer_contracts__governance_review",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Pilot",
+            "displayOrder": 4,
+            "stageId": "employer_insurer_contracts__pilot",
+            "metadata": {
+              "probability": "0.75"
+            }
+          },
+          {
+            "label": "Contract out",
+            "displayOrder": 5,
+            "stageId": "employer_insurer_contracts__contract_out",
+            "metadata": {
+              "probability": "0.9"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 6,
+            "stageId": "employer_insurer_contracts__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 7,
+            "stageId": "employer_insurer_contracts__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Contract renewals",
+        "displayOrder": 2,
+        "pipelineId": "contract_renewals",
+        "stages": [
+          {
+            "label": "Upcoming",
+            "displayOrder": 0,
+            "stageId": "contract_renewals__upcoming",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Review meeting",
+            "displayOrder": 1,
+            "stageId": "contract_renewals__review_meeting",
+            "metadata": {
+              "probability": "0.7"
+            }
+          },
+          {
+            "label": "Terms proposed",
+            "displayOrder": 2,
+            "stageId": "contract_renewals__terms_proposed",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Awaiting signature",
+            "displayOrder": 3,
+            "stageId": "contract_renewals__awaiting_signature",
+            "metadata": {
+              "probability": "0.95"
+            }
+          },
+          {
+            "label": "Renewed",
+            "displayOrder": 4,
+            "stageId": "contract_renewals__renewed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Not renewed",
+            "displayOrder": 5,
+            "stageId": "contract_renewals__not_renewed",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "label": "Referral partners",
+        "displayOrder": 1,
+        "pipelineId": "referral_partners",
+        "stages": [
+          {
+            "label": "Identified",
+            "displayOrder": 0,
+            "stageId": "referral_partners__identified",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Intro meeting",
+            "displayOrder": 1,
+            "stageId": "referral_partners__intro_meeting",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Governance check",
+            "displayOrder": 2,
+            "stageId": "referral_partners__governance_check",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Agreement sent",
+            "displayOrder": 3,
+            "stageId": "referral_partners__agreement_sent",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Active",
+            "displayOrder": 4,
+            "stageId": "referral_partners__active",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Declined",
+            "displayOrder": 5,
+            "stageId": "referral_partners__declined",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

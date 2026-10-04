@@ -1,0 +1,123 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.household}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.advice_case}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.review}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "household",
+        "labels": {
+          "singular": "Household",
+          "plural": "Households"
+        },
+        "description": "A client unit, one person or a couple or family, that the practice advises together. Holds the service terms, risk profile and review dates. People link to it, so each human keeps one record.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-1",
+          "0-3",
+          "0-2"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Household name, for example the family name followed by household."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.household}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "advice_case",
+        "labels": {
+          "singular": "Advice case",
+          "plural": "Advice cases"
+        },
+        "description": "One piece of advice work for a household, from fact find to recommendation to products placed. This is the delivery of advice and stays apart from the deal that won the client.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.household}",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Household name and the advice topic, for example retirement planning."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.advice_case}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "review",
+        "labels": {
+          "singular": "Review",
+          "plural": "Reviews"
+        },
+        "description": "One scheduled review of a household's plan, usually yearly. Tracks the invitation, the meeting and the follow-up actions so no household goes unreviewed.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.household}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Household name and review year, for example the family name 2027 review."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.review}."
+    }
+  ]
+}

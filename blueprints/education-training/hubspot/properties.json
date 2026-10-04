@@ -1,0 +1,1062 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.programme}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.cohort}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.enrolment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "account_type",
+        "label": "Account type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What kind of organisation this is. Drives which views and routing apply.",
+        "options": [
+          {
+            "label": "Employer",
+            "value": "employer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Training partner or reseller",
+            "value": "training_partner",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Funder or levy intermediary",
+            "value": "funder",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "segment",
+        "label": "Segment",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Size band used for routing and reporting.",
+        "options": [
+          {
+            "label": "SMB",
+            "value": "smb",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Mid-market",
+            "value": "mid_market",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "customer_status",
+        "label": "Customer status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives views and repeat-booking follow-up.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active customer",
+            "value": "active_customer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Lapsed customer",
+            "value": "lapsed",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Inbound enquiry",
+            "value": "inbound_enquiry",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Partner",
+            "value": "partner",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Returning delegate",
+            "value": "returning_delegate",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The main part this person plays in a training purchase. A delegate who later buys is changed here. Do not create a second record for the same human.",
+        "options": [
+          {
+            "label": "Budget holder",
+            "value": "budget_holder",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Learning and development lead",
+            "value": "learning_lead",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Line manager",
+            "value": "line_manager",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Delegate",
+            "value": "delegate",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "HR contact",
+            "value": "hr_contact",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost. Required on the lost stage.",
+        "options": [
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Chose to deliver in house",
+            "value": "went_in_house",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Chose another provider",
+            "value": "competitor",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Dates did not fit",
+            "value": "dates_dont_fit",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Content did not fit the need",
+            "value": "content_gap",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "training_need",
+        "label": "Training need",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The main subject area the buyer wants covered. Used to report demand by topic.",
+        "options": [
+          {
+            "label": "Compliance and mandatory",
+            "value": "compliance",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Leadership and management",
+            "value": "leadership",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technical skills",
+            "value": "technical",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Communication and soft skills",
+            "value": "soft_skills",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Digital skills",
+            "value": "digital",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Health and safety",
+            "value": "health_safety",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Apprenticeship or accredited",
+            "value": "apprenticeship",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "delivery_format",
+        "label": "Delivery format",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the training will be delivered. Decides pricing and the type of cohort created.",
+        "options": [
+          {
+            "label": "In-house at the client",
+            "value": "in_house",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Seats on open course",
+            "value": "open_course",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Virtual live",
+            "value": "virtual",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Blended",
+            "value": "blended",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Self-paced licence",
+            "value": "self_paced",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "delegate_count",
+        "label": "Delegate count",
+        "type": "number",
+        "fieldType": "number",
+        "description": "How many people the buyer expects to train. Sets price and cohort size.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "funding_source",
+        "label": "Funding source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the money comes from. Funded routes need extra paperwork before booking.",
+        "options": [
+          {
+            "label": "Company budget",
+            "value": "company_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Apprenticeship levy funds",
+            "value": "levy_funds",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Grant or public funding",
+            "value": "grant",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Self-funded by delegate",
+            "value": "self_funded",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "needs_summary",
+        "label": "Needs summary",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "The training need found in the needs analysis. Covers who needs training, the gap today and how success will be judged."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "budget_confirmed",
+        "label": "Budget confirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The budget holder has said money exists for this training."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "proposed_start_date",
+        "label": "Proposed start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the buyer would like the first session to run."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "purchase_order_received",
+        "label": "Purchase order received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client's purchase order or signed booking form is on file."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the programme can be sold.",
+        "options": [
+          {
+            "label": "In development",
+            "value": "in_development",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Live",
+            "value": "live",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Retired",
+            "value": "retired",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "category",
+        "label": "Category",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Subject area, matching the deal training need so demand and supply can be compared.",
+        "options": [
+          {
+            "label": "Compliance and mandatory",
+            "value": "compliance",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Leadership and management",
+            "value": "leadership",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technical skills",
+            "value": "technical",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Communication and soft skills",
+            "value": "soft_skills",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Digital skills",
+            "value": "digital",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Health and safety",
+            "value": "health_safety",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Apprenticeship or accredited",
+            "value": "apprenticeship",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "delivery_format",
+        "label": "Delivery format",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The usual way the programme is run.",
+        "options": [
+          {
+            "label": "In person",
+            "value": "in_person",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Virtual live",
+            "value": "virtual",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Blended",
+            "value": "blended",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Self-paced",
+            "value": "self_paced",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "duration_days",
+        "label": "Duration (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total contact days. Used to quote and to schedule trainers.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "accredited",
+        "label": "Accredited",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The programme leads to an external certificate or qualification."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "list_price",
+        "label": "List price per delegate",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Standard price for one delegate before any discount.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the cohort stands. Drives the sales view of cohorts that still have places.",
+        "options": [
+          {
+            "label": "Planned",
+            "value": "planned",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Open for enrolment",
+            "value": "open_for_enrolment",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Full",
+            "value": "full",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Confirmed to run",
+            "value": "confirmed_to_run",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Running",
+            "value": "running",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Completed",
+            "value": "completed",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Cancelled",
+            "value": "cancelled",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "cohort_type",
+        "label": "Cohort type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether any employer can book a place or the run is for one client only.",
+        "options": [
+          {
+            "label": "Open to any employer",
+            "value": "open",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "In-house for one client",
+            "value": "in_house",
+            "displayOrder": 1,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the cohort."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "end_date",
+        "label": "End date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day of the cohort."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "capacity",
+        "label": "Capacity",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Maximum number of delegates.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "minimum_to_run",
+        "label": "Minimum to run",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "confirmed_places",
+        "label": "Confirmed places",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Count of enrolments at the enrolled stage. Maintained by an automation, not typed.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "trainer",
+        "label": "Trainer",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member leading the cohort.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "location",
+        "label": "Location",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Venue or platform used, so logistics and room bookings can be checked."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "application_date",
+        "label": "Application date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the booking form or application was received."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "price",
+        "label": "Price",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Price agreed for this place after any discount.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "payment_status",
+        "label": "Payment status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether this place is paid for or covered by a purchase order. A place is not confirmed until it is set.",
+        "options": [
+          {
+            "label": "Not due",
+            "value": "not_due",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Purchase order received",
+            "value": "po_received",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Invoiced",
+            "value": "invoiced",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Paid",
+            "value": "paid",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Refunded",
+            "value": "refunded",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Waived",
+            "value": "waived",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "funding_source",
+        "label": "Funding source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the money for this place comes from.",
+        "options": [
+          {
+            "label": "Company budget",
+            "value": "company_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Apprenticeship levy funds",
+            "value": "levy_funds",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Grant or public funding",
+            "value": "grant",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Self-funded by delegate",
+            "value": "self_funded",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "completion_status",
+        "label": "Completion status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Outcome for the delegate after the cohort starts. Used for completion rates and certificates.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Completed",
+            "value": "completed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Did not complete",
+            "value": "did_not_complete",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Did not attend",
+            "value": "did_not_attend",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "groupName": "education_and_training_providers_b2b",
+        "name": "withdrawal_reason",
+        "label": "Withdrawal reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the place did not go ahead. Required on the withdrawn stage.",
+        "options": [
+          {
+            "label": "Declined the offer",
+            "value": "declined_offer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Dates did not fit",
+            "value": "dates_dont_fit",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Employer cancelled",
+            "value": "employer_cancelled",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Funding fell through",
+            "value": "funding_fell_through",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Cohort cancelled",
+            "value": "cohort_cancelled",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Chose another provider",
+            "value": "went_elsewhere",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    }
+  ]
+}

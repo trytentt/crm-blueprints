@@ -1,0 +1,158 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.search}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.search_company.search_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_company.company_to_search}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_deal.search_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_deal.deal_to_search}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_client_contact.search_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_client_contact.person_to_search}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.search_candidate}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.search_candidate_search.search_candidate_to_search}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_candidate_search.search_to_search_candidate}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_candidate_person.search_candidate_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.search_candidate_person.person_to_search_candidate}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.fee_instalment}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.fee_instalment_search.fee_instalment_to_search}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fee_instalment_search.search_to_fee_instalment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.search}/companies/labels",
+      "body": {
+        "name": "search_company",
+        "label": "Client",
+        "inverseLabel": "Searches"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.search_company.search_to_company} and {typeId.search_company.company_to_search}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.search}/deals/labels",
+      "body": {
+        "name": "search_deal",
+        "label": "Mandate deal",
+        "inverseLabel": "Searches"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.search_deal.search_to_deal} and {typeId.search_deal.deal_to_search}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.search}/contacts/labels",
+      "body": {
+        "name": "search_client_contact",
+        "label": "Client contacts",
+        "inverseLabel": "Searches as client contact"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.search_client_contact.search_to_person} and {typeId.search_client_contact.person_to_search}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.search_candidate}/{objectTypeId.search}/labels",
+      "body": {
+        "name": "search_candidate_search",
+        "label": "Search",
+        "inverseLabel": "Candidates"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.search_candidate_search.search_candidate_to_search} and {typeId.search_candidate_search.search_to_search_candidate}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.search_candidate}/contacts/labels",
+      "body": {
+        "name": "search_candidate_person",
+        "label": "Candidate",
+        "inverseLabel": "Search candidacies"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.search_candidate_person.search_candidate_to_person} and {typeId.search_candidate_person.person_to_search_candidate}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.fee_instalment}/{objectTypeId.search}/labels",
+      "body": {
+        "name": "fee_instalment_search",
+        "label": "Search",
+        "inverseLabel": "Fee instalments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.fee_instalment_search.fee_instalment_to_search} and {typeId.fee_instalment_search.search_to_fee_instalment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.search}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.search_company.search_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A search record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.search}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.search_deal.search_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A search record may link to one deal record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.search_candidate}/{objectTypeId.search}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.search_candidate_search.search_candidate_to_search}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A search_candidate record may link to one search record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.search_candidate}/contacts/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.search_candidate_person.search_candidate_to_person}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A search_candidate record may link to one person record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.fee_instalment}/{objectTypeId.search}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.fee_instalment_search.fee_instalment_to_search}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A fee_instalment record may link to one search record."
+    }
+  ]
+}

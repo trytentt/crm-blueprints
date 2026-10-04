@@ -1,0 +1,231 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.engagement}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "New business",
+        "displayOrder": 1,
+        "pipelineId": "new_business",
+        "stages": [
+          {
+            "label": "Lead",
+            "displayOrder": 0,
+            "stageId": "new_business__lead",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Discovery",
+            "displayOrder": 1,
+            "stageId": "new_business__discovery",
+            "metadata": {
+              "probability": "0.2"
+            }
+          },
+          {
+            "label": "Brief and scope",
+            "displayOrder": 2,
+            "stageId": "new_business__brief_and_scope",
+            "metadata": {
+              "probability": "0.35"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 3,
+            "stageId": "new_business__proposal_sent",
+            "metadata": {
+              "probability": "0.5"
+            }
+          },
+          {
+            "label": "Pitch or review",
+            "displayOrder": 4,
+            "stageId": "new_business__pitch_or_review",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 5,
+            "stageId": "new_business__negotiation",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 6,
+            "stageId": "new_business__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 7,
+            "stageId": "new_business__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Retainer renewals",
+        "displayOrder": 2,
+        "pipelineId": "retainer_renewals",
+        "stages": [
+          {
+            "label": "Upcoming",
+            "displayOrder": 0,
+            "stageId": "retainer_renewals__upcoming",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Review booked",
+            "displayOrder": 1,
+            "stageId": "retainer_renewals__review_booked",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 2,
+            "stageId": "retainer_renewals__proposal_sent",
+            "metadata": {
+              "probability": "0.75"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 3,
+            "stageId": "retainer_renewals__negotiation",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Awaiting signature",
+            "displayOrder": 4,
+            "stageId": "retainer_renewals__awaiting_signature",
+            "metadata": {
+              "probability": "0.95"
+            }
+          },
+          {
+            "label": "Renewed",
+            "displayOrder": 5,
+            "stageId": "retainer_renewals__renewed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Not renewed",
+            "displayOrder": 6,
+            "stageId": "retainer_renewals__not_renewed",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "label": "Delivery",
+        "displayOrder": 1,
+        "pipelineId": "delivery",
+        "stages": [
+          {
+            "label": "Onboarding",
+            "displayOrder": 0,
+            "stageId": "delivery__onboarding",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Kickoff done",
+            "displayOrder": 1,
+            "stageId": "delivery__kickoff_done",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "First deliverables",
+            "displayOrder": 2,
+            "stageId": "delivery__first_deliverables",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Steady state",
+            "displayOrder": 3,
+            "stageId": "delivery__steady_state",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "At risk",
+            "displayOrder": 4,
+            "stageId": "delivery__at_risk",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Wrapping up",
+            "displayOrder": 5,
+            "stageId": "delivery__wrapping_up",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Completed",
+            "displayOrder": 6,
+            "stageId": "delivery__completed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Terminated",
+            "displayOrder": 7,
+            "stageId": "delivery__terminated",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

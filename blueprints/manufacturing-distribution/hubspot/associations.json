@@ -1,0 +1,145 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.quote}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.quote_company.quote_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.quote_company.company_to_quote}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.quote_person.quote_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.quote_person.person_to_quote}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.quote_deal.quote_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.quote_deal.deal_to_quote}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.order}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.order_company.order_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.order_company.company_to_order}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.order_quote.order_to_quote}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.order_quote.quote_to_order}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.quote}/companies/labels",
+      "body": {
+        "name": "quote_company",
+        "label": "Company",
+        "inverseLabel": "Quotes"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.quote_company.quote_to_company} and {typeId.quote_company.company_to_quote}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.quote}/contacts/labels",
+      "body": {
+        "name": "quote_person",
+        "label": "Requested by",
+        "inverseLabel": "Quotes requested"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.quote_person.quote_to_person} and {typeId.quote_person.person_to_quote}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.quote}/deals/labels",
+      "body": {
+        "name": "quote_deal",
+        "label": "Opportunity",
+        "inverseLabel": "Quotes"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.quote_deal.quote_to_deal} and {typeId.quote_deal.deal_to_quote}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.order}/companies/labels",
+      "body": {
+        "name": "order_company",
+        "label": "Company",
+        "inverseLabel": "Orders"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.order_company.order_to_company} and {typeId.order_company.company_to_order}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.order}/{objectTypeId.quote}/labels",
+      "body": {
+        "name": "order_quote",
+        "label": "Accepted quote",
+        "inverseLabel": "Orders"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.order_quote.order_to_quote} and {typeId.order_quote.quote_to_order}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.quote}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.quote_company.quote_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A quote record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.quote}/contacts/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.quote_person.quote_to_person}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A quote record may link to one person record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.quote}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.quote_deal.quote_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A quote record may link to one deal record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.order}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.order_company.order_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A order record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.order}/{objectTypeId.quote}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.order_quote.order_to_quote}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A order record may link to one quote record."
+    }
+  ]
+}

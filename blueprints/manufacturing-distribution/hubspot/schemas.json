@@ -1,0 +1,87 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.quote}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.order}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "quote",
+        "labels": {
+          "singular": "Quote",
+          "plural": "Quotes"
+        },
+        "description": "One request for quote (RFQ) and the quote sent in reply: what was asked for, the price, the lead time and the outcome. Sales handling, so it sits apart from the order that follows.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-1",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company and a short description of the request, for example the product family."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.quote}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "order",
+        "labels": {
+          "singular": "Order",
+          "plural": "Orders"
+        },
+        "description": "One customer purchase order accepted by the business. Tracks acknowledgement, dispatch and payment. This is the delivery side. It stays separate from the quote and the deal.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "{objectTypeId.quote}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company and the customer's purchase order number."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.order}."
+    }
+  ]
+}

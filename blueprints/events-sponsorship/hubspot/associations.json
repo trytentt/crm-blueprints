@@ -1,0 +1,172 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.event}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.deal_event.deal_to_event}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_event.event_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.package}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.deal_package.deal_to_package}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_package.package_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.package_event.package_to_event}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.package_event.event_to_package}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.fulfilment}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.fulfilment_deal.fulfilment_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fulfilment_deal.deal_to_fulfilment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fulfilment_event.fulfilment_to_event}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fulfilment_event.event_to_fulfilment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fulfilment_company.fulfilment_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.fulfilment_company.company_to_fulfilment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.event}/labels",
+      "body": {
+        "name": "deal_event",
+        "label": "Event",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_event.deal_to_event} and {typeId.deal_event.event_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.package}/labels",
+      "body": {
+        "name": "deal_package",
+        "label": "Packages",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_package.deal_to_package} and {typeId.deal_package.package_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.package}/{objectTypeId.event}/labels",
+      "body": {
+        "name": "package_event",
+        "label": "Event",
+        "inverseLabel": "Packages"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.package_event.package_to_event} and {typeId.package_event.event_to_package}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.fulfilment}/deals/labels",
+      "body": {
+        "name": "fulfilment_deal",
+        "label": "Deal",
+        "inverseLabel": "Fulfilment"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.fulfilment_deal.fulfilment_to_deal} and {typeId.fulfilment_deal.deal_to_fulfilment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.fulfilment}/{objectTypeId.event}/labels",
+      "body": {
+        "name": "fulfilment_event",
+        "label": "Event",
+        "inverseLabel": "Fulfilments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.fulfilment_event.fulfilment_to_event} and {typeId.fulfilment_event.event_to_fulfilment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.fulfilment}/companies/labels",
+      "body": {
+        "name": "fulfilment_company",
+        "label": "Partner",
+        "inverseLabel": "Fulfilments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.fulfilment_company.fulfilment_to_company} and {typeId.fulfilment_company.company_to_fulfilment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.event}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_event.deal_to_event}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one event record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.package}/{objectTypeId.event}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.package_event.package_to_event}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A package record may link to one event record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.fulfilment}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.fulfilment_deal.fulfilment_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A fulfilment record may link to one deal record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.fulfilment}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.fulfilment_deal.deal_to_fulfilment}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one fulfilment record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.fulfilment}/{objectTypeId.event}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.fulfilment_event.fulfilment_to_event}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A fulfilment record may link to one event record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.fulfilment}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.fulfilment_company.fulfilment_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A fulfilment record may link to one company record."
+    }
+  ]
+}

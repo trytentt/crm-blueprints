@@ -1,0 +1,140 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.enrolment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Corporate training",
+        "displayOrder": 1,
+        "pipelineId": "corporate_training",
+        "stages": [
+          {
+            "label": "Enquiry qualified",
+            "displayOrder": 0,
+            "stageId": "corporate_training__enquiry_qualified",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Needs analysis",
+            "displayOrder": 1,
+            "stageId": "corporate_training__needs_analysis",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 2,
+            "stageId": "corporate_training__proposal_sent",
+            "metadata": {
+              "probability": "0.5"
+            }
+          },
+          {
+            "label": "Stakeholder review",
+            "displayOrder": 3,
+            "stageId": "corporate_training__stakeholder_review",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Terms agreed",
+            "displayOrder": 4,
+            "stageId": "corporate_training__terms_agreed",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Booked",
+            "displayOrder": 5,
+            "stageId": "corporate_training__booked",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 6,
+            "stageId": "corporate_training__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.enrolment}",
+      "body": {
+        "label": "Delegate enrolment",
+        "displayOrder": 1,
+        "pipelineId": "delegate_enrolment",
+        "stages": [
+          {
+            "label": "Enquiry",
+            "displayOrder": 0,
+            "stageId": "delegate_enrolment__enquiry",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Applied",
+            "displayOrder": 1,
+            "stageId": "delegate_enrolment__applied",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Place offered",
+            "displayOrder": 2,
+            "stageId": "delegate_enrolment__place_offered",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Awaiting payment",
+            "displayOrder": 3,
+            "stageId": "delegate_enrolment__awaiting_payment",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Enrolled",
+            "displayOrder": 4,
+            "stageId": "delegate_enrolment__enrolled",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Withdrawn",
+            "displayOrder": 5,
+            "stageId": "delegate_enrolment__withdrawn",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

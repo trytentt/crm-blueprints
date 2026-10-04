@@ -1,0 +1,148 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.wholesale_order}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Retailer acquisition",
+        "displayOrder": 1,
+        "pipelineId": "retailer_acquisition",
+        "stages": [
+          {
+            "label": "Identified",
+            "displayOrder": 0,
+            "stageId": "retailer_acquisition__identified",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Contacted",
+            "displayOrder": 1,
+            "stageId": "retailer_acquisition__contacted",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Line sheet sent",
+            "displayOrder": 2,
+            "stageId": "retailer_acquisition__line_sheet_sent",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Range review",
+            "displayOrder": 3,
+            "stageId": "retailer_acquisition__range_review",
+            "metadata": {
+              "probability": "0.4"
+            }
+          },
+          {
+            "label": "Terms discussion",
+            "displayOrder": 4,
+            "stageId": "retailer_acquisition__terms_discussion",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Account setup",
+            "displayOrder": 5,
+            "stageId": "retailer_acquisition__account_setup",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Account opened",
+            "displayOrder": 6,
+            "stageId": "retailer_acquisition__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 7,
+            "stageId": "retailer_acquisition__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "label": "Order status",
+        "displayOrder": 1,
+        "pipelineId": "order_status",
+        "stages": [
+          {
+            "label": "Placed",
+            "displayOrder": 0,
+            "stageId": "order_status__placed",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Confirmed",
+            "displayOrder": 1,
+            "stageId": "order_status__confirmed",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Picking",
+            "displayOrder": 2,
+            "stageId": "order_status__picking",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Shipped",
+            "displayOrder": 3,
+            "stageId": "order_status__shipped",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Delivered and paid",
+            "displayOrder": 4,
+            "stageId": "order_status__delivered",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Cancelled",
+            "displayOrder": 5,
+            "stageId": "order_status__cancelled",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

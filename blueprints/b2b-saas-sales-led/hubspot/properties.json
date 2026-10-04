@@ -1,0 +1,682 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.subscription}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.onboarding}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "customer_status",
+        "label": "Customer status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Customer",
+            "value": "customer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Former customer",
+            "value": "former_customer",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "segment",
+        "label": "Segment",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Size band used for routing, pricing and reporting.",
+        "options": [
+          {
+            "label": "SMB",
+            "value": "smb",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Mid-market",
+            "value": "mid_market",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Inbound",
+            "value": "inbound",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Partner",
+            "value": "partner",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in the buying decision. Used to check deals are multi-threaded.",
+        "options": [
+          {
+            "label": "Economic buyer",
+            "value": "economic_buyer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Champion",
+            "value": "champion",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technical evaluator",
+            "value": "technical_evaluator",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "End user",
+            "value": "end_user",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Blocker",
+            "value": "blocker",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost or the customer churned. Required on every lost stage.",
+        "options": [
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Chose a competitor",
+            "value": "competitor",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Product gap",
+            "value": "product_gap",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Bad timing",
+            "value": "bad_timing",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Champion left",
+            "value": "champion_left",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Company acquired",
+            "value": "acquired",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "competitor",
+        "label": "Competitor",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The main alternative the buyer is considering, in their words."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "pain_summary",
+        "label": "Pain summary",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "The problem the buyer wants solved and what it costs them today."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "budget_confirmed",
+        "label": "Budget confirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The economic buyer has said a budget exists for this purchase."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "decision_process",
+        "label": "Decision process",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "Who signs, who else must approve, and the steps and dates to get there."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "security_review",
+        "label": "Security review",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the buyer's security and procurement review.",
+        "options": [
+          {
+            "label": "Not needed",
+            "value": "not_needed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Requested",
+            "value": "requested",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Passed",
+            "value": "passed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "contract_term_months",
+        "label": "Contract term (months)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Length of the contract in months.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "renewal_type",
+        "label": "Renewal type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether a renewals-pipeline deal is a straight renewal or adds revenue.",
+        "options": [
+          {
+            "label": "Renewal",
+            "value": "renewal",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Upsell",
+            "value": "upsell",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cross-sell",
+            "value": "cross_sell",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "renewal_risk",
+        "label": "Renewal risk",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Customer success view of how likely the renewal is to close.",
+        "options": [
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the subscription is in its life.",
+        "options": [
+          {
+            "label": "Pending start",
+            "value": "pending_start",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In renewal",
+            "value": "in_renewal",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Churned",
+            "value": "churned",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "plan",
+        "label": "Plan",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The plan the customer is on.",
+        "options": [
+          {
+            "label": "Team",
+            "value": "team",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Business",
+            "value": "business",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the current term."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "renewal_date",
+        "label": "Renewal date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day of the current term. A renewal deal opens 90 days before it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "term_months",
+        "label": "Term (months)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Length of the current term in months.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "arr",
+        "label": "ARR",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Annual recurring revenue for this subscription at current prices.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "seats",
+        "label": "Seats",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of licensed seats, where the plan is priced per seat.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "billing_frequency",
+        "label": "Billing frequency",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How often the customer is invoiced.",
+        "options": [
+          {
+            "label": "Annual",
+            "value": "annual",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Quarterly",
+            "value": "quarterly",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Monthly",
+            "value": "monthly",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "auto_renews",
+        "label": "Auto-renews",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The contract renews by itself unless the customer gives notice."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.subscription}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "success_owner",
+        "label": "Success owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The customer success manager responsible for this customer.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.onboarding}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where onboarding stands.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Kickoff booked",
+            "value": "kickoff_booked",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Live",
+            "value": "live",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Stalled",
+            "value": "stalled",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.onboarding}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "kickoff_date",
+        "label": "Kickoff date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of the kickoff call."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.onboarding}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "go_live_date",
+        "label": "Go-live date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the customer first uses the product in production."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.onboarding}",
+      "body": {
+        "groupName": "b2b_saas_sales_led",
+        "name": "owner",
+        "label": "Owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member running onboarding.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

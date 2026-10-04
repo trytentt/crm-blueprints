@@ -1,0 +1,998 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.matter}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.conflict_check}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "client_status",
+        "label": "Client status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active client",
+            "value": "active_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Past client",
+            "value": "past_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Referrer",
+            "value": "referrer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Adverse or related party",
+            "value": "adverse_party",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "sector",
+        "label": "Sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The client's sector. Used to report where work comes from and to find relevant experience.",
+        "options": [
+          {
+            "label": "Financial services",
+            "value": "financial_services",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Real estate",
+            "value": "real_estate",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Health and life sciences",
+            "value": "health_life_sciences",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Energy and infrastructure",
+            "value": "energy_infrastructure",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Private individual or family",
+            "value": "private_individual_or_family",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "client_risk_rating",
+        "label": "Client risk rating",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Firm's anti-money-laundering risk rating for this client. Set by compliance, not the fee earner.",
+        "options": [
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not assessed",
+            "value": "not_assessed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Client referral",
+            "value": "client_referral",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Professional referral",
+            "value": "professional_referral",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Inbound",
+            "value": "inbound",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Event or publication",
+            "value": "event_or_publication",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Directory or ranking",
+            "value": "directory_or_ranking",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in instructing the firm. Used to check we know who signs and who pays.",
+        "options": [
+          {
+            "label": "Instructing decision maker",
+            "value": "instructing_decision_maker",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Sponsor",
+            "value": "sponsor",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Finance contact",
+            "value": "finance_contact",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "In-house legal",
+            "value": "general_counsel_or_legal",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Day-to-day contact",
+            "value": "day_to_day_contact",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Referrer",
+            "value": "referrer",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost or the client left. Required on every lost stage.",
+        "options": [
+          {
+            "label": "Conflict of interest",
+            "value": "conflict",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "We had no capacity",
+            "value": "capacity",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Fees too high",
+            "value": "price",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Chose another firm",
+            "value": "chose_another_firm",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Work not going ahead",
+            "value": "work_not_going_ahead",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Outside our expertise",
+            "value": "outside_expertise",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Declined on risk or compliance grounds",
+            "value": "risk_or_compliance",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "service_area",
+        "label": "Service area",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The practice or service the work belongs to. Used to route enquiries and report by practice.",
+        "options": [
+          {
+            "label": "Advisory",
+            "value": "advisory",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Transactions",
+            "value": "transactions",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Disputes",
+            "value": "disputes",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Tax",
+            "value": "tax",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Audit and assurance",
+            "value": "audit_assurance",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Regulatory and compliance",
+            "value": "regulatory_compliance",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "lead_partner",
+        "label": "Lead partner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner or director who will be accountable for the work and signs the engagement letter.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "scope_summary",
+        "label": "Scope summary",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "What the client has asked for and what is outside it. Becomes the scope of the engagement letter."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "billing_model",
+        "label": "Billing model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the work will be charged. Needed before a proposal because it changes the margin risk.",
+        "options": [
+          {
+            "label": "Hourly",
+            "value": "hourly",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fixed fee",
+            "value": "fixed_fee",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Capped fee",
+            "value": "capped_fee",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Retainer",
+            "value": "retainer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Success fee",
+            "value": "success_fee",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Hybrid",
+            "value": "hybrid",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "conflict_check_result",
+        "label": "Conflict check result",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Latest result of the conflict check for this deal, copied from the conflict check record. Gates the proposal stage.",
+        "options": [
+          {
+            "label": "Not run",
+            "value": "not_run",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Pending",
+            "value": "pending",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cleared",
+            "value": "cleared",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Cleared with waiver",
+            "value": "cleared_with_waiver",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Conflicted",
+            "value": "conflicted",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "engagement_letter_status",
+        "label": "Engagement letter status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the engagement letter stands. Work must not start until it is signed.",
+        "options": [
+          {
+            "label": "Not drafted",
+            "value": "not_drafted",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Drafted",
+            "value": "drafted",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Sent",
+            "value": "sent",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Signed",
+            "value": "signed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "referrer_company",
+        "label": "Referrer",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Name of the person or firm who referred the work, for referral fee and thank-you tracking."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "matter_reference",
+        "label": "Matter reference",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The reference from the practice management or billing system. Matches CRM to invoices."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "service_area",
+        "label": "Service area",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The practice or service this matter belongs to. Used for reporting by practice.",
+        "options": [
+          {
+            "label": "Advisory",
+            "value": "advisory",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Transactions",
+            "value": "transactions",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Disputes",
+            "value": "disputes",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Tax",
+            "value": "tax",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Audit and assurance",
+            "value": "audit_assurance",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Regulatory and compliance",
+            "value": "regulatory_compliance",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "billing_model",
+        "label": "Billing model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How this matter is charged, copied from the engagement letter.",
+        "options": [
+          {
+            "label": "Hourly",
+            "value": "hourly",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fixed fee",
+            "value": "fixed_fee",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Capped fee",
+            "value": "capped_fee",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Retainer",
+            "value": "retainer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Success fee",
+            "value": "success_fee",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Hybrid",
+            "value": "hybrid",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "fee_estimate",
+        "label": "Fee estimate",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total fees expected for the matter, or the fixed or capped amount.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "budget_hours",
+        "label": "Budget hours",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Hours the team has budgeted. Compared with hours recorded in the billing system.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "billing_frequency",
+        "label": "Billing frequency",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How often the client is invoiced.",
+        "options": [
+          {
+            "label": "Monthly",
+            "value": "monthly",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On milestones",
+            "value": "on_milestones",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "On completion",
+            "value": "on_completion",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Quarterly",
+            "value": "quarterly",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date work started, which must be after the engagement letter was signed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "target_end_date",
+        "label": "Target end date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the work is expected to be complete."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "engagement_letter_signed_date",
+        "label": "Engagement letter signed date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the client signed the engagement letter. Empty means work should not have started."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "aml_check_status",
+        "label": "AML check status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Status of client identity and source-of-funds checks required by money laundering rules for this matter type.",
+        "options": [
+          {
+            "label": "Not required",
+            "value": "not_required",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Outstanding",
+            "value": "outstanding",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Complete",
+            "value": "complete",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Enhanced due diligence",
+            "value": "enhanced_due_diligence",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "confidential",
+        "label": "Confidential",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Restricts who can see the matter record. Set for sensitive matters, with an ethical wall where needed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "responsible_partner",
+        "label": "Responsible partner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner accountable for the matter.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "matter_manager",
+        "label": "Matter manager",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member who runs the matter day to day.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.matter}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "close_reason",
+        "label": "Close reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the matter ended without completing. Required on the withdrawn stage.",
+        "options": [
+          {
+            "label": "Client withdrew",
+            "value": "client_withdrew",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "We withdrew",
+            "value": "we_withdrew",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Conflict arose",
+            "value": "conflict_arose",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Non-payment",
+            "value": "non_payment",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Work no longer needed",
+            "value": "work_not_needed",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.conflict_check}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "result",
+        "label": "Result",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Outcome of this check.",
+        "options": [
+          {
+            "label": "Pending",
+            "value": "pending",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Cleared",
+            "value": "cleared",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cleared with waiver",
+            "value": "cleared_with_waiver",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Conflicted",
+            "value": "conflicted",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.conflict_check}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "check_date",
+        "label": "Check date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the check was run. A check is valid for a stated period only."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.conflict_check}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "parties_checked",
+        "label": "Parties checked",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "Names of every party searched, including the client, related companies and adverse parties. Names only, no matter detail."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.conflict_check}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "cleared_by",
+        "label": "Cleared by",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The risk partner or compliance officer who signed off the result.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.conflict_check}",
+      "body": {
+        "groupName": "consultancy_and_professional_services",
+        "name": "ethical_wall_needed",
+        "label": "Ethical wall needed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The clearance depends on keeping two teams apart. Matter team access must be restricted."
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.engagement}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.engagement_company.engagement_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.engagement_company.company_to_engagement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_engagement.deal_to_engagement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_engagement.engagement_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.engagement_person.engagement_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.engagement_person.person_to_engagement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.engagement}/companies/labels",
+      "body": {
+        "name": "engagement_company",
+        "label": "Company",
+        "inverseLabel": "Engagements"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.engagement_company.engagement_to_company} and {typeId.engagement_company.company_to_engagement}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.engagement}/labels",
+      "body": {
+        "name": "deal_engagement",
+        "label": "Engagement",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_engagement.deal_to_engagement} and {typeId.deal_engagement.engagement_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.engagement}/contacts/labels",
+      "body": {
+        "name": "engagement_person",
+        "label": "Client contacts",
+        "inverseLabel": "Engagements"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.engagement_person.engagement_to_person} and {typeId.engagement_person.person_to_engagement}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.engagement}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.engagement_company.engagement_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A engagement record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.engagement}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_engagement.deal_to_engagement}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one engagement record."
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {},
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "New business",
+        "displayOrder": 1,
+        "pipelineId": "new_business",
+        "stages": [
+          {
+            "label": "Qualified",
+            "displayOrder": 0,
+            "stageId": "new_business__qualified",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Discovery",
+            "displayOrder": 1,
+            "stageId": "new_business__discovery",
+            "metadata": {
+              "probability": "0.2"
+            }
+          },
+          {
+            "label": "Solution fit",
+            "displayOrder": 2,
+            "stageId": "new_business__solution_fit",
+            "metadata": {
+              "probability": "0.35"
+            }
+          },
+          {
+            "label": "Technical validation",
+            "displayOrder": 3,
+            "stageId": "new_business__technical_validation",
+            "metadata": {
+              "probability": "0.5"
+            }
+          },
+          {
+            "label": "Proposal",
+            "displayOrder": 4,
+            "stageId": "new_business__proposal",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 5,
+            "stageId": "new_business__negotiation",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Contract out",
+            "displayOrder": 6,
+            "stageId": "new_business__contract_out",
+            "metadata": {
+              "probability": "0.9"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 7,
+            "stageId": "new_business__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 8,
+            "stageId": "new_business__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Renewals and expansion",
+        "displayOrder": 2,
+        "pipelineId": "renewals_expansion",
+        "stages": [
+          {
+            "label": "Upcoming",
+            "displayOrder": 0,
+            "stageId": "renewals_expansion__upcoming",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Outreach",
+            "displayOrder": 1,
+            "stageId": "renewals_expansion__outreach",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 2,
+            "stageId": "renewals_expansion__proposal_sent",
+            "metadata": {
+              "probability": "0.75"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 3,
+            "stageId": "renewals_expansion__negotiation",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Awaiting signature",
+            "displayOrder": 4,
+            "stageId": "renewals_expansion__awaiting_signature",
+            "metadata": {
+              "probability": "0.95"
+            }
+          },
+          {
+            "label": "Renewed",
+            "displayOrder": 5,
+            "stageId": "renewals_expansion__renewed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Churned",
+            "displayOrder": 6,
+            "stageId": "renewals_expansion__churned",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

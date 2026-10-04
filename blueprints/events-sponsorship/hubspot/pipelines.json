@@ -1,0 +1,137 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {},
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Sponsor sales",
+        "displayOrder": 1,
+        "pipelineId": "sponsor_sales",
+        "stages": [
+          {
+            "label": "Prospect",
+            "displayOrder": 0,
+            "stageId": "sponsor_sales__prospect",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Meeting held",
+            "displayOrder": 1,
+            "stageId": "sponsor_sales__meeting_held",
+            "metadata": {
+              "probability": "0.2"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 2,
+            "stageId": "sponsor_sales__proposal_sent",
+            "metadata": {
+              "probability": "0.4"
+            }
+          },
+          {
+            "label": "Negotiating",
+            "displayOrder": 3,
+            "stageId": "sponsor_sales__negotiating",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Contract out",
+            "displayOrder": 4,
+            "stageId": "sponsor_sales__contract_out",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Signed",
+            "displayOrder": 5,
+            "stageId": "sponsor_sales__signed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 6,
+            "stageId": "sponsor_sales__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Exhibitor sales",
+        "displayOrder": 2,
+        "pipelineId": "exhibitor_sales",
+        "stages": [
+          {
+            "label": "Enquiry",
+            "displayOrder": 0,
+            "stageId": "exhibitor_sales__enquiry",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Qualified",
+            "displayOrder": 1,
+            "stageId": "exhibitor_sales__qualified",
+            "metadata": {
+              "probability": "0.3"
+            }
+          },
+          {
+            "label": "Space held",
+            "displayOrder": 2,
+            "stageId": "exhibitor_sales__space_held",
+            "metadata": {
+              "probability": "0.55"
+            }
+          },
+          {
+            "label": "Contract sent",
+            "displayOrder": 3,
+            "stageId": "exhibitor_sales__contract_sent",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Confirmed",
+            "displayOrder": 4,
+            "stageId": "exhibitor_sales__confirmed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 5,
+            "stageId": "exhibitor_sales__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

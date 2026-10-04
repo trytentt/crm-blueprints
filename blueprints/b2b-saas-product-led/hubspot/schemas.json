@@ -1,0 +1,86 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.workspace}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.adoption_plan}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "workspace",
+        "labels": {
+          "singular": "Workspace",
+          "plural": "Workspaces"
+        },
+        "description": "One account inside the product (a team space, tenant or organisation). Holds plan, seat and usage figures synced from the product, so sales sees usage next to the commercial record.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-1",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "The workspace name as it appears in the product."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.workspace}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "adoption_plan",
+        "labels": {
+          "singular": "Adoption plan",
+          "plural": "Adoption plans"
+        },
+        "description": "The work of getting a sales-assisted customer to real use after they pay. Owned by customer success, separate from the sales deal. Self-serve customers do not get one.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.workspace}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company name and the words adoption plan."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.adoption_plan}."
+    }
+  ]
+}

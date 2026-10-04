@@ -1,0 +1,145 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.property}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.deal_property.deal_to_property}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_property.property_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.property_landlord.property_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.property_landlord.company_to_property}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.lease}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.lease_property.lease_to_property}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.lease_property.property_to_lease}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.lease_tenant.lease_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.lease_tenant.company_to_lease}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.lease_deal.lease_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.lease_deal.deal_to_lease}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.property}/labels",
+      "body": {
+        "name": "deal_property",
+        "label": "Property",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_property.deal_to_property} and {typeId.deal_property.property_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.property}/companies/labels",
+      "body": {
+        "name": "property_landlord",
+        "label": "Landlord",
+        "inverseLabel": "Properties owned"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.property_landlord.property_to_company} and {typeId.property_landlord.company_to_property}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.lease}/{objectTypeId.property}/labels",
+      "body": {
+        "name": "lease_property",
+        "label": "Property",
+        "inverseLabel": "Leases"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.lease_property.lease_to_property} and {typeId.lease_property.property_to_lease}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.lease}/companies/labels",
+      "body": {
+        "name": "lease_tenant",
+        "label": "Tenant",
+        "inverseLabel": "Leases as tenant"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.lease_tenant.lease_to_company} and {typeId.lease_tenant.company_to_lease}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.lease}/deals/labels",
+      "body": {
+        "name": "lease_deal",
+        "label": "Letting deal",
+        "inverseLabel": "Leases"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.lease_deal.lease_to_deal} and {typeId.lease_deal.deal_to_lease}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.property}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_property.deal_to_property}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one property record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.property}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.property_landlord.property_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A property record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.lease}/{objectTypeId.property}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.lease_property.lease_to_property}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A lease record may link to one property record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.lease}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.lease_tenant.lease_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A lease record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.lease}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.lease_deal.lease_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A lease record may link to one deal record."
+    }
+  ]
+}

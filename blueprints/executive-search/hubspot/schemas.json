@@ -1,0 +1,123 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.search}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.search_candidate}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fee_instalment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "search",
+        "labels": {
+          "singular": "Search",
+          "plural": "Searches"
+        },
+        "description": "One retained mandate to fill one senior role: the position, fee terms, timetable and team. Created when a mandate deal is won, and has its own delivery pipeline.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-3",
+          "0-1"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "A neutral code name, not the incumbent's name or the real title for confidential searches."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.search}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "search_candidate",
+        "labels": {
+          "singular": "Search candidate",
+          "plural": "Search candidates"
+        },
+        "description": "One individual considered for one search. Tracks them from longlist to shortlist, client interview, offer and placement. Candidates are Person records. This is the link, with its stage.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.search}",
+          "0-1"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Candidate name and search code name."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.search_candidate}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "fee_instalment",
+        "labels": {
+          "singular": "Fee instalment",
+          "plural": "Fee instalments"
+        },
+        "description": "One scheduled payment of a search's retained fee, such as the first third at engagement. Tracks when it falls due, is invoiced and is paid.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.search}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Search code name and instalment number, for example Project code 1 of 3."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.fee_instalment}."
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {},
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Sales assist",
+        "displayOrder": 1,
+        "pipelineId": "sales_assist",
+        "stages": [
+          {
+            "label": "Product-qualified lead",
+            "displayOrder": 0,
+            "stageId": "sales_assist__pql",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Conversation",
+            "displayOrder": 1,
+            "stageId": "sales_assist__conversation",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Need confirmed",
+            "displayOrder": 2,
+            "stageId": "sales_assist__need_confirmed",
+            "metadata": {
+              "probability": "0.45"
+            }
+          },
+          {
+            "label": "Proposal",
+            "displayOrder": 3,
+            "stageId": "sales_assist__proposal",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 4,
+            "stageId": "sales_assist__negotiation",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 5,
+            "stageId": "sales_assist__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 6,
+            "stageId": "sales_assist__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Expansion",
+        "displayOrder": 2,
+        "pipelineId": "expansion",
+        "stages": [
+          {
+            "label": "Expansion signal",
+            "displayOrder": 0,
+            "stageId": "expansion__signal",
+            "metadata": {
+              "probability": "0.2"
+            }
+          },
+          {
+            "label": "Outreach",
+            "displayOrder": 1,
+            "stageId": "expansion__outreach",
+            "metadata": {
+              "probability": "0.35"
+            }
+          },
+          {
+            "label": "Proposal",
+            "displayOrder": 2,
+            "stageId": "expansion__proposal",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Negotiation",
+            "displayOrder": 3,
+            "stageId": "expansion__negotiation",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Expanded",
+            "displayOrder": 4,
+            "stageId": "expansion__expanded",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Declined",
+            "displayOrder": 5,
+            "stageId": "expansion__declined",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.lease}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Letting",
+        "displayOrder": 1,
+        "pipelineId": "letting",
+        "stages": [
+          {
+            "label": "Enquiry",
+            "displayOrder": 0,
+            "stageId": "letting__enquiry",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Requirement qualified",
+            "displayOrder": 1,
+            "stageId": "letting__requirement_qualified",
+            "metadata": {
+              "probability": "0.15"
+            }
+          },
+          {
+            "label": "Viewing",
+            "displayOrder": 2,
+            "stageId": "letting__viewing",
+            "metadata": {
+              "probability": "0.3"
+            }
+          },
+          {
+            "label": "Offer",
+            "displayOrder": 3,
+            "stageId": "letting__offer",
+            "metadata": {
+              "probability": "0.5"
+            }
+          },
+          {
+            "label": "Heads of terms",
+            "displayOrder": 4,
+            "stageId": "letting__heads_of_terms",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Referencing",
+            "displayOrder": 5,
+            "stageId": "letting__referencing",
+            "metadata": {
+              "probability": "0.75"
+            }
+          },
+          {
+            "label": "Legals",
+            "displayOrder": 6,
+            "stageId": "letting__legals",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Completed",
+            "displayOrder": 7,
+            "stageId": "letting__completed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Lost",
+            "displayOrder": 8,
+            "stageId": "letting__lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.lease}",
+      "body": {
+        "label": "Lease renewal",
+        "displayOrder": 1,
+        "pipelineId": "lease_renewal",
+        "stages": [
+          {
+            "label": "Upcoming",
+            "displayOrder": 0,
+            "stageId": "lease_renewal__upcoming",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Tenant contacted",
+            "displayOrder": 1,
+            "stageId": "lease_renewal__tenant_contacted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Terms discussed",
+            "displayOrder": 2,
+            "stageId": "lease_renewal__terms_discussed",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Renewal agreed",
+            "displayOrder": 3,
+            "stageId": "lease_renewal__renewal_agreed",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Renewed",
+            "displayOrder": 4,
+            "stageId": "lease_renewal__renewed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Not renewed",
+            "displayOrder": 5,
+            "stageId": "lease_renewal__not_renewed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

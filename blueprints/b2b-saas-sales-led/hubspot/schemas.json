@@ -1,0 +1,85 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.subscription}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.onboarding}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "subscription",
+        "labels": {
+          "singular": "Subscription",
+          "plural": "Subscriptions"
+        },
+        "description": "One customer contract for one plan: its term, annual recurring revenue and renewal date. Created when a new-business deal is won. Renewal and expansion deals point back to it.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company name and plan, for example Acme Business annual."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.subscription}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "onboarding",
+        "labels": {
+          "singular": "Onboarding",
+          "plural": "Onboardings"
+        },
+        "description": "The work of getting a new subscription live. Owned by customer success, separate from the sales deal.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.subscription}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company name and the word onboarding."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.onboarding}."
+    }
+  ]
+}

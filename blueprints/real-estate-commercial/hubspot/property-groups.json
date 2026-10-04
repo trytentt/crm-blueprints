@@ -1,0 +1,54 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.property}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.lease}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "commercial_real_estate_leasing",
+        "label": "Commercial real estate, leasing"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "commercial_real_estate_leasing",
+        "label": "Commercial real estate, leasing"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "commercial_real_estate_leasing",
+        "label": "Commercial real estate, leasing"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}/groups",
+      "body": {
+        "name": "commercial_real_estate_leasing",
+        "label": "Commercial real estate, leasing"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}/groups",
+      "body": {
+        "name": "commercial_real_estate_leasing",
+        "label": "Commercial real estate, leasing"
+      }
+    }
+  ]
+}

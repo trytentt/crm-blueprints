@@ -1,0 +1,209 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.advice_case}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.review}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "New client",
+        "displayOrder": 1,
+        "pipelineId": "new_client",
+        "stages": [
+          {
+            "label": "Enquiry",
+            "displayOrder": 0,
+            "stageId": "new_client__enquiry",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Initial meeting booked",
+            "displayOrder": 1,
+            "stageId": "new_client__initial_meeting_booked",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Initial meeting held",
+            "displayOrder": 2,
+            "stageId": "new_client__initial_meeting_held",
+            "metadata": {
+              "probability": "0.4"
+            }
+          },
+          {
+            "label": "Fee proposal",
+            "displayOrder": 3,
+            "stageId": "new_client__fee_proposal",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Agreement out",
+            "displayOrder": 4,
+            "stageId": "new_client__agreement_out",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Client won",
+            "displayOrder": 5,
+            "stageId": "new_client__client_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Lost",
+            "displayOrder": 6,
+            "stageId": "new_client__lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "label": "Advice delivery",
+        "displayOrder": 1,
+        "pipelineId": "advice_delivery",
+        "stages": [
+          {
+            "label": "Fact find",
+            "displayOrder": 0,
+            "stageId": "advice_delivery__fact_find",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Analysis",
+            "displayOrder": 1,
+            "stageId": "advice_delivery__analysis",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Report drafted",
+            "displayOrder": 2,
+            "stageId": "advice_delivery__report_drafted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Report issued",
+            "displayOrder": 3,
+            "stageId": "advice_delivery__report_issued",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Accepted",
+            "displayOrder": 4,
+            "stageId": "advice_delivery__accepted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Completed",
+            "displayOrder": 5,
+            "stageId": "advice_delivery__completed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Closed without advice",
+            "displayOrder": 6,
+            "stageId": "advice_delivery__closed_without_advice",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.review}",
+      "body": {
+        "label": "Review cycle",
+        "displayOrder": 1,
+        "pipelineId": "review_cycle",
+        "stages": [
+          {
+            "label": "Due",
+            "displayOrder": 0,
+            "stageId": "review_cycle__due",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Invited",
+            "displayOrder": 1,
+            "stageId": "review_cycle__invited",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Booked",
+            "displayOrder": 2,
+            "stageId": "review_cycle__booked",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Meeting held",
+            "displayOrder": 3,
+            "stageId": "review_cycle__meeting_held",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Review completed",
+            "displayOrder": 4,
+            "stageId": "review_cycle__review_completed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Not completed",
+            "displayOrder": 5,
+            "stageId": "review_cycle__not_completed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

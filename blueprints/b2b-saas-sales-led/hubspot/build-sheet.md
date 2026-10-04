@@ -1,0 +1,410 @@
+# Build sheet: B2B SaaS, sales-led (hubspot)
+
+A software company that sells annual contracts through a sales team. New business and renewals run as separate deal pipelines. Each signed contract becomes a subscription, and onboarding is tracked on its own object so delivery never clutters the sales pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are renewals and expansions tracked as deals on the same Deal object as new business?**
+  - Recommended default: Yes. A second pipeline on Deal keeps one revenue report. The deal links to its subscription so the history stays together.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is onboarding tracked on its own object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. Delivery has a different owner and different dates, so onboarding gets its own object and the sales pipeline ends at closed won.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects?**
+  - Recommended default: Check before the build. If it does not, model Subscription and Onboarding as a deal pipeline plus custom properties and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do multi-year contracts need a separate record per year?**
+  - Recommended default: No. One subscription per contract, with term and ARR on it. Add a record per year only if finance needs year-by-year revenue in the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the company sell more than one product that customers buy separately?**
+  - Recommended default: No for the first build. Use the plan field. Add a product object if reporting needs it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`contacts`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Subscription**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Subscription', plural 'Subscriptions', internal name `subscription`. The name cannot be changed later.
+  - Purpose: One customer contract for one plan: its term, annual recurring revenue and renewal date. Created when a new-business deal is won. Renewal and expansion deals point back to it.
+  - Done when: the object Subscription exists with plural name Subscriptions.
+- [ ] **Create object Onboarding**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Onboarding', plural 'Onboardings', internal name `onboarding`. The name cannot be changed later.
+  - Purpose: The work of getting a new subscription live. Owned by customer success, separate from the sales deal.
+  - Done when: the object Onboarding exists with plural name Onboardings.
+- [ ] **Create relationship subscription to company (many_to_one)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Company' with 'Subscriptions' for Companies.
+  - Purpose: Shows every contract a customer has had.
+  - Done when: a subscription record shows the link as 'Company' and a company record shows it as 'Subscriptions'.
+- [ ] **Create relationship deal to subscription (many_to_one)**
+  - Where: Settings > Data Management > Objects > Deals > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Subscription' with 'Deals' for Subscriptions.
+  - Purpose: Ties the deal that created a subscription, and every later renewal or expansion deal, to it.
+  - Done when: a deal record shows the link as 'Subscription' and a subscription record shows it as 'Deals'.
+- [ ] **Create relationship onboarding to subscription (many_to_one)**
+  - Where: Settings > Data Management > Objects > Onboardings > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Subscription' with 'Onboardings' for Subscriptions.
+  - Purpose: Tracks the work of getting each subscription live.
+  - Done when: a onboarding record shows the link as 'Subscription' and a subscription record shows it as 'Onboardings'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New business on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline New business exists with 9 stages in the order below.
+- [ ] **Stage 1: Qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a discovery call is booked with a person who has a buying role.
+  - Deal probability: 0.1. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: next_step_date.
+  - Done when: the stage Qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Discovery**
+  - Type: open. Probability: 20%.
+  - Entered when the first discovery call has happened and the pain is written down.
+  - Deal probability: 0.2. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: next_step_date.
+  - Done when: the stage Discovery is in position 2 and its rule is in place.
+- [ ] **Stage 3: Solution fit**
+  - Type: open. Probability: 35%.
+  - Entered when the buyer has seen a tailored demo and agreed the product fits the pain.
+  - Deal probability: 0.35. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: pain_summary, next_step_date.
+  - Done when: the stage Solution fit is in position 3 and its rule is in place.
+- [ ] **Stage 4: Technical validation**
+  - Type: open. Probability: 50%.
+  - Entered when a trial or technical review is agreed, with named evaluators and dates.
+  - Deal probability: 0.5. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: decision_process, next_step_date.
+  - Done when: the stage Technical validation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Proposal**
+  - Type: open. Probability: 65%.
+  - Entered when the economic buyer has confirmed budget and asked for pricing.
+  - Deal probability: 0.65. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: budget_confirmed, amount, contract_term_months.
+  - Done when: the stage Proposal is in position 5 and its rule is in place.
+- [ ] **Stage 6: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has reviewed the proposal and is discussing terms.
+  - Deal probability: 0.8. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, security_review.
+  - Done when: the stage Negotiation is in position 6 and its rule is in place.
+- [ ] **Stage 7: Contract out**
+  - Type: open. Probability: 90%.
+  - Entered when final terms are agreed and the contract has been sent for signature.
+  - Deal probability: 0.9. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, contract_term_months.
+  - Done when: the stage Contract out is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed contract is received and the subscription record is created.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Closed won is in position 8 and its rule is in place.
+- [ ] **Stage 9: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Closed lost is in position 9 and its rule is in place.
+- [ ] **Create pipeline Renewals and expansion on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline Renewals and expansion exists with 7 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 60%.
+  - Entered when the subscription is 90 days from its renewal date.
+  - Deal probability: 0.6. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: renewal_type.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Outreach**
+  - Type: open. Probability: 65%.
+  - Entered when the success owner has contacted the champion about the renewal.
+  - Deal probability: 0.65. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: renewal_risk, next_step_date.
+  - Done when: the stage Outreach is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 75%.
+  - Entered when a renewal quote has been sent to the buyer.
+  - Deal probability: 0.75. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, contract_term_months.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiation**
+  - Type: open. Probability: 85%.
+  - Entered when the buyer has asked for changes to price or terms.
+  - Deal probability: 0.85. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Negotiation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Awaiting signature**
+  - Type: open. Probability: 95%.
+  - Entered when the final renewal contract has been sent for signature.
+  - Deal probability: 0.95. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, contract_term_months.
+  - Done when: the stage Awaiting signature is in position 5 and its rule is in place.
+- [ ] **Stage 6: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed renewal is received and the subscription dates are updated.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Renewed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Churned**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer confirms they will not renew, or the term ends unsigned.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Churned is in position 7 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Customer status (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `customer_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Customer, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `segment`.
+  - Purpose: Size band used for routing, pricing and reporting.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Inbound, Outbound, Partner, Event, Referral
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domain`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`numberofemployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin_company_page`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field Buying role (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `buying_role`.
+  - Purpose: The part this person plays in the buying decision. Used to check deals are multi-threaded.
+  - Options: Economic buyer, Champion, Technical evaluator, End user, Blocker
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`firstname`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`lastname`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`jobtitle`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`hs_linkedin_url`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'dealinformation', type/field type in the UI matching `enumeration`/`select`, internal name `lost_reason`.
+  - Purpose: Why the deal was lost or the customer churned. Required on every lost stage.
+  - Options: No budget, No decision made, Chose a competitor, Product gap, Price, Bad timing, Champion left, Company acquired, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `date`/`date`, internal name `next_step_date`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Competitor (text)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `string`/`text`, internal name `competitor`.
+  - Purpose: The main alternative the buyer is considering, in their words.
+  - Done when: Deal records show Competitor and it accepts the right values.
+- [ ] **Create field Pain summary (long_text)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `string`/`textarea`, internal name `pain_summary`.
+  - Purpose: The problem the buyer wants solved and what it costs them today.
+  - Done when: Deal records show Pain summary and it accepts the right values.
+- [ ] **Create field Budget confirmed (checkbox)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `budget_confirmed`.
+  - Purpose: The economic buyer has said a budget exists for this purchase.
+  - Done when: Deal records show Budget confirmed and it accepts the right values.
+- [ ] **Create field Decision process (long_text)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `string`/`textarea`, internal name `decision_process`.
+  - Purpose: Who signs, who else must approve, and the steps and dates to get there.
+  - Done when: Deal records show Decision process and it accepts the right values.
+- [ ] **Create field Security review (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `security_review`.
+  - Purpose: Progress of the buyer's security and procurement review.
+  - Options: Not needed, Requested, In progress, Passed
+  - Done when: Deal records show Security review and it accepts the right values.
+- [ ] **Create field Contract term (months) (number)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `number`/`number`, internal name `contract_term_months`.
+  - Purpose: Length of the contract in months.
+  - Done when: Deal records show Contract term (months) and it accepts the right values.
+- [ ] **Create field Renewal type (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `renewal_type`.
+  - Purpose: Whether a renewals-pipeline deal is a straight renewal or adds revenue.
+  - Options: Renewal, Upsell, Cross-sell
+  - Done when: Deal records show Renewal type and it accepts the right values.
+- [ ] **Create field Renewal risk (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `renewal_risk`.
+  - Purpose: Customer success view of how likely the renewal is to close.
+  - Options: Low, Medium, High
+  - Done when: Deal records show Renewal risk and it accepts the right values.
+- [ ] **Confirm standard field Name (`dealname`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`closedate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`hs_next_step`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Subscription
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Company name and plan, for example Acme Business annual.
+  - Done when: Subscription records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `status`.
+  - Purpose: Where the subscription is in its life.
+  - Options: Pending start, Active, In renewal, Churned
+  - Done when: Subscription records show Status and it accepts the right values.
+- [ ] **Create field Plan (select)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `plan`.
+  - Purpose: The plan the customer is on.
+  - Options: Team, Business, Enterprise
+  - Done when: Subscription records show Plan and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `date`/`date`, internal name `start_date`.
+  - Purpose: First day of the current term.
+  - Done when: Subscription records show Start date and it accepts the right values.
+- [ ] **Create field Renewal date (date)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `date`/`date`, internal name `renewal_date`.
+  - Purpose: Last day of the current term. A renewal deal opens 90 days before it.
+  - Done when: Subscription records show Renewal date and it accepts the right values.
+- [ ] **Create field Term (months) (number)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `number`/`number`, internal name `term_months`.
+  - Purpose: Length of the current term in months.
+  - Done when: Subscription records show Term (months) and it accepts the right values.
+- [ ] **Create field ARR (currency)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `number`/`number`, internal name `arr`.
+  - Purpose: Annual recurring revenue for this subscription at current prices.
+  - Done when: Subscription records show ARR and it accepts the right values.
+- [ ] **Create field Seats (number)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `number`/`number`, internal name `seats`.
+  - Purpose: Number of licensed seats, where the plan is priced per seat.
+  - Done when: Subscription records show Seats and it accepts the right values.
+- [ ] **Create field Billing frequency (select)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `billing_frequency`.
+  - Purpose: How often the customer is invoiced.
+  - Options: Annual, Quarterly, Monthly
+  - Done when: Subscription records show Billing frequency and it accepts the right values.
+- [ ] **Create field Auto-renews (checkbox)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `auto_renews`.
+  - Purpose: The contract renews by itself unless the customer gives notice.
+  - Done when: Subscription records show Auto-renews and it accepts the right values.
+- [ ] **Create field Success owner (user)**
+  - Where: Settings > Data Management > Objects > Subscriptions > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `success_owner`.
+  - Purpose: The customer success manager responsible for this customer.
+  - Done when: Subscription records show Success owner and it accepts the right values.
+
+### Onboarding
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Onboardings > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Company name and the word onboarding.
+  - Done when: Onboarding records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Settings > Data Management > Objects > Onboardings > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `status`.
+  - Purpose: Where onboarding stands.
+  - Options: Not started, Kickoff booked, In progress, Live, Stalled
+  - Done when: Onboarding records show Status and it accepts the right values.
+- [ ] **Create field Kickoff date (date)**
+  - Where: Settings > Data Management > Objects > Onboardings > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `date`/`date`, internal name `kickoff_date`.
+  - Purpose: The date of the kickoff call.
+  - Done when: Onboarding records show Kickoff date and it accepts the right values.
+- [ ] **Create field Go-live date (date)**
+  - Where: Settings > Data Management > Objects > Onboardings > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `date`/`date`, internal name `go_live_date`.
+  - Purpose: The date the customer first uses the product in production.
+  - Done when: Onboarding records show Go-live date and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Settings > Data Management > Objects > Onboardings > Properties tab > Create property. Group 'b2b_saas_sales_led', type/field type in the UI matching `enumeration`/`select`, internal name `owner`.
+  - Purpose: The team member running onboarding.
+  - Done when: Onboarding records show Owner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create subscription on closed won**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal in the new business pipeline moves to closed won.
+  - Action: Create a subscription from the deal's amount, term and close date, link it to the deal and the company, and set the company's customer status to customer.
+  - Done when: the automation runs on a test record and the result matches: Create a subscription from the deal's amount, term and close date, link it to the deal and the company, and set the company's customer status to customer.
+- [ ] **Start onboarding**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A subscription is created with status pending start.
+  - Action: Create an onboarding record linked to the subscription and assign it to customer success.
+  - Done when: the automation runs on a test record and the result matches: Create an onboarding record linked to the subscription and assign it to customer success.
+- [ ] **Open renewal deal**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A subscription's renewal date is 90 days away and its status is active.
+  - Action: Create a deal in the renewals and expansion pipeline at upcoming, linked to the subscription, and set the subscription status to in renewal.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the renewals and expansion pipeline at upcoming, linked to the subscription, and set the subscription status to in renewal.
+- [ ] **Flag stalled deals**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+- [ ] **Mark churn**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal in the renewals and expansion pipeline moves to churned.
+  - Action: Set the subscription status to churned and the company's customer status to former customer.
+  - Done when: the automation runs on a test record and the result matches: Set the subscription status to churned and the company's customer status to former customer.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Renewals in the next 90 days**
+  - Where: CRM > Subscriptions > + add view, then set filters, columns and sort, and click Publish.
+  - Object: subscription
+  - Filter: Status is active or in renewal and renewal date is within 90 days.
+  - Sort: Renewal date, soonest first.
+  - Done when: the view Renewals in the next 90 days is saved and shows the expected records.
+- [ ] **Onboarding in flight**
+  - Where: CRM > Onboardings > + add view, then set filters, columns and sort, and click Publish.
+  - Object: onboarding
+  - Filter: Status is not live.
+  - Sort: Kickoff date, oldest first.
+  - Done when: the view Onboarding in flight is saved and shows the expected records.
+- [ ] **Customers**
+  - Where: CRM > Companies > + add view, then set filters, columns and sort, and click Publish.
+  - Object: company
+  - Filter: Customer status is customer.
+  - Sort: Name, A to Z.
+  - Done when: the view Customers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Create a service key and test in a developer test account first**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the account is Enterprise before creating custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

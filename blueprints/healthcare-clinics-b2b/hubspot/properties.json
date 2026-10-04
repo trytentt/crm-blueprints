@@ -1,0 +1,1058 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.service}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.service_contract}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.referral_agreement}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "account_type",
+        "label": "Account type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What kind of organisation this is. Decides which pipeline it belongs in.",
+        "options": [
+          {
+            "label": "Employer",
+            "value": "employer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Insurer",
+            "value": "insurer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Broker or intermediary",
+            "value": "broker",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Case management provider",
+            "value": "case_management",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other healthcare provider",
+            "value": "other_provider",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "headcount_band",
+        "label": "Headcount band",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.",
+        "options": [
+          {
+            "label": "Under 50",
+            "value": "under_50",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "50 to 249",
+            "value": "from_50_to_249",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "250 to 999",
+            "value": "from_250_to_999",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "1,000 or more",
+            "value": "from_1000_up",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "sector",
+        "label": "Sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.",
+        "options": [
+          {
+            "label": "Manufacturing",
+            "value": "manufacturing",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Logistics and transport",
+            "value": "logistics",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Construction",
+            "value": "construction",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Professional services",
+            "value": "professional_services",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Retail and hospitality",
+            "value": "retail_hospitality",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "customer_status",
+        "label": "Customer status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the organisation is in its life with us.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active customer",
+            "value": "active_customer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Former customer",
+            "value": "former_customer",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the organisation first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Referral partner",
+            "value": "referral_partner",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Inbound enquiry",
+            "value": "inbound_enquiry",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Existing customer",
+            "value": "existing_customer",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in a purchase. These are business contacts only. A patient is never stored as a person here.",
+        "options": [
+          {
+            "label": "HR lead",
+            "value": "hr_lead",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Benefits manager",
+            "value": "benefits_manager",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Health and safety lead",
+            "value": "health_safety_lead",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Finance lead",
+            "value": "finance_lead",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Broker contact",
+            "value": "broker_contact",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Claims contact",
+            "value": "claims_contact",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost. Required on every lost stage.",
+        "options": [
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Kept current provider",
+            "value": "incumbent_kept",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "We could not cover their sites or services",
+            "value": "coverage_gap",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Governance or data protection review failed",
+            "value": "governance_failed",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "service_interest",
+        "label": "Service interest",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "Which service lines the buyer wants quoted. Used to report demand by service.",
+        "options": [
+          {
+            "label": "Workplace assessments",
+            "value": "assessments",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Workplace physiotherapy",
+            "value": "physiotherapy",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Diagnostics",
+            "value": "diagnostics",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Screening and surveillance",
+            "value": "screening",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Vaccination programmes",
+            "value": "vaccination",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Wellbeing support programmes",
+            "value": "mental_wellbeing",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "covered_headcount",
+        "label": "Covered headcount",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of employees the contract would cover, as stated by the employer. A count only.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "sites_covered",
+        "label": "Sites covered",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of employer sites the clinic would serve. Sets travel and on-site cost.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "pricing_model",
+        "label": "Pricing model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the buyer will be charged.",
+        "options": [
+          {
+            "label": "Per appointment",
+            "value": "per_appointment",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Per employee per month",
+            "value": "per_employee_per_month",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Annual retainer",
+            "value": "annual_retainer",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Pay as you go",
+            "value": "pay_as_you_go",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "governance_review_passed",
+        "label": "Governance review passed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The buyer's data protection and clinical governance review is complete and a data processing agreement is agreed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "pilot_agreed",
+        "label": "Pilot agreed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "A time-limited trial with a defined scope has been agreed in writing."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "contract_term_months",
+        "label": "Contract term (months)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Length of the proposed contract in months.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "renewal_risk",
+        "label": "Renewal risk",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Account manager's view of how likely a renewal deal is to close.",
+        "options": [
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "category",
+        "label": "Category",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Group of the service, for reporting revenue by line.",
+        "options": [
+          {
+            "label": "Assessments",
+            "value": "assessments",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Treatment programmes",
+            "value": "treatment",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Diagnostics",
+            "value": "diagnostics",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Screening and surveillance",
+            "value": "screening",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Vaccination",
+            "value": "vaccination",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Wellbeing",
+            "value": "wellbeing",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "delivery_mode",
+        "label": "Delivery mode",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the service is provided. Affects cost and which sites a contract can cover.",
+        "options": [
+          {
+            "label": "At the clinic",
+            "value": "at_clinic",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On site at the client",
+            "value": "on_site_at_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Remote",
+            "value": "remote",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "list_price",
+        "label": "List price",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Standard price per pricing unit before discount.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "pricing_unit",
+        "label": "Pricing unit",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the list price is charged against.",
+        "options": [
+          {
+            "label": "Per appointment",
+            "value": "per_appointment",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Per employee",
+            "value": "per_employee",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Per session",
+            "value": "per_session",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Per day",
+            "value": "per_day",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "active",
+        "label": "Active",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The service can currently be sold."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "regulated",
+        "label": "Regulated activity",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The service needs regulator registration or a named clinician lead before it is sold."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the contract is in its life.",
+        "options": [
+          {
+            "label": "Pending start",
+            "value": "pending_start",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In renewal",
+            "value": "in_renewal",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Ended",
+            "value": "ended",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the current term."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "renewal_date",
+        "label": "Renewal date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day of the current term. A renewal deal opens 90 days before it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "pricing_model",
+        "label": "Pricing model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the customer is charged under this contract.",
+        "options": [
+          {
+            "label": "Per appointment",
+            "value": "per_appointment",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Per employee per month",
+            "value": "per_employee_per_month",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Annual retainer",
+            "value": "annual_retainer",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Pay as you go",
+            "value": "pay_as_you_go",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "annual_value",
+        "label": "Annual value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Expected yearly revenue from this contract at current prices.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "covered_headcount",
+        "label": "Covered headcount",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of employees in scope, as told to us by the employer. A count only, never a list of people.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "dpa_signed",
+        "label": "Data processing agreement signed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "A data processing agreement is in place before any service starts. Required for every contract."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "review_cadence",
+        "label": "Review cadence",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How often the account manager holds a service review with the customer.",
+        "options": [
+          {
+            "label": "Monthly",
+            "value": "monthly",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Quarterly",
+            "value": "quarterly",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Annually",
+            "value": "annually",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.service_contract}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "account_manager",
+        "label": "Account manager",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member responsible for the customer after the sale.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "agreement_type",
+        "label": "Agreement type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Which way work flows and how the partner is listed.",
+        "options": [
+          {
+            "label": "Partner refers to us",
+            "value": "referral_in",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "We refer to partner",
+            "value": "referral_out",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Preferred provider listing",
+            "value": "preferred_provider",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Broker introduction",
+            "value": "broker_introduction",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "fee_basis",
+        "label": "Fee basis",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.",
+        "options": [
+          {
+            "label": "None",
+            "value": "none",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fixed fee",
+            "value": "fixed_fee",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Revenue share",
+            "value": "revenue_share",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "governance_checked",
+        "label": "Governance checked",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Information governance and clinical governance checks on the partner are complete."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "signed_date",
+        "label": "Signed date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the agreement was signed by both sides."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "review_date",
+        "label": "Review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the arrangement is next reviewed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "referrals_last_quarter",
+        "label": "Referrals last quarter",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Aggregate number of referrals in the last quarter. A count only. Never record who was referred.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.referral_agreement}",
+      "body": {
+        "groupName": "healthcare_clinics_b2b",
+        "name": "decline_reason",
+        "label": "Decline reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the partnership did not go ahead. Required on the declined stage.",
+        "options": [
+          {
+            "label": "Governance check failed",
+            "value": "governance_failed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Not a fit",
+            "value": "not_a_fit",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Conflict of interest",
+            "value": "conflict",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Partner declined",
+            "value": "partner_declined",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    }
+  ]
+}

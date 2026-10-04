@@ -1,0 +1,566 @@
+# Build sheet: Financial advisers, client households (hubspot)
+
+An independent adviser or wealth management practice that wins clients by referral, advises households rather than single people, and keeps them through a scheduled review cycle. Winning a client, producing advice and reviewing the relationship are three separate records. Fields that hold regulated or sensitive personal data are flagged in their descriptions.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is advice work tracked on its own object rather than as stages on the new-client deal?**
+  - Recommended default: Yes. The deal wins the client and ends at client won. Advice cases and reviews are delivery, run by advisers and paraplanners on their own dates, and they repeat for years.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are clients modelled as households or as individual people?**
+  - Recommended default: Households. Advice, fees and reviews are agreed for the household, and people link to it. Each human keeps one person record, matched by email, whatever household they belong to.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which regulated or sensitive personal data does the CRM hold?**
+  - Recommended default: As little as possible. Hold banded or yes/no values here and keep the full fact find, valuations, health detail and identity documents in the planning and document systems. Fields marked DATA PROTECTION in their description need restricted access, and the client confirms a legal basis and retention rule before the build.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Can the client's CRM plan restrict access to individual fields or records?**
+  - Recommended default: Check before the build. If it cannot, move flagged fields to the planning system and keep only status fields in the CRM, then record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: What triggers a review and who sets its frequency?**
+  - Recommended default: The service tier sets the frequency. The next review date is the last review date plus the frequency, and review records open 90 days before it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the firm need its regulatory statements and record-keeping rules built in?**
+  - Recommended default: Not by this blueprint. It keeps to general structure. The firm's compliance lead confirms its own record-keeping, suitability and customer-outcome requirements, and any required fields or approval steps are added as amendments.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Household, Advice case and Review?**
+  - Recommended default: Check before the build. If not, use the Company object as the household and deal pipelines for advice cases and reviews, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`contacts`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Household**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Household', plural 'Households', internal name `household`. The name cannot be changed later.
+  - Purpose: A client unit, one person or a couple or family, that the practice advises together. Holds the service terms, risk profile and review dates. People link to it, so each human keeps one record.
+  - Done when: the object Household exists with plural name Households.
+- [ ] **Create object Advice case**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Advice case', plural 'Advice cases', internal name `advice_case`. The name cannot be changed later.
+  - Purpose: One piece of advice work for a household, from fact find to recommendation to products placed. This is the delivery of advice and stays apart from the deal that won the client.
+  - Done when: the object Advice case exists with plural name Advice cases.
+- [ ] **Create object Review**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Review', plural 'Reviews', internal name `review`. The name cannot be changed later.
+  - Purpose: One scheduled review of a household's plan, usually yearly. Tracks the invitation, the meeting and the follow-up actions so no household goes unreviewed.
+  - Done when: the object Review exists with plural name Reviews.
+- [ ] **Create relationship person to household (many_to_one)**
+  - Where: Settings > Data Management > Objects > Contacts > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Household' with 'Members' for Households.
+  - Purpose: Groups the people in a client unit while each human keeps one record.
+  - Done when: a person record shows the link as 'Household' and a household record shows it as 'Members'.
+- [ ] **Create relationship deal to household (many_to_one)**
+  - Where: Settings > Data Management > Objects > Deals > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Household' with 'Deals' for Households.
+  - Purpose: Links the deal that won a client to their household.
+  - Done when: a deal record shows the link as 'Household' and a household record shows it as 'Deals'.
+- [ ] **Create relationship advice_case to household (many_to_one)**
+  - Where: Settings > Data Management > Objects > Advice cases > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Household' with 'Advice cases' for Households.
+  - Purpose: Gives the full history of advice for a household.
+  - Done when: a advice_case record shows the link as 'Household' and a household record shows it as 'Advice cases'.
+- [ ] **Create relationship advice_case to deal (many_to_one)**
+  - Where: Settings > Data Management > Objects > Advice cases > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Won deal' with 'Advice cases' for Deals.
+  - Purpose: Links the first advice case to the deal that created it.
+  - Done when: a advice_case record shows the link as 'Won deal' and a deal record shows it as 'Advice cases'.
+- [ ] **Create relationship review to household (many_to_one)**
+  - Where: Settings > Data Management > Objects > Reviews > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Household' with 'Reviews' for Households.
+  - Purpose: Shows every review a household has had.
+  - Done when: a review record shows the link as 'Household' and a household record shows it as 'Reviews'.
+- [ ] **Create relationship household to company (many_to_one)**
+  - Where: Settings > Data Management > Objects > Households > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Referred by' with 'Households referred' for Companies.
+  - Purpose: Shows which professional introducer brought each household, for referral reporting.
+  - Done when: a household record shows the link as 'Referred by' and a company record shows it as 'Households referred'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New client on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline New client exists with 7 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 10%.
+  - Entered when a prospect is logged with a referral source and a way to contact them.
+  - Deal probability: 0.1. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: referral_source.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Initial meeting booked**
+  - Type: open. Probability: 25%.
+  - Entered when the free initial meeting is in the diary.
+  - Deal probability: 0.25. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: service_interest, next_step_date.
+  - Done when: the stage Initial meeting booked is in position 2 and its rule is in place.
+- [ ] **Stage 3: Initial meeting held**
+  - Type: open. Probability: 40%.
+  - Entered when the initial meeting has taken place and services and fees have been explained.
+  - Deal probability: 0.4. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: initial_meeting_held, expected_investable_assets.
+  - Done when: the stage Initial meeting held is in position 3 and its rule is in place.
+- [ ] **Stage 4: Fee proposal**
+  - Type: open. Probability: 60%.
+  - Entered when a written proposal of services and fees has been sent.
+  - Deal probability: 0.6. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: fee_basis_agreed, next_step_date.
+  - Done when: the stage Fee proposal is in position 4 and its rule is in place.
+- [ ] **Stage 5: Agreement out**
+  - Type: open. Probability: 80%.
+  - Entered when the prospect has said yes to the proposal and the client agreement has been sent for signature.
+  - Deal probability: 0.8. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: fee_basis_agreed, amount, close_date.
+  - Done when: the stage Agreement out is in position 5 and its rule is in place.
+- [ ] **Stage 6: Client won**
+  - Type: won. Probability: 100%.
+  - Entered when the client agreement is signed and identity checks are complete.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: engagement_signed, close_date.
+  - Done when: the stage Client won is in position 6 and its rule is in place.
+- [ ] **Stage 7: Lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the prospect declines, chooses another adviser or does not reply after three follow-ups over 30 days.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Advice delivery on advice_case**
+  - Where: Settings > Data Management > Objects > Advice cases > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set each stage to Open or Closed.
+  - Done when: the pipeline Advice delivery exists with 7 stages in the order below.
+- [ ] **Stage 1: Fact find**
+  - Type: open. Probability: 20%.
+  - Entered when the client agreement is signed and the fact find has been issued to the household.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: adviser, advice_topic.
+  - Done when: the stage Fact find is in position 1 and its rule is in place.
+- [ ] **Stage 2: Analysis**
+  - Type: open. Probability: 40%.
+  - Entered when the fact find and supporting documents are complete and checked.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: fact_find_complete, paraplanner.
+  - Done when: the stage Analysis is in position 2 and its rule is in place.
+- [ ] **Stage 3: Report drafted**
+  - Type: open. Probability: 60%.
+  - Entered when the recommendation report is drafted and sent for internal checking.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: compliance_check.
+  - Done when: the stage Report drafted is in position 3 and its rule is in place.
+- [ ] **Stage 4: Report issued**
+  - Type: open. Probability: 75%.
+  - Entered when the checked report has been sent to the client and a meeting to discuss it is booked.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: report_issued_date, compliance_check.
+  - Done when: the stage Report issued is in position 4 and its rule is in place.
+- [ ] **Stage 5: Accepted**
+  - Type: open. Probability: 90%.
+  - Entered when the client has decided to proceed with some or all recommendations.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: client_decision.
+  - Done when: the stage Accepted is in position 5 and its rule is in place.
+- [ ] **Stage 6: Completed**
+  - Type: won. Probability: 100%.
+  - Entered when applications are placed and the client has confirmation of every agreed action.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: applications_submitted, completion_date.
+  - Done when: the stage Completed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed without advice**
+  - Type: lost. Probability: 0%.
+  - Entered when the case ends before completion because the client withdrew or the practice could not advise.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: closure_reason.
+  - Done when: the stage Closed without advice is in position 7 and its rule is in place.
+- [ ] **Create pipeline Review cycle on review**
+  - Where: Settings > Data Management > Objects > Reviews > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set each stage to Open or Closed.
+  - Done when: the pipeline Review cycle exists with 6 stages in the order below.
+- [ ] **Stage 1: Due**
+  - Type: open. Probability: 20%.
+  - Entered when the household is within 90 days of its review due date.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: review_type, due_date.
+  - Done when: the stage Due is in position 1 and its rule is in place.
+- [ ] **Stage 2: Invited**
+  - Type: open. Probability: 40%.
+  - Entered when the client has been sent the review invitation and questionnaire.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: adviser.
+  - Done when: the stage Invited is in position 2 and its rule is in place.
+- [ ] **Stage 3: Booked**
+  - Type: open. Probability: 60%.
+  - Entered when the review meeting is in the diary.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: meeting_date.
+  - Done when: the stage Booked is in position 3 and its rule is in place.
+- [ ] **Stage 4: Meeting held**
+  - Type: open. Probability: 80%.
+  - Entered when the review meeting has taken place.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: circumstances_changed, risk_profile_reconfirmed.
+  - Done when: the stage Meeting held is in position 4 and its rule is in place.
+- [ ] **Stage 5: Review completed**
+  - Type: won. Probability: 100%.
+  - Entered when the review letter has been sent and follow-up actions are logged.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: outcome, risk_profile_reconfirmed.
+  - Done when: the stage Review completed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not completed**
+  - Type: lost. Probability: 0%.
+  - Entered when the review will not happen in this cycle, because the client declined or could not be reached.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: missed_reason.
+  - Done when: the stage Not completed is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Company type (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `company_type`.
+  - Purpose: What the organisation is to the practice. Used to report referral sources and manage provider contacts.
+  - Options: Professional referrer, Employer, Product provider or platform, Outsourced partner, Other
+  - Done when: Company records show Company type and it accepts the right values.
+- [ ] **Create field Referral agreement (checkbox)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `referral_agreement`.
+  - Purpose: A written referral agreement is in place with this organisation.
+  - Done when: Company records show Referral agreement and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domain`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`numberofemployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin_company_page`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field Client status (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `client_status`.
+  - Purpose: Where this person is with the practice. Drives views and which automations apply.
+  - Options: Prospect, Client, Former client, Professional contact
+  - Done when: Person records show Client status and it accepts the right values.
+- [ ] **Create field Household role (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `household_role`.
+  - Purpose: The person's place in their household. Used to address correspondence and find the main contact.
+  - Options: Main client, Partner, Dependant, Attorney or trustee
+  - Done when: Person records show Household role and it accepts the right values.
+- [ ] **Create field Date of birth (date)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `date_of_birth`.
+  - Purpose: DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to advisers and administrators only.
+  - Done when: Person records show Date of birth and it accepts the right values.
+- [ ] **Create field Employment status (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `employment_status`.
+  - Purpose: DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.
+  - Options: Employed, Self-employed, Company director, Retired, Not working
+  - Done when: Person records show Employment status and it accepts the right values.
+- [ ] **Create field Vulnerability flag (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `vulnerability_flag`.
+  - Purpose: DATA PROTECTION: may reveal health or personal circumstances. Records whether the client may need extra care or adjusted service. Visible to advisers and compliance only. Keep detail in the case notes, not here.
+  - Options: None identified, Possible, Confirmed
+  - Done when: Person records show Vulnerability flag and it accepts the right values.
+- [ ] **Create field Identity verified (checkbox)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `id_verified`.
+  - Purpose: DATA PROTECTION: identity checks are complete and the evidence is held in the document system, not in the CRM. Required before advice work starts.
+  - Done when: Person records show Identity verified and it accepts the right values.
+- [ ] **Create field Marketing consent (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `marketing_consent`.
+  - Purpose: Whether the person agreed to receive newsletters and invitations. Respect it in every campaign and sync.
+  - Options: Opted in, Opted out, Not asked
+  - Done when: Person records show Marketing consent and it accepts the right values.
+- [ ] **Create field Preferred contact method (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `preferred_contact`.
+  - Purpose: How the client prefers to be contacted. Used when booking reviews.
+  - Options: Email, Phone, Post, Video call
+  - Done when: Person records show Preferred contact method and it accepts the right values.
+- [ ] **Confirm standard field First name (`firstname`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`lastname`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`jobtitle`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`hs_linkedin_url`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'dealinformation', type/field type in the UI matching `enumeration`/`select`, internal name `lost_reason`.
+  - Purpose: Why the prospect did not become a client. Required on the lost stage.
+  - Options: Chose another adviser, Fees too high, No need now, Outside our service, Did not proceed after advice, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Referral source (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `referral_source`.
+  - Purpose: How the prospect found the practice. Most business is by introduction, so this is reported monthly.
+  - Options: Existing client, Accountant or solicitor, Employer or workplace, Website, Seminar or event, Other
+  - Done when: Deal records show Referral source and it accepts the right values.
+- [ ] **Create field Service interest (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `service_interest`.
+  - Purpose: What the prospect wants help with. Used to route to the right adviser and set the fee basis.
+  - Options: Retirement planning, Investments, Protection, Mortgages, Inheritance planning, Whole-of-life planning
+  - Done when: Deal records show Service interest and it accepts the right values.
+- [ ] **Create field Expected investable assets (currency)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `number`/`number`, internal name `expected_investable_assets`.
+  - Purpose: DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on. Used to forecast fees.
+  - Done when: Deal records show Expected investable assets and it accepts the right values.
+- [ ] **Create field Initial meeting held (checkbox)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `initial_meeting_held`.
+  - Purpose: The free initial meeting has taken place and the services and fees were explained.
+  - Done when: Deal records show Initial meeting held and it accepts the right values.
+- [ ] **Create field Fee basis agreed (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `fee_basis_agreed`.
+  - Purpose: How the practice will be paid. Must be agreed before advice work starts.
+  - Options: Not discussed, Initial plus ongoing, Fixed fee, Hourly, Percentage of assets
+  - Done when: Deal records show Fee basis agreed and it accepts the right values.
+- [ ] **Create field Client agreement signed (checkbox)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `engagement_signed`.
+  - Purpose: The client agreement and terms of business are signed and held in the document system.
+  - Done when: Deal records show Client agreement signed and it accepts the right values.
+- [ ] **Confirm standard field Name (`dealname`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`closedate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`hs_next_step`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Household
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Household name, for example the family name followed by household.
+  - Done when: Household records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `status`.
+  - Purpose: Where the household is with the practice.
+  - Options: Prospect, Onboarding, Ongoing client, One-off client, Former client
+  - Done when: Household records show Status and it accepts the right values.
+- [ ] **Create field Service tier (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `service_tier`.
+  - Purpose: The level of service the household pays for. Sets review frequency and who attends.
+  - Options: Premier, Standard, Essential, One-off advice
+  - Done when: Household records show Service tier and it accepts the right values.
+- [ ] **Create field Lead adviser (user)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `lead_adviser`.
+  - Purpose: The adviser responsible for the household.
+  - Done when: Household records show Lead adviser and it accepts the right values.
+- [ ] **Create field Attitude to risk (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `attitude_to_risk`.
+  - Purpose: DATA PROTECTION: personal financial data. The risk level agreed with the client from the practice's risk questionnaire. Reconfirmed at each review.
+  - Options: Cautious, Cautious to balanced, Balanced, Balanced to adventurous, Adventurous
+  - Done when: Household records show Attitude to risk and it accepts the right values.
+- [ ] **Create field Capacity for loss (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `capacity_for_loss`.
+  - Purpose: DATA PROTECTION: personal financial data. How much loss the household could bear without harm to its standard of living. Assessed separately from attitude to risk.
+  - Options: Low, Medium, High
+  - Done when: Household records show Capacity for loss and it accepts the right values.
+- [ ] **Create field Assets under advice band (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `assets_under_advice_band`.
+  - Purpose: DATA PROTECTION: personal financial data. Banded size of assets advised on. Used for tiering and fee reporting without storing exact balances.
+  - Options: Under 100k, 100k to 250k, 250k to 500k, 500k to 1m, Over 1m
+  - Done when: Household records show Assets under advice band and it accepts the right values.
+- [ ] **Create field Annual ongoing fee (currency)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `number`/`number`, internal name `annual_fee`.
+  - Purpose: Expected ongoing fee per year. Used to forecast recurring income.
+  - Done when: Household records show Annual ongoing fee and it accepts the right values.
+- [ ] **Create field Review frequency (select)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `review_frequency`.
+  - Purpose: How often the household is reviewed under its service agreement.
+  - Options: Annual, Six-monthly, Quarterly, As needed
+  - Done when: Household records show Review frequency and it accepts the right values.
+- [ ] **Create field Last review date (date)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `last_review_date`.
+  - Purpose: Date of the most recent completed review. Set by automation.
+  - Done when: Household records show Last review date and it accepts the right values.
+- [ ] **Create field Next review date (date)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `next_review_date`.
+  - Purpose: Date the next review is due. Set from the last review date and frequency. Drives the review cycle.
+  - Done when: Household records show Next review date and it accepts the right values.
+- [ ] **Create field Agreement date (date)**
+  - Where: Settings > Data Management > Objects > Households > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `agreement_date`.
+  - Purpose: Date the client agreement was signed. Starts the service.
+  - Done when: Household records show Agreement date and it accepts the right values.
+
+### Advice case
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Household name and the advice topic, for example retirement planning.
+  - Done when: Advice case records show Name and it accepts the right values.
+- [ ] **Create field Advice topic (select)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `advice_topic`.
+  - Purpose: The area of advice. Used to route work and report volumes.
+  - Options: Retirement, Investments, Protection, Mortgage, Inheritance, General planning
+  - Done when: Advice case records show Advice topic and it accepts the right values.
+- [ ] **Create field Adviser (user)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `adviser`.
+  - Purpose: The adviser accountable for the recommendation.
+  - Done when: Advice case records show Adviser and it accepts the right values.
+- [ ] **Create field Paraplanner (user)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `paraplanner`.
+  - Purpose: The team member who researches and drafts the report.
+  - Done when: Advice case records show Paraplanner and it accepts the right values.
+- [ ] **Create field Fact find complete (checkbox)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `fact_find_complete`.
+  - Purpose: DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have been gathered and checked. The detail is held in the planning system.
+  - Done when: Advice case records show Fact find complete and it accepts the right values.
+- [ ] **Create field Report issued date (date)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `report_issued_date`.
+  - Purpose: Date the written recommendation was sent to the client.
+  - Done when: Advice case records show Report issued date and it accepts the right values.
+- [ ] **Create field Compliance check (select)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `compliance_check`.
+  - Purpose: Progress of the internal check of the advice before it goes to the client.
+  - Options: Not required, Pending, Passed, Rework needed
+  - Done when: Advice case records show Compliance check and it accepts the right values.
+- [ ] **Create field Client decision (select)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `client_decision`.
+  - Purpose: What the client decided after the recommendation. Reported to see how often advice is followed.
+  - Options: Awaiting, Accepted, Partly accepted, Declined
+  - Done when: Advice case records show Client decision and it accepts the right values.
+- [ ] **Create field Applications submitted (checkbox)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `applications_submitted`.
+  - Purpose: Applications to the product providers or platforms have been sent.
+  - Done when: Advice case records show Applications submitted and it accepts the right values.
+- [ ] **Create field Closure reason (select)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `closure_reason`.
+  - Purpose: Why the case closed without completing. Required on the closed-without-advice stage.
+  - Options: Client withdrew, Advice declined, Unable to advise, No response, Circumstances changed
+  - Done when: Advice case records show Closure reason and it accepts the right values.
+- [ ] **Create field Completion date (date)**
+  - Where: Settings > Data Management > Objects > Advice cases > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `completion_date`.
+  - Purpose: Date all agreed actions were completed.
+  - Done when: Advice case records show Completion date and it accepts the right values.
+
+### Review
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Household name and review year, for example the family name 2027 review.
+  - Done when: Review records show Name and it accepts the right values.
+- [ ] **Create field Review type (select)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `review_type`.
+  - Purpose: The kind of review. Used to prepare the right agenda.
+  - Options: Annual, Six-monthly, Life event, Ad hoc
+  - Done when: Review records show Review type and it accepts the right values.
+- [ ] **Create field Due date (date)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `date`/`date`, internal name `due_date`.
+  - Purpose: Date by which the review should be held under the service agreement.
+  - Done when: Review records show Due date and it accepts the right values.
+- [ ] **Create field Meeting date (datetime)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `datetime`/`date`, internal name `meeting_date`.
+  - Purpose: When the review meeting is or was held.
+  - Done when: Review records show Meeting date and it accepts the right values.
+- [ ] **Create field Circumstances changed (checkbox)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `circumstances_changed`.
+  - Purpose: DATA PROTECTION: personal circumstances. Something material changed since the last review, such as family, income, health or goals. Detail goes in the planning system.
+  - Done when: Review records show Circumstances changed and it accepts the right values.
+- [ ] **Create field Risk profile reconfirmed (checkbox)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `risk_profile_reconfirmed`.
+  - Purpose: The attitude to risk and capacity for loss were checked again at this review.
+  - Done when: Review records show Risk profile reconfirmed and it accepts the right values.
+- [ ] **Create field Outcome (select)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `outcome`.
+  - Purpose: What the review concluded. Reported to see how many reviews lead to new advice.
+  - Options: No change, Minor changes, New advice needed, Service level change
+  - Done when: Review records show Outcome and it accepts the right values.
+- [ ] **Create field Missed reason (select)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `missed_reason`.
+  - Purpose: Why the review did not happen. Required on the not-completed stage.
+  - Options: Client declined, Client unresponsive, Moved to another adviser, Left the practice, Other
+  - Done when: Review records show Missed reason and it accepts the right values.
+- [ ] **Create field Adviser (user)**
+  - Where: Settings > Data Management > Objects > Reviews > Properties tab > Create property. Group 'financial_advisers_client_households', type/field type in the UI matching `enumeration`/`select`, internal name `adviser`.
+  - Purpose: The adviser who runs the review.
+  - Done when: Review records show Adviser and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Start advice case on client won**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal in the new client pipeline moves to client won.
+  - Action: Set the household status to onboarding, set the agreement date, create an advice case at fact find assigned to the lead adviser, and set the next review date from the review frequency.
+  - Done when: the automation runs on a test record and the result matches: Set the household status to onboarding, set the agreement date, create an advice case at fact find assigned to the lead adviser, and set the next review date from the review frequency.
+- [ ] **Open review**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A household's next review date is 90 days away and its status is ongoing client.
+  - Action: Create a review at due for the household, assigned to the lead adviser.
+  - Done when: the automation runs on a test record and the result matches: Create a review at due for the household, assigned to the lead adviser.
+- [ ] **Roll the review cycle forward**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A review moves to review completed.
+  - Action: Set the household's last review date to the meeting date and its next review date to the date plus its review frequency.
+  - Done when: the automation runs on a test record and the result matches: Set the household's last review date to the meeting date and its next review date to the date plus its review frequency.
+- [ ] **Chase overdue reviews**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A review is open and its due date has passed.
+  - Action: Notify the lead adviser and add the review to the overdue reviews view.
+  - Done when: the automation runs on a test record and the result matches: Notify the lead adviser and add the review to the overdue reviews view.
+- [ ] **Vulnerability flag alert**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A person's vulnerability flag changes to possible or confirmed.
+  - Action: Notify the lead adviser and compliance lead to check the service and communication preferences.
+  - Done when: the automation runs on a test record and the result matches: Notify the lead adviser and compliance lead to check the service and communication preferences.
+- [ ] **Compliance check request**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An advice case moves to report drafted.
+  - Action: Notify the compliance lead and set the compliance check to pending.
+  - Done when: the automation runs on a test record and the result matches: Notify the compliance lead and set the compliance check to pending.
+- [ ] **Thank the referrer**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal with a professional referral source moves to client won.
+  - Action: Create a task for the lead adviser to thank the referrer, subject to the referral agreement and client consent.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lead adviser to thank the referrer, subject to the referral agreement and client consent.
+
+## 6. Views
+
+- [ ] **Reviews due in 90 days**
+  - Where: CRM > Households > + add view, then set filters, columns and sort, and click Publish.
+  - Object: household
+  - Filter: Status is ongoing client and next review date is within 90 days.
+  - Sort: Next review date, soonest first.
+  - Done when: the view Reviews due in 90 days is saved and shows the expected records.
+- [ ] **Overdue reviews**
+  - Where: CRM > Reviews > + add view, then set filters, columns and sort, and click Publish.
+  - Object: review
+  - Filter: Review is open and due date is in the past.
+  - Sort: Due date, oldest first.
+  - Done when: the view Overdue reviews is saved and shows the expected records.
+- [ ] **My advice cases**
+  - Where: CRM > Advice cases > + add view, then set filters, columns and sort, and click Publish.
+  - Object: advice_case
+  - Filter: Adviser or paraplanner is me and stage is open.
+  - Sort: Report issued date, oldest first.
+  - Done when: the view My advice cases is saved and shows the expected records.
+- [ ] **My prospects**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Next step date, soonest first.
+  - Done when: the view My prospects is saved and shows the expected records.
+- [ ] **Clients with a vulnerability flag**
+  - Where: CRM > Contacts > + add view, then set filters, columns and sort, and click Publish.
+  - Object: person
+  - Filter: Vulnerability flag is possible or confirmed.
+  - Sort: Last name, A to Z.
+  - Done when: the view Clients with a vulnerability flag is saved and shows the expected records.
+- [ ] **Households by service tier**
+  - Where: CRM > Households > + add view, then set filters, columns and sort, and click Publish.
+  - Object: household
+  - Filter: Status is ongoing client.
+  - Sort: Service tier, then name.
+  - Done when: the view Households by service tier is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Create a service key and test in a developer test account first**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the account is Enterprise before creating custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

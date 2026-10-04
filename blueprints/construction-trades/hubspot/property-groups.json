@@ -1,0 +1,63 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.site}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.project}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.estimate}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.site}/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}/groups",
+      "body": {
+        "name": "construction_and_trades",
+        "label": "Construction and trades"
+      }
+    }
+  ]
+}

@@ -1,0 +1,990 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.property}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.lease}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "company_roles",
+        "label": "Company roles",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "The roles this company plays in our business. One company can be landlord, tenant and investor at once.",
+        "options": [
+          {
+            "label": "Landlord",
+            "value": "landlord",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Tenant",
+            "value": "tenant",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Occupier looking for space",
+            "value": "occupier_requirement",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Investor",
+            "value": "investor",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Managing agent",
+            "value": "managing_agent",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Solicitor",
+            "value": "solicitor",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Surveyor or consultant",
+            "value": "surveyor",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "occupier_sector",
+        "label": "Occupier sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The tenant's line of business. Used to match prospects to space and report by sector.",
+        "options": [
+          {
+            "label": "Professional services",
+            "value": "professional_services",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Retail",
+            "value": "retail",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Hospitality",
+            "value": "hospitality",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Logistics",
+            "value": "logistics",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Light industrial",
+            "value": "light_industrial",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "relationship_status",
+        "label": "Relationship status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company stands with us.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active requirement",
+            "value": "active_requirement",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Current tenant",
+            "value": "current_tenant",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Former tenant",
+            "value": "former_tenant",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Partner",
+            "value": "partner",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "covenant_strength",
+        "label": "Covenant strength",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.",
+        "options": [
+          {
+            "label": "Strong",
+            "value": "strong",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Satisfactory",
+            "value": "satisfactory",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Weak",
+            "value": "weak",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not checked",
+            "value": "not_checked",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "contact_role",
+        "label": "Contact role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in a letting. Used to send the right documents to the right person.",
+        "options": [
+          {
+            "label": "Decision maker",
+            "value": "decision_maker",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Property or facilities manager",
+            "value": "property_manager",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Tenant's agent",
+            "value": "occupier_agent",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Landlord contact",
+            "value": "landlord_contact",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Solicitor",
+            "value": "solicitor",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Finance contact",
+            "value": "finance",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the letting did not complete. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Took other space",
+            "value": "took_other_space",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Terms not agreed",
+            "value": "terms_not_agreed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Referencing failed",
+            "value": "covenant_failed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Space unsuitable",
+            "value": "space_unsuitable",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Budget changed",
+            "value": "budget_changed",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Requirement withdrawn",
+            "value": "requirement_withdrawn",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Landlord withdrew",
+            "value": "landlord_withdrew",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "instruction_type",
+        "label": "Instruction type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whom we act for on this deal. Sets the fee basis and conflicts check.",
+        "options": [
+          {
+            "label": "Acting for landlord",
+            "value": "landlord_letting",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Acting for tenant",
+            "value": "tenant_search",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Joint agency",
+            "value": "joint_agency",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "requirement_size_sqft",
+        "label": "Size required (sq ft)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Floor area the occupier wants. Used to match against available units.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "target_move_date",
+        "label": "Target move date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the occupier needs to be in. Drives urgency and the lease start date."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "viewing_held",
+        "label": "Viewing held",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "At least one viewing of the space has taken place with a decision maker."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "heads_of_terms_status",
+        "label": "Heads of terms status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the written summary of agreed commercial terms, which is not binding until the lease is signed.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Drafted",
+            "value": "drafted",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Issued",
+            "value": "issued",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Agreed",
+            "value": "agreed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "referencing_status",
+        "label": "Referencing status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the tenant covenant and reference checks.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Passed",
+            "value": "passed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Failed",
+            "value": "failed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "solicitors_instructed",
+        "label": "Solicitors instructed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Both sides have instructed solicitors to draft and agree the lease."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "headline_rent",
+        "label": "Headline rent (per year)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Annual rent offered or agreed, before incentives.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "address",
+        "label": "Address",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Full address including postcode."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "property_type",
+        "label": "Property type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Use class of the building. Used to match enquiries and report availability.",
+        "options": [
+          {
+            "label": "Office",
+            "value": "office",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Retail",
+            "value": "retail",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Industrial",
+            "value": "industrial",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Mixed use",
+            "value": "mixed_use",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Serviced or flexible",
+            "value": "serviced",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Land",
+            "value": "land",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "total_area_sqft",
+        "label": "Total area (sq ft)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total lettable floor area of the property.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "available_area_sqft",
+        "label": "Available area (sq ft)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Floor area currently available to let. Updated when a lease completes or ends.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "availability_status",
+        "label": "Availability",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether there is space to let now. Drives the availability view and enquiry matching.",
+        "options": [
+          {
+            "label": "Fully let",
+            "value": "fully_let",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Part available",
+            "value": "part_available",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Fully available",
+            "value": "fully_available",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Under offer",
+            "value": "under_offer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Off market",
+            "value": "off_market",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "asking_rent_psf",
+        "label": "Asking rent (per sq ft)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Quoted annual rent per square foot for available space.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "energy_rating",
+        "label": "Energy rating",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Energy performance rating band shown on the certificate. Needed before marketing.",
+        "options": [
+          {
+            "label": "A",
+            "value": "a",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "B",
+            "value": "b",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "C",
+            "value": "c",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "D",
+            "value": "d",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "E",
+            "value": "e",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "F",
+            "value": "f",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "G",
+            "value": "g",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Not rated",
+            "value": "not_rated",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.property}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "market_area",
+        "label": "Market area",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Submarket the property sits in. Edit the options to the agent's patch. Used to match requirements.",
+        "options": [
+          {
+            "label": "Central",
+            "value": "central",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "North",
+            "value": "north",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "South",
+            "value": "south",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "East",
+            "value": "east",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "West",
+            "value": "west",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Out of town",
+            "value": "out_of_town",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the lease stands.",
+        "options": [
+          {
+            "label": "Agreed",
+            "value": "agreed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In review",
+            "value": "in_review",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Holding over",
+            "value": "holding_over",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Ended",
+            "value": "ended",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "unit",
+        "label": "Unit",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Floor, suite or unit let under this lease."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "area_sqft",
+        "label": "Area (sq ft)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Floor area let.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the term."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "expiry_date",
+        "label": "Expiry date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Contractual end date. A renewal opens before it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "break_date",
+        "label": "Break date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Earliest date the tenant or landlord may end the lease early, if there is a break clause."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "next_rent_review",
+        "label": "Next rent review",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the rent is next reviewed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "annual_rent",
+        "label": "Annual rent",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Passing rent per year.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "rent_free_months",
+        "label": "Rent-free months",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Months of rent-free incentive granted at the start.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "security_of_tenure",
+        "label": "Inside security of tenure",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The lease has statutory renewal rights. This changes how renewal is handled. Confirm with the solicitor."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "outcome_reason",
+        "label": "Outcome reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why a lease was not renewed. Required on the lost renewal stage.",
+        "options": [
+          {
+            "label": "Tenant relocated",
+            "value": "tenant_relocated",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Downsized",
+            "value": "downsized",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Business closed",
+            "value": "business_closed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Rent too high",
+            "value": "rent_too_high",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Landlord redevelopment",
+            "value": "landlord_redevelop",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Space unsuitable",
+            "value": "space_unsuitable",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.lease}",
+      "body": {
+        "groupName": "commercial_real_estate_leasing",
+        "name": "managing_owner",
+        "label": "Lease manager",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member who manages this lease and its renewal.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.household}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.advice_case}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.review}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}/groups",
+      "body": {
+        "name": "financial_advisers_client_households",
+        "label": "Financial advisers, client households"
+      }
+    }
+  ]
+}

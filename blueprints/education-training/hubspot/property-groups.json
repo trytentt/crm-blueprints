@@ -1,0 +1,63 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.programme}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.cohort}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.enrolment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.programme}/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.cohort}/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.enrolment}/groups",
+      "body": {
+        "name": "education_and_training_providers_b2b",
+        "label": "Education and training providers, B2B"
+      }
+    }
+  ]
+}

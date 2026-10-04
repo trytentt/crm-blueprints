@@ -1,0 +1,131 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.matter}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.matter_company.matter_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.matter_company.company_to_matter}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_matter.deal_to_matter}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_matter.matter_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.conflict_check}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.conflict_check_deal.conflict_check_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.conflict_check_deal.deal_to_conflict_check}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.conflict_check_company.conflict_check_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.conflict_check_company.company_to_conflict_check}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.matter_person.matter_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.matter_person.person_to_matter}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.matter}/companies/labels",
+      "body": {
+        "name": "matter_company",
+        "label": "Client",
+        "inverseLabel": "Matters"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.matter_company.matter_to_company} and {typeId.matter_company.company_to_matter}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.matter}/labels",
+      "body": {
+        "name": "deal_matter",
+        "label": "Matter",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_matter.deal_to_matter} and {typeId.deal_matter.matter_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.conflict_check}/deals/labels",
+      "body": {
+        "name": "conflict_check_deal",
+        "label": "Deal",
+        "inverseLabel": "Conflict checks"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.conflict_check_deal.conflict_check_to_deal} and {typeId.conflict_check_deal.deal_to_conflict_check}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.conflict_check}/companies/labels",
+      "body": {
+        "name": "conflict_check_company",
+        "label": "Company",
+        "inverseLabel": "Conflict checks"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.conflict_check_company.conflict_check_to_company} and {typeId.conflict_check_company.company_to_conflict_check}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.matter}/contacts/labels",
+      "body": {
+        "name": "matter_person",
+        "label": "Client contacts",
+        "inverseLabel": "Matters"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.matter_person.matter_to_person} and {typeId.matter_person.person_to_matter}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.matter}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.matter_company.matter_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A matter record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.matter}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_matter.deal_to_matter}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one matter record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.conflict_check}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.conflict_check_deal.conflict_check_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A conflict_check record may link to one deal record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.conflict_check}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.conflict_check_company.conflict_check_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A conflict_check record may link to one company record."
+    }
+  ]
+}

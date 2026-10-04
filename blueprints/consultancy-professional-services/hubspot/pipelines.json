@@ -1,0 +1,164 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.matter}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "New work",
+        "displayOrder": 1,
+        "pipelineId": "new_work",
+        "stages": [
+          {
+            "label": "Enquiry",
+            "displayOrder": 0,
+            "stageId": "new_work__enquiry",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Qualified",
+            "displayOrder": 1,
+            "stageId": "new_work__qualified",
+            "metadata": {
+              "probability": "0.15"
+            }
+          },
+          {
+            "label": "Conflict check",
+            "displayOrder": 2,
+            "stageId": "new_work__conflict_check",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Proposal",
+            "displayOrder": 3,
+            "stageId": "new_work__proposal",
+            "metadata": {
+              "probability": "0.45"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 4,
+            "stageId": "new_work__proposal_sent",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Terms agreed",
+            "displayOrder": 5,
+            "stageId": "new_work__terms_agreed",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Engagement letter out",
+            "displayOrder": 6,
+            "stageId": "new_work__engagement_letter_out",
+            "metadata": {
+              "probability": "0.9"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 7,
+            "stageId": "new_work__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 8,
+            "stageId": "new_work__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.matter}",
+      "body": {
+        "label": "Matter delivery",
+        "displayOrder": 1,
+        "pipelineId": "matter_delivery",
+        "stages": [
+          {
+            "label": "Opening",
+            "displayOrder": 0,
+            "stageId": "matter_delivery__opening",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Cleared to start",
+            "displayOrder": 1,
+            "stageId": "matter_delivery__cleared_to_start",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "In progress",
+            "displayOrder": 2,
+            "stageId": "matter_delivery__in_progress",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Awaiting client",
+            "displayOrder": 3,
+            "stageId": "matter_delivery__awaiting_client",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Final billing",
+            "displayOrder": 4,
+            "stageId": "matter_delivery__final_billing",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Closed",
+            "displayOrder": 5,
+            "stageId": "matter_delivery__closed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Withdrawn",
+            "displayOrder": 6,
+            "stageId": "matter_delivery__withdrawn",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

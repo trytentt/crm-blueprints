@@ -1,0 +1,1103 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.portfolio_investment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "org_type",
+        "label": "Organisation type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.",
+        "options": [
+          {
+            "label": "Startup",
+            "value": "startup",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Co-investor or other fund",
+            "value": "co_investor",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Limited partner",
+            "value": "limited_partner",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Accelerator or studio",
+            "value": "accelerator",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Corporate or strategic",
+            "value": "corporate",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Advisor or service provider",
+            "value": "advisor",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "sector",
+        "label": "Sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The startup's main market. Used to see thesis fit and portfolio spread. Edit the options to the investment thesis.",
+        "options": [
+          {
+            "label": "Software",
+            "value": "software",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fintech",
+            "value": "fintech",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Health",
+            "value": "health",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Climate",
+            "value": "climate",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Consumer",
+            "value": "consumer",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Deep tech",
+            "value": "deep_tech",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Marketplace",
+            "value": "marketplace",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "funding_stage",
+        "label": "Funding stage",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The startup's current funding stage. Used to check fit with the fund's cheque size and focus.",
+        "options": [
+          {
+            "label": "Pre-seed",
+            "value": "pre_seed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Seed",
+            "value": "seed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Series A",
+            "value": "series_a",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Series B",
+            "value": "series_b",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Later stage",
+            "value": "later",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "thesis_fit",
+        "label": "Thesis fit",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Our view of how well the company fits the investment thesis. Set at screening.",
+        "options": [
+          {
+            "label": "Strong",
+            "value": "strong",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Possible",
+            "value": "possible",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Weak",
+            "value": "weak",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not assessed",
+            "value": "not_assessed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "relationship_strength",
+        "label": "Relationship strength",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How well we know the organisation. Used to rank co-investors and introducers.",
+        "options": [
+          {
+            "label": "Close",
+            "value": "close",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Warm",
+            "value": "warm",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cold",
+            "value": "cold",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "hq_country",
+        "label": "Country",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is based. Used to check geography rules and report by region.",
+        "options": [
+          {
+            "label": "Home market",
+            "value": "home_market",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Rest of Europe",
+            "value": "europe",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "North America",
+            "value": "north_america",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Rest of world",
+            "value": "rest_of_world",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "person_role",
+        "label": "Person role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays for us. Used to find founders to track and co-investors to call.",
+        "options": [
+          {
+            "label": "Founder",
+            "value": "founder",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Executive",
+            "value": "executive",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Co-investor partner",
+            "value": "co_investor_partner",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Introducer or scout",
+            "value": "introducer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Limited partner contact",
+            "value": "limited_partner",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Advisor",
+            "value": "advisor",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "intro_strength",
+        "label": "Relationship strength",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How well the team knows this person. Used to find the best route in to a founder.",
+        "options": [
+          {
+            "label": "Close",
+            "value": "close",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Warm",
+            "value": "warm",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cold",
+            "value": "cold",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "relationship_owner",
+        "label": "Relationship owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner or associate who holds the relationship with this person.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "pass_reason",
+        "label": "Pass reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why we passed on the company. Required on the passed stage. Reported to refine the thesis.",
+        "options": [
+          {
+            "label": "Outside thesis",
+            "value": "outside_thesis",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Team concerns",
+            "value": "team",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Market too small",
+            "value": "market_size",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not enough traction",
+            "value": "traction",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Valuation too high",
+            "value": "valuation",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Terms not agreed",
+            "value": "terms",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Diligence issue",
+            "value": "diligence_issue",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Lost the round",
+            "value": "lost_the_round",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Too early or too late",
+            "value": "timing",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "deal_source",
+        "label": "Deal source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the deal reached us. Reported to see which channels produce investments.",
+        "options": [
+          {
+            "label": "Founder inbound",
+            "value": "founder_inbound",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Warm introduction",
+            "value": "warm_intro",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Co-investor",
+            "value": "co_investor",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Accelerator or studio",
+            "value": "accelerator",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Our outbound",
+            "value": "outbound",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Portfolio founder referral",
+            "value": "portfolio_founder",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "round_type",
+        "label": "Round type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The type of round the startup is raising.",
+        "options": [
+          {
+            "label": "Pre-seed",
+            "value": "pre_seed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Seed",
+            "value": "seed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Series A",
+            "value": "series_a",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Series B",
+            "value": "series_b",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Bridge",
+            "value": "bridge",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "round_size",
+        "label": "Round size",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total amount the startup is raising in this round.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "pre_money_valuation",
+        "label": "Pre-money valuation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Valuation before the round, as proposed or agreed.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "our_role",
+        "label": "Our role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether we lead the round, follow another lead or take part as a small investor.",
+        "options": [
+          {
+            "label": "Lead",
+            "value": "lead",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Co-lead",
+            "value": "co_lead",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Follow",
+            "value": "follow",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Undecided",
+            "value": "undecided",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "conviction",
+        "label": "Conviction",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The deal lead's confidence in the deal after the latest stage. Updated at each stage.",
+        "options": [
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not set",
+            "value": "not_set",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "deal_lead",
+        "label": "Deal lead",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner or associate who owns the deal and presents it at partner meetings.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "thesis_fit_confirmed",
+        "label": "Thesis fit confirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The deal lead has checked the company against stage, sector, geography and cheque size."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "diligence_complete",
+        "label": "Diligence complete",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Commercial, financial, legal and reference checks are finished with no blocking findings."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "ic_approved",
+        "label": "Investment committee approved",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The investment committee has approved the investment on the stated terms."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "term_sheet_status",
+        "label": "Term sheet status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the term sheet, which sets valuation, amount and investor rights.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Drafted",
+            "value": "drafted",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Issued",
+            "value": "issued",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Negotiating",
+            "value": "negotiating",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Signed",
+            "value": "signed",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the investment stands.",
+        "options": [
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Follow-on review",
+            "value": "follow_on_review",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Exit in progress",
+            "value": "exit_in_progress",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Exited",
+            "value": "exited",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Written off",
+            "value": "written_off",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "fund",
+        "label": "Fund",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The fund or vehicle that made the investment. Edit the options to the client's funds at build.",
+        "options": [
+          {
+            "label": "Fund one",
+            "value": "fund_one",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fund two",
+            "value": "fund_two",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Angel syndicate",
+            "value": "angel_syndicate",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Direct or personal",
+            "value": "direct",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "entry_round",
+        "label": "Entry round",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The round in which we first invested.",
+        "options": [
+          {
+            "label": "Pre-seed",
+            "value": "pre_seed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Seed",
+            "value": "seed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Series A",
+            "value": "series_a",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Series B",
+            "value": "series_b",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Later stage",
+            "value": "later",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "investment_date",
+        "label": "Investment date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the money was sent."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "amount_invested",
+        "label": "Amount invested",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total invested across all rounds.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "ownership_percent",
+        "label": "Ownership",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Current fully diluted ownership. Updated after each round.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "latest_valuation",
+        "label": "Latest valuation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Our latest carrying value of the holding, per the most recent valuation.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "follow_on_reserve",
+        "label": "Follow-on reserve",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Money held back for follow-on investment in this company.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "board_seat",
+        "label": "Board seat",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "We hold a board seat or observer seat."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "health",
+        "label": "Health",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner's view of how the company is doing. Reviewed monthly.",
+        "options": [
+          {
+            "label": "Thriving",
+            "value": "thriving",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On track",
+            "value": "on_track",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Needs support",
+            "value": "needs_support",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "At risk",
+            "value": "at_risk",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "next_update_due",
+        "label": "Next update due",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next investor update or catch-up is due from the founders."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "exit_route",
+        "label": "Exit route",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the investment was realised. Required on the exited stage.",
+        "options": [
+          {
+            "label": "Acquisition",
+            "value": "acquisition",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "IPO",
+            "value": "ipo",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Secondary sale",
+            "value": "secondary_sale",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Buyback",
+            "value": "buyback",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "write_off_reason",
+        "label": "Write-off reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the investment was written off. Required on the written-off stage.",
+        "options": [
+          {
+            "label": "Ran out of cash",
+            "value": "ran_out_of_cash",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Product failed",
+            "value": "product_failed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Team split",
+            "value": "team_split",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Market changed",
+            "value": "market_changed",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "groupName": "investor_vc_and_angel_deal_flow",
+        "name": "lead_partner",
+        "label": "Lead partner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner responsible for supporting the company.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

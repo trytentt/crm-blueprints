@@ -1,0 +1,123 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.event}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.package}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fulfilment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "event",
+        "labels": {
+          "singular": "Event",
+          "plural": "Events"
+        },
+        "description": "One edition of an event, with its dates, venue and revenue targets. Every sponsor and exhibitor deal links to an event, so sales can be reported per edition and compared year on year.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Event name and year, for example Annual summit 2027."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.event}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "package",
+        "labels": {
+          "singular": "Package",
+          "plural": "Packages"
+        },
+        "description": "One thing the organiser sells for an event, such as a sponsorship tier, a block of stand space or an add-on. Holds price and quantity so availability and sell-through can be seen.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-3",
+          "{objectTypeId.event}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "The package as sold, for example gold sponsor or 9 sqm shell scheme."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.package}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "fulfilment",
+        "labels": {
+          "singular": "Fulfilment",
+          "plural": "Fulfilments"
+        },
+        "description": "The work of delivering what one sponsor or exhibitor bought, such as logo, speaking slot, stand allocation and passes. Owned by the partnerships or operations team, separate from the sales deal.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-3",
+          "{objectTypeId.event}",
+          "0-2"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Company name and event, for example the sponsor and Annual summit 2027."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.fulfilment}."
+    }
+  ]
+}

@@ -1,0 +1,991 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.site}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.project}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.estimate}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "client_type",
+        "label": "Client type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What kind of client or partner this is. Drives pricing approach and reporting.",
+        "options": [
+          {
+            "label": "Main contractor",
+            "value": "main_contractor",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Developer",
+            "value": "developer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Housing provider",
+            "value": "housing_provider",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Public body",
+            "value": "public_body",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Private commercial",
+            "value": "private_commercial",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Facilities manager",
+            "value": "facilities_manager",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "relationship_status",
+        "label": "Relationship status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives bid invitations and repeat-work follow-up.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On their tender list",
+            "value": "on_tender_list",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Active client",
+            "value": "active_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Dormant",
+            "value": "dormant",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "supplier_approval",
+        "label": "Supplier approval",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether we are approved to work for this client. Many clients will not take a bid until approved.",
+        "options": [
+          {
+            "label": "Not required",
+            "value": "not_required",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Applied",
+            "value": "applied",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Approved",
+            "value": "approved",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Suspended",
+            "value": "suspended",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Tender portal",
+            "value": "tender_portal",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Repeat client",
+            "value": "repeat_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Inbound enquiry",
+            "value": "inbound_enquiry",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Framework",
+            "value": "framework",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in awarding or running the work. Used to check who has been engaged.",
+        "options": [
+          {
+            "label": "Decision maker",
+            "value": "decision_maker",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Quantity surveyor",
+            "value": "quantity_surveyor",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Project manager",
+            "value": "project_manager",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Architect or designer",
+            "value": "designer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Site manager",
+            "value": "site_manager",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Accounts",
+            "value": "accounts",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the tender or quote was lost. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Programme or start date",
+            "value": "programme",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Chose another contractor",
+            "value": "lost_to_competitor",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "We lacked capacity",
+            "value": "capacity",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Client cancelled the project",
+            "value": "client_cancelled",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Not shortlisted",
+            "value": "not_shortlisted",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Never awarded",
+            "value": "no_award",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "procurement_route",
+        "label": "Procurement route",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the work is being bought. Tender routes need a deadline and go or no-go before estimating.",
+        "options": [
+          {
+            "label": "Open tender",
+            "value": "open_tender",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Selective or invited tender",
+            "value": "selective_tender",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Negotiated quote",
+            "value": "negotiated",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Framework call-off",
+            "value": "framework_call_off",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Repeat client",
+            "value": "repeat_client",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "work_type",
+        "label": "Work type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of work. Used to report win rate and margin by type.",
+        "options": [
+          {
+            "label": "New build",
+            "value": "new_build",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Refurbishment",
+            "value": "refurbishment",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Fit-out",
+            "value": "fit_out",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Maintenance and repair",
+            "value": "maintenance",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Specialist trade package",
+            "value": "specialist_package",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "tender_deadline",
+        "label": "Tender deadline",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date and time bids must be in by. A missed deadline is a lost deal."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "go_no_go",
+        "label": "Go or no-go",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The bid decision. Estimating hours are only spent on a go.",
+        "options": [
+          {
+            "label": "Pending",
+            "value": "pending",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Go",
+            "value": "go",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "No-go",
+            "value": "no_go",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "site_visit_done",
+        "label": "Site visit done",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Someone from the estimating team has visited the site or reviewed drawings with the client."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "estimated_margin",
+        "label": "Estimated margin",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Margin in the submitted price. Compared with actual margin on the project after close-out.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "contract_form",
+        "label": "Contract form",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The type of contract the work will be done under. Affects retention and payment terms.",
+        "options": [
+          {
+            "label": "Standard form of building contract",
+            "value": "standard_form",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Subcontract order",
+            "value": "subcontract_order",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Purchase order",
+            "value": "purchase_order",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Bespoke terms",
+            "value": "bespoke_terms",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "retention_percent",
+        "label": "Retention",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Percentage of each payment held back by the client until defects are put right.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "expected_start_date",
+        "label": "Expected start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the client expects work to start on site."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.site}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "postcode",
+        "label": "Postcode",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Postcode of the site, for routing crews and checking travel time."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.site}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "site_type",
+        "label": "Site type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of premises. Decides induction, permits and working hours.",
+        "options": [
+          {
+            "label": "Commercial",
+            "value": "commercial",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Residential block",
+            "value": "residential_block",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Public building",
+            "value": "public_building",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Industrial",
+            "value": "industrial",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Education",
+            "value": "education",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.site}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "induction_required",
+        "label": "Induction required",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Operatives must complete a site induction before starting."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.site}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "access_notes",
+        "label": "Access notes",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "Parking, working hours, security and hazards for crews. Must not hold personal data."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "reference",
+        "label": "Project reference",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The job number used in accounts and on site, so the CRM matches finance records."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "work_type",
+        "label": "Work type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of work, copied from the deal. Used to compare margin by type.",
+        "options": [
+          {
+            "label": "New build",
+            "value": "new_build",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Refurbishment",
+            "value": "refurbishment",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Fit-out",
+            "value": "fit_out",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Maintenance and repair",
+            "value": "maintenance",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Specialist trade package",
+            "value": "specialist_package",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "contract_value",
+        "label": "Contract value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Agreed contract sum at award, before variations.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "start_on_site_date",
+        "label": "Start on site",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day work starts on site."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "planned_completion_date",
+        "label": "Planned completion",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The contractual date for practical completion."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "actual_completion_date",
+        "label": "Actual completion",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date practical completion was certified."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "project_manager",
+        "label": "Project manager",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member running the job day to day.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "rams_approved",
+        "label": "RAMS approved",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Risk assessments and method statements have been approved by the client or principal contractor."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "insurance_verified",
+        "label": "Insurance verified",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client has confirmed our insurance certificates meet the contract."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "retention_held",
+        "label": "Retention held",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The amount the client is holding back until the defects period ends.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "retention_release_date",
+        "label": "Retention release date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When retention falls due. A reminder fires before it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "final_margin",
+        "label": "Final margin",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Margin achieved once the final account is agreed.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.project}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "cancellation_reason",
+        "label": "Cancellation reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the project did not complete. Required on the cancelled stage.",
+        "options": [
+          {
+            "label": "Client cancelled",
+            "value": "client_cancelled",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Client funding lost",
+            "value": "funding_lost",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Contract dispute",
+            "value": "dispute",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Client insolvent",
+            "value": "client_insolvent",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "revision",
+        "label": "Revision",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Revision number, starting at 1. A new price is a new estimate, never an edit.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where this revision stands.",
+        "options": [
+          {
+            "label": "Draft",
+            "value": "draft",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "In review",
+            "value": "in_review",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Issued",
+            "value": "issued",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Accepted",
+            "value": "accepted",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Rejected",
+            "value": "rejected",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Superseded",
+            "value": "superseded",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "price",
+        "label": "Price",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total price excluding VAT for this revision.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "margin",
+        "label": "Margin",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Margin built into this revision.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "valid_until",
+        "label": "Valid until",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The last day the price can be accepted."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.estimate}",
+      "body": {
+        "groupName": "construction_and_trades",
+        "name": "estimator",
+        "label": "Estimator",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member who priced it.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

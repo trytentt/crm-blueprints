@@ -1,0 +1,926 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.event}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.package}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fulfilment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "account_type",
+        "label": "Account type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What kind of organisation this is. Used to target the right packages.",
+        "options": [
+          {
+            "label": "Brand or sponsor",
+            "value": "brand_sponsor",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Solution provider",
+            "value": "solution_provider",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Agency",
+            "value": "agency",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Association",
+            "value": "association",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Media partner",
+            "value": "media_partner",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Venue or supplier",
+            "value": "venue_or_supplier",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "participation_status",
+        "label": "Participation status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether and when the company has taken part. Drives renewal and win-back lists.",
+        "options": [
+          {
+            "label": "Target",
+            "value": "target",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Current this edition",
+            "value": "current",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Past participant",
+            "value": "past",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Lapsed",
+            "value": "lapsed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Inbound enquiry",
+            "value": "inbound_enquiry",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Previous edition",
+            "value": "previous_edition",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Attendee conversion",
+            "value": "attendee_conversion",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Agency",
+            "value": "agency",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in a sponsorship or stand purchase. Used to check the right people are engaged.",
+        "options": [
+          {
+            "label": "Marketing lead",
+            "value": "marketing_lead",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Sales lead",
+            "value": "sales_lead",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Event manager",
+            "value": "event_manager",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Contract signatory",
+            "value": "signatory",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Day-to-day stand contact",
+            "value": "booth_contact",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost. Required on every lost stage.",
+        "options": [
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Audience not right",
+            "value": "not_right_audience",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Chose another event",
+            "value": "chose_other_event",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Category exclusivity taken",
+            "value": "category_taken",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Internal priority change",
+            "value": "internal_priority_change",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "sponsor_tier",
+        "label": "Sponsor tier",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The sponsorship level being sold. Used to report revenue and sell-through per tier.",
+        "options": [
+          {
+            "label": "Headline",
+            "value": "headline",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Gold",
+            "value": "gold",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Silver",
+            "value": "silver",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Bronze",
+            "value": "bronze",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Bespoke",
+            "value": "bespoke",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "sponsor_objectives",
+        "label": "Sponsor objectives",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "What the sponsor wants from the event. The proposal and the wrap-up report are built around these.",
+        "options": [
+          {
+            "label": "Lead generation",
+            "value": "lead_generation",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Brand awareness",
+            "value": "brand_awareness",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Thought leadership",
+            "value": "thought_leadership",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Product launch",
+            "value": "product_launch",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Hiring",
+            "value": "hiring",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Customer hospitality",
+            "value": "customer_hospitality",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "stand_size_sqm",
+        "label": "Stand size (sqm)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Floor area requested or booked for an exhibitor.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "stand_type",
+        "label": "Stand type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of stand being sold. Sets price and build requirements.",
+        "options": [
+          {
+            "label": "Shell scheme",
+            "value": "shell_scheme",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Space only",
+            "value": "space_only",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Premium corner",
+            "value": "premium_corner",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Tabletop",
+            "value": "tabletop",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "prior_participant",
+        "label": "Prior participant",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The company sponsored or exhibited at an earlier edition. Used to report renewal rate."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "deposit_received",
+        "label": "Deposit received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The booking deposit has been paid. Space is not confirmed without it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "payment_terms",
+        "label": "Payment terms",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "When the balance is due. Finance uses it to chase.",
+        "options": [
+          {
+            "label": "On signature",
+            "value": "on_signature",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Deposit then balance",
+            "value": "deposit_and_balance",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Instalments",
+            "value": "instalments",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Invoice, 30 days",
+            "value": "invoice_30_days",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "contract_signed_date",
+        "label": "Contract signed date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the signed contract or booking form was received."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the event is in its cycle. Drives which sales and fulfilment views apply.",
+        "options": [
+          {
+            "label": "Planning",
+            "value": "planning",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On sale",
+            "value": "on_sale",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Sold out",
+            "value": "sold_out",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Live",
+            "value": "live",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Completed",
+            "value": "completed",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Cancelled",
+            "value": "cancelled",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "event_type",
+        "label": "Event type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The format of the event, for reporting across the portfolio.",
+        "options": [
+          {
+            "label": "Conference",
+            "value": "conference",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Trade show",
+            "value": "trade_show",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Summit",
+            "value": "summit",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Awards",
+            "value": "awards",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Hybrid",
+            "value": "hybrid",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the event."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "end_date",
+        "label": "End date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day of the event."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "venue",
+        "label": "Venue",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Venue name and city. Used for stand plans and logistics."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "expected_attendees",
+        "label": "Expected attendees",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Forecast attendance, used in sponsor and exhibitor proposals.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "sponsorship_target",
+        "label": "Sponsorship target",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Revenue target for sponsorship. Compared with signed deals.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "exhibition_target",
+        "label": "Exhibition target",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Revenue target for stand sales. Compared with signed deals.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "total_stand_sqm",
+        "label": "Total stand space (sqm)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Sellable floor area. Used to show how much space is left.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "event_lead",
+        "label": "Event lead",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member accountable for the event.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "package_type",
+        "label": "Package type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What kind of inventory this is.",
+        "options": [
+          {
+            "label": "Sponsor tier",
+            "value": "sponsor_tier",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Stand space",
+            "value": "stand_space",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Add-on",
+            "value": "add_on",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "price",
+        "label": "Price",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Price excluding VAT.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "quantity_available",
+        "label": "Quantity available",
+        "type": "number",
+        "fieldType": "number",
+        "description": "How many of this package exist in total.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "quantity_sold",
+        "label": "Quantity sold",
+        "type": "number",
+        "fieldType": "number",
+        "description": "How many are sold. Maintained by an automation from won deals.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "exclusive",
+        "label": "Category exclusive",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Only one company per category can buy this. Checked before a proposal is sent."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where delivery of the booking stands.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Assets requested",
+            "value": "assets_requested",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Ready for event",
+            "value": "ready",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Delivered",
+            "value": "delivered",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Wrap-up sent",
+            "value": "wrapped_up",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "assets_due_date",
+        "label": "Assets due date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day logos, artwork and copy must be received to hit print and web deadlines."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "assets_received",
+        "label": "Assets received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Logo, copy and artwork have been received from the partner."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "passes_allocated",
+        "label": "Passes allocated",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of delegate or exhibitor passes issued with this booking.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "stand_number",
+        "label": "Stand number",
+        "type": "string",
+        "fieldType": "text",
+        "description": "Stand location on the floor plan. Empty for sponsor-only bookings."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "delivery_owner",
+        "label": "Delivery owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member responsible for delivering the booking.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}",
+      "body": {
+        "groupName": "events_and_sponsorship",
+        "name": "renewal_intent",
+        "label": "Renewal intent",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner's stated wish for the next edition, captured at the wrap-up meeting.",
+        "options": [
+          {
+            "label": "Will renew",
+            "value": "will_renew",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Undecided",
+            "value": "undecided",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Won't renew",
+            "value": "wont_renew",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.cohort}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.programme}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.cohort_programme.cohort_to_programme}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.cohort_programme.programme_to_cohort}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.cohort_company.cohort_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.cohort_company.company_to_cohort}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.enrolment}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.enrolment_cohort.enrolment_to_cohort}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_cohort.cohort_to_enrolment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_person.enrolment_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_person.person_to_enrolment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_company.enrolment_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_company.company_to_enrolment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_deal.enrolment_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.enrolment_deal.deal_to_enrolment}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_programme.deal_to_programme}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_programme.programme_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.cohort}/{objectTypeId.programme}/labels",
+      "body": {
+        "name": "cohort_programme",
+        "label": "Programme",
+        "inverseLabel": "Cohorts"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.cohort_programme.cohort_to_programme} and {typeId.cohort_programme.programme_to_cohort}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.cohort}/companies/labels",
+      "body": {
+        "name": "cohort_company",
+        "label": "Client",
+        "inverseLabel": "In-house cohorts"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.cohort_company.cohort_to_company} and {typeId.cohort_company.company_to_cohort}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.enrolment}/{objectTypeId.cohort}/labels",
+      "body": {
+        "name": "enrolment_cohort",
+        "label": "Cohort",
+        "inverseLabel": "Enrolments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.enrolment_cohort.enrolment_to_cohort} and {typeId.enrolment_cohort.cohort_to_enrolment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.enrolment}/contacts/labels",
+      "body": {
+        "name": "enrolment_person",
+        "label": "Delegate",
+        "inverseLabel": "Enrolments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.enrolment_person.enrolment_to_person} and {typeId.enrolment_person.person_to_enrolment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.enrolment}/companies/labels",
+      "body": {
+        "name": "enrolment_company",
+        "label": "Paying employer",
+        "inverseLabel": "Enrolments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.enrolment_company.enrolment_to_company} and {typeId.enrolment_company.company_to_enrolment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.enrolment}/deals/labels",
+      "body": {
+        "name": "enrolment_deal",
+        "label": "Corporate deal",
+        "inverseLabel": "Enrolments"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.enrolment_deal.enrolment_to_deal} and {typeId.enrolment_deal.deal_to_enrolment}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.programme}/labels",
+      "body": {
+        "name": "deal_programme",
+        "label": "Programmes",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_programme.deal_to_programme} and {typeId.deal_programme.programme_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.cohort}/{objectTypeId.programme}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.cohort_programme.cohort_to_programme}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A cohort record may link to one programme record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.cohort}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.cohort_company.cohort_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A cohort record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.enrolment}/{objectTypeId.cohort}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.enrolment_cohort.enrolment_to_cohort}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A enrolment record may link to one cohort record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.enrolment}/contacts/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.enrolment_person.enrolment_to_person}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A enrolment record may link to one person record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.enrolment}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.enrolment_company.enrolment_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A enrolment record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.enrolment}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.enrolment_deal.enrolment_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A enrolment record may link to one deal record."
+    }
+  ]
+}

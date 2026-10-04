@@ -1,0 +1,909 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.engagement}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "client_status",
+        "label": "Client status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active client",
+            "value": "active_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Past client",
+            "value": "past_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Partner or referrer",
+            "value": "partner",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "industry",
+        "label": "Industry",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The client's sector. Used to report which sectors we win in and to choose case studies.",
+        "options": [
+          {
+            "label": "Software",
+            "value": "software",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Financial services",
+            "value": "financial_services",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Health",
+            "value": "health",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Retail and ecommerce",
+            "value": "retail_ecommerce",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Manufacturing",
+            "value": "manufacturing",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Professional services",
+            "value": "professional_services",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Public sector and charity",
+            "value": "public_sector_charity",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "marketing_budget_band",
+        "label": "Marketing budget band",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The client's annual marketing spend as they tell us. Used to judge fit before a proposal.",
+        "options": [
+          {
+            "label": "Under 50k",
+            "value": "under_50k",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "50k to 250k",
+            "value": "from_50k_to_250k",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "250k to 1m",
+            "value": "from_250k_to_1m",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Over 1m",
+            "value": "over_1m",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Inbound content",
+            "value": "inbound_content",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Partner",
+            "value": "partner",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Past client returning",
+            "value": "past_client",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in choosing or managing the agency. Used to check deals are not single-threaded.",
+        "options": [
+          {
+            "label": "Decision maker",
+            "value": "decision_maker",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Day-to-day lead",
+            "value": "day_to_day_lead",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Finance",
+            "value": "finance",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Influencer",
+            "value": "influencer",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Blocker",
+            "value": "blocker",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost or the client left. Required on every lost stage.",
+        "options": [
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Chose another agency",
+            "value": "chose_another_agency",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Went in-house",
+            "value": "went_in_house",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Scope mismatch",
+            "value": "scope_mismatch",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Unhappy with results",
+            "value": "results",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Relationship",
+            "value": "relationship",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Client closed or acquired",
+            "value": "client_closed_or_acquired",
+            "displayOrder": 8,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 9,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "service_lines",
+        "label": "Service lines",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "The services in the proposal. Used to report revenue and win rate by service.",
+        "options": [
+          {
+            "label": "Paid media",
+            "value": "paid_media",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "SEO and content",
+            "value": "seo_content",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Social",
+            "value": "social",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Brand and creative",
+            "value": "brand_creative",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Web build",
+            "value": "web_build",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Email and CRM",
+            "value": "email_crm",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "GTM engineering",
+            "value": "gtm_engineering",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Strategy and consulting",
+            "value": "consulting",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "engagement_type",
+        "label": "Engagement type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the deal sells a monthly retainer or a fixed-scope project. Decides what the engagement record gets.",
+        "options": [
+          {
+            "label": "Retainer",
+            "value": "retainer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Project",
+            "value": "project",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Retainer plus project",
+            "value": "hybrid",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "brief_received",
+        "label": "Brief received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client has given a written brief or goals we can scope against."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "budget_range",
+        "label": "Budget range",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The monthly or project budget the client has indicated for this work.",
+        "options": [
+          {
+            "label": "Under 5k",
+            "value": "under_5k",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "5k to 15k",
+            "value": "from_5k_to_15k",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "15k to 50k",
+            "value": "from_15k_to_50k",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Over 50k",
+            "value": "over_50k",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Not shared",
+            "value": "not_shared",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "competitive_pitch",
+        "label": "Competitive pitch",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client is comparing us formally with other agencies. Changes how much unpaid work we do."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "decision_date",
+        "label": "Decision date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the client has said they will choose."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "renewal_type",
+        "label": "Renewal type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether a renewals-pipeline deal is a straight renewal, an upsell or a re-scope.",
+        "options": [
+          {
+            "label": "Renewal",
+            "value": "renewal",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Upsell",
+            "value": "upsell",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Re-scope",
+            "value": "re_scope",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Cross-sell",
+            "value": "cross_sell",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "renewal_risk",
+        "label": "Renewal risk",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Account lead's view of how likely the retainer is to renew.",
+        "options": [
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "engagement_type",
+        "label": "Engagement type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether this is a monthly retainer or a fixed-scope project. Retainers renew, projects end.",
+        "options": [
+          {
+            "label": "Retainer",
+            "value": "retainer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Project",
+            "value": "project",
+            "displayOrder": 1,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "service_line",
+        "label": "Service line",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The main service delivered. One value so revenue and margin can be reported by service.",
+        "options": [
+          {
+            "label": "Paid media",
+            "value": "paid_media",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "SEO and content",
+            "value": "seo_content",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Social",
+            "value": "social",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Brand and creative",
+            "value": "brand_creative",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Web build",
+            "value": "web_build",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Email and CRM",
+            "value": "email_crm",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "GTM engineering",
+            "value": "gtm_engineering",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Strategy and consulting",
+            "value": "consulting",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "health",
+        "label": "Health",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Account lead's current view of the relationship and results. Reviewed at least monthly.",
+        "options": [
+          {
+            "label": "Green",
+            "value": "green",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Amber",
+            "value": "amber",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Red",
+            "value": "red",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "First day of the contracted work."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "end_date",
+        "label": "End date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day of the current term. A renewal deal opens 90 days before it for retainers."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "monthly_fee",
+        "label": "Monthly fee",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Monthly retainer fee, excluding media spend. Empty for fixed-scope projects.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "project_fee",
+        "label": "Project fee",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total fixed fee for a project. Empty for retainers.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "hours_per_month",
+        "label": "Hours per month",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Hours of team time included each month, used to check scope against what is delivered.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "notice_period_days",
+        "label": "Notice period (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Days of notice either side must give to end the engagement early.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "access_received",
+        "label": "Access received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client has given the accounts, logins and assets needed to start work."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "scope_summary",
+        "label": "Scope summary",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "What we are and are not committed to deliver, copied from the signed statement of work."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "next_review_date",
+        "label": "Next review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of the next client review meeting. Empty means no review is booked."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "account_lead",
+        "label": "Account lead",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member responsible for the client relationship on this engagement.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "delivery_lead",
+        "label": "Delivery lead",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member responsible for getting the work done.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.engagement}",
+      "body": {
+        "groupName": "agency_marketing_and_creative",
+        "name": "end_reason",
+        "label": "End reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the engagement ended early or was not renewed. Required on the terminated stage.",
+        "options": [
+          {
+            "label": "Budget cut",
+            "value": "budget_cut",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Went in-house",
+            "value": "went_in_house",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Moved to another agency",
+            "value": "moved_agency",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unhappy with results",
+            "value": "results",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Relationship",
+            "value": "relationship",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Client closed or acquired",
+            "value": "client_closed_or_acquired",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "We ended it",
+            "value": "we_ended_it",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    }
+  ]
+}

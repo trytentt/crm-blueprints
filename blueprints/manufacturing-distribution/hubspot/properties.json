@@ -1,0 +1,960 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.quote}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.order}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "account_tier",
+        "label": "Account tier",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Service tier set by annual spend and strategic value. Drives pricing, call frequency and who owns the account.",
+        "options": [
+          {
+            "label": "Key account",
+            "value": "key_account",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Core",
+            "value": "core",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Standard",
+            "value": "standard",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Occasional",
+            "value": "occasional",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "account_type",
+        "label": "Account type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the company does with our products. Used to route enquiries and report by channel.",
+        "options": [
+          {
+            "label": "OEM or manufacturer",
+            "value": "oem",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Contractor or installer",
+            "value": "contractor",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Reseller or dealer",
+            "value": "reseller",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "End user",
+            "value": "end_user",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "government",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "industry_sector",
+        "label": "Industry sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The customer's main market. Used for reporting and targeted campaigns.",
+        "options": [
+          {
+            "label": "Construction",
+            "value": "construction",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Automotive",
+            "value": "automotive",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Food and drink",
+            "value": "food_and_drink",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Engineering",
+            "value": "engineering",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Energy and utilities",
+            "value": "energy",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "account_status",
+        "label": "Account status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Dormant",
+            "value": "dormant",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Lapsed",
+            "value": "lapsed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "credit_terms",
+        "label": "Credit terms",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Payment terms agreed with finance. Checked before a quote is sent to a new account.",
+        "options": [
+          {
+            "label": "Pro forma",
+            "value": "pro_forma",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Net 30",
+            "value": "net_30",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Net 60",
+            "value": "net_60",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Credit hold",
+            "value": "on_hold",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "last_order_date",
+        "label": "Last order date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date of the most recent accepted order. Set by automation and used to spot accounts that have stopped ordering."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "expected_reorder_days",
+        "label": "Expected reorder interval (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Typical days between orders for this account. The reorder-due view compares it with the last order date.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "annual_spend_band",
+        "label": "Annual spend band",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Spend with us over the last 12 months. Used to review the account tier.",
+        "options": [
+          {
+            "label": "Under 10k",
+            "value": "under_10k",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "10k to 50k",
+            "value": "from_10k_to_50k",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "50k to 250k",
+            "value": "from_50k_to_250k",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Over 250k",
+            "value": "over_250k",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in a purchase. Used to check a deal or quote has the right people attached.",
+        "options": [
+          {
+            "label": "Purchasing or procurement",
+            "value": "purchasing",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Engineer or specifier",
+            "value": "specifier",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Economic buyer",
+            "value": "economic_buyer",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "End user or site contact",
+            "value": "end_user",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Accounts payable",
+            "value": "accounts_payable",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the opportunity was lost. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Lead time",
+            "value": "lead_time",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Stayed with current supplier",
+            "value": "incumbent",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Specification not met",
+            "value": "spec_not_met",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Credit declined",
+            "value": "credit_declined",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Project cancelled",
+            "value": "project_cancelled",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "opportunity_type",
+        "label": "Opportunity type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether this is a new account, a new product line for an existing account or a one-off project.",
+        "options": [
+          {
+            "label": "New account",
+            "value": "new_account",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "New product line",
+            "value": "new_line",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "One-off project",
+            "value": "project",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Tender",
+            "value": "tender",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "annual_volume_estimate",
+        "label": "Annual volume estimate",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Expected yearly spend if the account is won. Used to set the account tier.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "sample_status",
+        "label": "Sample status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of any sample, trial run or spec approval the buyer needs before ordering.",
+        "options": [
+          {
+            "label": "Not needed",
+            "value": "not_needed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Requested",
+            "value": "requested",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Sent",
+            "value": "sent",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Approved",
+            "value": "approved",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Rejected",
+            "value": "rejected",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "spec_confirmed",
+        "label": "Specification confirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The buyer's technical contact has confirmed the specification we are quoting against."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "credit_approved",
+        "label": "Credit approved",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Finance has approved credit terms for this account."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "source",
+        "label": "RFQ source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the request reached us. Used to see which channels create work.",
+        "options": [
+          {
+            "label": "Email",
+            "value": "email",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Phone",
+            "value": "phone",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Web form",
+            "value": "web_form",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Customer portal",
+            "value": "portal",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Rep visit",
+            "value": "rep_visit",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Tender portal",
+            "value": "tender_portal",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "product_family",
+        "label": "Product family",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The main product group quoted. Used to see win rate and lead time by range.",
+        "options": [
+          {
+            "label": "Standard range",
+            "value": "standard_range",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Made to order",
+            "value": "made_to_order",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Spares and parts",
+            "value": "spares",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Bulk supply",
+            "value": "bulk",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Service",
+            "value": "service",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "received_date",
+        "label": "Received date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the RFQ arrived. Measures speed to quote."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "due_date",
+        "label": "Quote due date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the buyer asked for the quote. Late quotes are reported on."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "value",
+        "label": "Quote value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total quoted price excluding tax.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "margin_percent",
+        "label": "Margin",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Expected gross margin on the quote. Over a set discount threshold it needs approval.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "lead_time_days",
+        "label": "Lead time (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Quoted days from order to delivery to the customer.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "valid_until",
+        "label": "Valid until",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Last day the quoted price holds."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "approval_needed",
+        "label": "Approval needed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The quote breaks a margin or credit rule and a manager must approve before it is sent."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "stock_checked",
+        "label": "Stock checked",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Stock or production capacity has been checked for the quoted lead time."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "decline_reason",
+        "label": "Decline reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the quote was lost or not quoted. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Lead time",
+            "value": "lead_time",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Cannot supply",
+            "value": "stock_unavailable",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Specification not met",
+            "value": "spec_not_met",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Bought elsewhere",
+            "value": "went_elsewhere",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Out of scope",
+            "value": "out_of_scope",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.quote}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "owner",
+        "label": "Owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member who prepares and chases the quote.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "order_type",
+        "label": "Order type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the order is a first order, a repeat order or a call-off against a standing agreement.",
+        "options": [
+          {
+            "label": "First order",
+            "value": "first_order",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Repeat order",
+            "value": "repeat",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Call-off",
+            "value": "call_off",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Sample order",
+            "value": "sample",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the order stands.",
+        "options": [
+          {
+            "label": "Received",
+            "value": "received",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Acknowledged",
+            "value": "acknowledged",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In production or picking",
+            "value": "in_production",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Dispatched",
+            "value": "dispatched",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Delivered",
+            "value": "delivered",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Invoiced",
+            "value": "invoiced",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Cancelled",
+            "value": "cancelled",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "order_date",
+        "label": "Order date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the customer order was accepted."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "promised_date",
+        "label": "Promised date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Delivery date promised to the customer. Late orders are reported on."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "delivered_date",
+        "label": "Delivered date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the goods reached the customer. Compared with the promised date for on-time delivery."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "order_value",
+        "label": "Order value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total order value excluding tax.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "customer_po",
+        "label": "Customer PO number",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The customer's purchase order reference, used on invoices and to match queries."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.order}",
+      "body": {
+        "groupName": "manufacturing_and_distribution_b2b",
+        "name": "owner",
+        "label": "Account manager",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member responsible for the order and the customer relationship.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

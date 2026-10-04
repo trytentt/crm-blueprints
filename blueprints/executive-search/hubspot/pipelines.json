@@ -1,0 +1,302 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.search}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.search_candidate}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fee_instalment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Mandate acquisition",
+        "displayOrder": 1,
+        "pipelineId": "mandate_acquisition",
+        "stages": [
+          {
+            "label": "Target",
+            "displayOrder": 0,
+            "stageId": "mandate_acquisition__target",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Introduction",
+            "displayOrder": 1,
+            "stageId": "mandate_acquisition__introduction",
+            "metadata": {
+              "probability": "0.15"
+            }
+          },
+          {
+            "label": "Brief",
+            "displayOrder": 2,
+            "stageId": "mandate_acquisition__brief",
+            "metadata": {
+              "probability": "0.3"
+            }
+          },
+          {
+            "label": "Proposal sent",
+            "displayOrder": 3,
+            "stageId": "mandate_acquisition__proposal_sent",
+            "metadata": {
+              "probability": "0.5"
+            }
+          },
+          {
+            "label": "Pitch or finalist",
+            "displayOrder": 4,
+            "stageId": "mandate_acquisition__pitch_or_finalist",
+            "metadata": {
+              "probability": "0.65"
+            }
+          },
+          {
+            "label": "Terms agreed",
+            "displayOrder": 5,
+            "stageId": "mandate_acquisition__terms_agreed",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Mandate won",
+            "displayOrder": 6,
+            "stageId": "mandate_acquisition__mandate_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Mandate lost",
+            "displayOrder": 7,
+            "stageId": "mandate_acquisition__mandate_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.search}",
+      "body": {
+        "label": "Search delivery",
+        "displayOrder": 1,
+        "pipelineId": "search_delivery",
+        "stages": [
+          {
+            "label": "Position specification",
+            "displayOrder": 0,
+            "stageId": "search_delivery__position_spec",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Market mapping",
+            "displayOrder": 1,
+            "stageId": "search_delivery__market_mapping",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Longlist",
+            "displayOrder": 2,
+            "stageId": "search_delivery__longlist",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Shortlist",
+            "displayOrder": 3,
+            "stageId": "search_delivery__shortlist",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Client interviews",
+            "displayOrder": 4,
+            "stageId": "search_delivery__client_interviews",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Offer and references",
+            "displayOrder": 5,
+            "stageId": "search_delivery__offer_and_references",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Placed",
+            "displayOrder": 6,
+            "stageId": "search_delivery__placed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Closed without placement",
+            "displayOrder": 7,
+            "stageId": "search_delivery__closed_without_placement",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "label": "Candidate progress",
+        "displayOrder": 1,
+        "pipelineId": "candidate_progress",
+        "stages": [
+          {
+            "label": "Identified",
+            "displayOrder": 0,
+            "stageId": "candidate_progress__identified",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Approached",
+            "displayOrder": 1,
+            "stageId": "candidate_progress__approached",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Engaged",
+            "displayOrder": 2,
+            "stageId": "candidate_progress__engaged",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Assessed",
+            "displayOrder": 3,
+            "stageId": "candidate_progress__assessed",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Shortlisted",
+            "displayOrder": 4,
+            "stageId": "candidate_progress__shortlisted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Client interview",
+            "displayOrder": 5,
+            "stageId": "candidate_progress__client_interview",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Offer",
+            "displayOrder": 6,
+            "stageId": "candidate_progress__offer",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Placed",
+            "displayOrder": 7,
+            "stageId": "candidate_progress__placed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Out",
+            "displayOrder": 8,
+            "stageId": "candidate_progress__out",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "label": "Fee collection",
+        "displayOrder": 1,
+        "pipelineId": "fee_collection",
+        "stages": [
+          {
+            "label": "Scheduled",
+            "displayOrder": 0,
+            "stageId": "fee_collection__scheduled",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Due",
+            "displayOrder": 1,
+            "stageId": "fee_collection__due",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Invoiced",
+            "displayOrder": 2,
+            "stageId": "fee_collection__invoiced",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Paid",
+            "displayOrder": 3,
+            "stageId": "fee_collection__paid",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Waived",
+            "displayOrder": 4,
+            "stageId": "fee_collection__waived",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

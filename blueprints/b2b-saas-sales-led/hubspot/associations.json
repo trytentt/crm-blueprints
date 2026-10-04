@@ -1,0 +1,93 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.subscription}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.subscription_company.subscription_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.subscription_company.company_to_subscription}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_subscription.deal_to_subscription}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_subscription.subscription_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.onboarding}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.onboarding_subscription.onboarding_to_subscription}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.onboarding_subscription.subscription_to_onboarding}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.subscription}/companies/labels",
+      "body": {
+        "name": "subscription_company",
+        "label": "Company",
+        "inverseLabel": "Subscriptions"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.subscription_company.subscription_to_company} and {typeId.subscription_company.company_to_subscription}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.subscription}/labels",
+      "body": {
+        "name": "deal_subscription",
+        "label": "Subscription",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_subscription.deal_to_subscription} and {typeId.deal_subscription.subscription_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.onboarding}/{objectTypeId.subscription}/labels",
+      "body": {
+        "name": "onboarding_subscription",
+        "label": "Subscription",
+        "inverseLabel": "Onboardings"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.onboarding_subscription.onboarding_to_subscription} and {typeId.onboarding_subscription.subscription_to_onboarding}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.subscription}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.subscription_company.subscription_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A subscription record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.subscription}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_subscription.deal_to_subscription}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one subscription record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.onboarding}/{objectTypeId.subscription}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.onboarding_subscription.onboarding_to_subscription}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A onboarding record may link to one subscription record."
+    }
+  ]
+}

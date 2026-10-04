@@ -1,0 +1,105 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.workspace}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.workspace_company.workspace_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.workspace_company.company_to_workspace}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.person_workspace.person_to_workspace}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.person_workspace.workspace_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_workspace.deal_to_workspace}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_workspace.workspace_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.adoption_plan}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.adoption_plan_workspace.adoption_plan_to_workspace}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.adoption_plan_workspace.workspace_to_adoption_plan}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.workspace}/companies/labels",
+      "body": {
+        "name": "workspace_company",
+        "label": "Company",
+        "inverseLabel": "Workspaces"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.workspace_company.workspace_to_company} and {typeId.workspace_company.company_to_workspace}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/contacts/{objectTypeId.workspace}/labels",
+      "body": {
+        "name": "person_workspace",
+        "label": "Workspaces",
+        "inverseLabel": "People"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.person_workspace.person_to_workspace} and {typeId.person_workspace.workspace_to_person}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.workspace}/labels",
+      "body": {
+        "name": "deal_workspace",
+        "label": "Workspace",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_workspace.deal_to_workspace} and {typeId.deal_workspace.workspace_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.adoption_plan}/{objectTypeId.workspace}/labels",
+      "body": {
+        "name": "adoption_plan_workspace",
+        "label": "Workspace",
+        "inverseLabel": "Adoption plans"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.adoption_plan_workspace.adoption_plan_to_workspace} and {typeId.adoption_plan_workspace.workspace_to_adoption_plan}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.workspace}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.workspace_company.workspace_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A workspace record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.workspace}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_workspace.deal_to_workspace}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one workspace record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.adoption_plan}/{objectTypeId.workspace}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.adoption_plan_workspace.adoption_plan_to_workspace}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A adoption_plan record may link to one workspace record."
+    }
+  ]
+}

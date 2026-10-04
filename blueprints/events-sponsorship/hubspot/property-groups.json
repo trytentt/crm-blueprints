@@ -1,0 +1,63 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.event}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.package}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fulfilment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.event}/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.package}/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fulfilment}/groups",
+      "body": {
+        "name": "events_and_sponsorship",
+        "label": "Events and sponsorship"
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.portfolio_investment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Deal flow",
+        "displayOrder": 1,
+        "pipelineId": "deal_flow",
+        "stages": [
+          {
+            "label": "Sourced",
+            "displayOrder": 0,
+            "stageId": "deal_flow__sourced",
+            "metadata": {
+              "probability": "0.02"
+            }
+          },
+          {
+            "label": "Screening",
+            "displayOrder": 1,
+            "stageId": "deal_flow__screening",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "First meeting",
+            "displayOrder": 2,
+            "stageId": "deal_flow__first_meeting",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Deep dive",
+            "displayOrder": 3,
+            "stageId": "deal_flow__deep_dive",
+            "metadata": {
+              "probability": "0.2"
+            }
+          },
+          {
+            "label": "Partner meeting",
+            "displayOrder": 4,
+            "stageId": "deal_flow__partner_meeting",
+            "metadata": {
+              "probability": "0.35"
+            }
+          },
+          {
+            "label": "Term sheet",
+            "displayOrder": 5,
+            "stageId": "deal_flow__term_sheet",
+            "metadata": {
+              "probability": "0.55"
+            }
+          },
+          {
+            "label": "Due diligence",
+            "displayOrder": 6,
+            "stageId": "deal_flow__due_diligence",
+            "metadata": {
+              "probability": "0.7"
+            }
+          },
+          {
+            "label": "Investment committee",
+            "displayOrder": 7,
+            "stageId": "deal_flow__investment_committee",
+            "metadata": {
+              "probability": "0.85"
+            }
+          },
+          {
+            "label": "Invested",
+            "displayOrder": 8,
+            "stageId": "deal_flow__invested",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Passed",
+            "displayOrder": 9,
+            "stageId": "deal_flow__passed",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.portfolio_investment}",
+      "body": {
+        "label": "Portfolio outcome",
+        "displayOrder": 1,
+        "pipelineId": "portfolio_outcome",
+        "stages": [
+          {
+            "label": "Active",
+            "displayOrder": 0,
+            "stageId": "portfolio_outcome__active",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Follow-on review",
+            "displayOrder": 1,
+            "stageId": "portfolio_outcome__follow_on_review",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Exit preparation",
+            "displayOrder": 2,
+            "stageId": "portfolio_outcome__exit_preparation",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Exit process",
+            "displayOrder": 3,
+            "stageId": "portfolio_outcome__exit_process",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Exited",
+            "displayOrder": 4,
+            "stageId": "portfolio_outcome__exited",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Written off",
+            "displayOrder": 5,
+            "stageId": "portfolio_outcome__written_off",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

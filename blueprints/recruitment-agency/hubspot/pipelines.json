@@ -1,0 +1,148 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.submission}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Client development",
+        "displayOrder": 1,
+        "pipelineId": "client_development",
+        "stages": [
+          {
+            "label": "Target",
+            "displayOrder": 0,
+            "stageId": "client_development__target",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Conversation",
+            "displayOrder": 1,
+            "stageId": "client_development__conversation",
+            "metadata": {
+              "probability": "0.15"
+            }
+          },
+          {
+            "label": "Terms discussed",
+            "displayOrder": 2,
+            "stageId": "client_development__terms_discussed",
+            "metadata": {
+              "probability": "0.4"
+            }
+          },
+          {
+            "label": "Terms sent",
+            "displayOrder": 3,
+            "stageId": "client_development__terms_sent",
+            "metadata": {
+              "probability": "0.6"
+            }
+          },
+          {
+            "label": "Terms signed",
+            "displayOrder": 4,
+            "stageId": "client_development__terms_signed",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Not won",
+            "displayOrder": 5,
+            "stageId": "client_development__not_won",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.submission}",
+      "body": {
+        "label": "Placement",
+        "displayOrder": 1,
+        "pipelineId": "placement",
+        "stages": [
+          {
+            "label": "Sourced",
+            "displayOrder": 0,
+            "stageId": "placement__sourced",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Screened",
+            "displayOrder": 1,
+            "stageId": "placement__screened",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Submitted",
+            "displayOrder": 2,
+            "stageId": "placement__submitted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Interviewing",
+            "displayOrder": 3,
+            "stageId": "placement__interviewing",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Offer",
+            "displayOrder": 4,
+            "stageId": "placement__offer",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Offer accepted",
+            "displayOrder": 5,
+            "stageId": "placement__offer_accepted",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Placed",
+            "displayOrder": 6,
+            "stageId": "placement__placed",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Rejected",
+            "displayOrder": 7,
+            "stageId": "placement__rejected",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

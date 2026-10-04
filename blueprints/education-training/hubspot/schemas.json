@@ -1,0 +1,124 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.programme}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.cohort}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.enrolment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "programme",
+        "labels": {
+          "singular": "Programme",
+          "plural": "Programmes"
+        },
+        "description": "One course or qualification in the catalogue, with its format, length and list price. A programme is what is sold. A cohort is a dated run of it.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "The programme title as it appears in the catalogue."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.programme}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "cohort",
+        "labels": {
+          "singular": "Cohort",
+          "plural": "Cohorts"
+        },
+        "description": "One dated run of a programme, either open to any employer or run in-house for one client. Holds the dates, capacity and trainer. Used to decide whether a run is viable and to see free places.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.programme}",
+          "0-2"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Programme and start month, for example Team leader programme, March."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.cohort}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "enrolment",
+        "labels": {
+          "singular": "Enrolment",
+          "plural": "Enrolments"
+        },
+        "description": "One delegate's place on one cohort, from first enquiry to confirmed place. It links the delegate (a person), the cohort, the employer paying and, where there is one, the corporate deal.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "{objectTypeId.cohort}",
+          "0-1",
+          "0-2",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Delegate name and cohort name, for example the delegate and Team leader programme, March."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.enrolment}."
+    }
+  ]
+}

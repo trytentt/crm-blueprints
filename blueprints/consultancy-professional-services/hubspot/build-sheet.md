@@ -1,0 +1,456 @@
+# Build sheet: Consultancy and professional services (hubspot)
+
+A consultancy, law firm or accountancy that wins work through enquiries and proposals, clears a conflict check before advising, and delivers on matters (engagements) with a stated billing model. Selling runs on deals. Delivery runs on matters, and every conflict check is kept as its own record.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is delivery tracked on a matter object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. A matter has its own partner, manager, billing model and dates. The sales pipeline ends at closed won, so win rate is not skewed by work in progress.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Where does the conflict check sit, and who can pass it?**
+  - Recommended default: A named stage before the proposal, with a conflict check record per check. Only risk or compliance can set the result to cleared. A deal cannot reach proposal while the result is not run, pending or conflicted. If the firm's practice system is the official register, the CRM record is a copy and the decision is which side is the source of truth.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How much billing detail belongs in the CRM?**
+  - Recommended default: The billing model, fee estimate, budget hours and billing frequency. Time recording, invoices and write-offs stay in the billing system, matched by matter reference.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: What matter detail is allowed in the CRM?**
+  - Recommended default: Neutral names and short scope summaries only. No privileged advice, no case facts and no opposing-party detail beyond names for conflict checks. Restrict confidential matters by permission. Confirm with the firm's compliance officer before go-live.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and a pipeline on one?**
+  - Recommended default: Check before the build. If not, hold matters as deals in a delivery pipeline and conflict checks as a select field plus note, and record the loss of the audit trail in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is follow-on work from existing clients a separate pipeline?**
+  - Recommended default: No for the first build. Use the new work pipeline linked to the existing matter. Add a client development pipeline when partners track account plans.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`contacts`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Matter**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Matter', plural 'Matters', internal name `matter`. The name cannot be changed later.
+  - Purpose: One piece of client work under one engagement letter: a legal matter, audit, tax job or consulting project. Holds scope, billing model, team and dates. Created when a deal is won, and has its own delivery pipeline.
+  - Done when: the object Matter exists with plural name Matters.
+- [ ] **Create object Conflict check**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Conflict check', plural 'Conflict checks', internal name `conflict_check`. The name cannot be changed later.
+  - Purpose: The record of one conflict-of-interest check run before we advised or proposed: who was checked, the result and who cleared it. Kept as an audit trail, separate from the deal.
+  - Done when: the object Conflict check exists with plural name Conflict checks.
+- [ ] **Create relationship matter to company (many_to_one)**
+  - Where: Settings > Data Management > Objects > Matters > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Client' with 'Matters' for Companies.
+  - Purpose: Shows every matter for a client, including past work.
+  - Done when: a matter record shows the link as 'Client' and a company record shows it as 'Matters'.
+- [ ] **Create relationship deal to matter (many_to_one)**
+  - Where: Settings > Data Management > Objects > Deals > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Matter' with 'Deals' for Matters.
+  - Purpose: Ties the deal that created a matter, and any extension or follow-on deal, to it.
+  - Done when: a deal record shows the link as 'Matter' and a matter record shows it as 'Deals'.
+- [ ] **Create relationship conflict_check to deal (many_to_one)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Deal' with 'Conflict checks' for Deals.
+  - Purpose: Links each check to the opportunity it was run for.
+  - Done when: a conflict_check record shows the link as 'Deal' and a deal record shows it as 'Conflict checks'.
+- [ ] **Create relationship conflict_check to company (many_to_one)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Company' with 'Conflict checks' for Companies.
+  - Purpose: Lets compliance see every check run for a client.
+  - Done when: a conflict_check record shows the link as 'Company' and a company record shows it as 'Conflict checks'.
+- [ ] **Create relationship matter to person (many_to_many)**
+  - Where: Settings > Data Management > Objects > Matters > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Client contacts' with 'Matters' for Contacts.
+  - Purpose: Links the client people who instruct, approve and receive reports on the matter.
+  - Done when: a matter record shows the link as 'Client contacts' and a person record shows it as 'Matters'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New work on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline New work exists with 9 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 5%.
+  - Entered when a prospective client or referrer has asked us about a piece of work.
+  - Deal probability: 0.05. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: service_area, next_step_date.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Qualified**
+  - Type: open. Probability: 15%.
+  - Entered when a partner has agreed the work is in our expertise, we have capacity, and the prospect has been told fees are charged.
+  - Deal probability: 0.15. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lead_partner, scope_summary.
+  - Done when: the stage Qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Conflict check**
+  - Type: open. Probability: 25%.
+  - Entered when the parties have been sent to risk or compliance for a conflict check.
+  - Deal probability: 0.25. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: conflict_check_result.
+  - Done when: the stage Conflict check is in position 3 and its rule is in place.
+- [ ] **Stage 4: Proposal**
+  - Type: open. Probability: 45%.
+  - Entered when the conflict check is cleared and a scoped proposal with a billing model is being prepared.
+  - Deal probability: 0.45. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: conflict_check_result, billing_model, amount.
+  - Done when: the stage Proposal is in position 4 and its rule is in place.
+- [ ] **Stage 5: Proposal sent**
+  - Type: open. Probability: 60%.
+  - Entered when the proposal has been sent to the instructing decision maker.
+  - Deal probability: 0.6. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, next_step_date.
+  - Done when: the stage Proposal sent is in position 5 and its rule is in place.
+- [ ] **Stage 6: Terms agreed**
+  - Type: open. Probability: 80%.
+  - Entered when the client has accepted the scope and fees in principle and is waiting for the engagement letter.
+  - Deal probability: 0.8. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, billing_model, close_date.
+  - Done when: the stage Terms agreed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Engagement letter out**
+  - Type: open. Probability: 90%.
+  - Entered when the engagement letter has been sent for signature.
+  - Deal probability: 0.9. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: engagement_letter_status, conflict_check_result.
+  - Done when: the stage Engagement letter out is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed engagement letter is received and the matter record is created.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, engagement_letter_status.
+  - Done when: the stage Closed won is in position 8 and its rule is in place.
+- [ ] **Stage 9: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the prospect declines, we decline the work, or there has been no reply after three follow-ups over 30 days.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Closed lost is in position 9 and its rule is in place.
+- [ ] **Create pipeline Matter delivery on matter**
+  - Where: Settings > Data Management > Objects > Matters > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set each stage to Open or Closed.
+  - Done when: the pipeline Matter delivery exists with 7 stages in the order below.
+- [ ] **Stage 1: Opening**
+  - Type: open. Probability: 100%.
+  - Entered when the matter record is created from a won deal and a responsible partner is named.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: responsible_partner, matter_manager.
+  - Done when: the stage Opening is in position 1 and its rule is in place.
+- [ ] **Stage 2: Cleared to start**
+  - Type: open. Probability: 100%.
+  - Entered when the engagement letter is signed and identity checks are complete or not required.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: engagement_letter_signed_date, aml_check_status.
+  - Done when: the stage Cleared to start is in position 2 and its rule is in place.
+- [ ] **Stage 3: In progress**
+  - Type: open. Probability: 100%.
+  - Entered when work has started and time is being recorded against the matter.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: start_date, target_end_date.
+  - Done when: the stage In progress is in position 3 and its rule is in place.
+- [ ] **Stage 4: Awaiting client**
+  - Type: open. Probability: 100%.
+  - Entered when we are blocked on information or a decision from the client.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: target_end_date.
+  - Done when: the stage Awaiting client is in position 4 and its rule is in place.
+- [ ] **Stage 5: Final billing**
+  - Type: open. Probability: 100%.
+  - Entered when the work is delivered and the final invoice is being prepared.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: billing_model, fee_estimate.
+  - Done when: the stage Final billing is in position 5 and its rule is in place.
+- [ ] **Stage 6: Closed**
+  - Type: won. Probability: 100%.
+  - Entered when the work is delivered, the final invoice is issued and the file is closed.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: target_end_date.
+  - Done when: the stage Closed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Withdrawn**
+  - Type: lost. Probability: 0%.
+  - Entered when the client or the firm has ended the matter before the work was complete.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: close_reason.
+  - Done when: the stage Withdrawn is in position 7 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Client status (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `client_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active client, Past client, Referrer, Adverse or related party
+  - Done when: Company records show Client status and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `sector`.
+  - Purpose: The client's sector. Used to report where work comes from and to find relevant experience.
+  - Options: Financial services, Technology, Real estate, Health and life sciences, Energy and infrastructure, Public sector, Private individual or family, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Client risk rating (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `client_risk_rating`.
+  - Purpose: Firm's anti-money-laundering risk rating for this client. Set by compliance, not the fee earner.
+  - Options: Low, Medium, High, Not assessed
+  - Done when: Company records show Client risk rating and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Client referral, Professional referral, Inbound, Event or publication, Directory or ranking, Outbound
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domain`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`numberofemployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin_company_page`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field Buying role (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `buying_role`.
+  - Purpose: The part this person plays in instructing the firm. Used to check we know who signs and who pays.
+  - Options: Instructing decision maker, Sponsor, Finance contact, In-house legal, Day-to-day contact, Referrer
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`firstname`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`lastname`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`jobtitle`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`hs_linkedin_url`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'dealinformation', type/field type in the UI matching `enumeration`/`select`, internal name `lost_reason`.
+  - Purpose: Why the deal was lost or the client left. Required on every lost stage.
+  - Options: Conflict of interest, We had no capacity, Fees too high, Chose another firm, Work not going ahead, Outside our expertise, Declined on risk or compliance grounds, No decision made, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `date`/`date`, internal name `next_step_date`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Service area (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `service_area`.
+  - Purpose: The practice or service the work belongs to. Used to route enquiries and report by practice.
+  - Options: Advisory, Transactions, Disputes, Tax, Audit and assurance, Regulatory and compliance, Other
+  - Done when: Deal records show Service area and it accepts the right values.
+- [ ] **Create field Lead partner (user)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `lead_partner`.
+  - Purpose: The partner or director who will be accountable for the work and signs the engagement letter.
+  - Done when: Deal records show Lead partner and it accepts the right values.
+- [ ] **Create field Scope summary (long_text)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`textarea`, internal name `scope_summary`.
+  - Purpose: What the client has asked for and what is outside it. Becomes the scope of the engagement letter.
+  - Done when: Deal records show Scope summary and it accepts the right values.
+- [ ] **Create field Billing model (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `billing_model`.
+  - Purpose: How the work will be charged. Needed before a proposal because it changes the margin risk.
+  - Options: Hourly, Fixed fee, Capped fee, Retainer, Success fee, Hybrid
+  - Done when: Deal records show Billing model and it accepts the right values.
+- [ ] **Create field Conflict check result (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `conflict_check_result`.
+  - Purpose: Latest result of the conflict check for this deal, copied from the conflict check record. Gates the proposal stage.
+  - Options: Not run, Pending, Cleared, Cleared with waiver, Conflicted
+  - Done when: Deal records show Conflict check result and it accepts the right values.
+- [ ] **Create field Engagement letter status (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `engagement_letter_status`.
+  - Purpose: Where the engagement letter stands. Work must not start until it is signed.
+  - Options: Not drafted, Drafted, Sent, Signed
+  - Done when: Deal records show Engagement letter status and it accepts the right values.
+- [ ] **Create field Referrer (text)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`text`, internal name `referrer_company`.
+  - Purpose: Name of the person or firm who referred the work, for referral fee and thank-you tracking.
+  - Done when: Deal records show Referrer and it accepts the right values.
+- [ ] **Confirm standard field Name (`dealname`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`closedate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`hs_next_step`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Matter
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Client name and a neutral work description. No confidential detail in the name.
+  - Done when: Matter records show Name and it accepts the right values.
+- [ ] **Create field Matter reference (text)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`text`, internal name `matter_reference`.
+  - Purpose: The reference from the practice management or billing system. Matches CRM to invoices.
+  - Done when: Matter records show Matter reference and it accepts the right values.
+- [ ] **Create field Service area (select)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `service_area`.
+  - Purpose: The practice or service this matter belongs to. Used for reporting by practice.
+  - Options: Advisory, Transactions, Disputes, Tax, Audit and assurance, Regulatory and compliance, Other
+  - Done when: Matter records show Service area and it accepts the right values.
+- [ ] **Create field Billing model (select)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `billing_model`.
+  - Purpose: How this matter is charged, copied from the engagement letter.
+  - Options: Hourly, Fixed fee, Capped fee, Retainer, Success fee, Hybrid
+  - Done when: Matter records show Billing model and it accepts the right values.
+- [ ] **Create field Fee estimate (currency)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `number`/`number`, internal name `fee_estimate`.
+  - Purpose: Total fees expected for the matter, or the fixed or capped amount.
+  - Done when: Matter records show Fee estimate and it accepts the right values.
+- [ ] **Create field Budget hours (number)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `number`/`number`, internal name `budget_hours`.
+  - Purpose: Hours the team has budgeted. Compared with hours recorded in the billing system.
+  - Done when: Matter records show Budget hours and it accepts the right values.
+- [ ] **Create field Billing frequency (select)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `billing_frequency`.
+  - Purpose: How often the client is invoiced.
+  - Options: Monthly, On milestones, On completion, Quarterly
+  - Done when: Matter records show Billing frequency and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `date`/`date`, internal name `start_date`.
+  - Purpose: The date work started, which must be after the engagement letter was signed.
+  - Done when: Matter records show Start date and it accepts the right values.
+- [ ] **Create field Target end date (date)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `date`/`date`, internal name `target_end_date`.
+  - Purpose: The date the work is expected to be complete.
+  - Done when: Matter records show Target end date and it accepts the right values.
+- [ ] **Create field Engagement letter signed date (date)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `date`/`date`, internal name `engagement_letter_signed_date`.
+  - Purpose: The date the client signed the engagement letter. Empty means work should not have started.
+  - Done when: Matter records show Engagement letter signed date and it accepts the right values.
+- [ ] **Create field AML check status (select)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `aml_check_status`.
+  - Purpose: Status of client identity and source-of-funds checks required by money laundering rules for this matter type.
+  - Options: Not required, Outstanding, Complete, Enhanced due diligence
+  - Done when: Matter records show AML check status and it accepts the right values.
+- [ ] **Create field Confidential (checkbox)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `confidential`.
+  - Purpose: Restricts who can see the matter record. Set for sensitive matters, with an ethical wall where needed.
+  - Done when: Matter records show Confidential and it accepts the right values.
+- [ ] **Create field Responsible partner (user)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `responsible_partner`.
+  - Purpose: The partner accountable for the matter.
+  - Done when: Matter records show Responsible partner and it accepts the right values.
+- [ ] **Create field Matter manager (user)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `matter_manager`.
+  - Purpose: The team member who runs the matter day to day.
+  - Done when: Matter records show Matter manager and it accepts the right values.
+- [ ] **Create field Close reason (select)**
+  - Where: Settings > Data Management > Objects > Matters > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `close_reason`.
+  - Purpose: Why the matter ended without completing. Required on the withdrawn stage.
+  - Options: Client withdrew, We withdrew, Conflict arose, Non-payment, Work no longer needed, Other
+  - Done when: Matter records show Close reason and it accepts the right values.
+
+### Conflict check
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Client or prospect name and the date of the check.
+  - Done when: Conflict check records show Name and it accepts the right values.
+- [ ] **Create field Result (select)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `result`.
+  - Purpose: Outcome of this check.
+  - Options: Pending, Cleared, Cleared with waiver, Conflicted
+  - Done when: Conflict check records show Result and it accepts the right values.
+- [ ] **Create field Check date (date)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `date`/`date`, internal name `check_date`.
+  - Purpose: The date the check was run. A check is valid for a stated period only.
+  - Done when: Conflict check records show Check date and it accepts the right values.
+- [ ] **Create field Parties checked (long_text)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `string`/`textarea`, internal name `parties_checked`.
+  - Purpose: Names of every party searched, including the client, related companies and adverse parties. Names only, no matter detail.
+  - Done when: Conflict check records show Parties checked and it accepts the right values.
+- [ ] **Create field Cleared by (user)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `enumeration`/`select`, internal name `cleared_by`.
+  - Purpose: The risk partner or compliance officer who signed off the result.
+  - Done when: Conflict check records show Cleared by and it accepts the right values.
+- [ ] **Create field Ethical wall needed (checkbox)**
+  - Where: Settings > Data Management > Objects > Conflict checks > Properties tab > Create property. Group 'consultancy_and_professional_services', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `ethical_wall_needed`.
+  - Purpose: The clearance depends on keeping two teams apart. Matter team access must be restricted.
+  - Done when: Conflict check records show Ethical wall needed and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Request conflict check**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal moves to the conflict check stage.
+  - Action: Create a conflict check record with result pending, link it to the deal and company, and notify risk or compliance.
+  - Done when: the automation runs on a test record and the result matches: Create a conflict check record with result pending, link it to the deal and company, and notify risk or compliance.
+- [ ] **Copy conflict result to deal**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A conflict check result changes.
+  - Action: Set the linked deal's conflict check result to match, and notify the lead partner.
+  - Done when: the automation runs on a test record and the result matches: Set the linked deal's conflict check result to match, and notify the lead partner.
+- [ ] **Return conflicted deals**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A conflict check result is conflicted.
+  - Action: Move the deal back to qualified, notify the lead partner and risk, and prompt closed lost with conflict as the reason if the conflict cannot be waived.
+  - Done when: the automation runs on a test record and the result matches: Move the deal back to qualified, notify the lead partner and risk, and prompt closed lost with conflict as the reason if the conflict cannot be waived.
+- [ ] **Create matter on closed won**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal in the new work pipeline moves to closed won.
+  - Action: Create a matter from the deal's service area, billing model and amount, link it to the deal and company, and set the company's client status to active client.
+  - Done when: the automation runs on a test record and the result matches: Create a matter from the deal's service area, billing model and amount, link it to the deal and company, and set the company's client status to active client.
+- [ ] **Flag stalled deals**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+- [ ] **Flag work before engagement letter**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A matter is in progress and has no engagement letter signed date.
+  - Action: Notify the responsible partner and compliance.
+  - Done when: the automation runs on a test record and the result matches: Notify the responsible partner and compliance.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Conflict checks awaiting clearance**
+  - Where: CRM > Conflict checks > + add view, then set filters, columns and sort, and click Publish.
+  - Object: conflict_check
+  - Filter: Result is pending.
+  - Sort: Check date, oldest first.
+  - Done when: the view Conflict checks awaiting clearance is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Active matters**
+  - Where: CRM > Matters > + add view, then set filters, columns and sort, and click Publish.
+  - Object: matter
+  - Filter: Stage is open.
+  - Sort: Target end date, soonest first.
+  - Done when: the view Active matters is saved and shows the expected records.
+- [ ] **Matters without a signed letter**
+  - Where: CRM > Matters > + add view, then set filters, columns and sort, and click Publish.
+  - Object: matter
+  - Filter: Stage is in progress and engagement letter signed date is empty.
+  - Sort: Start date, oldest first.
+  - Done when: the view Matters without a signed letter is saved and shows the expected records.
+- [ ] **Matters ready to bill**
+  - Where: CRM > Matters > + add view, then set filters, columns and sort, and click Publish.
+  - Object: matter
+  - Filter: Stage is final billing.
+  - Sort: Target end date, oldest first.
+  - Done when: the view Matters ready to bill is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Create a service key and test in a developer test account first**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the account is Enterprise before creating custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

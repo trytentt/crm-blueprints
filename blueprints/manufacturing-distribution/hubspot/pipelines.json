@@ -1,0 +1,164 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.quote}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "New accounts",
+        "displayOrder": 1,
+        "pipelineId": "new_accounts",
+        "stages": [
+          {
+            "label": "Identified",
+            "displayOrder": 0,
+            "stageId": "new_accounts__identified",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "First contact",
+            "displayOrder": 1,
+            "stageId": "new_accounts__first_contact",
+            "metadata": {
+              "probability": "0.1"
+            }
+          },
+          {
+            "label": "Needs confirmed",
+            "displayOrder": 2,
+            "stageId": "new_accounts__needs_confirmed",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Sample or trial",
+            "displayOrder": 3,
+            "stageId": "new_accounts__sample_or_trial",
+            "metadata": {
+              "probability": "0.4"
+            }
+          },
+          {
+            "label": "Quote issued",
+            "displayOrder": 4,
+            "stageId": "new_accounts__quote_issued",
+            "metadata": {
+              "probability": "0.55"
+            }
+          },
+          {
+            "label": "Terms agreed",
+            "displayOrder": 5,
+            "stageId": "new_accounts__terms_agreed",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Closed won",
+            "displayOrder": 6,
+            "stageId": "new_accounts__closed_won",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 7,
+            "stageId": "new_accounts__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.quote}",
+      "body": {
+        "label": "RFQ handling",
+        "displayOrder": 1,
+        "pipelineId": "rfq_handling",
+        "stages": [
+          {
+            "label": "Received",
+            "displayOrder": 0,
+            "stageId": "rfq_handling__received",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Qualified",
+            "displayOrder": 1,
+            "stageId": "rfq_handling__qualified",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Pricing",
+            "displayOrder": 2,
+            "stageId": "rfq_handling__pricing",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Approval",
+            "displayOrder": 3,
+            "stageId": "rfq_handling__approval",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Sent",
+            "displayOrder": 4,
+            "stageId": "rfq_handling__sent",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Follow-up",
+            "displayOrder": 5,
+            "stageId": "rfq_handling__follow_up",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Accepted",
+            "displayOrder": 6,
+            "stageId": "rfq_handling__accepted",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Declined",
+            "displayOrder": 7,
+            "stageId": "rfq_handling__declined",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

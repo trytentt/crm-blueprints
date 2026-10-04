@@ -1,0 +1,1293 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.role}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.submission}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "client_status",
+        "label": "Client status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active client",
+            "value": "active_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Dormant client",
+            "value": "dormant_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Do not work with",
+            "value": "do_not_work",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "terms_status",
+        "label": "Terms status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether signed terms of business exist. We should not submit candidates to a client without terms.",
+        "options": [
+          {
+            "label": "No terms",
+            "value": "none",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Sent",
+            "value": "sent",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Signed",
+            "value": "signed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Expired",
+            "value": "expired",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "default_fee_percent",
+        "label": "Default fee percent",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The fee, as a percentage of first-year salary, agreed in the client's terms of business.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "rebate_period_days",
+        "label": "Rebate period (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Days after start during which the fee is partly or fully refundable if the placement leaves.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "sector",
+        "label": "Sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The client's sector. Used to match consultants and to report where placements come from.",
+        "options": [
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Financial services",
+            "value": "financial_services",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Engineering and manufacturing",
+            "value": "engineering_manufacturing",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Construction",
+            "value": "construction",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Retail and consumer",
+            "value": "retail_consumer",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Inbound",
+            "value": "inbound",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Candidate-led",
+            "value": "candidate_led",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Event",
+            "value": "event",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "person_type",
+        "label": "Person type",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "What this person is to us. One human has one record, so someone who is a candidate and later a hiring manager carries both types.",
+        "options": [
+          {
+            "label": "Client contact",
+            "value": "client_contact",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Candidate",
+            "value": "candidate",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Referee",
+            "value": "referee",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Referrer",
+            "value": "referrer",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "client_role",
+        "label": "Client role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.",
+        "options": [
+          {
+            "label": "Hiring manager",
+            "value": "hiring_manager",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "HR or talent lead",
+            "value": "hr_talent",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Budget holder",
+            "value": "budget_holder",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Procurement",
+            "value": "procurement",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "candidate_status",
+        "label": "Candidate status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "For candidates, whether we can currently put them forward.",
+        "options": [
+          {
+            "label": "Active, looking",
+            "value": "active",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Passive, open to approach",
+            "value": "passive",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Placed recently",
+            "value": "placed_recently",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not looking",
+            "value": "not_looking",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Do not contact",
+            "value": "do_not_contact",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "availability",
+        "label": "Availability",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "For candidates, how soon they could start. Used to filter submissions by what the client needs.",
+        "options": [
+          {
+            "label": "Immediate",
+            "value": "immediate",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "One month",
+            "value": "one_month",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Three months",
+            "value": "three_months",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Over three months",
+            "value": "over_three_months",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "right_to_work",
+        "label": "Right to work",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether we have seen evidence the candidate can work in the role's country. Record the status only, never copies of documents.",
+        "options": [
+          {
+            "label": "Not checked",
+            "value": "not_checked",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Confirmed",
+            "value": "confirmed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Needs sponsorship",
+            "value": "needs_sponsorship",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not eligible",
+            "value": "not_eligible",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "desired_salary",
+        "label": "Desired salary",
+        "type": "number",
+        "fieldType": "number",
+        "description": "For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "sector_experience",
+        "label": "Sector experience",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "For candidates, the sectors they have worked in. Used to find candidates for a role.",
+        "options": [
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Financial services",
+            "value": "financial_services",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Engineering and manufacturing",
+            "value": "engineering_manufacturing",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Construction",
+            "value": "construction",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Retail and consumer",
+            "value": "retail_consumer",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Public sector",
+            "value": "public_sector",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "privacy_basis",
+        "label": "Privacy basis",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The lawful basis for holding and contacting this person, recorded when they are added.",
+        "options": [
+          {
+            "label": "Consent",
+            "value": "consent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Legitimate interest",
+            "value": "legitimate_interest",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Contract",
+            "value": "contract",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "data_review_date",
+        "label": "Data review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date this record must be reviewed or deleted under the agency's retention policy."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the client deal was lost. Required on every lost stage.",
+        "options": [
+          {
+            "label": "No hiring need",
+            "value": "no_hiring_need",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Uses other agencies",
+            "value": "uses_another_agency",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Hires in-house",
+            "value": "hires_in_house",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Fees too high",
+            "value": "fees_too_high",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Terms rejected",
+            "value": "terms_rejected",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "search_model",
+        "label": "Search model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the client will engage us. Contingent is paid on a hire. Retained is paid in stages.",
+        "options": [
+          {
+            "label": "Contingent",
+            "value": "contingent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Retained",
+            "value": "retained",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Container",
+            "value": "container",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Contract or temp",
+            "value": "contract_temp",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "fee_percent",
+        "label": "Fee percent",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The fee proposed as a percentage of first-year salary.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "exclusivity",
+        "label": "Exclusivity",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether we are the only agency on the work. Exclusive or retained roles fill far more often.",
+        "options": [
+          {
+            "label": "Exclusive",
+            "value": "exclusive",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Preferred supplier",
+            "value": "preferred_supplier",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Shared with others",
+            "value": "shared",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "expected_roles_per_year",
+        "label": "Expected roles per year",
+        "type": "number",
+        "fieldType": "number",
+        "description": "How many roles the client is likely to give us in a year. Used to size the account.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the role stands with the client. Roles are reported on by status, so this is a select, not a stage.",
+        "options": [
+          {
+            "label": "Open",
+            "value": "open",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On hold",
+            "value": "on_hold",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Offer stage",
+            "value": "offer_stage",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Filled by us",
+            "value": "filled_by_us",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Filled elsewhere",
+            "value": "filled_elsewhere",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Withdrawn",
+            "value": "withdrawn",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "search_model",
+        "label": "Search model",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How this role is engaged. Decides when we are paid.",
+        "options": [
+          {
+            "label": "Contingent",
+            "value": "contingent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Retained",
+            "value": "retained",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Container",
+            "value": "container",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Contract or temp",
+            "value": "contract_temp",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "employment_type",
+        "label": "Employment type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Permanent, contract or temporary. Contract and temporary roles are paid by margin, not percentage.",
+        "options": [
+          {
+            "label": "Permanent",
+            "value": "permanent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Contract",
+            "value": "contract",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Temporary",
+            "value": "temporary",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "specialism",
+        "label": "Specialism",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The desk or specialism responsible. Used to route roles and report by desk.",
+        "options": [
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Finance",
+            "value": "finance",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Engineering",
+            "value": "engineering",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Sales and marketing",
+            "value": "sales_marketing",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Operations",
+            "value": "operations",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare",
+            "value": "healthcare",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "salary_min",
+        "label": "Salary minimum",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Bottom of the annual salary range the client has given us.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "salary_max",
+        "label": "Salary maximum",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Top of the annual salary range. The fee estimate uses the midpoint.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "fee_percent",
+        "label": "Fee percent",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Fee as a percentage of first-year salary for this role. Defaults from the client's terms.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "fee_estimate",
+        "label": "Fee estimate",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Expected fee if the role is filled, from fee percent and salary midpoint. Used for the weighted forecast.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "work_location",
+        "label": "Work location",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the work happens. Used to match candidates.",
+        "options": [
+          {
+            "label": "On-site",
+            "value": "onsite",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Hybrid",
+            "value": "hybrid",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Remote",
+            "value": "remote",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "openings",
+        "label": "Openings",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of people the client wants to hire into this role.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "received_date",
+        "label": "Received date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the client gave us the role. Used to measure time to fill."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "target_fill_date",
+        "label": "Target fill date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the client needs the role filled by."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.role}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "consultant",
+        "label": "Consultant",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The recruiter responsible for the role.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "source",
+        "label": "Source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the candidate came to this role. Used to see which channels produce placements.",
+        "options": [
+          {
+            "label": "Our database",
+            "value": "database",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Job board",
+            "value": "job_board",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "LinkedIn",
+            "value": "linkedin",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Inbound application",
+            "value": "inbound_application",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Headhunted",
+            "value": "headhunted",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "rejection_reason",
+        "label": "Rejection reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the candidate did not move forward. Required on the rejected stage.",
+        "options": [
+          {
+            "label": "Skills not a fit",
+            "value": "not_a_fit_skills",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Culture not a fit",
+            "value": "not_a_fit_culture",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Salary mismatch",
+            "value": "salary_mismatch",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Candidate withdrew",
+            "value": "candidate_withdrew",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Accepted another offer",
+            "value": "accepted_other_offer",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Role filled elsewhere",
+            "value": "client_filled_elsewhere",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Failed checks",
+            "value": "failed_checks",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Offer declined",
+            "value": "offer_declined",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "salary_expected",
+        "label": "Salary expected",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Annual salary the candidate expects for this role.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "agreed_salary",
+        "label": "Agreed salary",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Annual salary in the accepted offer. The fee is calculated from this.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "cv_sent_date",
+        "label": "CV sent date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the candidate was formally submitted to the client."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "interview_date",
+        "label": "Interview date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of the next or most recent client interview."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the candidate starts. The fee is earned on this date and the rebate period runs from it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "fee_amount",
+        "label": "Fee amount",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Fee due for this placement, from agreed salary and the fee percent on the role.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "invoice_status",
+        "label": "Invoice status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the placement invoice stands. Invoicing itself happens in the finance system.",
+        "options": [
+          {
+            "label": "Not due",
+            "value": "not_due",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "To invoice",
+            "value": "to_invoice",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Invoiced",
+            "value": "invoiced",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Paid",
+            "value": "paid",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Rebated",
+            "value": "rebated",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "checks_complete",
+        "label": "Checks complete",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Right to work, references and any required qualification checks are done."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.submission}",
+      "body": {
+        "groupName": "recruitment_agency",
+        "name": "consultant",
+        "label": "Consultant",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The recruiter who owns this candidate on this role.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

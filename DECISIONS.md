@@ -165,3 +165,13 @@ existing generator still raises.
 - Conflict checks are a custom object for the audit trail, with the latest result copied to the deal to gate the proposal stage.
 - Healthcare blueprint stores no patient or health data anywhere; counts are aggregate only.
 - Stage keys may repeat across pipelines in one design (`proposal`, `placed`). Generators must scope stage identifiers to their pipeline.
+
+## D-13. HubSpot generator judgement calls (2026-10-04)
+
+- Payload files are `{api_version, order, source, placeholders, requests}`, like the Attio files. Run order: schemas, property groups, properties, associations, pipelines. Groups follow schemas because a custom object's group needs its `objectTypeId`.
+- A custom object has no ID until HubSpot creates it, so requests carry `{objectTypeId.<key>}` and `{typeId.<relationship>.<from>_to_<to>}` placeholders, each explained in the file's `placeholders` key. A design `object_type_id` override means the object exists: no schema is sent.
+- The schema carries only the display property (a design text field, preferably `name`, else a generated `name`), in HubSpot's default group. Other properties are created afterwards in the design's group, and extra required properties are added by one PATCH of `requiredProperties`.
+- `associatedObjects` lists the other end of each non-native relationship; another custom object is listed only if created earlier. Each relationship is one paired label (`from_label`, `to_label`). A cardinality cap is a limit of 1 on the labelled type only; the unlabelled type's ID is unknown until read, so a manual step asks for a check.
+- Deal stages carry probability. Custom-object stages carry `isClosed` only (OQ-1), so design probabilities and the won or lost split are not sent there, and the manual steps and plan requirements say so (D-12). Pipelines on companies or people are not sent: HubSpot has none.
+- `stageId` is `<pipeline_key>__<stage_key>`. `pipelineId` is the key, prefixed with the object only when two objects share a key.
+- Property groups HubSpot ships (`contactinformation`, `companyinformation`, `dealinformation`, `ticketinformation`) are not created when an override names them. Only the first two names beyond `dealinformation`/`contactinformation` are unverified in the research.

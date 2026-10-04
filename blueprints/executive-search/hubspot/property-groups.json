@@ -1,0 +1,63 @@
+{
+  "api_version": "2026-09",
+  "order": 2,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/property-groups/create-property.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.search}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.search_candidate}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fee_instalment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}/groups",
+      "body": {
+        "name": "executive_search",
+        "label": "Executive search"
+      }
+    }
+  ]
+}

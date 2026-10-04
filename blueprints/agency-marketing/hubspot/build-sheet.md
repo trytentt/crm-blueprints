@@ -1,0 +1,465 @@
+# Build sheet: Agency, marketing and creative (hubspot)
+
+A marketing, creative or GTM agency that wins clients through proposals and pitches, then delivers on retainers or fixed-scope projects. Selling runs in deal pipelines. Each signed piece of work becomes an engagement, which has its own delivery pipeline, and retainers renew through a separate renewals pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is delivery tracked on its own object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. The engagement has its own owners, dates and delivery pipeline. Sales pipelines end at closed won, so win rate is not skewed by work in progress.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are retainers and fixed-scope projects the same object?**
+  - Recommended default: Yes. One engagement object with an engagement type. Retainers get a renewal deal 90 days before the end date. Projects end and may create a new business deal for follow-on work.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are retainer renewals tracked as deals on the same Deal object as new business?**
+  - Recommended default: Yes. A second pipeline on Deal keeps one revenue report. The deal links to its engagement so the history stays together.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Where are hours tracked and billed?**
+  - Recommended default: In the agency's time and invoicing tool, not the CRM. The CRM holds fee, hours per month and health. Do not rebuild timesheets. Add an integration only if account leads need hours used.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is client media spend tracked in the CRM?**
+  - Recommended default: No. Media spend belongs to the client and the ad platform. Track the agency fee only, and record any percentage-of-spend fee as a rule in the scope summary.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and a pipeline on one?**
+  - Recommended default: Check before the build. If not, model each engagement as a deal in a delivery pipeline with the engagement fields as custom properties, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How much unpaid work is done for a competitive pitch?**
+  - Recommended default: Set a rule in the sales process: no creative work before a written brief and a stated decision date. Use the competitive pitch field to review the cost of pitching against win rate.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`contacts`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Engagement**
+  - Where: Settings > Data Management > Objects > Create custom object (needs Enterprise). Singular 'Engagement', plural 'Engagements', internal name `engagement`. The name cannot be changed later.
+  - Purpose: One signed piece of work for a client: a retainer or a fixed-scope project. Holds scope, fee, term and team. Created when a deal is won. Renewal deals point back to it, and its delivery pipeline tracks the work.
+  - Done when: the object Engagement exists with plural name Engagements.
+- [ ] **Create relationship engagement to company (many_to_one)**
+  - Where: Settings > Data Management > Objects > Engagements > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Company' with 'Engagements' for Companies.
+  - Purpose: Shows every retainer and project a client has had with us.
+  - Done when: a engagement record shows the link as 'Company' and a company record shows it as 'Engagements'.
+- [ ] **Create relationship deal to engagement (many_to_one)**
+  - Where: Settings > Data Management > Objects > Deals > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Engagement' with 'Deals' for Engagements.
+  - Purpose: Ties the deal that created an engagement, and every later renewal or upsell deal, to it.
+  - Done when: a deal record shows the link as 'Engagement' and a engagement record shows it as 'Deals'.
+- [ ] **Create relationship engagement to person (many_to_many)**
+  - Where: Settings > Data Management > Objects > Engagements > Associations tab > Create association label (Super Admin; needs Professional or Enterprise). Pair 'Client contacts' with 'Engagements' for Contacts.
+  - Purpose: Links the client people who approve work and receive reports to the engagement.
+  - Done when: a engagement record shows the link as 'Client contacts' and a person record shows it as 'Engagements'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New business on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline New business exists with 8 stages in the order below.
+- [ ] **Stage 1: Lead**
+  - Type: open. Probability: 5%.
+  - Entered when a company has asked for help or accepted a first conversation.
+  - Deal probability: 0.05. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: next_step_date.
+  - Done when: the stage Lead is in position 1 and its rule is in place.
+- [ ] **Stage 2: Discovery**
+  - Type: open. Probability: 20%.
+  - Entered when a discovery call has happened with someone who can name the goal and the budget range.
+  - Deal probability: 0.2. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: next_step_date, budget_range.
+  - Done when: the stage Discovery is in position 2 and its rule is in place.
+- [ ] **Stage 3: Brief and scope**
+  - Type: open. Probability: 35%.
+  - Entered when the client has given a written brief and agreed we should prepare a proposal.
+  - Deal probability: 0.35. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: brief_received, service_lines, engagement_type.
+  - Done when: the stage Brief and scope is in position 3 and its rule is in place.
+- [ ] **Stage 4: Proposal sent**
+  - Type: open. Probability: 50%.
+  - Entered when a priced proposal has been sent to the decision maker.
+  - Deal probability: 0.5. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, decision_date, competitive_pitch.
+  - Done when: the stage Proposal sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Pitch or review**
+  - Type: open. Probability: 65%.
+  - Entered when the client has asked for a pitch session or a proposal walk-through with more than one stakeholder.
+  - Deal probability: 0.65. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: decision_date, next_step_date.
+  - Done when: the stage Pitch or review is in position 5 and its rule is in place.
+- [ ] **Stage 6: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the client has said we are the preferred agency and is discussing scope, fee or terms.
+  - Deal probability: 0.8. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Negotiation is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed statement of work or agreement is received and the engagement record is created.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date, engagement_type.
+  - Done when: the stage Closed won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the client chooses someone else or says no, or has not replied after three follow-ups over 30 days.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Retainer renewals on deal**
+  - Where: Settings > Data Management > Objects > Deals > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set the Deal probability dropdown to Won or Lost on the closing stages.
+  - Done when: the pipeline Retainer renewals exists with 7 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 60%.
+  - Entered when a retainer engagement is 90 days from its end date.
+  - Deal probability: 0.6. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: renewal_type.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Review booked**
+  - Type: open. Probability: 65%.
+  - Entered when a results review with the client decision maker is in the diary.
+  - Deal probability: 0.65. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: renewal_risk, next_step_date.
+  - Done when: the stage Review booked is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 75%.
+  - Entered when a renewal proposal with the next term's scope and fee has been sent.
+  - Deal probability: 0.75. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiation**
+  - Type: open. Probability: 85%.
+  - Entered when the client has asked for changes to scope, fee or term.
+  - Deal probability: 0.85. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Negotiation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Awaiting signature**
+  - Type: open. Probability: 95%.
+  - Entered when the renewal agreement has been sent for signature.
+  - Deal probability: 0.95. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Awaiting signature is in position 5 and its rule is in place.
+- [ ] **Stage 6: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed renewal is received and the engagement dates and fee are updated.
+  - Deal probability: 1.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: amount, close_date.
+  - Done when: the stage Renewed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Not renewed**
+  - Type: lost. Probability: 0%.
+  - Entered when the client confirms they will not renew, or the term ends unsigned.
+  - Deal probability: 0.0. HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: lost_reason.
+  - Done when: the stage Not renewed is in position 7 and its rule is in place.
+- [ ] **Create pipeline Delivery on engagement**
+  - Where: Settings > Data Management > Objects > Engagements > Pipelines tab > Create pipeline > Create from scratch, then + Add stage for each stage. Set each stage to Open or Closed.
+  - Done when: the pipeline Delivery exists with 8 stages in the order below.
+- [ ] **Stage 1: Onboarding**
+  - Type: open. Probability: 100%.
+  - Entered when the engagement record is created from a won deal and a delivery lead is named.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: account_lead, delivery_lead.
+  - Done when: the stage Onboarding is in position 1 and its rule is in place.
+- [ ] **Stage 2: Kickoff done**
+  - Type: open. Probability: 100%.
+  - Entered when the kickoff meeting has happened and access to the client's accounts has been received.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: access_received, scope_summary.
+  - Done when: the stage Kickoff done is in position 2 and its rule is in place.
+- [ ] **Stage 3: First deliverables**
+  - Type: open. Probability: 100%.
+  - Entered when the first agreed deliverable or report has been sent to the client.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: next_review_date.
+  - Done when: the stage First deliverables is in position 3 and its rule is in place.
+- [ ] **Stage 4: Steady state**
+  - Type: open. Probability: 100%.
+  - Entered when the first monthly review has taken place and the client has accepted the reporting format.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: health, next_review_date.
+  - Done when: the stage Steady state is in position 4 and its rule is in place.
+- [ ] **Stage 5: At risk**
+  - Type: open. Probability: 100%.
+  - Entered when health is set to red, or the client has raised a written concern.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: health, next_review_date.
+  - Done when: the stage At risk is in position 5 and its rule is in place.
+- [ ] **Stage 6: Wrapping up**
+  - Type: open. Probability: 100%.
+  - Entered when the engagement is within 30 days of its end date and no renewal is agreed.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: end_date.
+  - Done when: the stage Wrapping up is in position 6 and its rule is in place.
+- [ ] **Stage 7: Completed**
+  - Type: won. Probability: 100%.
+  - Entered when the work is delivered to scope and the engagement has reached its end date or been renewed into a new engagement.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: end_date.
+  - Done when: the stage Completed is in position 7 and its rule is in place.
+- [ ] **Stage 8: Terminated**
+  - Type: lost. Probability: 0%.
+  - Entered when the client or the agency has given notice to end the engagement early.
+  - HubSpot has no API for required fields per stage. In the pipeline's stage row choose Conditional logic rules > Add rule > Add property and tick Required for: end_reason.
+  - Done when: the stage Terminated is in position 8 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Client status (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `client_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active client, Past client, Partner or referrer
+  - Done when: Company records show Client status and it accepts the right values.
+- [ ] **Create field Industry (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `industry`.
+  - Purpose: The client's sector. Used to report which sectors we win in and to choose case studies.
+  - Options: Software, Financial services, Health, Retail and ecommerce, Manufacturing, Professional services, Public sector and charity, Other
+  - Done when: Company records show Industry and it accepts the right values.
+- [ ] **Create field Marketing budget band (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `marketing_budget_band`.
+  - Purpose: The client's annual marketing spend as they tell us. Used to judge fit before a proposal.
+  - Options: Under 50k, 50k to 250k, 250k to 1m, Over 1m, Unknown
+  - Done when: Company records show Marketing budget band and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Settings > Data Management > Objects > Companies > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Referral, Inbound content, Outbound, Partner, Event, Past client returning
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domain`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`numberofemployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin_company_page`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field Buying role (select)**
+  - Where: Settings > Data Management > Objects > Contacts > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `buying_role`.
+  - Purpose: The part this person plays in choosing or managing the agency. Used to check deals are not single-threaded.
+  - Options: Decision maker, Day-to-day lead, Finance, Procurement, Influencer, Blocker
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`firstname`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`lastname`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`jobtitle`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`hs_linkedin_url`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'dealinformation', type/field type in the UI matching `enumeration`/`select`, internal name `lost_reason`.
+  - Purpose: Why the deal was lost or the client left. Required on every lost stage.
+  - Options: No budget, No decision made, Chose another agency, Went in-house, Price, Scope mismatch, Unhappy with results, Relationship, Client closed or acquired, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `date`/`date`, internal name `next_step_date`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Service lines (multi_select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`checkbox`, internal name `service_lines`.
+  - Purpose: The services in the proposal. Used to report revenue and win rate by service.
+  - Options: Paid media, SEO and content, Social, Brand and creative, Web build, Email and CRM, GTM engineering, Strategy and consulting
+  - Done when: Deal records show Service lines and it accepts the right values.
+- [ ] **Create field Engagement type (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `engagement_type`.
+  - Purpose: Whether the deal sells a monthly retainer or a fixed-scope project. Decides what the engagement record gets.
+  - Options: Retainer, Project, Retainer plus project
+  - Done when: Deal records show Engagement type and it accepts the right values.
+- [ ] **Create field Brief received (checkbox)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `brief_received`.
+  - Purpose: The client has given a written brief or goals we can scope against.
+  - Done when: Deal records show Brief received and it accepts the right values.
+- [ ] **Create field Budget range (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `budget_range`.
+  - Purpose: The monthly or project budget the client has indicated for this work.
+  - Options: Under 5k, 5k to 15k, 15k to 50k, Over 50k, Not shared
+  - Done when: Deal records show Budget range and it accepts the right values.
+- [ ] **Create field Competitive pitch (checkbox)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `competitive_pitch`.
+  - Purpose: The client is comparing us formally with other agencies. Changes how much unpaid work we do.
+  - Done when: Deal records show Competitive pitch and it accepts the right values.
+- [ ] **Create field Decision date (date)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `date`/`date`, internal name `decision_date`.
+  - Purpose: The date the client has said they will choose.
+  - Done when: Deal records show Decision date and it accepts the right values.
+- [ ] **Create field Renewal type (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `renewal_type`.
+  - Purpose: Whether a renewals-pipeline deal is a straight renewal, an upsell or a re-scope.
+  - Options: Renewal, Upsell, Re-scope, Cross-sell
+  - Done when: Deal records show Renewal type and it accepts the right values.
+- [ ] **Create field Renewal risk (select)**
+  - Where: Settings > Data Management > Objects > Deals > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `renewal_risk`.
+  - Purpose: Account lead's view of how likely the retainer is to renew.
+  - Options: Low, Medium, High
+  - Done when: Deal records show Renewal risk and it accepts the right values.
+- [ ] **Confirm standard field Name (`dealname`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`closedate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`hubspot_owner_id`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`hs_next_step`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Engagement
+
+- [ ] **Create field Name (text, required)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `string`/`text`, internal name `name`.
+  - Purpose: Client name and the work, for example Client name SEO retainer.
+  - Done when: Engagement records show Name and it accepts the right values.
+- [ ] **Create field Engagement type (select)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `engagement_type`.
+  - Purpose: Whether this is a monthly retainer or a fixed-scope project. Retainers renew, projects end.
+  - Options: Retainer, Project
+  - Done when: Engagement records show Engagement type and it accepts the right values.
+- [ ] **Create field Service line (select)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `service_line`.
+  - Purpose: The main service delivered. One value so revenue and margin can be reported by service.
+  - Options: Paid media, SEO and content, Social, Brand and creative, Web build, Email and CRM, GTM engineering, Strategy and consulting
+  - Done when: Engagement records show Service line and it accepts the right values.
+- [ ] **Create field Health (select)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `health`.
+  - Purpose: Account lead's current view of the relationship and results. Reviewed at least monthly.
+  - Options: Green, Amber, Red
+  - Done when: Engagement records show Health and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `date`/`date`, internal name `start_date`.
+  - Purpose: First day of the contracted work.
+  - Done when: Engagement records show Start date and it accepts the right values.
+- [ ] **Create field End date (date)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `date`/`date`, internal name `end_date`.
+  - Purpose: Last day of the current term. A renewal deal opens 90 days before it for retainers.
+  - Done when: Engagement records show End date and it accepts the right values.
+- [ ] **Create field Monthly fee (currency)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `number`/`number`, internal name `monthly_fee`.
+  - Purpose: Monthly retainer fee, excluding media spend. Empty for fixed-scope projects.
+  - Done when: Engagement records show Monthly fee and it accepts the right values.
+- [ ] **Create field Project fee (currency)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `number`/`number`, internal name `project_fee`.
+  - Purpose: Total fixed fee for a project. Empty for retainers.
+  - Done when: Engagement records show Project fee and it accepts the right values.
+- [ ] **Create field Hours per month (number)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `number`/`number`, internal name `hours_per_month`.
+  - Purpose: Hours of team time included each month, used to check scope against what is delivered.
+  - Done when: Engagement records show Hours per month and it accepts the right values.
+- [ ] **Create field Notice period (days) (number)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `number`/`number`, internal name `notice_period_days`.
+  - Purpose: Days of notice either side must give to end the engagement early.
+  - Done when: Engagement records show Notice period (days) and it accepts the right values.
+- [ ] **Create field Access received (checkbox)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `bool`/`booleancheckbox`, internal name `access_received`.
+  - Purpose: The client has given the accounts, logins and assets needed to start work.
+  - Done when: Engagement records show Access received and it accepts the right values.
+- [ ] **Create field Scope summary (long_text)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `string`/`textarea`, internal name `scope_summary`.
+  - Purpose: What we are and are not committed to deliver, copied from the signed statement of work.
+  - Done when: Engagement records show Scope summary and it accepts the right values.
+- [ ] **Create field Next review date (date)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `date`/`date`, internal name `next_review_date`.
+  - Purpose: The date of the next client review meeting. Empty means no review is booked.
+  - Done when: Engagement records show Next review date and it accepts the right values.
+- [ ] **Create field Account lead (user)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `account_lead`.
+  - Purpose: The team member responsible for the client relationship on this engagement.
+  - Done when: Engagement records show Account lead and it accepts the right values.
+- [ ] **Create field Delivery lead (user)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `delivery_lead`.
+  - Purpose: The team member responsible for getting the work done.
+  - Done when: Engagement records show Delivery lead and it accepts the right values.
+- [ ] **Create field End reason (select)**
+  - Where: Settings > Data Management > Objects > Engagements > Properties tab > Create property. Group 'agency_marketing_and_creative', type/field type in the UI matching `enumeration`/`select`, internal name `end_reason`.
+  - Purpose: Why the engagement ended early or was not renewed. Required on the terminated stage.
+  - Options: Budget cut, Went in-house, Moved to another agency, Unhappy with results, Relationship, Client closed or acquired, We ended it, Other
+  - Done when: Engagement records show End reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create engagement on closed won**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A deal in the new business pipeline moves to closed won.
+  - Action: Create an engagement from the deal's engagement type, amount, service lines and close date, link it to the deal and company, set it to onboarding, and set the company's client status to active client.
+  - Done when: the automation runs on a test record and the result matches: Create an engagement from the deal's engagement type, amount, service lines and close date, link it to the deal and company, set it to onboarding, and set the company's client status to active client.
+- [ ] **Notify delivery team**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An engagement is created.
+  - Action: Notify the delivery lead and account lead with the scope summary and the signed agreement link.
+  - Done when: the automation runs on a test record and the result matches: Notify the delivery lead and account lead with the scope summary and the signed agreement link.
+- [ ] **Open renewal deal**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A retainer engagement has an end date 90 days away and is not terminated.
+  - Action: Create a deal in the retainer renewals pipeline at upcoming, linked to the engagement.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the retainer renewals pipeline at upcoming, linked to the engagement.
+- [ ] **Flag red health**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An engagement's health is set to red.
+  - Action: Move it to at risk and notify the account lead and the head of delivery.
+  - Done when: the automation runs on a test record and the result matches: Move it to at risk and notify the account lead and the head of delivery.
+- [ ] **Flag stalled deals**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+- [ ] **Mark past client**
+  - Where: Automations > Workflows > Create workflow (needs Professional or Enterprise).
+  - Trigger: A company's last active engagement moves to completed or terminated and it has no open engagement.
+  - Action: Set the company's client status to past client.
+  - Done when: the automation runs on a test record and the result matches: Set the company's client status to past client.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Pitches deciding soon**
+  - Where: CRM > Deals > + add view, then set filters, columns and sort, and click Publish.
+  - Object: deal
+  - Filter: Pipeline is new business, stage is open and decision date is within 14 days.
+  - Sort: Decision date, soonest first.
+  - Done when: the view Pitches deciding soon is saved and shows the expected records.
+- [ ] **Active engagements**
+  - Where: CRM > Engagements > + add view, then set filters, columns and sort, and click Publish.
+  - Object: engagement
+  - Filter: Stage is open.
+  - Sort: Health, red first, then end date.
+  - Done when: the view Active engagements is saved and shows the expected records.
+- [ ] **Retainers ending in 90 days**
+  - Where: CRM > Engagements > + add view, then set filters, columns and sort, and click Publish.
+  - Object: engagement
+  - Filter: Engagement type is retainer, stage is open and end date is within 90 days.
+  - Sort: End date, soonest first.
+  - Done when: the view Retainers ending in 90 days is saved and shows the expected records.
+- [ ] **Reviews overdue**
+  - Where: CRM > Engagements > + add view, then set filters, columns and sort, and click Publish.
+  - Object: engagement
+  - Filter: Stage is open and next review date is empty or in the past.
+  - Sort: Next review date, oldest first.
+  - Done when: the view Reviews overdue is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Create a service key and test in a developer test account first**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the account is Enterprise before creating custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

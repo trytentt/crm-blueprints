@@ -1,0 +1,170 @@
+{
+  "api_version": "2026-09",
+  "order": 4,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/associations/associations-schema/guide.md",
+    "https://knowledge.hubspot.com/object-settings/create-and-use-association-labels",
+    "https://knowledge.hubspot.com/object-settings/set-limits-for-record-associations"
+  ],
+  "placeholders": {
+    "{objectTypeId.service_contract}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.service_contract_company.service_contract_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.service_contract_company.company_to_service_contract}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.service_contract_deal.service_contract_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.service_contract_deal.deal_to_service_contract}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.service}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.service_contract_service.service_contract_to_service}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.service_contract_service.service_to_service_contract}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_service.deal_to_service}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_service.service_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{objectTypeId.referral_agreement}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{typeId.referral_agreement_company.referral_agreement_to_company}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.referral_agreement_company.company_to_referral_agreement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.referral_agreement_person.referral_agreement_to_person}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.referral_agreement_person.person_to_referral_agreement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_referral_agreement.deal_to_referral_agreement}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json).",
+    "{typeId.deal_referral_agreement.referral_agreement_to_deal}": "typeId of the label in that direction: GET /crm/associations/2026-09/<from>/<to>/labels after the label is created (associations.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.service_contract}/companies/labels",
+      "body": {
+        "name": "service_contract_company",
+        "label": "Customer",
+        "inverseLabel": "Service contracts"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.service_contract_company.service_contract_to_company} and {typeId.service_contract_company.company_to_service_contract}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.service_contract}/deals/labels",
+      "body": {
+        "name": "service_contract_deal",
+        "label": "Originating deal",
+        "inverseLabel": "Service contracts"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.service_contract_deal.service_contract_to_deal} and {typeId.service_contract_deal.deal_to_service_contract}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.service_contract}/{objectTypeId.service}/labels",
+      "body": {
+        "name": "service_contract_service",
+        "label": "Services",
+        "inverseLabel": "Service contracts"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.service_contract_service.service_contract_to_service} and {typeId.service_contract_service.service_to_service_contract}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.service}/labels",
+      "body": {
+        "name": "deal_service",
+        "label": "Services quoted",
+        "inverseLabel": "Deals"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_service.deal_to_service} and {typeId.deal_service.service_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.referral_agreement}/companies/labels",
+      "body": {
+        "name": "referral_agreement_company",
+        "label": "Partner organisation",
+        "inverseLabel": "Referral agreements"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.referral_agreement_company.referral_agreement_to_company} and {typeId.referral_agreement_company.company_to_referral_agreement}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/{objectTypeId.referral_agreement}/contacts/labels",
+      "body": {
+        "name": "referral_agreement_person",
+        "label": "Partner contact",
+        "inverseLabel": "Referral agreements"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.referral_agreement_person.referral_agreement_to_person} and {typeId.referral_agreement_person.person_to_referral_agreement}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/deals/{objectTypeId.referral_agreement}/labels",
+      "body": {
+        "name": "deal_referral_agreement",
+        "label": "Source partner",
+        "inverseLabel": "Deals sourced"
+      },
+      "note": "Needs Professional or Enterprise. The response holds one typeId per direction: save them as {typeId.deal_referral_agreement.deal_to_referral_agreement} and {typeId.deal_referral_agreement.referral_agreement_to_deal}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.service_contract}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.service_contract_company.service_contract_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A service_contract record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.service_contract}/deals/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.service_contract_deal.service_contract_to_deal}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A service_contract record may link to one deal record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.referral_agreement}/companies/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.referral_agreement_company.referral_agreement_to_company}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A referral_agreement record may link to one company record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/{objectTypeId.referral_agreement}/contacts/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.referral_agreement_person.referral_agreement_to_person}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A referral_agreement record may link to one person record."
+    },
+    {
+      "method": "POST",
+      "path": "/crm/associations/2026-09/definitions/configurations/deals/{objectTypeId.referral_agreement}/batch/create",
+      "body": {
+        "inputs": [
+          {
+            "category": "USER_DEFINED",
+            "typeId": "{typeId.deal_referral_agreement.deal_to_referral_agreement}",
+            "maxToObjectIds": 1
+          }
+        ]
+      },
+      "note": "Needs Professional or Enterprise. A deal record may link to one referral_agreement record."
+    }
+  ]
+}

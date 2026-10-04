@@ -1,0 +1,1348 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.search}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.search_candidate}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.fee_instalment}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "executive_search",
+        "name": "client_status",
+        "label": "Client status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Active client",
+            "value": "active_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Past client",
+            "value": "past_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Off-limits",
+            "value": "do_not_approach",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "executive_search",
+        "name": "off_limits_until",
+        "label": "Off-limits until",
+        "type": "date",
+        "fieldType": "date",
+        "description": "If the company is off-limits for candidate approaches because of a client agreement, the date that ends the restriction."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "executive_search",
+        "name": "sector",
+        "label": "Sector",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The company's sector. Used to match partners and to map the market for searches.",
+        "options": [
+          {
+            "label": "Financial services",
+            "value": "financial_services",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Consumer and retail",
+            "value": "consumer_retail",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Industrial",
+            "value": "industrial",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Healthcare and life sciences",
+            "value": "healthcare_life_sciences",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Private equity portfolio",
+            "value": "private_equity_portfolio",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Public and not-for-profit",
+            "value": "public_and_not_for_profit",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "executive_search",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the company first came to us. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Repeat client",
+            "value": "repeat_client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Investor introduction",
+            "value": "investor_introduction",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Inbound",
+            "value": "inbound",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "person_type",
+        "label": "Person type",
+        "type": "enumeration",
+        "fieldType": "checkbox",
+        "description": "What this person is to us. One human has one record, so a candidate who later becomes a client carries both types.",
+        "options": [
+          {
+            "label": "Client contact",
+            "value": "client_contact",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Candidate",
+            "value": "candidate",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Source or market expert",
+            "value": "source",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Referee",
+            "value": "referee",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Investor or board member",
+            "value": "investor",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "seniority",
+        "label": "Seniority",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "For candidates and contacts, their level. Used to map the market and brief the right partner.",
+        "options": [
+          {
+            "label": "Board or chair",
+            "value": "board",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "C-suite",
+            "value": "c_suite",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "VP or director",
+            "value": "vp_director",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Head of function",
+            "value": "head_of",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "function",
+        "label": "Function",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "For candidates, their function. Used to find people for searches.",
+        "options": [
+          {
+            "label": "General management",
+            "value": "ceo_general_management",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Finance",
+            "value": "finance",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Operations",
+            "value": "operations",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Commercial",
+            "value": "commercial",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "People",
+            "value": "people",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Legal",
+            "value": "legal",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "contact_restriction",
+        "label": "Contact restriction",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether we may approach this person. Set before any outreach and honoured across all searches.",
+        "options": [
+          {
+            "label": "None",
+            "value": "none",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Do not contact",
+            "value": "do_not_contact",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Off-limits because of a client",
+            "value": "client_off_limits",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Waiting for consent",
+            "value": "pending_consent",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "privacy_basis",
+        "label": "Privacy basis",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The lawful basis for holding and contacting this person, recorded when they are added.",
+        "options": [
+          {
+            "label": "Consent",
+            "value": "consent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Legitimate interest",
+            "value": "legitimate_interest",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Contract",
+            "value": "contract",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "current_total_compensation",
+        "label": "Current total compensation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Candidate's current annual total pay as they told us. Sensitive personal data. Visible to the search team only.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "executive_search",
+        "name": "data_review_date",
+        "label": "Data review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date this record must be reviewed or deleted under the firm's retention policy."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the mandate deal was lost. Required on every lost stage.",
+        "options": [
+          {
+            "label": "Chose another firm",
+            "value": "chose_another_firm",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Went contingent",
+            "value": "went_contingent",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Hired internally",
+            "value": "hired_internally",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Role cancelled",
+            "value": "role_cancelled",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Fee terms",
+            "value": "fee_terms",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Conflict or off-limits",
+            "value": "conflict_or_off_limits",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "role_title",
+        "label": "Role title",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The senior role the client wants to fill, as they describe it."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "expected_total_compensation",
+        "label": "Expected total compensation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The role's expected first-year total pay. The fee is calculated from it.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "fee_percent",
+        "label": "Fee percent",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Retained fee as a percentage of first-year total compensation.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "fee_structure",
+        "label": "Fee structure",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the retained fee is split into instalments. Agreed in the proposal.",
+        "options": [
+          {
+            "label": "Thirds on engagement, shortlist and placement",
+            "value": "thirds_milestone",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Thirds on a monthly schedule",
+            "value": "thirds_monthly",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Half on engagement, half on placement",
+            "value": "half_and_half",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Fixed fee",
+            "value": "fixed_fee",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "confidential_search",
+        "label": "Confidential search",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The incumbent does not know the role is open. Restricts who sees the deal and how it is named."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "competing_firms",
+        "label": "Competing firms",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether other firms are pitching for the mandate.",
+        "options": [
+          {
+            "label": "Sole pitch",
+            "value": "sole_pitch",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Two or three firms",
+            "value": "two_or_three",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Panel or formal tender",
+            "value": "panel",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "executive_search",
+        "name": "exclusivity_confirmed",
+        "label": "Exclusivity confirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client has confirmed we are the only firm retained for the role."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "role_title",
+        "label": "Role title",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The senior role being filled. Kept off confidential searches' visible names."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "function",
+        "label": "Function",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The function of the role. Used to report by practice.",
+        "options": [
+          {
+            "label": "General management",
+            "value": "ceo_general_management",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Finance",
+            "value": "finance",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technology",
+            "value": "technology",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Operations",
+            "value": "operations",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Commercial",
+            "value": "commercial",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "People",
+            "value": "people",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Legal",
+            "value": "legal",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "seniority",
+        "label": "Seniority",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The level of the role. Used to report by level.",
+        "options": [
+          {
+            "label": "Board or chair",
+            "value": "board",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "C-suite",
+            "value": "c_suite",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "VP or director",
+            "value": "vp_director",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Head of function",
+            "value": "head_of",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "confidential",
+        "label": "Confidential",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The incumbent or market must not know. Restricts record access and sets approach rules."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "expected_total_compensation",
+        "label": "Expected total compensation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The role's expected first-year total pay, from the signed mandate.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "total_fee",
+        "label": "Total fee",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total retained fee agreed in the mandate, excluding expenses.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "engaged_date",
+        "label": "Engaged date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the mandate was signed. The timetable runs from here."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "target_shortlist_date",
+        "label": "Target shortlist date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the mandate promises a shortlist to the client."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "target_placement_date",
+        "label": "Target placement date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the client wants the new executive to start."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "longlist_size",
+        "label": "Longlist size",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of people agreed on the longlist. Used to see how much mapping each search needs.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "partner",
+        "label": "Partner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The partner accountable for the search and the client relationship.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "consultant",
+        "label": "Consultant",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The consultant who runs the search day to day.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "close_reason",
+        "label": "Close reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the search ended without a placement. Required on the closed stage.",
+        "options": [
+          {
+            "label": "Client filled internally",
+            "value": "client_filled_internally",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Role cancelled",
+            "value": "role_cancelled",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Client paused indefinitely",
+            "value": "client_paused_indefinitely",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "We withdrew",
+            "value": "we_withdrew",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Candidate pool exhausted",
+            "value": "candidate_pool_exhausted",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "source",
+        "label": "Source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the candidate came to this search. Used to see which channels produce shortlisted people.",
+        "options": [
+          {
+            "label": "Market mapping",
+            "value": "market_mapping",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Network referral",
+            "value": "network_referral",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Inbound application",
+            "value": "inbound_application",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Client suggestion",
+            "value": "client_suggestion",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Our database",
+            "value": "database",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "assessment_rating",
+        "label": "Assessment rating",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The consultant's rating after the first full interview. Decides whether the candidate reaches the shortlist.",
+        "options": [
+          {
+            "label": "Strong",
+            "value": "strong",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Good",
+            "value": "good",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Marginal",
+            "value": "marginal",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not suitable",
+            "value": "not_suitable",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "motivation",
+        "label": "Motivation",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How open the candidate is to moving. Used to prioritise outreach.",
+        "options": [
+          {
+            "label": "Actively looking",
+            "value": "actively_looking",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Open to move",
+            "value": "open_to_move",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Would consider for the right role",
+            "value": "would_consider_for_right_role",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Not interested",
+            "value": "not_interested",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "client_feedback",
+        "label": "Client feedback",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The client's decision after seeing the candidate's profile or meeting them.",
+        "options": [
+          {
+            "label": "Pending",
+            "value": "pending",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Want to meet",
+            "value": "want_to_meet",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Not proceeding",
+            "value": "not_proceeding",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Offer wanted",
+            "value": "offer_wanted",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "outreach_date",
+        "label": "Outreach date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of the first approach to the candidate."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "interview_date",
+        "label": "Interview date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of our full interview with the candidate."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "client_interview_date",
+        "label": "Client interview date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date of the next or latest interview with the client."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "offered_compensation",
+        "label": "Offered compensation",
+        "type": "number",
+        "fieldType": "number",
+        "description": "First-year total pay in the offer. Confirms the fee basis.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "start_date",
+        "label": "Start date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the candidate starts. Triggers the final fee instalment where the fee is tied to placement."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "references_complete",
+        "label": "References complete",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Referee checks are done and held in the document system. Record completion only."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.search_candidate}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "out_reason",
+        "label": "Out reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the candidate left the search. Required on the out stage.",
+        "options": [
+          {
+            "label": "Declined approach",
+            "value": "declined_approach",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Not suitable on assessment",
+            "value": "not_suitable_on_assessment",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Client did not proceed",
+            "value": "client_did_not_proceed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Withdrew",
+            "value": "withdrew",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Accepted another role",
+            "value": "accepted_other_role",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Offer declined",
+            "value": "offer_declined",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Off-limits",
+            "value": "off_limits",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "instalment_number",
+        "label": "Instalment number",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Position of this instalment in the fee schedule, starting at 1.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "trigger",
+        "label": "Trigger",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The event or date that makes this instalment due.",
+        "options": [
+          {
+            "label": "On engagement",
+            "value": "on_engagement",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "On shortlist presented",
+            "value": "on_shortlist",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "On placement",
+            "value": "on_placement",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "On a set date",
+            "value": "on_date",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "amount",
+        "label": "Amount",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The instalment amount before tax and expenses.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "due_date",
+        "label": "Due date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date the instalment may be invoiced. Empty until the trigger happens."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "invoice_reference",
+        "label": "Invoice reference",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The invoice number in the finance system. Matches CRM to the ledger."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.fee_instalment}",
+      "body": {
+        "groupName": "executive_search",
+        "name": "waiver_reason",
+        "label": "Waiver reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the instalment was cancelled or waived. Required on the waived stage.",
+        "options": [
+          {
+            "label": "Search cancelled early",
+            "value": "search_cancelled_early",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Commercial concession",
+            "value": "commercial_concession",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Replaced by credit",
+            "value": "replaced_by_credit",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Raised in error",
+            "value": "error",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    }
+  ]
+}

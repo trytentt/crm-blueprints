@@ -1,0 +1,971 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.workspace}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.adoption_plan}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "customer_status",
+        "label": "Customer status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the company is in its life with us. Drives which views and automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Free user",
+            "value": "free_user",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Paying",
+            "value": "paying",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Former customer",
+            "value": "former_customer",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "segment",
+        "label": "Segment",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Size band used to decide whether sales-assist should engage or the account stays self-serve.",
+        "options": [
+          {
+            "label": "SMB",
+            "value": "smb",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Mid-market",
+            "value": "mid_market",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "icp_fit",
+        "label": "ICP fit",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How closely the company matches the ideal customer profile. One input to the PQL rule.",
+        "options": [
+          {
+            "label": "Strong",
+            "value": "strong",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Possible",
+            "value": "possible",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Weak",
+            "value": "weak",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "acquisition_channel",
+        "label": "Acquisition channel",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the first user at this company found the product. Set once, never overwritten.",
+        "options": [
+          {
+            "label": "Organic search",
+            "value": "organic_search",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Paid",
+            "value": "paid",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Community",
+            "value": "community",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Integration marketplace",
+            "value": "integration_marketplace",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Outbound",
+            "value": "outbound",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "workspace_role",
+        "label": "Workspace role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What this person is inside the product. A user is not always the person who pays.",
+        "options": [
+          {
+            "label": "Workspace owner",
+            "value": "owner",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Admin",
+            "value": "admin",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Member",
+            "value": "member",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Billing contact",
+            "value": "billing_contact",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Not a product user",
+            "value": "none",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays in a paid purchase. Used to check deals are not single-threaded on one user.",
+        "options": [
+          {
+            "label": "Economic buyer",
+            "value": "economic_buyer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Champion",
+            "value": "champion",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Technical evaluator",
+            "value": "technical_evaluator",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "End user",
+            "value": "end_user",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Blocker",
+            "value": "blocker",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "marketing_consent",
+        "label": "Marketing consent",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Lawful basis for marketing email to this person. Product sign-up alone does not give consent to sales outreach in every region.",
+        "options": [
+          {
+            "label": "Opted in",
+            "value": "opted_in",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Legitimate interest",
+            "value": "legitimate_interest",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Opted out",
+            "value": "opted_out",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Unknown",
+            "value": "unknown",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the deal was lost or the expansion declined. Required on every lost stage.",
+        "options": [
+          {
+            "label": "Happy to stay self-serve",
+            "value": "stayed_self_serve",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "No budget",
+            "value": "no_budget",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "No decision made",
+            "value": "no_decision",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Chose a competitor",
+            "value": "competitor",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Product gap",
+            "value": "product_gap",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Price",
+            "value": "price",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Bad timing",
+            "value": "bad_timing",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Champion left",
+            "value": "champion_left",
+            "displayOrder": 7,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 8,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "pql_trigger",
+        "label": "PQL trigger",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The product behaviour that made the lead product-qualified. Lets us see which signals convert.",
+        "options": [
+          {
+            "label": "Hit a usage limit",
+            "value": "hit_usage_limit",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Invited teammates",
+            "value": "invited_teammates",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Reached activation milestone",
+            "value": "activation_milestone",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Viewed pricing repeatedly",
+            "value": "viewed_pricing",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Asked to talk to sales",
+            "value": "asked_for_sales",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Trial ending while active",
+            "value": "trial_ending_active",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "expected_seats",
+        "label": "Expected seats",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of seats the buyer expects to need on the paid plan.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "target_plan",
+        "label": "Target plan",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The paid plan being discussed.",
+        "options": [
+          {
+            "label": "Team",
+            "value": "team",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Business",
+            "value": "business",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "billing_term",
+        "label": "Billing term",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the buyer will pay. Moving from card to invoice is the usual sales-assist step.",
+        "options": [
+          {
+            "label": "Monthly by card",
+            "value": "monthly_card",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Annual by card",
+            "value": "annual_card",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Annual by invoice",
+            "value": "annual_invoice",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Multi-year by invoice",
+            "value": "multi_year_invoice",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "security_review",
+        "label": "Security review",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the buyer's security and procurement review.",
+        "options": [
+          {
+            "label": "Not needed",
+            "value": "not_needed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Requested",
+            "value": "requested",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Passed",
+            "value": "passed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "expansion_type",
+        "label": "Expansion type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the expansion deal adds. Used to report where expansion revenue comes from.",
+        "options": [
+          {
+            "label": "More seats",
+            "value": "seats",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Plan upgrade",
+            "value": "plan_upgrade",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Add-on",
+            "value": "add_on",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "New team or department",
+            "value": "new_team",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "need_summary",
+        "label": "Need summary",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "What the team is trying to do with the product and what is stopping the free or current plan working."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "product_workspace_id",
+        "label": "Product workspace ID",
+        "type": "string",
+        "fieldType": "text",
+        "description": "The workspace's identifier in the product database. The key used to match synced usage to this record."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "plan",
+        "label": "Plan",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The plan the workspace is on now.",
+        "options": [
+          {
+            "label": "Free",
+            "value": "free",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Team",
+            "value": "team",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Business",
+            "value": "business",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Enterprise",
+            "value": "enterprise",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "lifecycle_stage",
+        "label": "Lifecycle stage",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the workspace is in the self-serve journey.",
+        "options": [
+          {
+            "label": "Signed up",
+            "value": "signed_up",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Activated",
+            "value": "activated",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Trialling",
+            "value": "trialling",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Paying",
+            "value": "paying",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Churned",
+            "value": "churned",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "signup_date",
+        "label": "Sign-up date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the workspace was created."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "trial_ends_date",
+        "label": "Trial end date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The day the current trial ends. Empty if not on a trial."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "activated",
+        "label": "Activated",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The workspace has reached the product's activation milestone, as defined by product."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "seats_used",
+        "label": "Seats used",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Active seats in the product, synced nightly.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "seats_paid",
+        "label": "Seats paid",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Seats the workspace is paying for. Compared with seats used to find expansion.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "active_users_30d",
+        "label": "Active users (30 days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Distinct users who used the product in the last 30 days, synced nightly.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "limit_usage_percent",
+        "label": "Plan limit used",
+        "type": "number",
+        "fieldType": "number",
+        "description": "How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal.",
+        "numberDisplayHint": "percentage"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "last_active_date",
+        "label": "Last active date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The last day any user was active in the workspace."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "pql_status",
+        "label": "PQL status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the workspace meets the product-qualified lead rule. Set by automation, not by hand.",
+        "options": [
+          {
+            "label": "Not qualified",
+            "value": "not_qualified",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Qualified",
+            "value": "qualified",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Accepted by sales",
+            "value": "accepted",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Rejected by sales",
+            "value": "rejected",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "pql_score",
+        "label": "PQL score",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "mrr",
+        "label": "MRR",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Monthly recurring revenue for this workspace at current prices, from billing.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.workspace}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "billing_source",
+        "label": "Billing source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the workspace pays by card through self-serve billing or by invoice agreed with sales.",
+        "options": [
+          {
+            "label": "None",
+            "value": "none",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Card",
+            "value": "card",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Invoice",
+            "value": "invoice",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.adoption_plan}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the plan stands.",
+        "options": [
+          {
+            "label": "Not started",
+            "value": "not_started",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "In progress",
+            "value": "in_progress",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Complete",
+            "value": "complete",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Stalled",
+            "value": "stalled",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.adoption_plan}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "target_activation_date",
+        "label": "Target activation date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "The date by which the workspace should have reached the activation milestone."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.adoption_plan}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "success_criteria",
+        "label": "Success criteria",
+        "type": "string",
+        "fieldType": "textarea",
+        "description": "What good use looks like for this customer, in numbers the product can measure."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.adoption_plan}",
+      "body": {
+        "groupName": "b2b_saas_product_led",
+        "name": "owner",
+        "label": "Owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The customer success manager running the plan.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/crm-object-schemas/2026-09/schemas/{objectTypeId.workspace}",
+      "body": {
+        "clearDescription": false,
+        "requiredProperties": [
+          "name",
+          "product_workspace_id"
+        ]
+      },
+      "note": "Run after the properties above exist: requiredProperties can only name existing properties."
+    }
+  ]
+}

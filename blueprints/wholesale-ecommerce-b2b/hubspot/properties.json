@@ -1,0 +1,930 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.territory}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.wholesale_order}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "retailer_type",
+        "label": "Retailer type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of retailer. Used for pricing, assortment and reporting.",
+        "options": [
+          {
+            "label": "Independent shop",
+            "value": "independent",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Small chain",
+            "value": "small_chain",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "National chain",
+            "value": "national_chain",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Department store",
+            "value": "department_store",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Online-only retailer",
+            "value": "online_only",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Marketplace seller",
+            "value": "marketplace",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Distributor",
+            "value": "distributor",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "account_status",
+        "label": "Account status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the retailer is in its life with us. Drives views and reorder chasing.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Onboarding",
+            "value": "onboarding",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Active",
+            "value": "active",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "At risk",
+            "value": "at_risk",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Lapsed",
+            "value": "lapsed",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "pricing_tier",
+        "label": "Pricing tier",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Wholesale price band the retailer buys on. Set by order volume and agreed terms.",
+        "options": [
+          {
+            "label": "Standard",
+            "value": "standard",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Preferred",
+            "value": "preferred",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Key account",
+            "value": "key_account",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "payment_terms",
+        "label": "Payment terms",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Payment terms agreed with the retailer. New accounts usually start on payment with order.",
+        "options": [
+          {
+            "label": "Pay on order",
+            "value": "pay_on_order",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Net 30",
+            "value": "net_30",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Net 60",
+            "value": "net_60",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Credit hold",
+            "value": "credit_hold",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "credit_limit",
+        "label": "Credit limit",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Maximum unpaid balance allowed, set by finance after a credit check.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "store_count",
+        "label": "Store count",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Number of physical shops. Used to size the opportunity and plan assortments.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "first_order_date",
+        "label": "First order date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date of the account's first order. Set by automation."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "last_order_date",
+        "label": "Last order date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date of the most recent order. Set by automation. Used to spot lapsing accounts."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "reorder_cycle_days",
+        "label": "Reorder cycle (days)",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Usual days between orders for this retailer, often tied to a season. Compared with the last order date.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "lifetime_orders",
+        "label": "Orders to date",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Count of orders placed. A count of one means the retailer has not yet reordered.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "lead_source",
+        "label": "Lead source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the retailer first came to us. Set once and never overwritten.",
+        "options": [
+          {
+            "label": "Trade show",
+            "value": "trade_show",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Inbound enquiry",
+            "value": "inbound",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Rep outreach",
+            "value": "rep_outreach",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Showroom",
+            "value": "showroom",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Wholesale marketplace",
+            "value": "marketplace",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Referral",
+            "value": "referral",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "territory_owner",
+        "label": "Account rep",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The sales rep who looks after this retailer. Normally the rep of its territory.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "buying_role",
+        "label": "Buying role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The part this person plays at the retailer. Used to find the buyer to approach and who to invoice.",
+        "options": [
+          {
+            "label": "Buyer",
+            "value": "buyer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Owner or director",
+            "value": "owner",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Merchandiser",
+            "value": "merchandiser",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Accounts payable",
+            "value": "accounts_payable",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Store manager",
+            "value": "store_manager",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the retailer did not open an account. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Range does not fit the shop",
+            "value": "range_mismatch",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Opening minimum too high",
+            "value": "minimum_too_high",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Margin too low",
+            "value": "price_margin",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Stocks a competing brand",
+            "value": "competing_brand",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Credit declined",
+            "value": "credit_declined",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Missed the buying season",
+            "value": "season_missed",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 6,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 7,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "line_sheet_sent",
+        "label": "Line sheet sent",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The current line sheet or catalogue has been sent to the buyer."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "samples_status",
+        "label": "Samples status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of any samples or showroom visit the buyer asked for.",
+        "options": [
+          {
+            "label": "Not needed",
+            "value": "not_needed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Requested",
+            "value": "requested",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Sent",
+            "value": "sent",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Reviewed",
+            "value": "reviewed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "buying_season",
+        "label": "Buying season",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The collection or season the retailer is buying for. Wholesale orders are seasonal, so forecasts are reported by season.",
+        "options": [
+          {
+            "label": "Spring/summer",
+            "value": "spring_summer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Autumn/winter",
+            "value": "autumn_winter",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Christmas",
+            "value": "christmas",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Year-round",
+            "value": "year_round",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "terms_agreed",
+        "label": "Terms agreed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Opening minimum, payment terms and returns policy are agreed in writing."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "account_application_received",
+        "label": "Account application received",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The retailer has returned the account form with trade references or tax details."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "first_order_expected",
+        "label": "Expected first order value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "The retailer's expected opening order value. Used to forecast.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.territory}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "rep",
+        "label": "Rep",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The sales rep responsible for retailers in this territory.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.territory}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "territory_type",
+        "label": "Territory type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the territory is cut by place or by channel.",
+        "options": [
+          {
+            "label": "Geographic",
+            "value": "geographic",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Channel",
+            "value": "channel",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "National accounts",
+            "value": "national_accounts",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.territory}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "annual_target",
+        "label": "Annual target",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Wholesale revenue target for the territory for the year.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.territory}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the territory has a rep and is being worked.",
+        "options": [
+          {
+            "label": "Covered",
+            "value": "covered",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Vacant",
+            "value": "vacant",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Paused",
+            "value": "paused",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "order_type",
+        "label": "Order type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether this is the retailer's first order or a reorder. Used to report the reorder rate.",
+        "options": [
+          {
+            "label": "First order",
+            "value": "first_order",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Reorder",
+            "value": "reorder",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Pre-order",
+            "value": "pre_order",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Sample order",
+            "value": "sample_order",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "order_channel",
+        "label": "Order channel",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the order was placed. Used to see how much sells through the portal and how much through reps.",
+        "options": [
+          {
+            "label": "Wholesale portal",
+            "value": "portal",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Rep",
+            "value": "rep",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Trade show",
+            "value": "trade_show",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Email",
+            "value": "email",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "EDI",
+            "value": "edi",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "order_date",
+        "label": "Order date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the order was placed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "ship_date",
+        "label": "Ship date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the order is promised to leave, or left, the warehouse."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "order_value",
+        "label": "Order value",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total wholesale value excluding tax.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "units",
+        "label": "Units",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Total units ordered. Compared with the opening minimum.",
+        "numberDisplayHint": "formatted"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "payment_status",
+        "label": "Payment status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where payment stands for the order.",
+        "options": [
+          {
+            "label": "Unpaid",
+            "value": "unpaid",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Part paid",
+            "value": "part_paid",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Paid",
+            "value": "paid",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Overdue",
+            "value": "overdue",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "cancel_reason",
+        "label": "Cancel reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the order was cancelled. Required on the cancelled stage.",
+        "options": [
+          {
+            "label": "Stock unavailable",
+            "value": "stock_unavailable",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Retailer cancelled",
+            "value": "retailer_cancelled",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Credit hold",
+            "value": "credit_hold",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Payment failed",
+            "value": "payment_failed",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Duplicate order",
+            "value": "duplicate",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "season",
+        "label": "Season",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The collection the order is for. Used for seasonal reorder analysis.",
+        "options": [
+          {
+            "label": "Spring/summer",
+            "value": "spring_summer",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Autumn/winter",
+            "value": "autumn_winter",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Christmas",
+            "value": "christmas",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Year-round",
+            "value": "year_round",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.wholesale_order}",
+      "body": {
+        "groupName": "wholesale_and_ecommerce_brand_b2b",
+        "name": "owner",
+        "label": "Order owner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member (rep or customer service) responsible for the order.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

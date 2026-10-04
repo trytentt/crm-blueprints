@@ -1,0 +1,156 @@
+{
+  "api_version": "2026-09",
+  "order": 5,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/pipelines/guide.md",
+    "https://knowledge.hubspot.com/object-settings/set-up-and-customize-pipelines"
+  ],
+  "placeholders": {
+    "{objectTypeId.project}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/deals",
+      "body": {
+        "label": "Tender and estimate",
+        "displayOrder": 1,
+        "pipelineId": "tender_estimate",
+        "stages": [
+          {
+            "label": "Opportunity",
+            "displayOrder": 0,
+            "stageId": "tender_estimate__opportunity",
+            "metadata": {
+              "probability": "0.05"
+            }
+          },
+          {
+            "label": "Go or no-go",
+            "displayOrder": 1,
+            "stageId": "tender_estimate__go_no_go",
+            "metadata": {
+              "probability": "0.15"
+            }
+          },
+          {
+            "label": "Estimating",
+            "displayOrder": 2,
+            "stageId": "tender_estimate__estimating",
+            "metadata": {
+              "probability": "0.25"
+            }
+          },
+          {
+            "label": "Bid submitted",
+            "displayOrder": 3,
+            "stageId": "tender_estimate__bid_submitted",
+            "metadata": {
+              "probability": "0.35"
+            }
+          },
+          {
+            "label": "Clarification",
+            "displayOrder": 4,
+            "stageId": "tender_estimate__clarification",
+            "metadata": {
+              "probability": "0.55"
+            }
+          },
+          {
+            "label": "Preferred bidder",
+            "displayOrder": 5,
+            "stageId": "tender_estimate__preferred_bidder",
+            "metadata": {
+              "probability": "0.8"
+            }
+          },
+          {
+            "label": "Awarded",
+            "displayOrder": 6,
+            "stageId": "tender_estimate__awarded",
+            "metadata": {
+              "probability": "1.0"
+            }
+          },
+          {
+            "label": "Closed lost",
+            "displayOrder": 7,
+            "stageId": "tender_estimate__closed_lost",
+            "metadata": {
+              "probability": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/pipelines/2026-09/{objectTypeId.project}",
+      "body": {
+        "label": "Project delivery",
+        "displayOrder": 1,
+        "pipelineId": "project_delivery",
+        "stages": [
+          {
+            "label": "Pre-start",
+            "displayOrder": 0,
+            "stageId": "project_delivery__pre_start",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Mobilising",
+            "displayOrder": 1,
+            "stageId": "project_delivery__mobilising",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "On site",
+            "displayOrder": 2,
+            "stageId": "project_delivery__on_site",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Snagging",
+            "displayOrder": 3,
+            "stageId": "project_delivery__snagging",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Defects period",
+            "displayOrder": 4,
+            "stageId": "project_delivery__defects_period",
+            "metadata": {
+              "isClosed": "false"
+            }
+          },
+          {
+            "label": "Closed out",
+            "displayOrder": 5,
+            "stageId": "project_delivery__closed_out",
+            "metadata": {
+              "isClosed": "true"
+            }
+          },
+          {
+            "label": "Cancelled",
+            "displayOrder": 6,
+            "stageId": "project_delivery__cancelled",
+            "metadata": {
+              "isClosed": "true"
+            }
+          }
+        ]
+      },
+      "note": "Custom object pipeline: needs Enterprise. HubSpot has open or closed here, not won or lost, and the key for closed is unconfirmed (OQ-1). Read the pipeline back and check each closed stage."
+    }
+  ]
+}

@@ -1,0 +1,1297 @@
+{
+  "api_version": "2026-09",
+  "order": 3,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.household}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.advice_case}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.review}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "company_type",
+        "label": "Company type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the organisation is to the practice. Used to report referral sources and manage provider contacts.",
+        "options": [
+          {
+            "label": "Professional referrer",
+            "value": "referrer_professional",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Employer",
+            "value": "employer",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Product provider or platform",
+            "value": "product_provider",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Outsourced partner",
+            "value": "paraplanning_partner",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/companies",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "referral_agreement",
+        "label": "Referral agreement",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "A written referral agreement is in place with this organisation."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "client_status",
+        "label": "Client status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where this person is with the practice. Drives views and which automations apply.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Client",
+            "value": "client",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Former client",
+            "value": "former_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Professional contact",
+            "value": "professional_contact",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "household_role",
+        "label": "Household role",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The person's place in their household. Used to address correspondence and find the main contact.",
+        "options": [
+          {
+            "label": "Main client",
+            "value": "main_client",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Partner",
+            "value": "partner",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Dependant",
+            "value": "dependant",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Attorney or trustee",
+            "value": "attorney_or_trustee",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "date_of_birth",
+        "label": "Date of birth",
+        "type": "date",
+        "fieldType": "date",
+        "description": "DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to advisers and administrators only."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "employment_status",
+        "label": "Employment status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.",
+        "options": [
+          {
+            "label": "Employed",
+            "value": "employed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Self-employed",
+            "value": "self_employed",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Company director",
+            "value": "director",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Retired",
+            "value": "retired",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Not working",
+            "value": "not_working",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "vulnerability_flag",
+        "label": "Vulnerability flag",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "DATA PROTECTION: may reveal health or personal circumstances. Records whether the client may need extra care or adjusted service. Visible to advisers and compliance only. Keep detail in the case notes, not here.",
+        "options": [
+          {
+            "label": "None identified",
+            "value": "none",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Possible",
+            "value": "possible",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Confirmed",
+            "value": "confirmed",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "id_verified",
+        "label": "Identity verified",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "DATA PROTECTION: identity checks are complete and the evidence is held in the document system, not in the CRM. Required before advice work starts."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "marketing_consent",
+        "label": "Marketing consent",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Whether the person agreed to receive newsletters and invitations. Respect it in every campaign and sync.",
+        "options": [
+          {
+            "label": "Opted in",
+            "value": "opted_in",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Opted out",
+            "value": "opted_out",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Not asked",
+            "value": "not_asked",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/contacts",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "preferred_contact",
+        "label": "Preferred contact method",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the client prefers to be contacted. Used when booking reviews.",
+        "options": [
+          {
+            "label": "Email",
+            "value": "email",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Phone",
+            "value": "phone",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Post",
+            "value": "post",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Video call",
+            "value": "video",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "dealinformation",
+        "name": "lost_reason",
+        "label": "Lost reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the prospect did not become a client. Required on the lost stage.",
+        "options": [
+          {
+            "label": "Chose another adviser",
+            "value": "chose_other_adviser",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Fees too high",
+            "value": "fees_too_high",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "No need now",
+            "value": "no_need_now",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Outside our service",
+            "value": "outside_service",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Did not proceed after advice",
+            "value": "did_not_proceed",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 5,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 6,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "next_step_date",
+        "label": "Next step date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "When the next step is due. Open deals with no future date are stalled."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "referral_source",
+        "label": "Referral source",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the prospect found the practice. Most business is by introduction, so this is reported monthly.",
+        "options": [
+          {
+            "label": "Existing client",
+            "value": "client_referral",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Accountant or solicitor",
+            "value": "professional_referral",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Employer or workplace",
+            "value": "employer_scheme",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Website",
+            "value": "website",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Seminar or event",
+            "value": "event",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "service_interest",
+        "label": "Service interest",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the prospect wants help with. Used to route to the right adviser and set the fee basis.",
+        "options": [
+          {
+            "label": "Retirement planning",
+            "value": "retirement_planning",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Investments",
+            "value": "investments",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Protection",
+            "value": "protection",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Mortgages",
+            "value": "mortgages",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Inheritance planning",
+            "value": "inheritance_planning",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "Whole-of-life planning",
+            "value": "holistic_planning",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "expected_investable_assets",
+        "label": "Expected investable assets",
+        "type": "number",
+        "fieldType": "number",
+        "description": "DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on. Used to forecast fees.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "initial_meeting_held",
+        "label": "Initial meeting held",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The free initial meeting has taken place and the services and fees were explained."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "fee_basis_agreed",
+        "label": "Fee basis agreed",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How the practice will be paid. Must be agreed before advice work starts.",
+        "options": [
+          {
+            "label": "Not discussed",
+            "value": "not_discussed",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Initial plus ongoing",
+            "value": "initial_plus_ongoing",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Fixed fee",
+            "value": "fixed_fee",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Hourly",
+            "value": "hourly",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Percentage of assets",
+            "value": "percentage_of_assets",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/deals",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "engagement_signed",
+        "label": "Client agreement signed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The client agreement and terms of business are signed and held in the document system."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "status",
+        "label": "Status",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Where the household is with the practice.",
+        "options": [
+          {
+            "label": "Prospect",
+            "value": "prospect",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Onboarding",
+            "value": "onboarding",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Ongoing client",
+            "value": "ongoing_client",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "One-off client",
+            "value": "one_off_client",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Former client",
+            "value": "former_client",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "service_tier",
+        "label": "Service tier",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The level of service the household pays for. Sets review frequency and who attends.",
+        "options": [
+          {
+            "label": "Premier",
+            "value": "premier",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Standard",
+            "value": "standard",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Essential",
+            "value": "essential",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "One-off advice",
+            "value": "one_off",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "lead_adviser",
+        "label": "Lead adviser",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The adviser responsible for the household.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "attitude_to_risk",
+        "label": "Attitude to risk",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "DATA PROTECTION: personal financial data. The risk level agreed with the client from the practice's risk questionnaire. Reconfirmed at each review.",
+        "options": [
+          {
+            "label": "Cautious",
+            "value": "cautious",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Cautious to balanced",
+            "value": "balanced_cautious",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Balanced",
+            "value": "balanced",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Balanced to adventurous",
+            "value": "balanced_adventurous",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Adventurous",
+            "value": "adventurous",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "capacity_for_loss",
+        "label": "Capacity for loss",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "DATA PROTECTION: personal financial data. How much loss the household could bear without harm to its standard of living. Assessed separately from attitude to risk.",
+        "options": [
+          {
+            "label": "Low",
+            "value": "low",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Medium",
+            "value": "medium",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "High",
+            "value": "high",
+            "displayOrder": 2,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "assets_under_advice_band",
+        "label": "Assets under advice band",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "DATA PROTECTION: personal financial data. Banded size of assets advised on. Used for tiering and fee reporting without storing exact balances.",
+        "options": [
+          {
+            "label": "Under 100k",
+            "value": "under_100k",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "100k to 250k",
+            "value": "from_100k_to_250k",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "250k to 500k",
+            "value": "from_250k_to_500k",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "500k to 1m",
+            "value": "from_500k_to_1m",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Over 1m",
+            "value": "over_1m",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "annual_fee",
+        "label": "Annual ongoing fee",
+        "type": "number",
+        "fieldType": "number",
+        "description": "Expected ongoing fee per year. Used to forecast recurring income.",
+        "showCurrencySymbol": true
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "review_frequency",
+        "label": "Review frequency",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "How often the household is reviewed under its service agreement.",
+        "options": [
+          {
+            "label": "Annual",
+            "value": "annual",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Six-monthly",
+            "value": "six_monthly",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Quarterly",
+            "value": "quarterly",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "As needed",
+            "value": "ad_hoc",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "last_review_date",
+        "label": "Last review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date of the most recent completed review. Set by automation."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "next_review_date",
+        "label": "Next review date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the next review is due. Set from the last review date and frequency. Drives the review cycle."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.household}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "agreement_date",
+        "label": "Agreement date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the client agreement was signed. Starts the service."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "advice_topic",
+        "label": "Advice topic",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The area of advice. Used to route work and report volumes.",
+        "options": [
+          {
+            "label": "Retirement",
+            "value": "retirement",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Investments",
+            "value": "investments",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Protection",
+            "value": "protection",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Mortgage",
+            "value": "mortgage",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Inheritance",
+            "value": "inheritance",
+            "displayOrder": 4,
+            "hidden": false
+          },
+          {
+            "label": "General planning",
+            "value": "general_planning",
+            "displayOrder": 5,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "adviser",
+        "label": "Adviser",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The adviser accountable for the recommendation.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "paraplanner",
+        "label": "Paraplanner",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The team member who researches and drafts the report.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "fact_find_complete",
+        "label": "Fact find complete",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have been gathered and checked. The detail is held in the planning system."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "report_issued_date",
+        "label": "Report issued date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date the written recommendation was sent to the client."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "compliance_check",
+        "label": "Compliance check",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Progress of the internal check of the advice before it goes to the client.",
+        "options": [
+          {
+            "label": "Not required",
+            "value": "not_required",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Pending",
+            "value": "pending",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Passed",
+            "value": "passed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Rework needed",
+            "value": "rework_needed",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "client_decision",
+        "label": "Client decision",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the client decided after the recommendation. Reported to see how often advice is followed.",
+        "options": [
+          {
+            "label": "Awaiting",
+            "value": "awaiting",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Accepted",
+            "value": "accepted",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Partly accepted",
+            "value": "partly_accepted",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Declined",
+            "value": "declined",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "applications_submitted",
+        "label": "Applications submitted",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "Applications to the product providers or platforms have been sent."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "closure_reason",
+        "label": "Closure reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the case closed without completing. Required on the closed-without-advice stage.",
+        "options": [
+          {
+            "label": "Client withdrew",
+            "value": "client_withdrew",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Advice declined",
+            "value": "advice_declined",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Unable to advise",
+            "value": "unable_to_advise",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "No response",
+            "value": "no_response",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Circumstances changed",
+            "value": "circumstances_changed",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.advice_case}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "completion_date",
+        "label": "Completion date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date all agreed actions were completed."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "review_type",
+        "label": "Review type",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The kind of review. Used to prepare the right agenda.",
+        "options": [
+          {
+            "label": "Annual",
+            "value": "annual",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Six-monthly",
+            "value": "six_monthly",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Life event",
+            "value": "life_event",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Ad hoc",
+            "value": "ad_hoc",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "due_date",
+        "label": "Due date",
+        "type": "date",
+        "fieldType": "date",
+        "description": "Date by which the review should be held under the service agreement."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "meeting_date",
+        "label": "Meeting date",
+        "type": "datetime",
+        "fieldType": "date",
+        "description": "When the review meeting is or was held."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "circumstances_changed",
+        "label": "Circumstances changed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "DATA PROTECTION: personal circumstances. Something material changed since the last review, such as family, income, health or goals. Detail goes in the planning system."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "risk_profile_reconfirmed",
+        "label": "Risk profile reconfirmed",
+        "type": "bool",
+        "fieldType": "booleancheckbox",
+        "description": "The attitude to risk and capacity for loss were checked again at this review."
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "outcome",
+        "label": "Outcome",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "What the review concluded. Reported to see how many reviews lead to new advice.",
+        "options": [
+          {
+            "label": "No change",
+            "value": "no_change",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Minor changes",
+            "value": "minor_changes",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "New advice needed",
+            "value": "new_advice_needed",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Service level change",
+            "value": "service_change",
+            "displayOrder": 3,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "missed_reason",
+        "label": "Missed reason",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "Why the review did not happen. Required on the not-completed stage.",
+        "options": [
+          {
+            "label": "Client declined",
+            "value": "client_declined",
+            "displayOrder": 0,
+            "hidden": false
+          },
+          {
+            "label": "Client unresponsive",
+            "value": "client_unresponsive",
+            "displayOrder": 1,
+            "hidden": false
+          },
+          {
+            "label": "Moved to another adviser",
+            "value": "moved_adviser",
+            "displayOrder": 2,
+            "hidden": false
+          },
+          {
+            "label": "Left the practice",
+            "value": "left_practice",
+            "displayOrder": 3,
+            "hidden": false
+          },
+          {
+            "label": "Other",
+            "value": "other",
+            "displayOrder": 4,
+            "hidden": false
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/crm/properties/2026-09/{objectTypeId.review}",
+      "body": {
+        "groupName": "financial_advisers_client_households",
+        "name": "adviser",
+        "label": "Adviser",
+        "type": "enumeration",
+        "fieldType": "select",
+        "description": "The adviser who runs the review.",
+        "externalOptions": true,
+        "referencedObjectType": "OWNER"
+      }
+    }
+  ]
+}

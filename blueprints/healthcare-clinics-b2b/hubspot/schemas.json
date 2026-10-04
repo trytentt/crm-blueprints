@@ -1,0 +1,124 @@
+{
+  "api_version": "2026-09",
+  "order": 1,
+  "source": [
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/create-schema.md",
+    "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/schemas/guide.md"
+  ],
+  "placeholders": {
+    "{objectTypeId.service}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.service_contract}": "objectTypeId in the response of the create-schema request for this object (schemas.json).",
+    "{objectTypeId.referral_agreement}": "objectTypeId in the response of the create-schema request for this object (schemas.json)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "service",
+        "labels": {
+          "singular": "Service",
+          "plural": "Services"
+        },
+        "description": "One service line the clinic sells to organisations, for example a type of assessment, programme or screening. A catalogue entry with price and delivery mode. Holds no patient or health data.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "The service line as sold, for example a type of workplace assessment."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.service}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "service_contract",
+        "labels": {
+          "singular": "Service contract",
+          "plural": "Service contracts"
+        },
+        "description": "The agreement under which the clinic provides services to one employer or insurer, with its term, pricing basis and renewal date. Created when a deal is won. Holds only commercial terms and aggregate headcount, never information about any patient.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-3",
+          "{objectTypeId.service}"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Organisation name and the word contract. Never include a person's name."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.service_contract}."
+    },
+    {
+      "method": "POST",
+      "path": "/crm-object-schemas/2026-09/schemas",
+      "body": {
+        "name": "referral_agreement",
+        "labels": {
+          "singular": "Referral agreement",
+          "plural": "Referral agreements"
+        },
+        "description": "The working arrangement with one referral partner, such as a broker, insurer panel or another provider. Tracks governance checks and the agreement. Volumes are aggregate counts only. Never record who was referred or why.",
+        "primaryDisplayProperty": "name",
+        "secondaryDisplayProperties": [],
+        "searchableProperties": [
+          "name"
+        ],
+        "requiredProperties": [
+          "name"
+        ],
+        "allowsSensitiveProperties": false,
+        "shouldCreateSameObjectAssociation": false,
+        "associatedObjects": [
+          "0-2",
+          "0-1",
+          "0-3"
+        ],
+        "properties": [
+          {
+            "name": "name",
+            "label": "Name",
+            "type": "string",
+            "fieldType": "text",
+            "description": "Partner organisation name and the word agreement."
+          }
+        ]
+      },
+      "note": "Needs Enterprise. Save objectTypeId from the response as {objectTypeId.referral_agreement}."
+    }
+  ]
+}
