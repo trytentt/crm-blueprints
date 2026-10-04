@@ -82,6 +82,8 @@ def _check_objects(d: Design, r: _Report) -> None:
             r.error(f"{p}.label", "label is missing")
         if not o.description:
             r.error(f"{p}.description", "every object needs a description")
+        elif o.description.startswith("TODO"):
+            r.error(f"{p}.description", "description is still a TODO (from a drafted design)")
         for platform in o.native_names:
             if platform not in PLATFORMS:
                 r.error(f"{p}.native_names.{platform}", f"unknown platform {platform!r}")
@@ -99,6 +101,8 @@ def _check_fields(d: Design, r: _Report) -> None:
             r.error(f"{p}.label", "label is missing")
         if not f.description:
             r.error(f"{p}.description", "every field needs a description")
+        elif f.description.startswith("TODO"):
+            r.error(f"{p}.description", "description is still a TODO (from a drafted design)")
         if f.type not in FIELD_TYPES:
             r.error(f"{p}.type", f"type {f.type!r} is not one of {', '.join(FIELD_TYPES)}")
         elif f.type in ("select", "multi_select"):

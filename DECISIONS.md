@@ -175,3 +175,16 @@ existing generator still raises.
 - Deal stages carry probability. Custom-object stages carry `isClosed` only (OQ-1), so design probabilities and the won or lost split are not sent there, and the manual steps and plan requirements say so (D-12). Pipelines on companies or people are not sent: HubSpot has none.
 - `stageId` is `<pipeline_key>__<stage_key>`. `pipelineId` is the key, prefixed with the object only when two objects share a key.
 - Property groups HubSpot ships (`contactinformation`, `companyinformation`, `dealinformation`, `ticketinformation`) are not created when an override names them. Only the first two names beyond `dealinformation`/`contactinformation` are unverified in the research.
+
+## D-14. Adapter discovery and CLI behaviour (2026-10-04)
+
+- Each platform module `tools/crm/<platform>.py` exposes `make_adapter(env: Mapping[str, str], *, target: str | None, production: bool) -> Adapter`. It reads credentials from `env` through `safety.get_credential` and raises `SafetyError` when one is missing.
+- `tools/crm/registry.py` `get_adapter(platform, env, target, production)` imports the module lazily and raises `RegistryError` for an unknown platform, a missing module, a missing `make_adapter`, or missing credentials. One platform's broken module never affects the others.
+- Every CLI's `main()` takes `adapter_factory` and `env` for tests. `.env` is read by a small loader (`tools/cli_common.py`); a variable already in the environment wins over the file.
+- `crm_apply` does the gating itself (`check_gates`, production prompt) and passes an adapter only changes it has cleared, one at a time. If the adapter has a `mode` attribute, the CLI sets it from the flags so the adapter's own gate agrees. An adapter's own gate is a second line of defence and must not re-hold a change the CLI has cleared.
+- "Already satisfied" before each change: with `--design`, the CLI re-plans and skips any change no longer in the plan. Without it, additive changes (`add_object`, `add_relationship`, `add_pipeline`, `add_stage`, `add_field`, `add_option`) are checked against the fresh `read_state` by target; other kinds are always attempted.
+- `--execute` needs `--client` so every real run is logged. A dry run logs too when `--client` is given. Exit codes: 0 done, 1 a change failed or (drift) drift found, 2 refused or error.
+- Held `needs_review` changes are reported, not treated as failure.
+- `crm_drift` counts every change and every destructive manual step (extras in live, type changes) as drift. Safe manual steps (automations, views) are not drift because `State` cannot see them.
+- `diff_design` treats the old design as the live state and runs the planner, so risk classes match plans. `<git ref>:<path>` is read with `git show` from the repo root.
+- `crm_pull --to-design` leaves core objects, fields and links to `extends`, writes `TODO` descriptions, and `tools.validate` now rejects a description starting with `TODO`. Exit-criteria TODOs already fail the "Entered when" rule.
