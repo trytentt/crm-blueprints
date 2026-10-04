@@ -1,0 +1,1470 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Company roles",
+          "description": "The roles this company plays in our business. One company can be landlord, tenant and investor at once.",
+          "api_slug": "company_roles",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Landlord"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Tenant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Occupier looking for space"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Investor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Managing agent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Solicitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_roles/options",
+      "body": {
+        "data": {
+          "title": "Surveyor or consultant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Occupier sector",
+          "description": "The tenant's line of business. Used to match prospects to space and report by sector.",
+          "api_slug": "occupier_sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Professional services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Retail"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Hospitality"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Logistics"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Light industrial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/occupier_sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Relationship status",
+          "description": "Where the company stands with us.",
+          "api_slug": "relationship_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Active requirement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Current tenant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Former tenant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Covenant strength",
+          "description": "Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.",
+          "api_slug": "covenant_strength",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/covenant_strength/options",
+      "body": {
+        "data": {
+          "title": "Strong"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/covenant_strength/options",
+      "body": {
+        "data": {
+          "title": "Satisfactory"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/covenant_strength/options",
+      "body": {
+        "data": {
+          "title": "Weak"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/covenant_strength/options",
+      "body": {
+        "data": {
+          "title": "Not checked"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Contact role",
+          "description": "The part this person plays in a letting. Used to send the right documents to the right person.",
+          "api_slug": "contact_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Decision maker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Property or facilities manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Tenant's agent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Landlord contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Solicitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_role/options",
+      "body": {
+        "data": {
+          "title": "Finance contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the letting did not complete. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Took other space"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms not agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Referencing failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Space unsuitable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Budget changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Requirement withdrawn"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Landlord withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Instruction type",
+          "description": "Whom we act for on this deal. Sets the fee basis and conflicts check.",
+          "api_slug": "instruction_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/instruction_type/options",
+      "body": {
+        "data": {
+          "title": "Acting for landlord"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/instruction_type/options",
+      "body": {
+        "data": {
+          "title": "Acting for tenant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/instruction_type/options",
+      "body": {
+        "data": {
+          "title": "Joint agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Size required (sq ft)",
+          "description": "Floor area the occupier wants. Used to match against available units.",
+          "api_slug": "requirement_size_sqft",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Target move date",
+          "description": "When the occupier needs to be in. Drives urgency and the lease start date.",
+          "api_slug": "target_move_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Viewing held",
+          "description": "At least one viewing of the space has taken place with a decision maker.",
+          "api_slug": "viewing_held",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Heads of terms status",
+          "description": "Progress of the written summary of agreed commercial terms, which is not binding until the lease is signed.",
+          "api_slug": "heads_of_terms_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/heads_of_terms_status/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/heads_of_terms_status/options",
+      "body": {
+        "data": {
+          "title": "Drafted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/heads_of_terms_status/options",
+      "body": {
+        "data": {
+          "title": "Issued"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/heads_of_terms_status/options",
+      "body": {
+        "data": {
+          "title": "Agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Referencing status",
+          "description": "Progress of the tenant covenant and reference checks.",
+          "api_slug": "referencing_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referencing_status/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referencing_status/options",
+      "body": {
+        "data": {
+          "title": "In progress"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referencing_status/options",
+      "body": {
+        "data": {
+          "title": "Passed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referencing_status/options",
+      "body": {
+        "data": {
+          "title": "Failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Solicitors instructed",
+          "description": "Both sides have instructed solicitors to draft and agree the lease.",
+          "api_slug": "solicitors_instructed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Headline rent (per year)",
+          "description": "Annual rent offered or agreed, before incentives.",
+          "api_slug": "headline_rent",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Address",
+          "description": "Full address including postcode.",
+          "api_slug": "address",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Property type",
+          "description": "Use class of the building. Used to match enquiries and report availability.",
+          "api_slug": "property_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Office"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Retail"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Industrial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Mixed use"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Serviced or flexible"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/property_type/options",
+      "body": {
+        "data": {
+          "title": "Land"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Total area (sq ft)",
+          "description": "Total lettable floor area of the property.",
+          "api_slug": "total_area_sqft",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Available area (sq ft)",
+          "description": "Floor area currently available to let. Updated when a lease completes or ends.",
+          "api_slug": "available_area_sqft",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Availability",
+          "description": "Whether there is space to let now. Drives the availability view and enquiry matching.",
+          "api_slug": "availability_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/availability_status/options",
+      "body": {
+        "data": {
+          "title": "Fully let"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/availability_status/options",
+      "body": {
+        "data": {
+          "title": "Part available"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/availability_status/options",
+      "body": {
+        "data": {
+          "title": "Fully available"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/availability_status/options",
+      "body": {
+        "data": {
+          "title": "Under offer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/availability_status/options",
+      "body": {
+        "data": {
+          "title": "Off market"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Asking rent (per sq ft)",
+          "description": "Quoted annual rent per square foot for available space.",
+          "api_slug": "asking_rent_psf",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Energy rating",
+          "description": "Energy performance rating band shown on the certificate. Needed before marketing.",
+          "api_slug": "energy_rating",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "A"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "B"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "C"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "D"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "E"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "F"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "G"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/energy_rating/options",
+      "body": {
+        "data": {
+          "title": "Not rated"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Market area",
+          "description": "Submarket the property sits in. Edit the options to the agent's patch. Used to match requirements.",
+          "api_slug": "market_area",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "Central"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "North"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "South"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "East"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "West"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes/market_area/options",
+      "body": {
+        "data": {
+          "title": "Out of town"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the lease stands.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In review"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Holding over"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Ended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Unit",
+          "description": "Floor, suite or unit let under this lease.",
+          "api_slug": "unit",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Area (sq ft)",
+          "description": "Floor area let.",
+          "api_slug": "area_sqft",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "First day of the term.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Expiry date",
+          "description": "Contractual end date. A renewal opens before it.",
+          "api_slug": "expiry_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Break date",
+          "description": "Earliest date the tenant or landlord may end the lease early, if there is a break clause.",
+          "api_slug": "break_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Next rent review",
+          "description": "Date the rent is next reviewed.",
+          "api_slug": "next_rent_review",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Annual rent",
+          "description": "Passing rent per year.",
+          "api_slug": "annual_rent",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Rent-free months",
+          "description": "Months of rent-free incentive granted at the start.",
+          "api_slug": "rent_free_months",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Inside security of tenure",
+          "description": "The lease has statutory renewal rights. This changes how renewal is handled. Confirm with the solicitor.",
+          "api_slug": "security_of_tenure",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Outcome reason",
+          "description": "Why a lease was not renewed. Required on the lost renewal stage.",
+          "api_slug": "outcome_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Tenant relocated"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Downsized"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Business closed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Rent too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Landlord redevelopment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Space unsuitable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Lease manager",
+          "description": "The team member who manages this lease and its renewal.",
+          "api_slug": "managing_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

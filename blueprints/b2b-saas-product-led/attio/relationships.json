@@ -1,0 +1,122 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "A company can have several workspaces. Shows all of them next to the company record.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Workspaces",
+            "api_slug": "workspaces",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Workspaces",
+          "description": "Links product users to the workspaces they belong to. One person can sit in many workspaces.",
+          "api_slug": "workspaces",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "workspaces"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "workspaces",
+            "title": "People",
+            "api_slug": "people",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Workspace",
+          "description": "Ties a sales-assist or expansion deal to the workspace whose usage triggered it.",
+          "api_slug": "workspace",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "workspaces"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "workspaces",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes",
+      "body": {
+        "data": {
+          "title": "Workspace",
+          "description": "Tracks post-sale adoption for each workspace.",
+          "api_slug": "workspace",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "workspaces"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "workspaces",
+            "title": "Adoption plans",
+            "api_slug": "adoption_plans",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

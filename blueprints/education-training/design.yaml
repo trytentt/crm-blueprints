@@ -1,0 +1,580 @@
+extends: core
+name: Education and training providers, B2B
+description: >-
+  A training provider that sells programmes to employers (in-house, bespoke or seats on open
+  courses) and enrols individual delegates onto scheduled cohorts. Corporate deals and delegate
+  enrolments run as separate pipelines. Programmes, cohorts and enrolments are their own objects so
+  that delivery never clutters the sales pipeline.
+
+add_objects:
+  - key: programme
+    label: Programme
+    plural_label: Programmes
+    description: >-
+      One course or qualification in the catalogue, with its format, length and list price. A
+      programme is what is sold. A cohort is a dated run of it.
+  - key: cohort
+    label: Cohort
+    plural_label: Cohorts
+    description: >-
+      One dated run of a programme, either open to any employer or run in-house for one client. Holds
+      the dates, capacity and trainer. Used to decide whether a run is viable and to see free places.
+  - key: enrolment
+    label: Enrolment
+    plural_label: Enrolments
+    description: >-
+      One delegate's place on one cohort, from first enquiry to confirmed place. It links the delegate
+      (a person), the cohort, the employer paying and, where there is one, the corporate deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: account_type
+    label: Account type
+    type: select
+    description: What kind of organisation this is. Drives which views and routing apply.
+    options:
+      employer: Employer
+      public_sector: Public sector
+      training_partner: Training partner or reseller
+      funder: Funder or levy intermediary
+  - object: company
+    key: segment
+    label: Segment
+    type: select
+    description: Size band used for routing and reporting.
+    options: {smb: SMB, mid_market: Mid-market, enterprise: Enterprise}
+  - object: company
+    key: customer_status
+    label: Customer status
+    type: select
+    description: Where the company is in its life with us. Drives views and repeat-booking follow-up.
+    options: {prospect: Prospect, active_customer: Active customer, lapsed: Lapsed customer}
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options:
+      inbound_enquiry: Inbound enquiry
+      outbound: Outbound
+      referral: Referral
+      partner: Partner
+      event: Event
+      returning_delegate: Returning delegate
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: >-
+      The main part this person plays in a training purchase. A delegate who later buys is changed
+      here. Do not create a second record for the same human.
+    options:
+      budget_holder: Budget holder
+      learning_lead: Learning and development lead
+      line_manager: Line manager
+      delegate: Delegate
+      procurement: Procurement
+      hr_contact: HR contact
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost. Required on the lost stage.
+    options:
+      no_budget: No budget
+      went_in_house: Chose to deliver in house
+      competitor: Chose another provider
+      price: Price
+      dates_dont_fit: Dates did not fit
+      content_gap: Content did not fit the need
+      no_decision: No decision made
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: training_need
+    label: Training need
+    type: select
+    description: The main subject area the buyer wants covered. Used to report demand by topic.
+    options:
+      compliance: Compliance and mandatory
+      leadership: Leadership and management
+      technical: Technical skills
+      soft_skills: Communication and soft skills
+      digital: Digital skills
+      health_safety: Health and safety
+      apprenticeship: Apprenticeship or accredited
+      other: Other
+  - object: deal
+    key: delivery_format
+    label: Delivery format
+    type: select
+    description: How the training will be delivered. Decides pricing and the type of cohort created.
+    options:
+      in_house: In-house at the client
+      open_course: Seats on open course
+      virtual: Virtual live
+      blended: Blended
+      self_paced: Self-paced licence
+  - object: deal
+    key: delegate_count
+    label: Delegate count
+    type: number
+    description: How many people the buyer expects to train. Sets price and cohort size.
+  - object: deal
+    key: funding_source
+    label: Funding source
+    type: select
+    description: Where the money comes from. Funded routes need extra paperwork before booking.
+    options:
+      company_budget: Company budget
+      levy_funds: Apprenticeship levy funds
+      grant: Grant or public funding
+      self_funded: Self-funded by delegate
+  - object: deal
+    key: needs_summary
+    label: Needs summary
+    type: long_text
+    description: >-
+      The training need found in the needs analysis. Covers who needs training, the gap today and how
+      success will be judged.
+  - object: deal
+    key: budget_confirmed
+    label: Budget confirmed
+    type: checkbox
+    description: The budget holder has said money exists for this training.
+  - object: deal
+    key: proposed_start_date
+    label: Proposed start date
+    type: date
+    description: The date the buyer would like the first session to run.
+  - object: deal
+    key: purchase_order_received
+    label: Purchase order received
+    type: checkbox
+    description: The client's purchase order or signed booking form is on file.
+  # Programme
+  - object: programme
+    key: name
+    label: Name
+    type: text
+    description: The programme title as it appears in the catalogue.
+    required: true
+  - object: programme
+    key: status
+    label: Status
+    type: select
+    description: Whether the programme can be sold.
+    options: {in_development: In development, live: Live, retired: Retired}
+  - object: programme
+    key: category
+    label: Category
+    type: select
+    description: Subject area, matching the deal training need so demand and supply can be compared.
+    options:
+      compliance: Compliance and mandatory
+      leadership: Leadership and management
+      technical: Technical skills
+      soft_skills: Communication and soft skills
+      digital: Digital skills
+      health_safety: Health and safety
+      apprenticeship: Apprenticeship or accredited
+      other: Other
+  - object: programme
+    key: delivery_format
+    label: Delivery format
+    type: select
+    description: The usual way the programme is run.
+    options: {in_person: In person, virtual: Virtual live, blended: Blended, self_paced: Self-paced}
+  - object: programme
+    key: duration_days
+    label: Duration (days)
+    type: number
+    description: Total contact days. Used to quote and to schedule trainers.
+  - object: programme
+    key: accredited
+    label: Accredited
+    type: checkbox
+    description: The programme leads to an external certificate or qualification.
+  - object: programme
+    key: list_price
+    label: List price per delegate
+    type: currency
+    description: Standard price for one delegate before any discount.
+  # Cohort
+  - object: cohort
+    key: name
+    label: Name
+    type: text
+    description: Programme and start month, for example Team leader programme, March.
+    required: true
+  - object: cohort
+    key: status
+    label: Status
+    type: select
+    description: Where the cohort stands. Drives the sales view of cohorts that still have places.
+    options:
+      planned: Planned
+      open_for_enrolment: Open for enrolment
+      full: Full
+      confirmed_to_run: Confirmed to run
+      running: Running
+      completed: Completed
+      cancelled: Cancelled
+  - object: cohort
+    key: cohort_type
+    label: Cohort type
+    type: select
+    description: Whether any employer can book a place or the run is for one client only.
+    options: {open: Open to any employer, in_house: In-house for one client}
+  - object: cohort
+    key: start_date
+    label: Start date
+    type: date
+    description: First day of the cohort.
+  - object: cohort
+    key: end_date
+    label: End date
+    type: date
+    description: Last day of the cohort.
+  - object: cohort
+    key: capacity
+    label: Capacity
+    type: number
+    description: Maximum number of delegates.
+  - object: cohort
+    key: minimum_to_run
+    label: Minimum to run
+    type: number
+    description: The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.
+  - object: cohort
+    key: confirmed_places
+    label: Confirmed places
+    type: number
+    description: Count of enrolments at the enrolled stage. Maintained by an automation, not typed.
+  - object: cohort
+    key: trainer
+    label: Trainer
+    type: user
+    description: The team member leading the cohort.
+  - object: cohort
+    key: location
+    label: Location
+    type: text
+    description: Venue or platform used, so logistics and room bookings can be checked.
+  # Enrolment
+  - object: enrolment
+    key: name
+    label: Name
+    type: text
+    description: Delegate name and cohort name, for example the delegate and Team leader programme, March.
+    required: true
+  - object: enrolment
+    key: application_date
+    label: Application date
+    type: date
+    description: The day the booking form or application was received.
+  - object: enrolment
+    key: price
+    label: Price
+    type: currency
+    description: Price agreed for this place after any discount.
+  - object: enrolment
+    key: payment_status
+    label: Payment status
+    type: select
+    description: Whether this place is paid for or covered by a purchase order. A place is not confirmed until it is set.
+    options:
+      not_due: Not due
+      po_received: Purchase order received
+      invoiced: Invoiced
+      paid: Paid
+      refunded: Refunded
+      waived: Waived
+  - object: enrolment
+    key: funding_source
+    label: Funding source
+    type: select
+    description: Where the money for this place comes from.
+    options:
+      company_budget: Company budget
+      levy_funds: Apprenticeship levy funds
+      grant: Grant or public funding
+      self_funded: Self-funded by delegate
+  - object: enrolment
+    key: completion_status
+    label: Completion status
+    type: select
+    description: Outcome for the delegate after the cohort starts. Used for completion rates and certificates.
+    options:
+      not_started: Not started
+      in_progress: In progress
+      completed: Completed
+      did_not_complete: Did not complete
+      did_not_attend: Did not attend
+  - object: enrolment
+    key: withdrawal_reason
+    label: Withdrawal reason
+    type: select
+    description: Why the place did not go ahead. Required on the withdrawn stage.
+    options:
+      declined_offer: Declined the offer
+      dates_dont_fit: Dates did not fit
+      employer_cancelled: Employer cancelled
+      funding_fell_through: Funding fell through
+      cohort_cancelled: Cohort cancelled
+      went_elsewhere: Chose another provider
+      no_response: No response
+      other: Other
+
+add_relationships:
+  - key: cohort_programme
+    from: cohort
+    to: programme
+    cardinality: many_to_one
+    from_label: Programme
+    to_label: Cohorts
+    purpose: Shows every dated run of a programme and its fill rate.
+  - key: cohort_company
+    from: cohort
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: In-house cohorts
+    purpose: Names the client for an in-house cohort. Empty for open cohorts.
+  - key: enrolment_cohort
+    from: enrolment
+    to: cohort
+    cardinality: many_to_one
+    from_label: Cohort
+    to_label: Enrolments
+    purpose: Counts places taken on each cohort.
+  - key: enrolment_person
+    from: enrolment
+    to: person
+    cardinality: many_to_one
+    from_label: Delegate
+    to_label: Enrolments
+    purpose: Gives each delegate a single history of everything they have attended.
+  - key: enrolment_company
+    from: enrolment
+    to: company
+    cardinality: many_to_one
+    from_label: Paying employer
+    to_label: Enrolments
+    purpose: Shows what an employer has booked in total, for repeat-booking follow-up.
+  - key: enrolment_deal
+    from: enrolment
+    to: deal
+    cardinality: many_to_one
+    from_label: Corporate deal
+    to_label: Enrolments
+    purpose: Ties delegate places back to the corporate deal that bought them, where there was one.
+  - key: deal_programme
+    from: deal
+    to: programme
+    cardinality: many_to_many
+    from_label: Programmes
+    to_label: Deals
+    purpose: Records which programmes a deal covers, to see which sell best.
+
+pipelines:
+  - object: deal
+    key: corporate_training
+    name: Corporate training
+    stages:
+      - key: enquiry_qualified
+        label: Enquiry qualified
+        type: open
+        probability: 10
+        exit_criteria: Entered when a named contact has a real training need and the provider can meet it.
+        required_fields: [training_need, next_step_date]
+      - key: needs_analysis
+        label: Needs analysis
+        type: open
+        probability: 25
+        exit_criteria: Entered when the first call with the learning lead or budget holder has happened and the gap is written down.
+        required_fields: [needs_summary, delegate_count, next_step_date]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 50
+        exit_criteria: Entered when a written proposal with programme, dates, format and price has been sent.
+        required_fields: [delivery_format, amount, funding_source]
+      - key: stakeholder_review
+        label: Stakeholder review
+        type: open
+        probability: 65
+        exit_criteria: Entered when the budget holder has confirmed budget and the proposal is being reviewed by others.
+        required_fields: [budget_confirmed, next_step_date]
+      - key: terms_agreed
+        label: Terms agreed
+        type: open
+        probability: 85
+        exit_criteria: Entered when price, dates and delegate numbers are agreed and a booking form has been sent.
+        required_fields: [amount, proposed_start_date, delegate_count]
+      - key: booked
+        label: Booked
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed booking form or purchase order is received and a cohort or enrolments are created.
+        required_fields: [amount, close_date, purchase_order_received]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: enrolment
+    key: delegate_enrolment
+    name: Delegate enrolment
+    stages:
+      - key: enquiry
+        label: Enquiry
+        type: open
+        probability: 10
+        exit_criteria: Entered when a delegate or their employer has asked about a specific cohort.
+      - key: applied
+        label: Applied
+        type: open
+        probability: 40
+        exit_criteria: Entered when a completed booking form or application has been received.
+        required_fields: [application_date]
+      - key: place_offered
+        label: Place offered
+        type: open
+        probability: 70
+        exit_criteria: Entered when eligibility and funding have been checked and a place has been offered in writing.
+        required_fields: [price, funding_source]
+      - key: awaiting_payment
+        label: Awaiting payment
+        type: open
+        probability: 85
+        exit_criteria: Entered when the delegate has accepted the place and an invoice or purchase order request is out.
+        required_fields: [price, payment_status]
+      - key: enrolled
+        label: Enrolled
+        type: won
+        probability: 100
+        exit_criteria: Entered when payment, a purchase order or an approved funding route is confirmed for the place.
+        required_fields: [price, payment_status]
+      - key: withdrawn
+        label: Withdrawn
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the delegate or employer declines or withdraws before the cohort starts, or the cohort is cancelled.
+        required_fields: [withdrawal_reason]
+
+decisions:
+  - key: delivery_on_own_objects
+    question: Is delivery tracked on programme, cohort and enrolment objects rather than as stages on the deal?
+    recommended_default: >-
+      Yes. The corporate deal ends at booked. A cohort and its enrolments carry dates, capacity and
+      completion, owned by the trainer or course administrator rather than the salesperson.
+  - key: delegates_as_people
+    question: Are delegates stored as People records even when the employer pays?
+    recommended_default: >-
+      Yes. One person, one record, matched by work email. Their enrolments show every programme they
+      have attended. A delegate who later becomes a buyer only has their buying role changed.
+  - key: enrolment_pipeline_scope
+    question: Does every delegate go through the enrolment pipeline, or only open-course bookings?
+    recommended_default: >-
+      Every delegate. For in-house deals the enrolments are created in bulk at the applied stage
+      from the client's list. Light-touch clients can stay at enrolled with payment status not due.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow the three custom objects, and a pipeline on a custom object?
+    recommended_default: >-
+      Check before the build. If not, model cohort and enrolment as a deal pipeline with one deal per
+      delegate and cohort fields on the deal, and record the gap in the client notes.
+  - key: attendance_system
+    question: Does the CRM hold attendance, assessment results and certificates?
+    recommended_default: >-
+      No. Keep those in the learning platform. The CRM holds only completion status per enrolment.
+      This keeps learner records, which may include children's or sensitive data, out of the CRM.
+  - key: open_and_inhouse_split
+    question: Are open-course bookings and in-house bespoke work sold by the same team?
+    recommended_default: >-
+      Yes for the first build, using the delivery format field. Split into two deal pipelines only if
+      the stages or owners differ in practice.
+
+automations:
+  - key: create_cohort_on_booking
+    name: Create cohort on booking
+    trigger: A corporate training deal with delivery format in-house moves to booked.
+    action: >-
+      Create a cohort of type in-house linked to the client and the programme, copy the proposed
+      start date and delegate count, and assign it to the course administrator.
+  - key: update_confirmed_places
+    name: Update confirmed places
+    trigger: An enrolment moves to enrolled or withdrawn.
+    action: >-
+      Recalculate the cohort's confirmed places from enrolments at the enrolled stage. Set the cohort
+      to full when it reaches capacity.
+  - key: review_cohort_viability
+    name: Review cohort viability
+    trigger: An open cohort is 21 days from its start date and confirmed places are below the minimum to run.
+    action: Notify the head of delivery and the owning salesperson to decide between pushing sales and cancelling.
+  - key: rebooking_follow_up
+    name: Rebooking follow-up
+    trigger: A cohort is marked completed.
+    action: >-
+      Create a task for the account owner of each paying employer to ask about a next cohort within 14
+      days, and set the company's customer status to active customer.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+
+views:
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: cohorts_with_places
+    name: Cohorts with places
+    object: cohort
+    filter: Status is open for enrolment and start date is in the future.
+    sort: Start date, soonest first.
+  - key: cohorts_at_risk
+    name: Cohorts at risk
+    object: cohort
+    filter: Status is open for enrolment and start date is within 28 days and confirmed places are below the minimum.
+    sort: Start date, soonest first.
+  - key: awaiting_payment
+    name: Enrolments awaiting payment
+    object: enrolment
+    filter: Stage is awaiting payment.
+    sort: Application date, oldest first.
+  - key: lapsed_customers
+    name: Lapsed customers
+    object: company
+    filter: Customer status is lapsed.
+    sort: Name, A to Z.
+
+platform_overrides:
+  attio:
+    objects:
+      programme: {api_slug: programmes}
+      cohort: {api_slug: cohorts}
+      enrolment: {api_slug: enrolments}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      programme: {api_name: Programme__c}
+      cohort: {api_name: Cohort__c}
+      enrolment: {api_name: Enrolment__c}

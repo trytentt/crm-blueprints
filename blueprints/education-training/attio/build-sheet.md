@@ -1,0 +1,489 @@
+# Build sheet: Education and training providers, B2B (attio)
+
+A training provider that sells programmes to employers (in-house, bespoke or seats on open courses) and enrols individual delegates onto scheduled cohorts. Corporate deals and delegate enrolments run as separate pipelines. Programmes, cohorts and enrolments are their own objects so that delivery never clutters the sales pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is delivery tracked on programme, cohort and enrolment objects rather than as stages on the deal?**
+  - Recommended default: Yes. The corporate deal ends at booked. A cohort and its enrolments carry dates, capacity and completion, owned by the trainer or course administrator rather than the salesperson.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are delegates stored as People records even when the employer pays?**
+  - Recommended default: Yes. One person, one record, matched by work email. Their enrolments show every programme they have attended. A delegate who later becomes a buyer only has their buying role changed.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does every delegate go through the enrolment pipeline, or only open-course bookings?**
+  - Recommended default: Every delegate. For in-house deals the enrolments are created in bulk at the applied stage from the client's list. Light-touch clients can stay at enrolled with payment status not due.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow the three custom objects, and a pipeline on a custom object?**
+  - Recommended default: Check before the build. If not, model cohort and enrolment as a deal pipeline with one deal per delegate and cohort fields on the deal, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM hold attendance, assessment results and certificates?**
+  - Recommended default: No. Keep those in the learning platform. The CRM holds only completion status per enrolment. This keeps learner records, which may include children's or sensitive data, out of the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are open-course bookings and in-house bespoke work sold by the same team?**
+  - Recommended default: Yes for the first build, using the delivery format field. Split into two deal pipelines only if the stages or owners differ in practice.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Programme**
+  - Where: Workspace settings, then Objects, then New object. Use singular Programme, plural Programmes, slug `programmes`.
+  - Purpose: One course or qualification in the catalogue, with its format, length and list price. A programme is what is sold. A cohort is a dated run of it.
+  - Done when: the object Programme exists with plural name Programmes.
+- [ ] **Create object Cohort**
+  - Where: Workspace settings, then Objects, then New object. Use singular Cohort, plural Cohorts, slug `cohorts`.
+  - Purpose: One dated run of a programme, either open to any employer or run in-house for one client. Holds the dates, capacity and trainer. Used to decide whether a run is viable and to see free places.
+  - Done when: the object Cohort exists with plural name Cohorts.
+- [ ] **Create object Enrolment**
+  - Where: Workspace settings, then Objects, then New object. Use singular Enrolment, plural Enrolments, slug `enrolments`.
+  - Purpose: One delegate's place on one cohort, from first enquiry to confirmed place. It links the delegate (a person), the cohort, the employer paying and, where there is one, the corporate deal.
+  - Done when: the object Enrolment exists with plural name Enrolments.
+- [ ] **Create relationship cohort to programme (many_to_one)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Choose a relationship to programme, name this side 'Programme' and the other side 'Cohorts'.
+  - Purpose: Shows every dated run of a programme and its fill rate.
+  - Done when: a cohort record shows the link as 'Programme' and a programme record shows it as 'Cohorts'.
+- [ ] **Create relationship cohort to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Choose a relationship to company, name this side 'Client' and the other side 'In-house cohorts'.
+  - Purpose: Names the client for an in-house cohort. Empty for open cohorts.
+  - Done when: a cohort record shows the link as 'Client' and a company record shows it as 'In-house cohorts'.
+- [ ] **Create relationship enrolment to cohort (many_to_one)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Choose a relationship to cohort, name this side 'Cohort' and the other side 'Enrolments'.
+  - Purpose: Counts places taken on each cohort.
+  - Done when: a enrolment record shows the link as 'Cohort' and a cohort record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Choose a relationship to person, name this side 'Delegate' and the other side 'Enrolments'.
+  - Purpose: Gives each delegate a single history of everything they have attended.
+  - Done when: a enrolment record shows the link as 'Delegate' and a person record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Choose a relationship to company, name this side 'Paying employer' and the other side 'Enrolments'.
+  - Purpose: Shows what an employer has booked in total, for repeat-booking follow-up.
+  - Done when: a enrolment record shows the link as 'Paying employer' and a company record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Corporate deal' and the other side 'Enrolments'.
+  - Purpose: Ties delegate places back to the corporate deal that bought them, where there was one.
+  - Done when: a enrolment record shows the link as 'Corporate deal' and a deal record shows it as 'Enrolments'.
+- [ ] **Create relationship deal to programme (many_to_many)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to programme, name this side 'Programmes' and the other side 'Deals'.
+  - Purpose: Records which programmes a deal covers, to see which sell best.
+  - Done when: a deal record shows the link as 'Programmes' and a programme record shows it as 'Deals'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Corporate training on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Corporate training' (slug `corporate_training`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Corporate training exists with 7 stages in the order below.
+- [ ] **Stage 1: Enquiry qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a named contact has a real training need and the provider can meet it.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: training_need, next_step_date.
+  - Done when: the stage Enquiry qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Needs analysis**
+  - Type: open. Probability: 25%.
+  - Entered when the first call with the learning lead or budget holder has happened and the gap is written down.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: needs_summary, delegate_count, next_step_date.
+  - Done when: the stage Needs analysis is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 50%.
+  - Entered when a written proposal with programme, dates, format and price has been sent.
+  - Set Probability to 50 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: delivery_format, amount, funding_source.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Stakeholder review**
+  - Type: open. Probability: 65%.
+  - Entered when the budget holder has confirmed budget and the proposal is being reviewed by others.
+  - Set Probability to 65 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: budget_confirmed, next_step_date.
+  - Done when: the stage Stakeholder review is in position 4 and its rule is in place.
+- [ ] **Stage 5: Terms agreed**
+  - Type: open. Probability: 85%.
+  - Entered when price, dates and delegate numbers are agreed and a booking form has been sent.
+  - Set Probability to 85 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, proposed_start_date, delegate_count.
+  - Done when: the stage Terms agreed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Booked**
+  - Type: won. Probability: 100%.
+  - Entered when the signed booking form or purchase order is received and a cohort or enrolments are created.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, purchase_order_received.
+  - Done when: the stage Booked is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Closed lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Delegate enrolment on enrolment**
+  - Where: Lists in the left sidebar, then New list, parent object enrolment, named 'Delegate enrolment' (slug `delegate_enrolment`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Delegate enrolment exists with 6 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 10%.
+  - Entered when a delegate or their employer has asked about a specific cohort.
+  - Set Probability to 10 on entries at this stage.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Applied**
+  - Type: open. Probability: 40%.
+  - Entered when a completed booking form or application has been received.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: application_date.
+  - Done when: the stage Applied is in position 2 and its rule is in place.
+- [ ] **Stage 3: Place offered**
+  - Type: open. Probability: 70%.
+  - Entered when eligibility and funding have been checked and a place has been offered in writing.
+  - Set Probability to 70 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: price, funding_source.
+  - Done when: the stage Place offered is in position 3 and its rule is in place.
+- [ ] **Stage 4: Awaiting payment**
+  - Type: open. Probability: 85%.
+  - Entered when the delegate has accepted the place and an invoice or purchase order request is out.
+  - Set Probability to 85 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: price, payment_status.
+  - Done when: the stage Awaiting payment is in position 4 and its rule is in place.
+- [ ] **Stage 5: Enrolled**
+  - Type: won. Probability: 100%.
+  - Entered when payment, a purchase order or an approved funding route is confirmed for the place.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: price, payment_status.
+  - Done when: the stage Enrolled is in position 5 and its rule is in place.
+- [ ] **Stage 6: Withdrawn**
+  - Type: lost. Probability: 0%.
+  - Entered when the delegate or employer declines or withdraws before the cohort starts, or the cohort is cancelled.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: withdrawal_reason.
+  - Done when: the stage Withdrawn is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `account_type`.
+  - Purpose: What kind of organisation this is. Drives which views and routing apply.
+  - Options: Employer, Public sector, Training partner or reseller, Funder or levy intermediary
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `segment`.
+  - Purpose: Size band used for routing and reporting.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `customer_status`.
+  - Purpose: Where the company is in its life with us. Drives views and repeat-booking follow-up.
+  - Options: Prospect, Active customer, Lapsed customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Inbound enquiry, Outbound, Referral, Partner, Event, Returning delegate
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `buying_role`.
+  - Purpose: The main part this person plays in a training purchase. A delegate who later buys is changed here. Do not create a second record for the same human.
+  - Options: Budget holder, Learning and development lead, Line manager, Delegate, Procurement, HR contact
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the deal was lost. Required on the lost stage.
+  - Options: No budget, Chose to deliver in house, Chose another provider, Price, Dates did not fit, Content did not fit the need, No decision made, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Training need (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `training_need`.
+  - Purpose: The main subject area the buyer wants covered. Used to report demand by topic.
+  - Options: Compliance and mandatory, Leadership and management, Technical skills, Communication and soft skills, Digital skills, Health and safety, Apprenticeship or accredited, Other
+  - Done when: Deal records show Training need and it accepts the right values.
+- [ ] **Create field Delivery format (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `delivery_format`.
+  - Purpose: How the training will be delivered. Decides pricing and the type of cohort created.
+  - Options: In-house at the client, Seats on open course, Virtual live, Blended, Self-paced licence
+  - Done when: Deal records show Delivery format and it accepts the right values.
+- [ ] **Create field Delegate count (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `delegate_count`.
+  - Purpose: How many people the buyer expects to train. Sets price and cohort size.
+  - Done when: Deal records show Delegate count and it accepts the right values.
+- [ ] **Create field Funding source (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `funding_source`.
+  - Purpose: Where the money comes from. Funded routes need extra paperwork before booking.
+  - Options: Company budget, Apprenticeship levy funds, Grant or public funding, Self-funded by delegate
+  - Done when: Deal records show Funding source and it accepts the right values.
+- [ ] **Create field Needs summary (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `needs_summary`.
+  - Purpose: The training need found in the needs analysis. Covers who needs training, the gap today and how success will be judged.
+  - Done when: Deal records show Needs summary and it accepts the right values.
+- [ ] **Create field Budget confirmed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `budget_confirmed`.
+  - Purpose: The budget holder has said money exists for this training.
+  - Done when: Deal records show Budget confirmed and it accepts the right values.
+- [ ] **Create field Proposed start date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `proposed_start_date`.
+  - Purpose: The date the buyer would like the first session to run.
+  - Done when: Deal records show Proposed start date and it accepts the right values.
+- [ ] **Create field Purchase order received (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `purchase_order_received`.
+  - Purpose: The client's purchase order or signed booking form is on file.
+  - Done when: Deal records show Purchase order received and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Programme
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type text, slug `programme_name`.
+  - Purpose: The programme title as it appears in the catalogue.
+  - Done when: Programme records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Whether the programme can be sold.
+  - Options: In development, Live, Retired
+  - Done when: Programme records show Status and it accepts the right values.
+- [ ] **Create field Category (select)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type select, slug `category`.
+  - Purpose: Subject area, matching the deal training need so demand and supply can be compared.
+  - Options: Compliance and mandatory, Leadership and management, Technical skills, Communication and soft skills, Digital skills, Health and safety, Apprenticeship or accredited, Other
+  - Done when: Programme records show Category and it accepts the right values.
+- [ ] **Create field Delivery format (select)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type select, slug `delivery_format`.
+  - Purpose: The usual way the programme is run.
+  - Options: In person, Virtual live, Blended, Self-paced
+  - Done when: Programme records show Delivery format and it accepts the right values.
+- [ ] **Create field Duration (days) (number)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type number, slug `duration_days`.
+  - Purpose: Total contact days. Used to quote and to schedule trainers.
+  - Done when: Programme records show Duration (days) and it accepts the right values.
+- [ ] **Create field Accredited (checkbox)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type checkbox, slug `accredited`.
+  - Purpose: The programme leads to an external certificate or qualification.
+  - Done when: Programme records show Accredited and it accepts the right values.
+- [ ] **Create field List price per delegate (currency)**
+  - Where: Workspace settings, then Objects, then Programme, then Attributes, then New attribute. Type currency, slug `list_price`.
+  - Purpose: Standard price for one delegate before any discount.
+  - Done when: Programme records show List price per delegate and it accepts the right values.
+
+### Cohort
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type text, slug `cohort_name`.
+  - Purpose: Programme and start month, for example Team leader programme, March.
+  - Done when: Cohort records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the cohort stands. Drives the sales view of cohorts that still have places.
+  - Options: Planned, Open for enrolment, Full, Confirmed to run, Running, Completed, Cancelled
+  - Done when: Cohort records show Status and it accepts the right values.
+- [ ] **Create field Cohort type (select)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type select, slug `cohort_type`.
+  - Purpose: Whether any employer can book a place or the run is for one client only.
+  - Options: Open to any employer, In-house for one client
+  - Done when: Cohort records show Cohort type and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type date, slug `start_date`.
+  - Purpose: First day of the cohort.
+  - Done when: Cohort records show Start date and it accepts the right values.
+- [ ] **Create field End date (date)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type date, slug `end_date`.
+  - Purpose: Last day of the cohort.
+  - Done when: Cohort records show End date and it accepts the right values.
+- [ ] **Create field Capacity (number)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type number, slug `capacity`.
+  - Purpose: Maximum number of delegates.
+  - Done when: Cohort records show Capacity and it accepts the right values.
+- [ ] **Create field Minimum to run (number)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type number, slug `minimum_to_run`.
+  - Purpose: The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.
+  - Done when: Cohort records show Minimum to run and it accepts the right values.
+- [ ] **Create field Confirmed places (number)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type number, slug `confirmed_places`.
+  - Purpose: Count of enrolments at the enrolled stage. Maintained by an automation, not typed.
+  - Done when: Cohort records show Confirmed places and it accepts the right values.
+- [ ] **Create field Trainer (user)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type actor-reference, slug `trainer`.
+  - Purpose: The team member leading the cohort.
+  - Done when: Cohort records show Trainer and it accepts the right values.
+- [ ] **Create field Location (text)**
+  - Where: Workspace settings, then Objects, then Cohort, then Attributes, then New attribute. Type text, slug `location`.
+  - Purpose: Venue or platform used, so logistics and room bookings can be checked.
+  - Done when: Cohort records show Location and it accepts the right values.
+
+### Enrolment
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type text, slug `enrolment_name`.
+  - Purpose: Delegate name and cohort name, for example the delegate and Team leader programme, March.
+  - Done when: Enrolment records show Name and it accepts the right values.
+- [ ] **Create field Application date (date)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type date, slug `application_date`.
+  - Purpose: The day the booking form or application was received.
+  - Done when: Enrolment records show Application date and it accepts the right values.
+- [ ] **Create field Price (currency)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type currency, slug `price`.
+  - Purpose: Price agreed for this place after any discount.
+  - Done when: Enrolment records show Price and it accepts the right values.
+- [ ] **Create field Payment status (select)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type select, slug `payment_status`.
+  - Purpose: Whether this place is paid for or covered by a purchase order. A place is not confirmed until it is set.
+  - Options: Not due, Purchase order received, Invoiced, Paid, Refunded, Waived
+  - Done when: Enrolment records show Payment status and it accepts the right values.
+- [ ] **Create field Funding source (select)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type select, slug `funding_source`.
+  - Purpose: Where the money for this place comes from.
+  - Options: Company budget, Apprenticeship levy funds, Grant or public funding, Self-funded by delegate
+  - Done when: Enrolment records show Funding source and it accepts the right values.
+- [ ] **Create field Completion status (select)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type select, slug `completion_status`.
+  - Purpose: Outcome for the delegate after the cohort starts. Used for completion rates and certificates.
+  - Options: Not started, In progress, Completed, Did not complete, Did not attend
+  - Done when: Enrolment records show Completion status and it accepts the right values.
+- [ ] **Create field Withdrawal reason (select)**
+  - Where: Workspace settings, then Objects, then Enrolment, then Attributes, then New attribute. Type select, slug `withdrawal_reason`.
+  - Purpose: Why the place did not go ahead. Required on the withdrawn stage.
+  - Options: Declined the offer, Dates did not fit, Employer cancelled, Funding fell through, Cohort cancelled, Chose another provider, No response, Other
+  - Done when: Enrolment records show Withdrawal reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create cohort on booking**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A corporate training deal with delivery format in-house moves to booked.
+  - Action: Create a cohort of type in-house linked to the client and the programme, copy the proposed start date and delegate count, and assign it to the course administrator.
+  - Done when: the automation runs on a test record and the result matches: Create a cohort of type in-house linked to the client and the programme, copy the proposed start date and delegate count, and assign it to the course administrator.
+- [ ] **Update confirmed places**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An enrolment moves to enrolled or withdrawn.
+  - Action: Recalculate the cohort's confirmed places from enrolments at the enrolled stage. Set the cohort to full when it reaches capacity.
+  - Done when: the automation runs on a test record and the result matches: Recalculate the cohort's confirmed places from enrolments at the enrolled stage. Set the cohort to full when it reaches capacity.
+- [ ] **Review cohort viability**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open cohort is 21 days from its start date and confirmed places are below the minimum to run.
+  - Action: Notify the head of delivery and the owning salesperson to decide between pushing sales and cancelling.
+  - Done when: the automation runs on a test record and the result matches: Notify the head of delivery and the owning salesperson to decide between pushing sales and cancelling.
+- [ ] **Rebooking follow-up**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A cohort is marked completed.
+  - Action: Create a task for the account owner of each paying employer to ask about a next cohort within 14 days, and set the company's customer status to active customer.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account owner of each paying employer to ask about a next cohort within 14 days, and set the company's customer status to active customer.
+- [ ] **Flag stalled deals**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Cohorts with places**
+  - Where: Open Cohorts in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: cohort
+  - Filter: Status is open for enrolment and start date is in the future.
+  - Sort: Start date, soonest first.
+  - Done when: the view Cohorts with places is saved and shows the expected records.
+- [ ] **Cohorts at risk**
+  - Where: Open Cohorts in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: cohort
+  - Filter: Status is open for enrolment and start date is within 28 days and confirmed places are below the minimum.
+  - Sort: Start date, soonest first.
+  - Done when: the view Cohorts at risk is saved and shows the expected records.
+- [ ] **Enrolments awaiting payment**
+  - Where: Open Enrolments in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: enrolment
+  - Filter: Stage is awaiting payment.
+  - Sort: Application date, oldest first.
+  - Done when: the view Enrolments awaiting payment is saved and shows the expected records.
+- [ ] **Lapsed customers**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Customer status is lapsed.
+  - Sort: Name, A to Z.
+  - Done when: the view Lapsed customers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

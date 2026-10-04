@@ -1,0 +1,267 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "New accounts",
+          "api_slug": "new_accounts",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the New accounts pipeline. Identified: Entered when a target company with a buying need is logged and has a named contact. First contact: Entered when a conversation with a purchasing contact has happened and the products of interest are noted. Needs confirmed: Entered when the technical contact has confirmed the specification and the expected volumes. Sample or trial: Entered when a sample, trial run or spec approval has been requested. Quote issued: Entered when a priced quote has been sent against a confirmed specification. Terms agreed: Entered when the buyer has accepted price and lead time and credit terms are being set up. Closed won: Entered when the first purchase order is received from the account. Closed lost: Entered when the buyer chooses another supplier or goes silent after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the opportunity was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Lead time"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Stayed with current supplier"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Specification not met"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Project cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "RFQ handling",
+          "api_slug": "rfq_handling",
+          "parent_object": "quotes",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the RFQ handling pipeline. Received: Entered when an RFQ is logged with the customer, the source and the date received. Qualified: Entered when the team has decided to quote, the product family is set and a due date is agreed. Pricing: Entered when stock or capacity is checked and a lead time is set. Approval: Entered when the price is built and breaks a margin or credit rule that needs manager sign-off. Sent: Entered when the quote has been sent to the buyer with a validity date. Follow-up: Entered when the first chase has been made and the buyer has given a decision date. Accepted: Entered when the buyer sends a purchase order or written acceptance against the quote. Declined: Entered when the buyer rejects the quote, the validity date passes unanswered, or the business decides not to quote.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes",
+      "body": {
+        "data": {
+          "title": "Decline reason",
+          "description": "Why the quote was lost or not quoted. Required on the lost stage.",
+          "api_slug": "decline_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Lead time"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Cannot supply"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Specification not met"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Bought elsewhere"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Out of scope"
+        }
+      }
+    }
+  ]
+}

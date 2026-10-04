@@ -1,0 +1,150 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Shows every price request and quote for a customer.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Quotes",
+            "api_slug": "quotes",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Requested by",
+          "description": "Records who at the customer asked for the quote.",
+          "api_slug": "requested_by",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Quotes requested",
+            "api_slug": "quotes_requested",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Opportunity",
+          "description": "Ties quotes to the new-account opportunity they belong to. Repeat quotes for existing accounts have no deal.",
+          "api_slug": "opportunity",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Quotes",
+            "api_slug": "quotes",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Gives the full order history for an account.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Orders",
+            "api_slug": "orders",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Accepted quote",
+          "description": "Links an order to the quote it came from, so quote-to-order conversion can be measured.",
+          "api_slug": "accepted_quote",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "quotes"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "quotes",
+            "title": "Orders",
+            "api_slug": "orders",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

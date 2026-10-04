@@ -1,0 +1,743 @@
+extends: core
+name: Executive search
+description: >-
+  A retained executive search firm. Winning a mandate runs on deals. Each mandate is a search with its
+  own delivery pipeline, candidates are tracked from longlist to placement on a search-candidate
+  record, and the fee is billed in instalments tied to milestones. Clients and candidates are both
+  People, told apart by a type field.
+
+add_objects:
+  - key: search
+    label: Search
+    plural_label: Searches
+    description: >-
+      One retained mandate to fill one senior role: the position, fee terms, timetable and team. Created
+      when a mandate deal is won, and has its own delivery pipeline.
+  - key: search_candidate
+    label: Search candidate
+    plural_label: Search candidates
+    description: >-
+      One individual considered for one search. Tracks them from longlist to shortlist, client
+      interview, offer and placement. Candidates are Person records. This is the link, with its stage.
+  - key: fee_instalment
+    label: Fee instalment
+    plural_label: Fee instalments
+    description: >-
+      One scheduled payment of a search's retained fee, such as the first third at engagement.
+      Tracks when it falls due, is invoiced and is paid.
+
+add_fields:
+  # Company
+  - object: company
+    key: client_status
+    label: Client status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options:
+      prospect: Prospect
+      active_client: Active client
+      past_client: Past client
+      do_not_approach: Off-limits
+  - object: company
+    key: off_limits_until
+    label: Off-limits until
+    type: date
+    description: If the company is off-limits for candidate approaches because of a client agreement, the date that ends the restriction.
+  - object: company
+    key: sector
+    label: Sector
+    type: select
+    description: The company's sector. Used to match partners and to map the market for searches.
+    options:
+      financial_services: Financial services
+      technology: Technology
+      consumer_retail: Consumer and retail
+      industrial: Industrial
+      healthcare_life_sciences: Healthcare and life sciences
+      private_equity_portfolio: Private equity portfolio
+      public_and_not_for_profit: Public and not-for-profit
+      other: Other
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options: {referral: Referral, repeat_client: Repeat client, investor_introduction: Investor introduction, inbound: Inbound, outbound: Outbound}
+  # Person
+  - object: person
+    key: person_type
+    label: Person type
+    type: multi_select
+    description: What this person is to us. One human has one record, so a candidate who later becomes a client carries both types.
+    options:
+      client_contact: Client contact
+      candidate: Candidate
+      source: Source or market expert
+      referee: Referee
+      investor: Investor or board member
+      other: Other
+  - object: person
+    key: seniority
+    label: Seniority
+    type: select
+    description: For candidates and contacts, their level. Used to map the market and brief the right partner.
+    options: {board: Board or chair, c_suite: C-suite, vp_director: VP or director, head_of: Head of function, other: Other}
+  - object: person
+    key: function
+    label: Function
+    type: select
+    description: For candidates, their function. Used to find people for searches.
+    options: {ceo_general_management: General management, finance: Finance, technology: Technology, operations: Operations, commercial: Commercial, people: People, legal: Legal, other: Other}
+  - object: person
+    key: contact_restriction
+    label: Contact restriction
+    type: select
+    description: Whether we may approach this person. Set before any outreach and honoured across all searches.
+    options: {none: None, do_not_contact: Do not contact, client_off_limits: Off-limits because of a client, pending_consent: Waiting for consent}
+  - object: person
+    key: privacy_basis
+    label: Privacy basis
+    type: select
+    description: The lawful basis for holding and contacting this person, recorded when they are added.
+    options: {consent: Consent, legitimate_interest: Legitimate interest, contract: Contract, unknown: Unknown}
+  - object: person
+    key: current_total_compensation
+    label: Current total compensation
+    type: currency
+    description: Candidate's current annual total pay as they told us. Sensitive personal data. Visible to the search team only.
+  - object: person
+    key: data_review_date
+    label: Data review date
+    type: date
+    description: The date this record must be reviewed or deleted under the firm's retention policy.
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the mandate deal was lost. Required on every lost stage.
+    options:
+      chose_another_firm: Chose another firm
+      went_contingent: Went contingent
+      hired_internally: Hired internally
+      role_cancelled: Role cancelled
+      fee_terms: Fee terms
+      conflict_or_off_limits: Conflict or off-limits
+      no_decision: No decision made
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: role_title
+    label: Role title
+    type: text
+    description: The senior role the client wants to fill, as they describe it.
+  - object: deal
+    key: expected_total_compensation
+    label: Expected total compensation
+    type: currency
+    description: The role's expected first-year total pay. The fee is calculated from it.
+  - object: deal
+    key: fee_percent
+    label: Fee percent
+    type: percent
+    description: Retained fee as a percentage of first-year total compensation.
+  - object: deal
+    key: fee_structure
+    label: Fee structure
+    type: select
+    description: How the retained fee is split into instalments. Agreed in the proposal.
+    options:
+      thirds_milestone: Thirds on engagement, shortlist and placement
+      thirds_monthly: Thirds on a monthly schedule
+      half_and_half: Half on engagement, half on placement
+      fixed_fee: Fixed fee
+      other: Other
+  - object: deal
+    key: confidential_search
+    label: Confidential search
+    type: checkbox
+    description: The incumbent does not know the role is open. Restricts who sees the deal and how it is named.
+  - object: deal
+    key: competing_firms
+    label: Competing firms
+    type: select
+    description: Whether other firms are pitching for the mandate.
+    options: {sole_pitch: Sole pitch, two_or_three: Two or three firms, panel: Panel or formal tender, unknown: Unknown}
+  - object: deal
+    key: exclusivity_confirmed
+    label: Exclusivity confirmed
+    type: checkbox
+    description: The client has confirmed we are the only firm retained for the role.
+  # Search
+  - object: search
+    key: name
+    label: Name
+    type: text
+    description: A neutral code name, not the incumbent's name or the real title for confidential searches.
+    required: true
+  - object: search
+    key: role_title
+    label: Role title
+    type: text
+    description: The senior role being filled. Kept off confidential searches' visible names.
+  - object: search
+    key: function
+    label: Function
+    type: select
+    description: The function of the role. Used to report by practice.
+    options: {ceo_general_management: General management, finance: Finance, technology: Technology, operations: Operations, commercial: Commercial, people: People, legal: Legal, other: Other}
+  - object: search
+    key: seniority
+    label: Seniority
+    type: select
+    description: The level of the role. Used to report by level.
+    options: {board: Board or chair, c_suite: C-suite, vp_director: VP or director, head_of: Head of function, other: Other}
+  - object: search
+    key: confidential
+    label: Confidential
+    type: checkbox
+    description: The incumbent or market must not know. Restricts record access and sets approach rules.
+  - object: search
+    key: expected_total_compensation
+    label: Expected total compensation
+    type: currency
+    description: The role's expected first-year total pay, from the signed mandate.
+  - object: search
+    key: total_fee
+    label: Total fee
+    type: currency
+    description: Total retained fee agreed in the mandate, excluding expenses.
+  - object: search
+    key: engaged_date
+    label: Engaged date
+    type: date
+    description: The date the mandate was signed. The timetable runs from here.
+  - object: search
+    key: target_shortlist_date
+    label: Target shortlist date
+    type: date
+    description: The date the mandate promises a shortlist to the client.
+  - object: search
+    key: target_placement_date
+    label: Target placement date
+    type: date
+    description: The date the client wants the new executive to start.
+  - object: search
+    key: longlist_size
+    label: Longlist size
+    type: number
+    description: Number of people agreed on the longlist. Used to see how much mapping each search needs.
+  - object: search
+    key: partner
+    label: Partner
+    type: user
+    description: The partner accountable for the search and the client relationship.
+  - object: search
+    key: consultant
+    label: Consultant
+    type: user
+    description: The consultant who runs the search day to day.
+  - object: search
+    key: close_reason
+    label: Close reason
+    type: select
+    description: Why the search ended without a placement. Required on the closed stage.
+    options:
+      client_filled_internally: Client filled internally
+      role_cancelled: Role cancelled
+      client_paused_indefinitely: Client paused indefinitely
+      we_withdrew: We withdrew
+      candidate_pool_exhausted: Candidate pool exhausted
+      other: Other
+  # Search candidate
+  - object: search_candidate
+    key: name
+    label: Name
+    type: text
+    description: Candidate name and search code name.
+    required: true
+  - object: search_candidate
+    key: source
+    label: Source
+    type: select
+    description: How the candidate came to this search. Used to see which channels produce shortlisted people.
+    options: {market_mapping: Market mapping, network_referral: Network referral, inbound_application: Inbound application, client_suggestion: Client suggestion, database: Our database}
+  - object: search_candidate
+    key: assessment_rating
+    label: Assessment rating
+    type: select
+    description: The consultant's rating after the first full interview. Decides whether the candidate reaches the shortlist.
+    options: {strong: Strong, good: Good, marginal: Marginal, not_suitable: Not suitable}
+  - object: search_candidate
+    key: motivation
+    label: Motivation
+    type: select
+    description: How open the candidate is to moving. Used to prioritise outreach.
+    options: {actively_looking: Actively looking, open_to_move: Open to move, would_consider_for_right_role: Would consider for the right role, not_interested: Not interested}
+  - object: search_candidate
+    key: client_feedback
+    label: Client feedback
+    type: select
+    description: The client's decision after seeing the candidate's profile or meeting them.
+    options: {pending: Pending, want_to_meet: Want to meet, not_proceeding: Not proceeding, offer_wanted: Offer wanted}
+  - object: search_candidate
+    key: outreach_date
+    label: Outreach date
+    type: date
+    description: The date of the first approach to the candidate.
+  - object: search_candidate
+    key: interview_date
+    label: Interview date
+    type: date
+    description: The date of our full interview with the candidate.
+  - object: search_candidate
+    key: client_interview_date
+    label: Client interview date
+    type: date
+    description: The date of the next or latest interview with the client.
+  - object: search_candidate
+    key: offered_compensation
+    label: Offered compensation
+    type: currency
+    description: First-year total pay in the offer. Confirms the fee basis.
+  - object: search_candidate
+    key: start_date
+    label: Start date
+    type: date
+    description: The day the candidate starts. Triggers the final fee instalment where the fee is tied to placement.
+  - object: search_candidate
+    key: references_complete
+    label: References complete
+    type: checkbox
+    description: Referee checks are done and held in the document system. Record completion only.
+  - object: search_candidate
+    key: out_reason
+    label: Out reason
+    type: select
+    description: Why the candidate left the search. Required on the out stage.
+    options:
+      declined_approach: Declined approach
+      not_suitable_on_assessment: Not suitable on assessment
+      client_did_not_proceed: Client did not proceed
+      withdrew: Withdrew
+      accepted_other_role: Accepted another role
+      offer_declined: Offer declined
+      off_limits: Off-limits
+      other: Other
+  # Fee instalment
+  - object: fee_instalment
+    key: name
+    label: Name
+    type: text
+    description: Search code name and instalment number, for example Project code 1 of 3.
+    required: true
+  - object: fee_instalment
+    key: instalment_number
+    label: Instalment number
+    type: number
+    description: Position of this instalment in the fee schedule, starting at 1.
+  - object: fee_instalment
+    key: trigger
+    label: Trigger
+    type: select
+    description: The event or date that makes this instalment due.
+    options:
+      on_engagement: On engagement
+      on_shortlist: On shortlist presented
+      on_placement: On placement
+      on_date: On a set date
+  - object: fee_instalment
+    key: amount
+    label: Amount
+    type: currency
+    description: The instalment amount before tax and expenses.
+  - object: fee_instalment
+    key: due_date
+    label: Due date
+    type: date
+    description: The date the instalment may be invoiced. Empty until the trigger happens.
+  - object: fee_instalment
+    key: invoice_reference
+    label: Invoice reference
+    type: text
+    description: The invoice number in the finance system. Matches CRM to the ledger.
+  - object: fee_instalment
+    key: waiver_reason
+    label: Waiver reason
+    type: select
+    description: Why the instalment was cancelled or waived. Required on the waived stage.
+    options: {search_cancelled_early: Search cancelled early, commercial_concession: Commercial concession, replaced_by_credit: Replaced by credit, error: Raised in error}
+
+add_relationships:
+  - key: search_company
+    from: search
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: Searches
+    purpose: Shows every search a client has retained us for.
+  - key: search_deal
+    from: search
+    to: deal
+    cardinality: many_to_one
+    from_label: Mandate deal
+    to_label: Searches
+    purpose: Ties each search to the deal that won it.
+  - key: search_client_contact
+    from: search
+    to: person
+    cardinality: many_to_many
+    from_label: Client contacts
+    to_label: Searches as client contact
+    purpose: Links the hiring sponsor, chair and HR lead on the client side to the search.
+  - key: search_candidate_search
+    from: search_candidate
+    to: search
+    cardinality: many_to_one
+    from_label: Search
+    to_label: Candidates
+    purpose: Lists every individual considered for the search, with their stage.
+  - key: search_candidate_person
+    from: search_candidate
+    to: person
+    cardinality: many_to_one
+    from_label: Candidate
+    to_label: Search candidacies
+    purpose: Shows every search a person has been considered for. The candidate is a Person with type candidate.
+  - key: fee_instalment_search
+    from: fee_instalment
+    to: search
+    cardinality: many_to_one
+    from_label: Search
+    to_label: Fee instalments
+    purpose: Lists the fee schedule for the search.
+
+pipelines:
+  - object: deal
+    key: mandate_acquisition
+    name: Mandate acquisition
+    stages:
+      - key: target
+        label: Target
+        type: open
+        probability: 5
+        exit_criteria: Entered when a senior hire or a likely leadership change is identified at a company, with a named sponsor.
+        required_fields: [next_step_date]
+      - key: introduction
+        label: Introduction
+        type: open
+        probability: 15
+        exit_criteria: Entered when a partner has met the sponsor and discussed a specific role.
+        required_fields: [role_title, next_step_date]
+      - key: brief
+        label: Brief
+        type: open
+        probability: 30
+        exit_criteria: Entered when the client has shared a role brief and agreed to see a proposal.
+        required_fields: [role_title, expected_total_compensation, competing_firms]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 50
+        exit_criteria: Entered when a written proposal with approach, timetable and fee has been sent to the sponsor.
+        required_fields: [fee_percent, fee_structure, amount]
+      - key: pitch_or_finalist
+        label: Pitch or finalist
+        type: open
+        probability: 65
+        exit_criteria: Entered when the client has invited us to present to a wider group or named us a finalist.
+        required_fields: [competing_firms, close_date]
+      - key: terms_agreed
+        label: Terms agreed
+        type: open
+        probability: 85
+        exit_criteria: Entered when the client has verbally chosen us and fee, structure and exclusivity are agreed.
+        required_fields: [fee_percent, fee_structure, exclusivity_confirmed, close_date]
+      - key: mandate_won
+        label: Mandate won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed search agreement is received and the search record is created.
+        required_fields: [amount, close_date, fee_structure]
+      - key: mandate_lost
+        label: Mandate lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client chooses another route or firm, or cancels the role, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: search
+    key: search_delivery
+    name: Search delivery
+    stages:
+      - key: position_spec
+        label: Position specification
+        type: open
+        probability: 100
+        exit_criteria: Entered when the search record is created from a won mandate and a partner and consultant are named.
+        required_fields: [partner, consultant]
+      - key: market_mapping
+        label: Market mapping
+        type: open
+        probability: 100
+        exit_criteria: Entered when the client has signed off the position specification and target company list.
+        required_fields: [engaged_date, target_shortlist_date]
+      - key: longlist
+        label: Longlist
+        type: open
+        probability: 100
+        exit_criteria: Entered when a longlist of people to approach has been agreed with the client.
+        required_fields: [longlist_size]
+      - key: shortlist
+        label: Shortlist
+        type: open
+        probability: 100
+        exit_criteria: Entered when a shortlist of assessed candidates has been presented to the client.
+        required_fields: [target_placement_date]
+      - key: client_interviews
+        label: Client interviews
+        type: open
+        probability: 100
+        exit_criteria: Entered when the client has interviewed at least one shortlisted candidate.
+        required_fields: [target_placement_date]
+      - key: offer_and_references
+        label: Offer and references
+        type: open
+        probability: 100
+        exit_criteria: Entered when the client has chosen a preferred candidate and offer and reference work has begun.
+        required_fields: [total_fee]
+      - key: placed
+        label: Placed
+        type: won
+        probability: 100
+        exit_criteria: Entered when a candidate has signed the offer and a start date is agreed.
+        required_fields: [total_fee]
+      - key: closed_without_placement
+        label: Closed without placement
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the search ends without a placement, whether the client or the firm ends it.
+        required_fields: [close_reason]
+  - object: search_candidate
+    key: candidate_progress
+    name: Candidate progress
+    stages:
+      - key: identified
+        label: Identified
+        type: open
+        probability: 5
+        exit_criteria: Entered when a person is on the longlist for a search and has no contact restriction.
+        required_fields: [source]
+      - key: approached
+        label: Approached
+        type: open
+        probability: 15
+        exit_criteria: Entered when the first confidential approach has been made.
+        required_fields: [outreach_date]
+      - key: engaged
+        label: Engaged
+        type: open
+        probability: 30
+        exit_criteria: Entered when the person has replied and agreed to talk about the role.
+        required_fields: [motivation]
+      - key: assessed
+        label: Assessed
+        type: open
+        probability: 45
+        exit_criteria: Entered when we have completed a full interview and rated the person.
+        required_fields: [interview_date, assessment_rating]
+      - key: shortlisted
+        label: Shortlisted
+        type: open
+        probability: 60
+        exit_criteria: Entered when the candidate's profile has been presented to the client with their agreement.
+        required_fields: [assessment_rating, client_feedback]
+      - key: client_interview
+        label: Client interview
+        type: open
+        probability: 75
+        exit_criteria: Entered when the client has scheduled an interview with the candidate.
+        required_fields: [client_interview_date]
+      - key: offer
+        label: Offer
+        type: open
+        probability: 90
+        exit_criteria: Entered when the client has said they want to make an offer to the candidate.
+        required_fields: [offered_compensation]
+      - key: placed
+        label: Placed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the candidate has accepted the offer in writing and a start date is agreed.
+        required_fields: [offered_compensation, start_date, references_complete]
+      - key: out
+        label: Out
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the candidate withdraws or is declined at any step.
+        required_fields: [out_reason]
+  - object: fee_instalment
+    key: fee_collection
+    name: Fee collection
+    stages:
+      - key: scheduled
+        label: Scheduled
+        type: open
+        probability: 80
+        exit_criteria: Entered when the instalment is created from the signed fee schedule.
+        required_fields: [amount, trigger]
+      - key: due
+        label: Due
+        type: open
+        probability: 90
+        exit_criteria: Entered when the trigger event has happened or the set date has arrived.
+        required_fields: [due_date]
+      - key: invoiced
+        label: Invoiced
+        type: open
+        probability: 95
+        exit_criteria: Entered when the invoice has been issued and its reference recorded.
+        required_fields: [invoice_reference]
+      - key: paid
+        label: Paid
+        type: won
+        probability: 100
+        exit_criteria: Entered when payment has been received in the bank.
+        required_fields: [invoice_reference]
+      - key: waived
+        label: Waived
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the instalment is cancelled or waived by agreement.
+        required_fields: [waiver_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is the search tracked on its own object rather than as stages on the mandate deal?
+    recommended_default: >-
+      Yes. The deal ends at mandate won. The search has its own partner, consultant, timetable and
+      delivery pipeline, and carries candidates and fees.
+  - key: candidates_are_people
+    question: Are candidates their own object, or People with a type?
+    recommended_default: >-
+      People with a type. Candidates become clients and clients become candidates, and a person
+      stays one record. The search candidate record carries the stage for each search, so one person
+      can be on several searches.
+  - key: fee_instalments_object
+    question: Are retained fee instalments tracked on their own object?
+    recommended_default: >-
+      Yes. A fee in thirds produces three dated payments with their own status. The instalment
+      pipeline gives a forecast of cash by stage. Invoices stay in the finance system, matched by
+      invoice reference.
+  - key: confidential_searches
+    question: How are confidential searches protected in the CRM?
+    recommended_default: >-
+      Use a neutral code name, a confidential flag, and permissions that limit the search, its
+      candidates and its deal to the search team. Never put the incumbent's name in a record name or
+      note. Confirm access rules with the managing partner before go-live.
+  - key: off_limits_rule
+    question: How are off-limits companies enforced?
+    recommended_default: >-
+      A date on the company and a contact restriction on each person. A longlist view excludes both.
+      The rule is only as good as the discipline of setting it when a mandate is signed, so an
+      automation sets it from the client agreement.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow several custom objects, and a pipeline on each?
+    recommended_default: >-
+      Check before the build. The design uses three custom objects. If the plan allows fewer, build
+      Search and Search candidate first, and track fees as custom properties on Search until the
+      plan allows more. Record the gap in the client notes.
+  - key: contingent_work
+    question: Does the firm also take contingent or short-notice work?
+    recommended_default: >-
+      Not in this blueprint. If it does, use the recruitment agency blueprint for those desks, or add
+      a search model select to the mandate deal.
+
+automations:
+  - key: create_search_on_win
+    name: Create search on mandate won
+    trigger: A deal in the mandate acquisition pipeline moves to mandate won.
+    action: >-
+      Create a search from the deal's role title, compensation and fee terms, link it to the deal and
+      company, set it to position specification, and set the company's client status to active client.
+  - key: create_fee_schedule
+    name: Create fee schedule
+    trigger: A search is created with a total fee and a fee structure on its deal.
+    action: Create the fee instalments in the fee collection pipeline at scheduled, with trigger and amount from the fee structure.
+  - key: trigger_instalments
+    name: Make instalments due
+    trigger: A search reaches the shortlist stage or placed, or an instalment's set date arrives.
+    action: Move the matching instalment to due, set its due date and notify finance.
+  - key: set_off_limits
+    name: Set off-limits on signing
+    trigger: A deal moves to mandate won.
+    action: Set the company's off-limits until date from the agreement and flag its people as off-limits for approaches.
+  - key: shortlist_alert
+    name: Shortlist timetable alert
+    trigger: A search is not yet at shortlist and its target shortlist date is 7 days away.
+    action: Notify the partner and consultant with the number of assessed candidates.
+  - key: close_other_candidates
+    name: Close other candidates
+    trigger: A search candidate moves to placed.
+    action: >-
+      Move every other open search candidate on the search to out with a reason of client did not
+      proceed, set the search to placed, and prompt the consultant to send candidate courtesy notes.
+  - key: review_candidate_data
+    name: Review candidate data
+    trigger: A person of type candidate has a data review date in 30 days.
+    action: Notify the owner to confirm consent or delete the record.
+
+views:
+  - key: active_searches
+    name: Active searches
+    object: search
+    filter: Stage is open.
+    sort: Target shortlist date, soonest first.
+  - key: longlist_for_search
+    name: Longlist
+    object: search_candidate
+    filter: Search is the chosen search and stage is identified, approached or engaged.
+    sort: Motivation, strongest first.
+  - key: shortlist_for_search
+    name: Shortlist
+    object: search_candidate
+    filter: Search is the chosen search and stage is shortlisted, client interview or offer.
+    sort: Assessment rating, strongest first.
+  - key: instalments_to_invoice
+    name: Instalments to invoice
+    object: fee_instalment
+    filter: Stage is due.
+    sort: Due date, oldest first.
+  - key: outstanding_fees
+    name: Outstanding fees
+    object: fee_instalment
+    filter: Stage is invoiced.
+    sort: Due date, oldest first.
+  - key: my_open_mandate_deals
+    name: My open mandate deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+
+platform_overrides:
+  attio:
+    objects:
+      search: {api_slug: searches}
+      search_candidate: {api_slug: search_candidates}
+      fee_instalment: {api_slug: fee_instalments}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      search: {api_name: Search__c}
+      search_candidate: {api_name: Search_Candidate__c}
+      fee_instalment: {api_name: Fee_Instalment__c}

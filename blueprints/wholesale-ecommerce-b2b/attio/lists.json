@@ -1,0 +1,258 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Retailer acquisition",
+          "api_slug": "retailer_acquisition",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Retailer acquisition pipeline. Identified: Entered when a retailer that fits the brand is logged with a named buyer. Contacted: Entered when the buyer has replied or a meeting is booked. Line sheet sent: Entered when the line sheet and terms have been sent to the buyer. Range review: Entered when the buyer has seen the range, through samples, a showroom visit or a buying meeting. Terms discussion: Entered when the buyer has named the products they want and is discussing minimums and terms. Account setup: Entered when terms are agreed in writing and the account application has been returned. Account opened: Entered when the first order is placed and paid or approved on credit. Closed lost: Entered when the retailer declines to stock the brand or does not reply after three follow-ups over 45 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the retailer did not open an account. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Range does not fit the shop"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Opening minimum too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Margin too low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Stocks a competing brand"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Missed the buying season"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Order status",
+          "api_slug": "order_status",
+          "parent_object": "wholesale_orders",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Order status pipeline. Placed: Entered when the order is received from the retailer through any channel. Confirmed: Entered when stock is allocated, credit is checked and the order is confirmed to the retailer. Picking: Entered when the warehouse has the order for picking and packing. Shipped: Entered when the order has left the warehouse with a tracking reference. Delivered and paid: Entered when the retailer has received the order and the invoice is paid or inside its terms. Cancelled: Entered when the order is cancelled before delivery by the retailer or by us.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes",
+      "body": {
+        "data": {
+          "title": "Cancel reason",
+          "description": "Why the order was cancelled. Required on the cancelled stage.",
+          "api_slug": "cancel_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Stock unavailable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Retailer cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit hold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Payment failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Duplicate order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

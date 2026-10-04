@@ -1,0 +1,139 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Needs analysis",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Stakeholder review",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms agreed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Booked",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Applied",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Place offered",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Awaiting payment",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enrolled",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Withdrawn",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

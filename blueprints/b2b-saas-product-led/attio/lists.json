@@ -1,0 +1,294 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Sales assist",
+          "api_slug": "sales_assist",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Sales assist pipeline. Product-qualified lead: Entered when a workspace meets the PQL rule and a sales-assist rep has accepted it. Conversation: Entered when the rep has spoken to a workspace admin or owner. Need confirmed: Entered when the buyer has named what they need beyond the current plan and who approves spend. Proposal: Entered when a quote has been sent for a named plan, seat count and billing term. Negotiation: Entered when the buyer has asked for changes to price, terms or security answers. Closed won: Entered when the paid plan is live in the product and payment terms are accepted. Closed lost: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the expansion declined. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Happy to stay self-serve"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose a competitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Product gap"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Bad timing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Champion left"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Expansion",
+          "api_slug": "expansion",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Expansion pipeline. Expansion signal: Entered when usage passes an expansion threshold, for example seats used above seats paid. Outreach: Entered when a rep or success manager has contacted the workspace admin. Proposal: Entered when a quote for the added seats, plan or add-on has been sent. Negotiation: Entered when the buyer has asked for changes to price or terms. Expanded: Entered when the extra seats, plan or add-on are live and billed. Declined: Entered when the customer declines the expansion, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the expansion declined. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Happy to stay self-serve"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose a competitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Product gap"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Bad timing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Champion left"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

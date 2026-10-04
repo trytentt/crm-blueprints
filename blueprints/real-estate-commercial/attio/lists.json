@@ -1,0 +1,258 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Letting",
+          "api_slug": "letting",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Letting pipeline. Enquiry: Entered when an occupier or landlord enquiry is logged against a contact. Requirement qualified: Entered when size, budget, location and move date have been confirmed with a decision maker. Viewing: Entered when a viewing is booked for specific space. Offer: Entered when the occupier has viewed the space and made a first offer on rent and term. Heads of terms: Entered when landlord and tenant have agreed the main terms and heads of terms are issued, subject to contract. Referencing: Entered when heads of terms are signed back and tenant reference checks are under way. Legals: Entered when referencing has passed and both sides have instructed solicitors. Completed: Entered when the lease is signed by both sides and the lease record is created. Lost: Entered when either side withdraws, the space is let elsewhere, or there is no reply after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the letting did not complete. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Took other space"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms not agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Referencing failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Space unsuitable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Budget changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Requirement withdrawn"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Landlord withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Lease renewal",
+          "api_slug": "lease_renewal",
+          "parent_object": "leases",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Lease renewal pipeline. Upcoming: Entered when the lease is within 12 months of its expiry or break date. Tenant contacted: Entered when the tenant's intentions have been asked for and noted. Terms discussed: Entered when the landlord and tenant are negotiating new rent and term. Renewal agreed: Entered when heads of terms for the renewal are agreed and solicitors are instructed. Renewed: Entered when the renewal lease or variation is signed and the dates on the record are updated. Not renewed: Entered when the tenant leaves or the lease ends without renewal.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes",
+      "body": {
+        "data": {
+          "title": "Outcome reason",
+          "description": "Why a lease was not renewed. Required on the lost renewal stage.",
+          "api_slug": "outcome_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Tenant relocated"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Downsized"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Business closed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Rent too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Landlord redevelopment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/outcome_reason/options",
+      "body": {
+        "data": {
+          "title": "Space unsuitable"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Property",
+          "description": "Shows every letting enquiry and deal for a building.",
+          "api_slug": "property",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "properties"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "properties",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/properties/attributes",
+      "body": {
+        "data": {
+          "title": "Landlord",
+          "description": "Shows which landlord owns each property.",
+          "api_slug": "landlord",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Properties owned",
+            "api_slug": "properties_owned",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Property",
+          "description": "Shows every lease, current and past, in a building.",
+          "api_slug": "property",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "properties"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "properties",
+            "title": "Leases",
+            "api_slug": "leases",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Tenant",
+          "description": "Shows the tenant's leases and so their footprint with us.",
+          "api_slug": "tenant",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Leases as tenant",
+            "api_slug": "leases_as_tenant",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/leases/attributes",
+      "body": {
+        "data": {
+          "title": "Letting deal",
+          "description": "Links a lease to the deal that created it, for fee reporting.",
+          "api_slug": "letting_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Leases",
+            "api_slug": "leases",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

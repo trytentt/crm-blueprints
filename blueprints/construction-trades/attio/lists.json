@@ -1,0 +1,258 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Tender and estimate",
+          "api_slug": "tender_estimate",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Tender and estimate pipeline. Opportunity: Entered when a named client contact has an actual project with a site and a rough scope. Go or no-go: Entered when the tender documents or brief have been received and the bid decision is being made. Estimating: Entered when the decision is go and a site visit or drawings review has been done. Bid submitted: Entered when the priced bid has been sent to the client. Clarification: Entered when the client has asked for clarifications, a revised price or an interview. Preferred bidder: Entered when the client has told us in writing that we are preferred or recommended for award. Awarded: Entered when the contract, order or letter of intent is signed and a project record is created. Closed lost: Entered when the client awards elsewhere, withdraws, or we decide not to bid.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the tender or quote was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Programme or start date"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another contractor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We lacked capacity"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Client cancelled the project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Not shortlisted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Never awarded"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Project delivery",
+          "api_slug": "project_delivery",
+          "parent_object": "projects",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Project delivery pipeline. Pre-start: Entered when the project record is created from an awarded deal. Mobilising: Entered when the project manager is named and RAMS and insurance checks are under way. On site: Entered when work has started on site. Snagging: Entered when the main works are finished and the client's snag list has been issued. Defects period: Entered when practical completion is certified and retention is being held. Closed out: Entered when defects are cleared, retention is released and the final account is agreed. Cancelled: Entered when the project is stopped before practical completion.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Cancellation reason",
+          "description": "Why the project did not complete. Required on the cancelled stage.",
+          "api_slug": "cancellation_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client funding lost"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Contract dispute"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client insolvent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

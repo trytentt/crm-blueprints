@@ -1,0 +1,469 @@
+# Build sheet: B2B SaaS, product-led (attio)
+
+A software company where people sign up and pay without talking to sales, and a small sales-assist team steps in when product usage shows a team is ready to buy more. Usage lives on a workspace object, a product-qualified lead opens a deal, and expansion runs as its own pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: What makes a workspace a product-qualified lead?**
+  - Recommended default: Start with one usage rule (for example reached the activation milestone and invited three or more teammates) plus company fit of strong or possible. Review the rule monthly against which PQLs actually close. Keep the rule in the product data, not in free text on the record.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do self-serve upgrades by card create deals?**
+  - Recommended default: No. Card payments update the workspace plan and MRR only. A deal exists only when a person works the account, so win rates and sales cycle are not diluted by self-serve volume.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is post-sale adoption tracked on its own object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. The adoption plan has its own owner and dates. The sales pipelines end at closed won or expanded. Self-serve customers are tracked on the workspace alone.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How does product usage reach the CRM?**
+  - Recommended default: A nightly sync from the product database or warehouse writes seats, active users, limit used and last active date onto the workspace, matched on product workspace ID. Sync summaries, not events. Raw events stay in the product.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and enough of them?**
+  - Recommended default: Check before the build. If not, hold usage as custom properties on Company, treat the company as the workspace, and record the loss of one-company-many-workspaces in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which accounts get a human, and which stay self-serve?**
+  - Recommended default: Engage only accounts with segment mid-market or enterprise, or any account that asks for sales. Revisit once sales-assist has capacity data.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Workspace**
+  - Where: Workspace settings, then Objects, then New object. Use singular Workspace, plural Workspaces, slug `workspaces`.
+  - Purpose: One account inside the product (a team space, tenant or organisation). Holds plan, seat and usage figures synced from the product, so sales sees usage next to the commercial record.
+  - Done when: the object Workspace exists with plural name Workspaces.
+- [ ] **Create object Adoption plan**
+  - Where: Workspace settings, then Objects, then New object. Use singular Adoption plan, plural Adoption plans, slug `adoption_plans`.
+  - Purpose: The work of getting a sales-assisted customer to real use after they pay. Owned by customer success, separate from the sales deal. Self-serve customers do not get one.
+  - Done when: the object Adoption plan exists with plural name Adoption plans.
+- [ ] **Create relationship workspace to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Choose a relationship to company, name this side 'Company' and the other side 'Workspaces'.
+  - Purpose: A company can have several workspaces. Shows all of them next to the company record.
+  - Done when: a workspace record shows the link as 'Company' and a company record shows it as 'Workspaces'.
+- [ ] **Create relationship person to workspace (many_to_many)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Choose a relationship to workspace, name this side 'Workspaces' and the other side 'People'.
+  - Purpose: Links product users to the workspaces they belong to. One person can sit in many workspaces.
+  - Done when: a person record shows the link as 'Workspaces' and a workspace record shows it as 'People'.
+- [ ] **Create relationship deal to workspace (many_to_one)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to workspace, name this side 'Workspace' and the other side 'Deals'.
+  - Purpose: Ties a sales-assist or expansion deal to the workspace whose usage triggered it.
+  - Done when: a deal record shows the link as 'Workspace' and a workspace record shows it as 'Deals'.
+- [ ] **Create relationship adoption_plan to workspace (many_to_one)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Choose a relationship to workspace, name this side 'Workspace' and the other side 'Adoption plans'.
+  - Purpose: Tracks post-sale adoption for each workspace.
+  - Done when: a adoption_plan record shows the link as 'Workspace' and a workspace record shows it as 'Adoption plans'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Sales assist on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Sales assist' (slug `sales_assist`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Sales assist exists with 7 stages in the order below.
+- [ ] **Stage 1: Product-qualified lead**
+  - Type: open. Probability: 10%.
+  - Entered when a workspace meets the PQL rule and a sales-assist rep has accepted it.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: pql_trigger.
+  - Done when: the stage Product-qualified lead is in position 1 and its rule is in place.
+- [ ] **Stage 2: Conversation**
+  - Type: open. Probability: 25%.
+  - Entered when the rep has spoken to a workspace admin or owner.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Conversation is in position 2 and its rule is in place.
+- [ ] **Stage 3: Need confirmed**
+  - Type: open. Probability: 45%.
+  - Entered when the buyer has named what they need beyond the current plan and who approves spend.
+  - Set Probability to 45 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: need_summary, expected_seats, next_step_date.
+  - Done when: the stage Need confirmed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Proposal**
+  - Type: open. Probability: 65%.
+  - Entered when a quote has been sent for a named plan, seat count and billing term.
+  - Set Probability to 65 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, target_plan, expected_seats, billing_term.
+  - Done when: the stage Proposal is in position 4 and its rule is in place.
+- [ ] **Stage 5: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has asked for changes to price, terms or security answers.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, security_review.
+  - Done when: the stage Negotiation is in position 5 and its rule is in place.
+- [ ] **Stage 6: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the paid plan is live in the product and payment terms are accepted.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Closed won is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Closed lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Expansion on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Expansion' (slug `expansion`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Expansion exists with 6 stages in the order below.
+- [ ] **Stage 1: Expansion signal**
+  - Type: open. Probability: 20%.
+  - Entered when usage passes an expansion threshold, for example seats used above seats paid.
+  - Set Probability to 20 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: expansion_type.
+  - Done when: the stage Expansion signal is in position 1 and its rule is in place.
+- [ ] **Stage 2: Outreach**
+  - Type: open. Probability: 35%.
+  - Entered when a rep or success manager has contacted the workspace admin.
+  - Set Probability to 35 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Outreach is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal**
+  - Type: open. Probability: 60%.
+  - Entered when a quote for the added seats, plan or add-on has been sent.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, expected_seats, target_plan.
+  - Done when: the stage Proposal is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has asked for changes to price or terms.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Negotiation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Expanded**
+  - Type: won. Probability: 100%.
+  - Entered when the extra seats, plan or add-on are live and billed.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Expanded is in position 5 and its rule is in place.
+- [ ] **Stage 6: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer declines the expansion, or has not replied after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Declined is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `customer_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Free user, Paying, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `segment`.
+  - Purpose: Size band used to decide whether sales-assist should engage or the account stays self-serve.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field ICP fit (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `icp_fit`.
+  - Purpose: How closely the company matches the ideal customer profile. One input to the PQL rule.
+  - Options: Strong, Possible, Weak
+  - Done when: Company records show ICP fit and it accepts the right values.
+- [ ] **Create field Acquisition channel (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `acquisition_channel`.
+  - Purpose: How the first user at this company found the product. Set once, never overwritten.
+  - Options: Organic search, Paid, Referral, Community, Integration marketplace, Outbound
+  - Done when: Company records show Acquisition channel and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Workspace role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `workspace_role`.
+  - Purpose: What this person is inside the product. A user is not always the person who pays.
+  - Options: Workspace owner, Admin, Member, Billing contact, Not a product user
+  - Done when: Person records show Workspace role and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `buying_role`.
+  - Purpose: The part this person plays in a paid purchase. Used to check deals are not single-threaded on one user.
+  - Options: Economic buyer, Champion, Technical evaluator, End user, Blocker
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Create field Marketing consent (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `marketing_consent`.
+  - Purpose: Lawful basis for marketing email to this person. Product sign-up alone does not give consent to sales outreach in every region.
+  - Options: Opted in, Legitimate interest, Opted out, Unknown
+  - Done when: Person records show Marketing consent and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the deal was lost or the expansion declined. Required on every lost stage.
+  - Options: Happy to stay self-serve, No budget, No decision made, Chose a competitor, Product gap, Price, Bad timing, Champion left, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field PQL trigger (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `pql_trigger`.
+  - Purpose: The product behaviour that made the lead product-qualified. Lets us see which signals convert.
+  - Options: Hit a usage limit, Invited teammates, Reached activation milestone, Viewed pricing repeatedly, Asked to talk to sales, Trial ending while active
+  - Done when: Deal records show PQL trigger and it accepts the right values.
+- [ ] **Create field Expected seats (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `expected_seats`.
+  - Purpose: Number of seats the buyer expects to need on the paid plan.
+  - Done when: Deal records show Expected seats and it accepts the right values.
+- [ ] **Create field Target plan (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `target_plan`.
+  - Purpose: The paid plan being discussed.
+  - Options: Team, Business, Enterprise
+  - Done when: Deal records show Target plan and it accepts the right values.
+- [ ] **Create field Billing term (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `billing_term`.
+  - Purpose: How the buyer will pay. Moving from card to invoice is the usual sales-assist step.
+  - Options: Monthly by card, Annual by card, Annual by invoice, Multi-year by invoice
+  - Done when: Deal records show Billing term and it accepts the right values.
+- [ ] **Create field Security review (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `security_review`.
+  - Purpose: Progress of the buyer's security and procurement review.
+  - Options: Not needed, Requested, In progress, Passed
+  - Done when: Deal records show Security review and it accepts the right values.
+- [ ] **Create field Expansion type (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `expansion_type`.
+  - Purpose: What the expansion deal adds. Used to report where expansion revenue comes from.
+  - Options: More seats, Plan upgrade, Add-on, New team or department
+  - Done when: Deal records show Expansion type and it accepts the right values.
+- [ ] **Create field Need summary (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `need_summary`.
+  - Purpose: What the team is trying to do with the product and what is stopping the free or current plan working.
+  - Done when: Deal records show Need summary and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Workspace
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type text, slug `workspace_name`.
+  - Purpose: The workspace name as it appears in the product.
+  - Done when: Workspace records show Name and it accepts the right values.
+- [ ] **Create field Product workspace ID (text, required)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type text, slug `product_workspace_id`.
+  - Purpose: The workspace's identifier in the product database. The key used to match synced usage to this record.
+  - Done when: Workspace records show Product workspace ID and it accepts the right values.
+- [ ] **Create field Plan (select)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type select, slug `plan`.
+  - Purpose: The plan the workspace is on now.
+  - Options: Free, Team, Business, Enterprise
+  - Done when: Workspace records show Plan and it accepts the right values.
+- [ ] **Create field Lifecycle stage (select)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type select, slug `lifecycle_stage`.
+  - Purpose: Where the workspace is in the self-serve journey.
+  - Options: Signed up, Activated, Trialling, Paying, Churned
+  - Done when: Workspace records show Lifecycle stage and it accepts the right values.
+- [ ] **Create field Sign-up date (date)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type date, slug `signup_date`.
+  - Purpose: The day the workspace was created.
+  - Done when: Workspace records show Sign-up date and it accepts the right values.
+- [ ] **Create field Trial end date (date)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type date, slug `trial_ends_date`.
+  - Purpose: The day the current trial ends. Empty if not on a trial.
+  - Done when: Workspace records show Trial end date and it accepts the right values.
+- [ ] **Create field Activated (checkbox)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type checkbox, slug `activated`.
+  - Purpose: The workspace has reached the product's activation milestone, as defined by product.
+  - Done when: Workspace records show Activated and it accepts the right values.
+- [ ] **Create field Seats used (number)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type number, slug `seats_used`.
+  - Purpose: Active seats in the product, synced nightly.
+  - Done when: Workspace records show Seats used and it accepts the right values.
+- [ ] **Create field Seats paid (number)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type number, slug `seats_paid`.
+  - Purpose: Seats the workspace is paying for. Compared with seats used to find expansion.
+  - Done when: Workspace records show Seats paid and it accepts the right values.
+- [ ] **Create field Active users (30 days) (number)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type number, slug `active_users_30d`.
+  - Purpose: Distinct users who used the product in the last 30 days, synced nightly.
+  - Done when: Workspace records show Active users (30 days) and it accepts the right values.
+- [ ] **Create field Plan limit used (percent)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type number, slug `limit_usage_percent`.
+  - Purpose: How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal.
+  - Done when: Workspace records show Plan limit used and it accepts the right values.
+- [ ] **Create field Last active date (date)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type date, slug `last_active_date`.
+  - Purpose: The last day any user was active in the workspace.
+  - Done when: Workspace records show Last active date and it accepts the right values.
+- [ ] **Create field PQL status (select)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type select, slug `pql_status`.
+  - Purpose: Whether the workspace meets the product-qualified lead rule. Set by automation, not by hand.
+  - Options: Not qualified, Qualified, Accepted by sales, Rejected by sales
+  - Done when: Workspace records show PQL status and it accepts the right values.
+- [ ] **Create field PQL score (number)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type number, slug `pql_score`.
+  - Purpose: Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.
+  - Done when: Workspace records show PQL score and it accepts the right values.
+- [ ] **Create field MRR (currency)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type currency, slug `mrr`.
+  - Purpose: Monthly recurring revenue for this workspace at current prices, from billing.
+  - Done when: Workspace records show MRR and it accepts the right values.
+- [ ] **Create field Billing source (select)**
+  - Where: Workspace settings, then Objects, then Workspace, then Attributes, then New attribute. Type select, slug `billing_source`.
+  - Purpose: Whether the workspace pays by card through self-serve billing or by invoice agreed with sales.
+  - Options: None, Card, Invoice
+  - Done when: Workspace records show Billing source and it accepts the right values.
+
+### Adoption plan
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Type text, slug `adoption_plan_name`.
+  - Purpose: Company name and the words adoption plan.
+  - Done when: Adoption plan records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the plan stands.
+  - Options: Not started, In progress, Complete, Stalled
+  - Done when: Adoption plan records show Status and it accepts the right values.
+- [ ] **Create field Target activation date (date)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Type date, slug `target_activation_date`.
+  - Purpose: The date by which the workspace should have reached the activation milestone.
+  - Done when: Adoption plan records show Target activation date and it accepts the right values.
+- [ ] **Create field Success criteria (long_text)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Type text, slug `success_criteria`.
+  - Purpose: What good use looks like for this customer, in numbers the product can measure.
+  - Done when: Adoption plan records show Success criteria and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Adoption plan, then Attributes, then New attribute. Type actor-reference, slug `adoption_plan_owner`.
+  - Purpose: The customer success manager running the plan.
+  - Done when: Adoption plan records show Owner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Sync product usage**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: Nightly, and when a workspace is created or its plan changes in the product.
+  - Action: Upsert the workspace by product workspace ID with plan, seats, active users, limit used and last active date, and link the people who are members.
+  - Done when: the automation runs on a test record and the result matches: Upsert the workspace by product workspace ID with plan, seats, active users, limit used and last active date, and link the people who are members.
+- [ ] **Flag product-qualified lead**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A workspace meets the PQL rule and its PQL status is not qualified, accepted or rejected.
+  - Action: Set PQL status to qualified, notify the sales-assist queue, and create a deal in the sales assist pipeline at product-qualified lead once a rep accepts, with the PQL trigger filled.
+  - Done when: the automation runs on a test record and the result matches: Set PQL status to qualified, notify the sales-assist queue, and create a deal in the sales assist pipeline at product-qualified lead once a rep accepts, with the PQL trigger filled.
+- [ ] **Open expansion deal**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: Seats used exceed seats paid, or plan limit used passes 80 percent, on a paying workspace with no open expansion deal.
+  - Action: Create a deal in the expansion pipeline at expansion signal, linked to the workspace, and assign it to the account owner.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the expansion pipeline at expansion signal, linked to the workspace, and assign it to the account owner.
+- [ ] **Start adoption plan**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A sales-assist deal moves to closed won.
+  - Action: Create an adoption plan linked to the workspace, assign it to customer success and set the company to paying.
+  - Done when: the automation runs on a test record and the result matches: Create an adoption plan linked to the workspace, assign it to customer success and set the company to paying.
+- [ ] **Trial ending alert**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A workspace on a trial has a trial end date in 3 days and is activated.
+  - Action: Notify the account owner, or the sales-assist queue if the workspace has no owner.
+  - Done when: the automation runs on a test record and the result matches: Notify the account owner, or the sales-assist queue if the workspace has no owner.
+- [ ] **Flag stalled deals**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **PQL queue**
+  - Where: Open Workspaces in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: workspace
+  - Filter: PQL status is qualified.
+  - Sort: PQL score, highest first.
+  - Done when: the view PQL queue is saved and shows the expected records.
+- [ ] **Trials ending soon**
+  - Where: Open Workspaces in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: workspace
+  - Filter: Lifecycle stage is trialling and trial end date is within 7 days.
+  - Sort: Trial end date, soonest first.
+  - Done when: the view Trials ending soon is saved and shows the expected records.
+- [ ] **Expansion candidates**
+  - Where: Open Workspaces in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: workspace
+  - Filter: Lifecycle stage is paying and plan limit used is over 80 percent, or seats used is above seats paid.
+  - Sort: Plan limit used, highest first.
+  - Done when: the view Expansion candidates is saved and shows the expected records.
+- [ ] **My open deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Adoption in flight**
+  - Where: Open Adoption plans in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: adoption_plan
+  - Filter: Status is not complete.
+  - Sort: Target activation date, oldest first.
+  - Done when: the view Adoption in flight is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Mark Product workspace ID on workspace as required**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

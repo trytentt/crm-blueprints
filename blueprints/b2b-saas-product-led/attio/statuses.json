@@ -1,0 +1,139 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Product-qualified lead",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Conversation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Need confirmed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Negotiation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sales_assist/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Expansion signal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Outreach",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Negotiation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Expanded",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Declined",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

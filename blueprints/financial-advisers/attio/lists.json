@@ -1,0 +1,346 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "New client",
+          "api_slug": "new_client",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the New client pipeline. Enquiry: Entered when a prospect is logged with a referral source and a way to contact them. Initial meeting booked: Entered when the free initial meeting is in the diary. Initial meeting held: Entered when the initial meeting has taken place and services and fees have been explained. Fee proposal: Entered when a written proposal of services and fees has been sent. Agreement out: Entered when the prospect has said yes to the proposal and the client agreement has been sent for signature. Client won: Entered when the client agreement is signed and identity checks are complete. Lost: Entered when the prospect declines, chooses another adviser or does not reply after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the prospect did not become a client. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another adviser"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No need now"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside our service"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Did not proceed after advice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Advice delivery",
+          "api_slug": "advice_delivery",
+          "parent_object": "advice_cases",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Advice delivery pipeline. Fact find: Entered when the client agreement is signed and the fact find has been issued to the household. Analysis: Entered when the fact find and supporting documents are complete and checked. Report drafted: Entered when the recommendation report is drafted and sent for internal checking. Report issued: Entered when the checked report has been sent to the client and a meeting to discuss it is booked. Accepted: Entered when the client has decided to proceed with some or all recommendations. Completed: Entered when applications are placed and the client has confirmation of every agreed action. Closed without advice: Entered when the case ends before completion because the client withdrew or the practice could not advise.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Closure reason",
+          "description": "Why the case closed without completing. Required on the closed-without-advice stage.",
+          "api_slug": "closure_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Client withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Advice declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Unable to advise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Circumstances changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Review cycle",
+          "api_slug": "review_cycle",
+          "parent_object": "reviews",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Review cycle pipeline. Due: Entered when the household is within 90 days of its review due date. Invited: Entered when the client has been sent the review invitation and questionnaire. Booked: Entered when the review meeting is in the diary. Meeting held: Entered when the review meeting has taken place. Review completed: Entered when the review letter has been sent and follow-up actions are logged. Not completed: Entered when the review will not happen in this cycle, because the client declined or could not be reached.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes",
+      "body": {
+        "data": {
+          "title": "Missed reason",
+          "description": "Why the review did not happen. Required on the not-completed stage.",
+          "api_slug": "missed_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Client declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Client unresponsive"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Moved to another adviser"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Left the practice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

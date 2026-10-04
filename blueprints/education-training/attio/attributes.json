@@ -1,0 +1,1562 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account type",
+          "description": "What kind of organisation this is. Drives which views and routing apply.",
+          "api_slug": "account_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Employer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Training partner or reseller"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Funder or levy intermediary"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Segment",
+          "description": "Size band used for routing and reporting.",
+          "api_slug": "segment",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "SMB"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "Mid-market"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "Enterprise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Customer status",
+          "description": "Where the company is in its life with us. Drives views and repeat-booking follow-up.",
+          "api_slug": "customer_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Active customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Lapsed customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound enquiry"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Returning delegate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The main part this person plays in a training purchase. A delegate who later buys is changed here. Do not create a second record for the same human.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Budget holder"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Learning and development lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Line manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Delegate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "HR contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose to deliver in house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Dates did not fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Content did not fit the need"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Training need",
+          "description": "The main subject area the buyer wants covered. Used to report demand by topic.",
+          "api_slug": "training_need",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Compliance and mandatory"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Leadership and management"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Technical skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Communication and soft skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Digital skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Health and safety"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Apprenticeship or accredited"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/training_need/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Delivery format",
+          "description": "How the training will be delivered. Decides pricing and the type of cohort created.",
+          "api_slug": "delivery_format",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "In-house at the client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Seats on open course"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Virtual live"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Blended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Self-paced licence"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Delegate count",
+          "description": "How many people the buyer expects to train. Sets price and cohort size.",
+          "api_slug": "delegate_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Funding source",
+          "description": "Where the money comes from. Funded routes need extra paperwork before booking.",
+          "api_slug": "funding_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Company budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Apprenticeship levy funds"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Grant or public funding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Self-funded by delegate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Needs summary",
+          "description": "The training need found in the needs analysis. Covers who needs training, the gap today and how success will be judged. Long text: Attio has one text type.",
+          "api_slug": "needs_summary",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Budget confirmed",
+          "description": "The budget holder has said money exists for this training.",
+          "api_slug": "budget_confirmed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Proposed start date",
+          "description": "The date the buyer would like the first session to run.",
+          "api_slug": "proposed_start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Purchase order received",
+          "description": "The client's purchase order or signed booking form is on file.",
+          "api_slug": "purchase_order_received",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Whether the programme can be sold.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In development"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Live"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Retired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "Category",
+          "description": "Subject area, matching the deal training need so demand and supply can be compared.",
+          "api_slug": "category",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Compliance and mandatory"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Leadership and management"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Technical skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Communication and soft skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Digital skills"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Health and safety"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Apprenticeship or accredited"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "Delivery format",
+          "description": "The usual way the programme is run.",
+          "api_slug": "delivery_format",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "In person"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Virtual live"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Blended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes/delivery_format/options",
+      "body": {
+        "data": {
+          "title": "Self-paced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "Duration (days)",
+          "description": "Total contact days. Used to quote and to schedule trainers.",
+          "api_slug": "duration_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "Accredited",
+          "description": "The programme leads to an external certificate or qualification.",
+          "api_slug": "accredited",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/programmes/attributes",
+      "body": {
+        "data": {
+          "title": "List price per delegate",
+          "description": "Standard price for one delegate before any discount.",
+          "api_slug": "list_price",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the cohort stands. Drives the sales view of cohorts that still have places.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Planned"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Open for enrolment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Full"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Confirmed to run"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Running"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Completed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Cohort type",
+          "description": "Whether any employer can book a place or the run is for one client only.",
+          "api_slug": "cohort_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/cohort_type/options",
+      "body": {
+        "data": {
+          "title": "Open to any employer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes/cohort_type/options",
+      "body": {
+        "data": {
+          "title": "In-house for one client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "First day of the cohort.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "End date",
+          "description": "Last day of the cohort.",
+          "api_slug": "end_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Capacity",
+          "description": "Maximum number of delegates.",
+          "api_slug": "capacity",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Minimum to run",
+          "description": "The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.",
+          "api_slug": "minimum_to_run",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Confirmed places",
+          "description": "Count of enrolments at the enrolled stage. Maintained by an automation, not typed.",
+          "api_slug": "confirmed_places",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Trainer",
+          "description": "The team member leading the cohort.",
+          "api_slug": "trainer",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Location",
+          "description": "Venue or platform used, so logistics and room bookings can be checked.",
+          "api_slug": "location",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Application date",
+          "description": "The day the booking form or application was received.",
+          "api_slug": "application_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Price",
+          "description": "Price agreed for this place after any discount.",
+          "api_slug": "price",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Payment status",
+          "description": "Whether this place is paid for or covered by a purchase order. A place is not confirmed until it is set.",
+          "api_slug": "payment_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Not due"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Purchase order received"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Invoiced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Paid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Refunded"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Waived"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Funding source",
+          "description": "Where the money for this place comes from.",
+          "api_slug": "funding_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Company budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Apprenticeship levy funds"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Grant or public funding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/funding_source/options",
+      "body": {
+        "data": {
+          "title": "Self-funded by delegate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Completion status",
+          "description": "Outcome for the delegate after the cohort starts. Used for completion rates and certificates.",
+          "api_slug": "completion_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/completion_status/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/completion_status/options",
+      "body": {
+        "data": {
+          "title": "In progress"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/completion_status/options",
+      "body": {
+        "data": {
+          "title": "Completed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/completion_status/options",
+      "body": {
+        "data": {
+          "title": "Did not complete"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/completion_status/options",
+      "body": {
+        "data": {
+          "title": "Did not attend"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Withdrawal reason",
+          "description": "Why the place did not go ahead. Required on the withdrawn stage.",
+          "api_slug": "withdrawal_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined the offer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Dates did not fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Employer cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Funding fell through"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Cohort cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

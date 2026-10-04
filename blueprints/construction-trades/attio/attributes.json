@@ -1,0 +1,1462 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client type",
+          "description": "What kind of client or partner this is. Drives pricing approach and reporting.",
+          "api_slug": "client_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Main contractor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Developer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Housing provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Public body"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Private commercial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Facilities manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Relationship status",
+          "description": "Where the company is in its life with us. Drives bid invitations and repeat-work follow-up.",
+          "api_slug": "relationship_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "On their tender list"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Active client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_status/options",
+      "body": {
+        "data": {
+          "title": "Dormant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Supplier approval",
+          "description": "Whether we are approved to work for this client. Many clients will not take a bid until approved.",
+          "api_slug": "supplier_approval",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/supplier_approval/options",
+      "body": {
+        "data": {
+          "title": "Not required"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/supplier_approval/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/supplier_approval/options",
+      "body": {
+        "data": {
+          "title": "Applied"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/supplier_approval/options",
+      "body": {
+        "data": {
+          "title": "Approved"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/supplier_approval/options",
+      "body": {
+        "data": {
+          "title": "Suspended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Tender portal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Repeat client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound enquiry"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Framework"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in awarding or running the work. Used to check who has been engaged.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Decision maker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Quantity surveyor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Project manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Architect or designer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Site manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Accounts"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the tender or quote was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Programme or start date"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another contractor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We lacked capacity"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Client cancelled the project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Not shortlisted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Never awarded"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Procurement route",
+          "description": "How the work is being bought. Tender routes need a deadline and go or no-go before estimating.",
+          "api_slug": "procurement_route",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/procurement_route/options",
+      "body": {
+        "data": {
+          "title": "Open tender"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/procurement_route/options",
+      "body": {
+        "data": {
+          "title": "Selective or invited tender"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/procurement_route/options",
+      "body": {
+        "data": {
+          "title": "Negotiated quote"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/procurement_route/options",
+      "body": {
+        "data": {
+          "title": "Framework call-off"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/procurement_route/options",
+      "body": {
+        "data": {
+          "title": "Repeat client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Work type",
+          "description": "The kind of work. Used to report win rate and margin by type.",
+          "api_slug": "work_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "New build"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Refurbishment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Fit-out"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Maintenance and repair"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Specialist trade package"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Tender deadline",
+          "description": "The date and time bids must be in by. A missed deadline is a lost deal.",
+          "api_slug": "tender_deadline",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Go or no-go",
+          "description": "The bid decision. Estimating hours are only spent on a go.",
+          "api_slug": "go_no_go",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/go_no_go/options",
+      "body": {
+        "data": {
+          "title": "Pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/go_no_go/options",
+      "body": {
+        "data": {
+          "title": "Go"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/go_no_go/options",
+      "body": {
+        "data": {
+          "title": "No-go"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Site visit done",
+          "description": "Someone from the estimating team has visited the site or reviewed drawings with the client.",
+          "api_slug": "site_visit_done",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Estimated margin",
+          "description": "Margin in the submitted price. Compared with actual margin on the project after close-out. Percentage stored as a number from 0 to 100.",
+          "api_slug": "estimated_margin",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Contract form",
+          "description": "The type of contract the work will be done under. Affects retention and payment terms.",
+          "api_slug": "contract_form",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/contract_form/options",
+      "body": {
+        "data": {
+          "title": "Standard form of building contract"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/contract_form/options",
+      "body": {
+        "data": {
+          "title": "Subcontract order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/contract_form/options",
+      "body": {
+        "data": {
+          "title": "Purchase order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/contract_form/options",
+      "body": {
+        "data": {
+          "title": "Bespoke terms"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Retention",
+          "description": "Percentage of each payment held back by the client until defects are put right. Percentage stored as a number from 0 to 100.",
+          "api_slug": "retention_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected start date",
+          "description": "When the client expects work to start on site.",
+          "api_slug": "expected_start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Postcode",
+          "description": "Postcode of the site, for routing crews and checking travel time.",
+          "api_slug": "postcode",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Site type",
+          "description": "The kind of premises. Decides induction, permits and working hours.",
+          "api_slug": "site_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Commercial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Residential block"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Public building"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Industrial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Education"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes/site_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Induction required",
+          "description": "Operatives must complete a site induction before starting.",
+          "api_slug": "induction_required",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Access notes",
+          "description": "Parking, working hours, security and hazards for crews. Must not hold personal data. Long text: Attio has one text type.",
+          "api_slug": "access_notes",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Project reference",
+          "description": "The job number used in accounts and on site, so the CRM matches finance records.",
+          "api_slug": "reference",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Work type",
+          "description": "The kind of work, copied from the deal. Used to compare margin by type.",
+          "api_slug": "work_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "New build"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Refurbishment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Fit-out"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Maintenance and repair"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/work_type/options",
+      "body": {
+        "data": {
+          "title": "Specialist trade package"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Contract value",
+          "description": "Agreed contract sum at award, before variations.",
+          "api_slug": "contract_value",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Start on site",
+          "description": "The day work starts on site.",
+          "api_slug": "start_on_site_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Planned completion",
+          "description": "The contractual date for practical completion.",
+          "api_slug": "planned_completion_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Actual completion",
+          "description": "The date practical completion was certified.",
+          "api_slug": "actual_completion_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Project manager",
+          "description": "The team member running the job day to day.",
+          "api_slug": "project_manager",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "RAMS approved",
+          "description": "Risk assessments and method statements have been approved by the client or principal contractor.",
+          "api_slug": "rams_approved",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Insurance verified",
+          "description": "The client has confirmed our insurance certificates meet the contract.",
+          "api_slug": "insurance_verified",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Retention held",
+          "description": "The amount the client is holding back until the defects period ends.",
+          "api_slug": "retention_held",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Retention release date",
+          "description": "When retention falls due. A reminder fires before it.",
+          "api_slug": "retention_release_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Final margin",
+          "description": "Margin achieved once the final account is agreed. Percentage stored as a number from 0 to 100.",
+          "api_slug": "final_margin",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Cancellation reason",
+          "description": "Why the project did not complete. Required on the cancelled stage.",
+          "api_slug": "cancellation_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client funding lost"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Contract dispute"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Client insolvent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes/cancellation_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Revision",
+          "description": "Revision number, starting at 1. A new price is a new estimate, never an edit.",
+          "api_slug": "revision",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where this revision stands.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Draft"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In review"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Issued"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Accepted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Rejected"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Superseded"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Price",
+          "description": "Total price excluding VAT for this revision.",
+          "api_slug": "price",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Margin",
+          "description": "Margin built into this revision. Percentage stored as a number from 0 to 100.",
+          "api_slug": "margin",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Valid until",
+          "description": "The last day the price can be accepted.",
+          "api_slug": "valid_until",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Estimator",
+          "description": "The team member who priced it.",
+          "api_slug": "estimator",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

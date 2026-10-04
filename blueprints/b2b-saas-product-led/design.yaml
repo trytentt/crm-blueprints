@@ -1,0 +1,495 @@
+extends: core
+name: B2B SaaS, product-led
+description: >-
+  A software company where people sign up and pay without talking to sales, and a small sales-assist
+  team steps in when product usage shows a team is ready to buy more. Usage lives on a workspace
+  object, a product-qualified lead opens a deal, and expansion runs as its own pipeline.
+
+add_objects:
+  - key: workspace
+    label: Workspace
+    plural_label: Workspaces
+    description: >-
+      One account inside the product (a team space, tenant or organisation). Holds plan, seat and
+      usage figures synced from the product, so sales sees usage next to the commercial record.
+  - key: adoption_plan
+    label: Adoption plan
+    plural_label: Adoption plans
+    description: >-
+      The work of getting a sales-assisted customer to real use after they pay. Owned by customer
+      success, separate from the sales deal. Self-serve customers do not get one.
+
+add_fields:
+  # Company
+  - object: company
+    key: customer_status
+    label: Customer status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options:
+      prospect: Prospect
+      free_user: Free user
+      paying: Paying
+      former_customer: Former customer
+  - object: company
+    key: segment
+    label: Segment
+    type: select
+    description: Size band used to decide whether sales-assist should engage or the account stays self-serve.
+    options: {smb: SMB, mid_market: Mid-market, enterprise: Enterprise}
+  - object: company
+    key: icp_fit
+    label: ICP fit
+    type: select
+    description: How closely the company matches the ideal customer profile. One input to the PQL rule.
+    options: {strong: Strong, possible: Possible, weak: Weak}
+  - object: company
+    key: acquisition_channel
+    label: Acquisition channel
+    type: select
+    description: How the first user at this company found the product. Set once, never overwritten.
+    options:
+      organic_search: Organic search
+      paid: Paid
+      referral: Referral
+      community: Community
+      integration_marketplace: Integration marketplace
+      outbound: Outbound
+  # Person
+  - object: person
+    key: workspace_role
+    label: Workspace role
+    type: select
+    description: What this person is inside the product. A user is not always the person who pays.
+    options: {owner: Workspace owner, admin: Admin, member: Member, billing_contact: Billing contact, none: Not a product user}
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in a paid purchase. Used to check deals are not single-threaded on one user.
+    options:
+      economic_buyer: Economic buyer
+      champion: Champion
+      technical_evaluator: Technical evaluator
+      end_user: End user
+      blocker: Blocker
+  - object: person
+    key: marketing_consent
+    label: Marketing consent
+    type: select
+    description: Lawful basis for marketing email to this person. Product sign-up alone does not give consent to sales outreach in every region.
+    options: {opted_in: Opted in, legitimate_interest: Legitimate interest, opted_out: Opted out, unknown: Unknown}
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost or the expansion declined. Required on every lost stage.
+    options:
+      stayed_self_serve: Happy to stay self-serve
+      no_budget: No budget
+      no_decision: No decision made
+      competitor: Chose a competitor
+      product_gap: Product gap
+      price: Price
+      bad_timing: Bad timing
+      champion_left: Champion left
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: pql_trigger
+    label: PQL trigger
+    type: select
+    description: The product behaviour that made the lead product-qualified. Lets us see which signals convert.
+    options:
+      hit_usage_limit: Hit a usage limit
+      invited_teammates: Invited teammates
+      activation_milestone: Reached activation milestone
+      viewed_pricing: Viewed pricing repeatedly
+      asked_for_sales: Asked to talk to sales
+      trial_ending_active: Trial ending while active
+  - object: deal
+    key: expected_seats
+    label: Expected seats
+    type: number
+    description: Number of seats the buyer expects to need on the paid plan.
+  - object: deal
+    key: target_plan
+    label: Target plan
+    type: select
+    description: The paid plan being discussed.
+    options: {team: Team, business: Business, enterprise: Enterprise}
+  - object: deal
+    key: billing_term
+    label: Billing term
+    type: select
+    description: How the buyer will pay. Moving from card to invoice is the usual sales-assist step.
+    options: {monthly_card: Monthly by card, annual_card: Annual by card, annual_invoice: Annual by invoice, multi_year_invoice: Multi-year by invoice}
+  - object: deal
+    key: security_review
+    label: Security review
+    type: select
+    description: Progress of the buyer's security and procurement review.
+    options: {not_needed: Not needed, requested: Requested, in_progress: In progress, passed: Passed}
+  - object: deal
+    key: expansion_type
+    label: Expansion type
+    type: select
+    description: What the expansion deal adds. Used to report where expansion revenue comes from.
+    options: {seats: More seats, plan_upgrade: Plan upgrade, add_on: Add-on, new_team: New team or department}
+  - object: deal
+    key: need_summary
+    label: Need summary
+    type: long_text
+    description: What the team is trying to do with the product and what is stopping the free or current plan working.
+  # Workspace
+  - object: workspace
+    key: name
+    label: Name
+    type: text
+    description: The workspace name as it appears in the product.
+    required: true
+  - object: workspace
+    key: product_workspace_id
+    label: Product workspace ID
+    type: text
+    description: The workspace's identifier in the product database. The key used to match synced usage to this record.
+    required: true
+  - object: workspace
+    key: plan
+    label: Plan
+    type: select
+    description: The plan the workspace is on now.
+    options: {free: Free, team: Team, business: Business, enterprise: Enterprise}
+  - object: workspace
+    key: lifecycle_stage
+    label: Lifecycle stage
+    type: select
+    description: Where the workspace is in the self-serve journey.
+    options:
+      signed_up: Signed up
+      activated: Activated
+      trialling: Trialling
+      paying: Paying
+      churned: Churned
+  - object: workspace
+    key: signup_date
+    label: Sign-up date
+    type: date
+    description: The day the workspace was created.
+  - object: workspace
+    key: trial_ends_date
+    label: Trial end date
+    type: date
+    description: The day the current trial ends. Empty if not on a trial.
+  - object: workspace
+    key: activated
+    label: Activated
+    type: checkbox
+    description: The workspace has reached the product's activation milestone, as defined by product.
+  - object: workspace
+    key: seats_used
+    label: Seats used
+    type: number
+    description: Active seats in the product, synced nightly.
+  - object: workspace
+    key: seats_paid
+    label: Seats paid
+    type: number
+    description: Seats the workspace is paying for. Compared with seats used to find expansion.
+  - object: workspace
+    key: active_users_30d
+    label: Active users (30 days)
+    type: number
+    description: Distinct users who used the product in the last 30 days, synced nightly.
+  - object: workspace
+    key: limit_usage_percent
+    label: Plan limit used
+    type: percent
+    description: How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal.
+  - object: workspace
+    key: last_active_date
+    label: Last active date
+    type: date
+    description: The last day any user was active in the workspace.
+  - object: workspace
+    key: pql_status
+    label: PQL status
+    type: select
+    description: Whether the workspace meets the product-qualified lead rule. Set by automation, not by hand.
+    options: {not_qualified: Not qualified, qualified: Qualified, accepted: Accepted by sales, rejected: Rejected by sales}
+  - object: workspace
+    key: pql_score
+    label: PQL score
+    type: number
+    description: Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.
+  - object: workspace
+    key: mrr
+    label: MRR
+    type: currency
+    description: Monthly recurring revenue for this workspace at current prices, from billing.
+  - object: workspace
+    key: billing_source
+    label: Billing source
+    type: select
+    description: Whether the workspace pays by card through self-serve billing or by invoice agreed with sales.
+    options: {none: None, card: Card, invoice: Invoice}
+  # Adoption plan
+  - object: adoption_plan
+    key: name
+    label: Name
+    type: text
+    description: Company name and the words adoption plan.
+    required: true
+  - object: adoption_plan
+    key: status
+    label: Status
+    type: select
+    description: Where the plan stands.
+    options: {not_started: Not started, in_progress: In progress, complete: Complete, stalled: Stalled}
+  - object: adoption_plan
+    key: target_activation_date
+    label: Target activation date
+    type: date
+    description: The date by which the workspace should have reached the activation milestone.
+  - object: adoption_plan
+    key: success_criteria
+    label: Success criteria
+    type: long_text
+    description: What good use looks like for this customer, in numbers the product can measure.
+  - object: adoption_plan
+    key: owner
+    label: Owner
+    type: user
+    description: The customer success manager running the plan.
+
+add_relationships:
+  - key: workspace_company
+    from: workspace
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Workspaces
+    purpose: A company can have several workspaces. Shows all of them next to the company record.
+  - key: person_workspace
+    from: person
+    to: workspace
+    cardinality: many_to_many
+    from_label: Workspaces
+    to_label: People
+    purpose: Links product users to the workspaces they belong to. One person can sit in many workspaces.
+  - key: deal_workspace
+    from: deal
+    to: workspace
+    cardinality: many_to_one
+    from_label: Workspace
+    to_label: Deals
+    purpose: Ties a sales-assist or expansion deal to the workspace whose usage triggered it.
+  - key: adoption_plan_workspace
+    from: adoption_plan
+    to: workspace
+    cardinality: many_to_one
+    from_label: Workspace
+    to_label: Adoption plans
+    purpose: Tracks post-sale adoption for each workspace.
+
+pipelines:
+  - object: deal
+    key: sales_assist
+    name: Sales assist
+    stages:
+      - key: pql
+        label: Product-qualified lead
+        type: open
+        probability: 10
+        exit_criteria: Entered when a workspace meets the PQL rule and a sales-assist rep has accepted it.
+        required_fields: [pql_trigger]
+      - key: conversation
+        label: Conversation
+        type: open
+        probability: 25
+        exit_criteria: Entered when the rep has spoken to a workspace admin or owner.
+        required_fields: [next_step_date]
+      - key: need_confirmed
+        label: Need confirmed
+        type: open
+        probability: 45
+        exit_criteria: Entered when the buyer has named what they need beyond the current plan and who approves spend.
+        required_fields: [need_summary, expected_seats, next_step_date]
+      - key: proposal
+        label: Proposal
+        type: open
+        probability: 65
+        exit_criteria: Entered when a quote has been sent for a named plan, seat count and billing term.
+        required_fields: [amount, target_plan, expected_seats, billing_term]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 80
+        exit_criteria: Entered when the buyer has asked for changes to price, terms or security answers.
+        required_fields: [amount, close_date, security_review]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the paid plan is live in the product and payment terms are accepted.
+        required_fields: [amount, close_date]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: deal
+    key: expansion
+    name: Expansion
+    stages:
+      - key: signal
+        label: Expansion signal
+        type: open
+        probability: 20
+        exit_criteria: Entered when usage passes an expansion threshold, for example seats used above seats paid.
+        required_fields: [expansion_type]
+      - key: outreach
+        label: Outreach
+        type: open
+        probability: 35
+        exit_criteria: Entered when a rep or success manager has contacted the workspace admin.
+        required_fields: [next_step_date]
+      - key: proposal
+        label: Proposal
+        type: open
+        probability: 60
+        exit_criteria: Entered when a quote for the added seats, plan or add-on has been sent.
+        required_fields: [amount, expected_seats, target_plan]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 80
+        exit_criteria: Entered when the buyer has asked for changes to price or terms.
+        required_fields: [amount, close_date]
+      - key: expanded
+        label: Expanded
+        type: won
+        probability: 100
+        exit_criteria: Entered when the extra seats, plan or add-on are live and billed.
+        required_fields: [amount, close_date]
+      - key: declined
+        label: Declined
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the customer declines the expansion, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+
+decisions:
+  - key: pql_rule
+    question: What makes a workspace a product-qualified lead?
+    recommended_default: >-
+      Start with one usage rule (for example reached the activation milestone and invited three or
+      more teammates) plus company fit of strong or possible. Review the rule monthly against which
+      PQLs actually close. Keep the rule in the product data, not in free text on the record.
+  - key: self_serve_stays_out_of_deals
+    question: Do self-serve upgrades by card create deals?
+    recommended_default: >-
+      No. Card payments update the workspace plan and MRR only. A deal exists only when a person
+      works the account, so win rates and sales cycle are not diluted by self-serve volume.
+  - key: delivery_on_own_object
+    question: Is post-sale adoption tracked on its own object rather than as stages on the sales pipeline?
+    recommended_default: >-
+      Yes. The adoption plan has its own owner and dates. The sales pipelines end at closed won or
+      expanded. Self-serve customers are tracked on the workspace alone.
+  - key: usage_sync_method
+    question: How does product usage reach the CRM?
+    recommended_default: >-
+      A nightly sync from the product database or warehouse writes seats, active users, limit used
+      and last active date onto the workspace, matched on product workspace ID. Sync summaries, not
+      events. Raw events stay in the product.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects, and enough of them?
+    recommended_default: >-
+      Check before the build. If not, hold usage as custom properties on Company, treat the company
+      as the workspace, and record the loss of one-company-many-workspaces in the client notes.
+  - key: sales_assist_threshold
+    question: Which accounts get a human, and which stay self-serve?
+    recommended_default: >-
+      Engage only accounts with segment mid-market or enterprise, or any account that asks for sales.
+      Revisit once sales-assist has capacity data.
+
+automations:
+  - key: sync_usage
+    name: Sync product usage
+    trigger: Nightly, and when a workspace is created or its plan changes in the product.
+    action: >-
+      Upsert the workspace by product workspace ID with plan, seats, active users, limit used and
+      last active date, and link the people who are members.
+  - key: flag_pql
+    name: Flag product-qualified lead
+    trigger: A workspace meets the PQL rule and its PQL status is not qualified, accepted or rejected.
+    action: >-
+      Set PQL status to qualified, notify the sales-assist queue, and create a deal in the sales assist
+      pipeline at product-qualified lead once a rep accepts, with the PQL trigger filled.
+  - key: open_expansion_deal
+    name: Open expansion deal
+    trigger: Seats used exceed seats paid, or plan limit used passes 80 percent, on a paying workspace with no open expansion deal.
+    action: Create a deal in the expansion pipeline at expansion signal, linked to the workspace, and assign it to the account owner.
+  - key: start_adoption_plan
+    name: Start adoption plan
+    trigger: A sales-assist deal moves to closed won.
+    action: Create an adoption plan linked to the workspace, assign it to customer success and set the company to paying.
+  - key: trial_ending_alert
+    name: Trial ending alert
+    trigger: A workspace on a trial has a trial end date in 3 days and is activated.
+    action: Notify the account owner, or the sales-assist queue if the workspace has no owner.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+
+views:
+  - key: pql_queue
+    name: PQL queue
+    object: workspace
+    filter: PQL status is qualified.
+    sort: PQL score, highest first.
+  - key: trials_ending
+    name: Trials ending soon
+    object: workspace
+    filter: Lifecycle stage is trialling and trial end date is within 7 days.
+    sort: Trial end date, soonest first.
+  - key: expansion_candidates
+    name: Expansion candidates
+    object: workspace
+    filter: Lifecycle stage is paying and plan limit used is over 80 percent, or seats used is above seats paid.
+    sort: Plan limit used, highest first.
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: adoption_in_flight
+    name: Adoption in flight
+    object: adoption_plan
+    filter: Status is not complete.
+    sort: Target activation date, oldest first.
+
+platform_overrides:
+  attio:
+    objects:
+      workspace: {api_slug: workspaces}
+      adoption_plan: {api_slug: adoption_plans}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      workspace: {api_name: Workspace__c}
+      adoption_plan: {api_name: Adoption_Plan__c}

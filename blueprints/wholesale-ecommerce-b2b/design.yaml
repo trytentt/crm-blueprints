@@ -1,0 +1,496 @@
+extends: core
+name: Wholesale and ecommerce brand, B2B
+description: >-
+  A product brand that sells wholesale to independent and chain retailers. Sales reps own
+  territories and win retailer accounts through an acquisition pipeline. Each wholesale order is
+  its own record with its own status pipeline, and reorders are tracked so lapsing retailers are chased.
+
+add_objects:
+  - key: territory
+    label: Territory
+    plural_label: Territories
+    description: >-
+      A sales area, such as a region or a channel, with one responsible rep and a target. Retailer
+      accounts belong to one territory so ownership and reporting are clear.
+  - key: wholesale_order
+    label: Wholesale order
+    plural_label: Wholesale orders
+    description: >-
+      One order placed by a retailer, first order or reorder, from placement to delivery and payment.
+      This is the fulfilment side and stays separate from the account-acquisition deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: retailer_type
+    label: Retailer type
+    type: select
+    description: The kind of retailer. Used for pricing, assortment and reporting.
+    options:
+      independent: Independent shop
+      small_chain: Small chain
+      national_chain: National chain
+      department_store: Department store
+      online_only: Online-only retailer
+      marketplace: Marketplace seller
+      distributor: Distributor
+  - object: company
+    key: account_status
+    label: Account status
+    type: select
+    description: Where the retailer is in its life with us. Drives views and reorder chasing.
+    options:
+      prospect: Prospect
+      onboarding: Onboarding
+      active: Active
+      at_risk: At risk
+      lapsed: Lapsed
+  - object: company
+    key: pricing_tier
+    label: Pricing tier
+    type: select
+    description: Wholesale price band the retailer buys on. Set by order volume and agreed terms.
+    options: {standard: Standard, preferred: Preferred, key_account: Key account}
+  - object: company
+    key: payment_terms
+    label: Payment terms
+    type: select
+    description: Payment terms agreed with the retailer. New accounts usually start on payment with order.
+    options: {pay_on_order: Pay on order, net_30: Net 30, net_60: Net 60, credit_hold: Credit hold}
+  - object: company
+    key: credit_limit
+    label: Credit limit
+    type: currency
+    description: Maximum unpaid balance allowed, set by finance after a credit check.
+  - object: company
+    key: store_count
+    label: Store count
+    type: number
+    description: Number of physical shops. Used to size the opportunity and plan assortments.
+  - object: company
+    key: first_order_date
+    label: First order date
+    type: date
+    description: Date of the account's first order. Set by automation.
+  - object: company
+    key: last_order_date
+    label: Last order date
+    type: date
+    description: Date of the most recent order. Set by automation. Used to spot lapsing accounts.
+  - object: company
+    key: reorder_cycle_days
+    label: Reorder cycle (days)
+    type: number
+    description: Usual days between orders for this retailer, often tied to a season. Compared with the last order date.
+  - object: company
+    key: lifetime_orders
+    label: Orders to date
+    type: number
+    description: Count of orders placed. A count of one means the retailer has not yet reordered.
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the retailer first came to us. Set once and never overwritten.
+    options:
+      trade_show: Trade show
+      inbound: Inbound enquiry
+      rep_outreach: Rep outreach
+      showroom: Showroom
+      marketplace: Wholesale marketplace
+      referral: Referral
+  - object: company
+    key: territory_owner
+    label: Account rep
+    type: user
+    description: The sales rep who looks after this retailer. Normally the rep of its territory.
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays at the retailer. Used to find the buyer to approach and who to invoice.
+    options:
+      buyer: Buyer
+      owner: Owner or director
+      merchandiser: Merchandiser
+      accounts_payable: Accounts payable
+      store_manager: Store manager
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the retailer did not open an account. Required on the lost stage.
+    options:
+      range_mismatch: Range does not fit the shop
+      minimum_too_high: Opening minimum too high
+      price_margin: Margin too low
+      competing_brand: Stocks a competing brand
+      credit_declined: Credit declined
+      season_missed: Missed the buying season
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: line_sheet_sent
+    label: Line sheet sent
+    type: checkbox
+    description: The current line sheet or catalogue has been sent to the buyer.
+  - object: deal
+    key: samples_status
+    label: Samples status
+    type: select
+    description: Progress of any samples or showroom visit the buyer asked for.
+    options: {not_needed: Not needed, requested: Requested, sent: Sent, reviewed: Reviewed}
+  - object: deal
+    key: buying_season
+    label: Buying season
+    type: select
+    description: The collection or season the retailer is buying for. Wholesale orders are seasonal, so forecasts are reported by season.
+    options: {spring_summer: Spring/summer, autumn_winter: Autumn/winter, christmas: Christmas, year_round: Year-round}
+  - object: deal
+    key: terms_agreed
+    label: Terms agreed
+    type: checkbox
+    description: Opening minimum, payment terms and returns policy are agreed in writing.
+  - object: deal
+    key: account_application_received
+    label: Account application received
+    type: checkbox
+    description: The retailer has returned the account form with trade references or tax details.
+  - object: deal
+    key: first_order_expected
+    label: Expected first order value
+    type: currency
+    description: The retailer's expected opening order value. Used to forecast.
+  # Territory
+  - object: territory
+    key: name
+    label: Name
+    type: text
+    description: Territory name, for example North West or Independent gifts.
+    required: true
+  - object: territory
+    key: rep
+    label: Rep
+    type: user
+    description: The sales rep responsible for retailers in this territory.
+  - object: territory
+    key: territory_type
+    label: Territory type
+    type: select
+    description: Whether the territory is cut by place or by channel.
+    options: {geographic: Geographic, channel: Channel, national_accounts: National accounts}
+  - object: territory
+    key: annual_target
+    label: Annual target
+    type: currency
+    description: Wholesale revenue target for the territory for the year.
+  - object: territory
+    key: status
+    label: Status
+    type: select
+    description: Whether the territory has a rep and is being worked.
+    options: {covered: Covered, vacant: Vacant, paused: Paused}
+  # Wholesale order
+  - object: wholesale_order
+    key: name
+    label: Name
+    type: text
+    description: Retailer name and the order reference.
+    required: true
+  - object: wholesale_order
+    key: order_type
+    label: Order type
+    type: select
+    description: Whether this is the retailer's first order or a reorder. Used to report the reorder rate.
+    options: {first_order: First order, reorder: Reorder, pre_order: Pre-order, sample_order: Sample order}
+  - object: wholesale_order
+    key: order_channel
+    label: Order channel
+    type: select
+    description: How the order was placed. Used to see how much sells through the portal and how much through reps.
+    options: {portal: Wholesale portal, rep: Rep, trade_show: Trade show, email: Email, edi: EDI}
+  - object: wholesale_order
+    key: order_date
+    label: Order date
+    type: date
+    description: Date the order was placed.
+  - object: wholesale_order
+    key: ship_date
+    label: Ship date
+    type: date
+    description: Date the order is promised to leave, or left, the warehouse.
+  - object: wholesale_order
+    key: order_value
+    label: Order value
+    type: currency
+    description: Total wholesale value excluding tax.
+  - object: wholesale_order
+    key: units
+    label: Units
+    type: number
+    description: Total units ordered. Compared with the opening minimum.
+  - object: wholesale_order
+    key: payment_status
+    label: Payment status
+    type: select
+    description: Where payment stands for the order.
+    options: {unpaid: Unpaid, part_paid: Part paid, paid: Paid, overdue: Overdue}
+  - object: wholesale_order
+    key: cancel_reason
+    label: Cancel reason
+    type: select
+    description: Why the order was cancelled. Required on the cancelled stage.
+    options:
+      stock_unavailable: Stock unavailable
+      retailer_cancelled: Retailer cancelled
+      credit_hold: Credit hold
+      payment_failed: Payment failed
+      duplicate: Duplicate order
+      other: Other
+  - object: wholesale_order
+    key: season
+    label: Season
+    type: select
+    description: The collection the order is for. Used for seasonal reorder analysis.
+    options: {spring_summer: Spring/summer, autumn_winter: Autumn/winter, christmas: Christmas, year_round: Year-round}
+  - object: wholesale_order
+    key: owner
+    label: Order owner
+    type: user
+    description: The team member (rep or customer service) responsible for the order.
+
+add_relationships:
+  - key: company_territory
+    from: company
+    to: territory
+    cardinality: many_to_one
+    from_label: Territory
+    to_label: Retailers
+    purpose: Puts each retailer in one territory so ownership and targets are clear.
+  - key: wholesale_order_company
+    from: wholesale_order
+    to: company
+    cardinality: many_to_one
+    from_label: Retailer
+    to_label: Wholesale orders
+    purpose: Shows the full order history for each retailer.
+  - key: wholesale_order_person
+    from: wholesale_order
+    to: person
+    cardinality: many_to_one
+    from_label: Placed by
+    to_label: Orders placed
+    purpose: Records which buyer placed the order.
+  - key: wholesale_order_deal
+    from: wholesale_order
+    to: deal
+    cardinality: many_to_one
+    from_label: Acquisition deal
+    to_label: Orders
+    purpose: Links a first order to the deal that opened the account. Reorders have no deal.
+
+pipelines:
+  - object: deal
+    key: retailer_acquisition
+    name: Retailer acquisition
+    stages:
+      - key: identified
+        label: Identified
+        type: open
+        probability: 5
+        exit_criteria: Entered when a retailer that fits the brand is logged with a named buyer.
+        required_fields: [next_step_date]
+      - key: contacted
+        label: Contacted
+        type: open
+        probability: 10
+        exit_criteria: Entered when the buyer has replied or a meeting is booked.
+        required_fields: [next_step_date]
+      - key: line_sheet_sent
+        label: Line sheet sent
+        type: open
+        probability: 25
+        exit_criteria: Entered when the line sheet and terms have been sent to the buyer.
+        required_fields: [line_sheet_sent, buying_season]
+      - key: range_review
+        label: Range review
+        type: open
+        probability: 40
+        exit_criteria: Entered when the buyer has seen the range, through samples, a showroom visit or a buying meeting.
+        required_fields: [samples_status, next_step_date]
+      - key: terms_discussion
+        label: Terms discussion
+        type: open
+        probability: 60
+        exit_criteria: Entered when the buyer has named the products they want and is discussing minimums and terms.
+        required_fields: [first_order_expected, next_step_date]
+      - key: account_setup
+        label: Account setup
+        type: open
+        probability: 80
+        exit_criteria: Entered when terms are agreed in writing and the account application has been returned.
+        required_fields: [terms_agreed, account_application_received]
+      - key: closed_won
+        label: Account opened
+        type: won
+        probability: 100
+        exit_criteria: Entered when the first order is placed and paid or approved on credit.
+        required_fields: [amount, close_date]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the retailer declines to stock the brand or does not reply after three follow-ups over 45 days.
+        required_fields: [lost_reason]
+  - object: wholesale_order
+    key: order_status
+    name: Order status
+    stages:
+      - key: placed
+        label: Placed
+        type: open
+        probability: 40
+        exit_criteria: Entered when the order is received from the retailer through any channel.
+        required_fields: [order_type, order_channel, order_value]
+      - key: confirmed
+        label: Confirmed
+        type: open
+        probability: 60
+        exit_criteria: Entered when stock is allocated, credit is checked and the order is confirmed to the retailer.
+        required_fields: [ship_date, units]
+      - key: picking
+        label: Picking
+        type: open
+        probability: 75
+        exit_criteria: Entered when the warehouse has the order for picking and packing.
+        required_fields: [ship_date]
+      - key: shipped
+        label: Shipped
+        type: open
+        probability: 90
+        exit_criteria: Entered when the order has left the warehouse with a tracking reference.
+        required_fields: [ship_date]
+      - key: delivered
+        label: Delivered and paid
+        type: won
+        probability: 100
+        exit_criteria: Entered when the retailer has received the order and the invoice is paid or inside its terms.
+        required_fields: [payment_status]
+      - key: cancelled
+        label: Cancelled
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the order is cancelled before delivery by the retailer or by us.
+        required_fields: [cancel_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is order fulfilment tracked on its own object rather than as stages on the sales deal?
+    recommended_default: >-
+      Yes. A wholesale order repeats every season and is run by customer service and the warehouse.
+      The deal ends when the account opens. Each order, first or repeat, is a wholesale order record.
+  - key: orders_source_of_truth
+    question: Where do orders originate, and does the CRM hold them?
+    recommended_default: >-
+      The ecommerce or wholesale portal is the source of truth. Sync order headers into the CRM and
+      keep line items in the portal. The CRM holds value, dates, status and channel only.
+  - key: reorders_not_deals
+    question: Are reorders tracked as deals?
+    recommended_default: >-
+      No. A reorder is a wholesale order record with type reorder. Create a deal only for expansion,
+      such as a new range or a new store group.
+  - key: territory_object
+    question: Is territory a record or just a picklist on the company?
+    recommended_default: >-
+      A record, because territories change rep and carry a target. If the plan has no custom objects,
+      use a select field and keep targets in a spreadsheet.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects for Territory and Wholesale order?
+    recommended_default: >-
+      Check before the build. If not, keep orders in the portal and put last order date, order count
+      and reorder cycle on the company, with territory as a select field.
+  - key: marketplace_retailers
+    question: Are orders from wholesale marketplaces handled in the same CRM?
+    recommended_default: >-
+      Log the retailer as a company with source marketplace. Keep orders in the marketplace and do
+      not sync them unless reps need them.
+
+automations:
+  - key: set_order_dates
+    name: Update retailer on order
+    trigger: A wholesale order is created.
+    action: >-
+      Set the company's last order date, add one to its order count, set first order date if empty,
+      and set its account status to active.
+  - key: first_order_to_won
+    name: Close deal on first order
+    trigger: A first order linked to an account-acquisition deal moves to confirmed.
+    action: Move the deal to account opened and set the company account status to onboarding.
+  - key: reorder_nudge
+    name: Reorder nudge
+    trigger: Days since the last order exceed the retailer's reorder cycle and the account is active.
+    action: Create a task for the account rep to contact the buyer and set the account status to at risk.
+  - key: second_order_check
+    name: Second order check
+    trigger: A retailer's first order was delivered 45 days ago and its order count is 1.
+    action: Create a task for the account rep to ask for feedback and a reorder.
+  - key: lapse_account
+    name: Mark lapsed
+    trigger: A retailer has no order for twice its reorder cycle.
+    action: Set the account status to lapsed and notify the territory rep.
+  - key: vacant_territory
+    name: Vacant territory alert
+    trigger: A territory status changes to vacant.
+    action: Notify the sales manager and reassign its open deals to the manager.
+
+views:
+  - key: my_retailers
+    name: My retailers
+    object: company
+    filter: Account rep is me and account status is active, onboarding or at risk.
+    sort: Last order date, oldest first.
+  - key: reorders_overdue
+    name: Reorders overdue
+    object: company
+    filter: Account status is active or at risk and last order date is older than the reorder cycle.
+    sort: Last order date, oldest first.
+  - key: one_order_retailers
+    name: One-order retailers
+    object: company
+    filter: Orders to date is 1 and first order date is more than 45 days ago.
+    sort: First order date, oldest first.
+  - key: orders_open
+    name: Open orders
+    object: wholesale_order
+    filter: Status is not delivered or cancelled.
+    sort: Ship date, soonest first.
+  - key: territory_overview
+    name: Territory overview
+    object: territory
+    filter: Status is covered or vacant.
+    sort: Name, A to Z.
+  - key: retailer_pipeline
+    name: My retailer pipeline
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Next step date, soonest first.
+
+platform_overrides:
+  attio:
+    objects:
+      territory: {api_slug: territories}
+      wholesale_order: {api_slug: wholesale_orders}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      territory: {api_name: Sales_Territory__c}
+      wholesale_order: {api_name: Wholesale_Order__c}

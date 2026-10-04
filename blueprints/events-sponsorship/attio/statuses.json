@@ -1,0 +1,139 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Prospect",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Meeting held",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Negotiating",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Contract out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Signed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Space held",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Contract sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Confirmed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

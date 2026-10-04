@@ -1,0 +1,1893 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "client_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Active client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Dormant client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Do not work with"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Terms status",
+          "description": "Whether signed terms of business exist. We should not submit candidates to a client without terms.",
+          "api_slug": "terms_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/terms_status/options",
+      "body": {
+        "data": {
+          "title": "No terms"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/terms_status/options",
+      "body": {
+        "data": {
+          "title": "Sent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/terms_status/options",
+      "body": {
+        "data": {
+          "title": "Signed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/terms_status/options",
+      "body": {
+        "data": {
+          "title": "Expired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Default fee percent",
+          "description": "The fee, as a percentage of first-year salary, agreed in the client's terms of business. Percentage stored as a number from 0 to 100.",
+          "api_slug": "default_fee_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Rebate period (days)",
+          "description": "Days after start during which the fee is partly or fully refundable if the placement leaves.",
+          "api_slug": "rebate_period_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Sector",
+          "description": "The client's sector. Used to match consultants and to report where placements come from.",
+          "api_slug": "sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Financial services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Engineering and manufacturing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Construction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Retail and consumer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Candidate-led"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Person type",
+          "description": "What this person is to us. One human has one record, so someone who is a candidate and later a hiring manager carries both types.",
+          "api_slug": "person_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Client contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Candidate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Referee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Referrer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Client role",
+          "description": "For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.",
+          "api_slug": "client_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_role/options",
+      "body": {
+        "data": {
+          "title": "Hiring manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_role/options",
+      "body": {
+        "data": {
+          "title": "HR or talent lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_role/options",
+      "body": {
+        "data": {
+          "title": "Budget holder"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_role/options",
+      "body": {
+        "data": {
+          "title": "Procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_role/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Candidate status",
+          "description": "For candidates, whether we can currently put them forward.",
+          "api_slug": "candidate_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/candidate_status/options",
+      "body": {
+        "data": {
+          "title": "Active, looking"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/candidate_status/options",
+      "body": {
+        "data": {
+          "title": "Passive, open to approach"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/candidate_status/options",
+      "body": {
+        "data": {
+          "title": "Placed recently"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/candidate_status/options",
+      "body": {
+        "data": {
+          "title": "Not looking"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/candidate_status/options",
+      "body": {
+        "data": {
+          "title": "Do not contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Availability",
+          "description": "For candidates, how soon they could start. Used to filter submissions by what the client needs.",
+          "api_slug": "availability",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/availability/options",
+      "body": {
+        "data": {
+          "title": "Immediate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/availability/options",
+      "body": {
+        "data": {
+          "title": "One month"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/availability/options",
+      "body": {
+        "data": {
+          "title": "Three months"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/availability/options",
+      "body": {
+        "data": {
+          "title": "Over three months"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Right to work",
+          "description": "Whether we have seen evidence the candidate can work in the role's country. Record the status only, never copies of documents.",
+          "api_slug": "right_to_work",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/right_to_work/options",
+      "body": {
+        "data": {
+          "title": "Not checked"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/right_to_work/options",
+      "body": {
+        "data": {
+          "title": "Confirmed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/right_to_work/options",
+      "body": {
+        "data": {
+          "title": "Needs sponsorship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/right_to_work/options",
+      "body": {
+        "data": {
+          "title": "Not eligible"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Desired salary",
+          "description": "For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.",
+          "api_slug": "desired_salary",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Sector experience",
+          "description": "For candidates, the sectors they have worked in. Used to find candidates for a role.",
+          "api_slug": "sector_experience",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Financial services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Engineering and manufacturing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Construction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Retail and consumer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/sector_experience/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Privacy basis",
+          "description": "The lawful basis for holding and contacting this person, recorded when they are added.",
+          "api_slug": "privacy_basis",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Consent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Legitimate interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Contract"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Unknown"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Data review date",
+          "description": "The date this record must be reviewed or deleted under the agency's retention policy.",
+          "api_slug": "data_review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the client deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No hiring need"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Uses other agencies"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Hires in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms rejected"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Search model",
+          "description": "How the client will engage us. Contingent is paid on a hire. Retained is paid in stages.",
+          "api_slug": "search_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Contingent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Retained"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Container"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Contract or temp"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Fee percent",
+          "description": "The fee proposed as a percentage of first-year salary. Percentage stored as a number from 0 to 100.",
+          "api_slug": "fee_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Exclusivity",
+          "description": "Whether we are the only agency on the work. Exclusive or retained roles fill far more often.",
+          "api_slug": "exclusivity",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/exclusivity/options",
+      "body": {
+        "data": {
+          "title": "Exclusive"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/exclusivity/options",
+      "body": {
+        "data": {
+          "title": "Preferred supplier"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/exclusivity/options",
+      "body": {
+        "data": {
+          "title": "Shared with others"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected roles per year",
+          "description": "How many roles the client is likely to give us in a year. Used to size the account.",
+          "api_slug": "expected_roles_per_year",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the role stands with the client. Roles are reported on by status, so this is a select, not a stage.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Open"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "On hold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Offer stage"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Filled by us"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Filled elsewhere"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Withdrawn"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Search model",
+          "description": "How this role is engaged. Decides when we are paid.",
+          "api_slug": "search_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Contingent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Retained"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Container"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/search_model/options",
+      "body": {
+        "data": {
+          "title": "Contract or temp"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Employment type",
+          "description": "Permanent, contract or temporary. Contract and temporary roles are paid by margin, not percentage.",
+          "api_slug": "employment_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/employment_type/options",
+      "body": {
+        "data": {
+          "title": "Permanent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/employment_type/options",
+      "body": {
+        "data": {
+          "title": "Contract"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/employment_type/options",
+      "body": {
+        "data": {
+          "title": "Temporary"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Specialism",
+          "description": "The desk or specialism responsible. Used to route roles and report by desk.",
+          "api_slug": "specialism",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Finance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Engineering"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Sales and marketing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Operations"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/specialism/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Salary minimum",
+          "description": "Bottom of the annual salary range the client has given us.",
+          "api_slug": "salary_min",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Salary maximum",
+          "description": "Top of the annual salary range. The fee estimate uses the midpoint.",
+          "api_slug": "salary_max",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Fee percent",
+          "description": "Fee as a percentage of first-year salary for this role. Defaults from the client's terms. Percentage stored as a number from 0 to 100.",
+          "api_slug": "fee_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Fee estimate",
+          "description": "Expected fee if the role is filled, from fee percent and salary midpoint. Used for the weighted forecast.",
+          "api_slug": "fee_estimate",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Work location",
+          "description": "Where the work happens. Used to match candidates.",
+          "api_slug": "work_location",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/work_location/options",
+      "body": {
+        "data": {
+          "title": "On-site"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/work_location/options",
+      "body": {
+        "data": {
+          "title": "Hybrid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes/work_location/options",
+      "body": {
+        "data": {
+          "title": "Remote"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Openings",
+          "description": "Number of people the client wants to hire into this role.",
+          "api_slug": "openings",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Received date",
+          "description": "The day the client gave us the role. Used to measure time to fill.",
+          "api_slug": "received_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Target fill date",
+          "description": "The day the client needs the role filled by.",
+          "api_slug": "target_fill_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Consultant",
+          "description": "The recruiter responsible for the role.",
+          "api_slug": "consultant",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Source",
+          "description": "How the candidate came to this role. Used to see which channels produce placements.",
+          "api_slug": "source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Our database"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Job board"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "LinkedIn"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Inbound application"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Headhunted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Rejection reason",
+          "description": "Why the candidate did not move forward. Required on the rejected stage.",
+          "api_slug": "rejection_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Skills not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Culture not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Salary mismatch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Candidate withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Accepted another offer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Role filled elsewhere"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Failed checks"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Offer declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Salary expected",
+          "description": "Annual salary the candidate expects for this role.",
+          "api_slug": "salary_expected",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Agreed salary",
+          "description": "Annual salary in the accepted offer. The fee is calculated from this.",
+          "api_slug": "agreed_salary",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "CV sent date",
+          "description": "The day the candidate was formally submitted to the client.",
+          "api_slug": "cv_sent_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Interview date",
+          "description": "The date of the next or most recent client interview.",
+          "api_slug": "interview_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "The day the candidate starts. The fee is earned on this date and the rebate period runs from it.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Fee amount",
+          "description": "Fee due for this placement, from agreed salary and the fee percent on the role.",
+          "api_slug": "fee_amount",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Invoice status",
+          "description": "Where the placement invoice stands. Invoicing itself happens in the finance system.",
+          "api_slug": "invoice_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/invoice_status/options",
+      "body": {
+        "data": {
+          "title": "Not due"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/invoice_status/options",
+      "body": {
+        "data": {
+          "title": "To invoice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/invoice_status/options",
+      "body": {
+        "data": {
+          "title": "Invoiced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/invoice_status/options",
+      "body": {
+        "data": {
+          "title": "Paid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes/invoice_status/options",
+      "body": {
+        "data": {
+          "title": "Rebated"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Checks complete",
+          "description": "Right to work, references and any required qualification checks are done.",
+          "api_slug": "checks_complete",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Consultant",
+          "description": "The recruiter who owns this candidate on this role.",
+          "api_slug": "consultant",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

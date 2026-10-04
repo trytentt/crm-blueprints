@@ -1,0 +1,391 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Employer and insurer contracts",
+          "api_slug": "employer_insurer_contracts",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Employer and insurer contracts pipeline. Qualified: Entered when a named buyer at an employer or insurer has a stated need and enough people to be worth a contract. Discovery: Entered when the first needs call has happened and sites, headcount and services are written down. Proposal: Entered when a priced proposal with services and pricing model has been sent. Governance review: Entered when the buyer has started their data protection, clinical governance or procurement review. Pilot: Entered when a pilot has been agreed in writing and has a start date. Contract out: Entered when the governance review is passed and the contract has been sent for signature. Closed won: Entered when the signed contract is received and a service contract record is created. Closed lost: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Kept current provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We could not cover their sites or services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Governance or data protection review failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Contract renewals",
+          "api_slug": "contract_renewals",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Contract renewals pipeline. Upcoming: Entered when the service contract is 90 days from its renewal date. Review meeting: Entered when a service review with the customer has been held. Terms proposed: Entered when renewal pricing and terms have been sent to the buyer. Awaiting signature: Entered when the final renewal contract has been sent for signature. Renewed: Entered when the signed renewal is received and the contract dates are updated. Not renewed: Entered when the customer confirms they will not renew, or the term ends unsigned.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Kept current provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We could not cover their sites or services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Governance or data protection review failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Referral partners",
+          "api_slug": "referral_partners",
+          "parent_object": "referral_agreements",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Referral partners pipeline. Identified: Entered when a likely partner and a named business contact have been identified. Intro meeting: Entered when a first meeting with the partner has happened and both sides want to continue. Governance check: Entered when information governance and clinical governance checks on the partner have started. Agreement sent: Entered when governance checks are complete and the agreement has been sent for signature. Active: Entered when the agreement is signed by both sides. Declined: Entered when either side decides not to proceed, or a governance check fails.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes",
+      "body": {
+        "data": {
+          "title": "Decline reason",
+          "description": "Why the partnership did not go ahead. Required on the declined stage.",
+          "api_slug": "decline_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Governance check failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict of interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Partner declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

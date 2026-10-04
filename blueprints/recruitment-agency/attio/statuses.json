@@ -1,0 +1,149 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Target",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Conversation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms discussed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms signed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Not won",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Sourced",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Screened",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Submitted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Interviewing",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Offer",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Offer accepted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Placed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Rejected",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

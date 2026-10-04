@@ -1,0 +1,209 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Initial meeting booked",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Initial meeting held",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Fee proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Agreement out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Client won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_client/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Fact find",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Analysis",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Report drafted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Report issued",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Accepted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Completed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/advice_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed without advice",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Due",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Invited",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Booked",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Meeting held",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Review completed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/review_cycle/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Not completed",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

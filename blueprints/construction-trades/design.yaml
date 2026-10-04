@@ -1,0 +1,574 @@
+extends: core
+name: Construction and trades
+description: >-
+  A contractor or specialist trade that wins work by tender, negotiated quote or repeat client. Sales
+  run as a tender and estimate pipeline on Deal. Each win becomes a project on a site, tracked in its
+  own delivery pipeline, with estimate revisions kept on a separate object.
+
+add_objects:
+  - key: site
+    label: Site
+    plural_label: Sites
+    description: >-
+      A physical location where work is done, with access and induction needs. One client can have many
+      sites, and one site can host several projects over the years. Holds no personal data.
+  - key: project
+    label: Project
+    plural_label: Projects
+    description: >-
+      One awarded job on one site, from pre-start to close-out and the defects period. Created when a
+      tender or quote is won. Owned by the project manager, not the estimator.
+  - key: estimate
+    label: Estimate
+    plural_label: Estimates
+    description: >-
+      One priced revision of a bid or quote. A deal can have several, so price history and margin are
+      kept without overwriting the deal amount.
+
+add_fields:
+  # Company
+  - object: company
+    key: client_type
+    label: Client type
+    type: select
+    description: What kind of client or partner this is. Drives pricing approach and reporting.
+    options:
+      main_contractor: Main contractor
+      developer: Developer
+      housing_provider: Housing provider
+      public_body: Public body
+      private_commercial: Private commercial
+      facilities_manager: Facilities manager
+      other: Other
+  - object: company
+    key: relationship_status
+    label: Relationship status
+    type: select
+    description: Where the company is in its life with us. Drives bid invitations and repeat-work follow-up.
+    options:
+      prospect: Prospect
+      on_tender_list: On their tender list
+      active_client: Active client
+      dormant: Dormant
+  - object: company
+    key: supplier_approval
+    label: Supplier approval
+    type: select
+    description: Whether we are approved to work for this client. Many clients will not take a bid until approved.
+    options: {not_required: Not required, not_started: Not started, applied: Applied, approved: Approved, suspended: Suspended}
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options:
+      tender_portal: Tender portal
+      repeat_client: Repeat client
+      referral: Referral
+      inbound_enquiry: Inbound enquiry
+      outbound: Outbound
+      framework: Framework
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in awarding or running the work. Used to check who has been engaged.
+    options:
+      decision_maker: Decision maker
+      quantity_surveyor: Quantity surveyor
+      project_manager: Project manager
+      designer: Architect or designer
+      site_manager: Site manager
+      procurement: Procurement
+      accounts: Accounts
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the tender or quote was lost. Required on the lost stage.
+    options:
+      price: Price
+      programme: Programme or start date
+      lost_to_competitor: Chose another contractor
+      capacity: We lacked capacity
+      client_cancelled: Client cancelled the project
+      not_shortlisted: Not shortlisted
+      no_award: Never awarded
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: procurement_route
+    label: Procurement route
+    type: select
+    description: How the work is being bought. Tender routes need a deadline and go or no-go before estimating.
+    options:
+      open_tender: Open tender
+      selective_tender: Selective or invited tender
+      negotiated: Negotiated quote
+      framework_call_off: Framework call-off
+      repeat_client: Repeat client
+  - object: deal
+    key: work_type
+    label: Work type
+    type: select
+    description: The kind of work. Used to report win rate and margin by type.
+    options:
+      new_build: New build
+      refurbishment: Refurbishment
+      fit_out: Fit-out
+      maintenance: Maintenance and repair
+      specialist_package: Specialist trade package
+  - object: deal
+    key: tender_deadline
+    label: Tender deadline
+    type: date
+    description: The date and time bids must be in by. A missed deadline is a lost deal.
+  - object: deal
+    key: go_no_go
+    label: Go or no-go
+    type: select
+    description: The bid decision. Estimating hours are only spent on a go.
+    options: {pending: Pending, go: Go, no_go: No-go}
+  - object: deal
+    key: site_visit_done
+    label: Site visit done
+    type: checkbox
+    description: Someone from the estimating team has visited the site or reviewed drawings with the client.
+  - object: deal
+    key: estimated_margin
+    label: Estimated margin
+    type: percent
+    description: Margin in the submitted price. Compared with actual margin on the project after close-out.
+  - object: deal
+    key: contract_form
+    label: Contract form
+    type: select
+    description: The type of contract the work will be done under. Affects retention and payment terms.
+    options:
+      standard_form: Standard form of building contract
+      subcontract_order: Subcontract order
+      purchase_order: Purchase order
+      bespoke_terms: Bespoke terms
+  - object: deal
+    key: retention_percent
+    label: Retention
+    type: percent
+    description: Percentage of each payment held back by the client until defects are put right.
+  - object: deal
+    key: expected_start_date
+    label: Expected start date
+    type: date
+    description: When the client expects work to start on site.
+  # Site
+  - object: site
+    key: name
+    label: Name
+    type: text
+    description: Site name or street, for example the high street unit. Use a place name, never a person's name.
+    required: true
+  - object: site
+    key: postcode
+    label: Postcode
+    type: text
+    description: Postcode of the site, for routing crews and checking travel time.
+  - object: site
+    key: site_type
+    label: Site type
+    type: select
+    description: The kind of premises. Decides induction, permits and working hours.
+    options:
+      commercial: Commercial
+      residential_block: Residential block
+      public_building: Public building
+      industrial: Industrial
+      education: Education
+      healthcare: Healthcare
+      other: Other
+  - object: site
+    key: induction_required
+    label: Induction required
+    type: checkbox
+    description: Operatives must complete a site induction before starting.
+  - object: site
+    key: access_notes
+    label: Access notes
+    type: long_text
+    description: Parking, working hours, security and hazards for crews. Must not hold personal data.
+  # Project
+  - object: project
+    key: name
+    label: Name
+    type: text
+    description: Client and site, for example the client and the high street unit fit-out.
+    required: true
+  - object: project
+    key: reference
+    label: Project reference
+    type: text
+    description: The job number used in accounts and on site, so the CRM matches finance records.
+  - object: project
+    key: work_type
+    label: Work type
+    type: select
+    description: The kind of work, copied from the deal. Used to compare margin by type.
+    options:
+      new_build: New build
+      refurbishment: Refurbishment
+      fit_out: Fit-out
+      maintenance: Maintenance and repair
+      specialist_package: Specialist trade package
+  - object: project
+    key: contract_value
+    label: Contract value
+    type: currency
+    description: Agreed contract sum at award, before variations.
+  - object: project
+    key: start_on_site_date
+    label: Start on site
+    type: date
+    description: The day work starts on site.
+  - object: project
+    key: planned_completion_date
+    label: Planned completion
+    type: date
+    description: The contractual date for practical completion.
+  - object: project
+    key: actual_completion_date
+    label: Actual completion
+    type: date
+    description: The date practical completion was certified.
+  - object: project
+    key: project_manager
+    label: Project manager
+    type: user
+    description: The team member running the job day to day.
+  - object: project
+    key: rams_approved
+    label: RAMS approved
+    type: checkbox
+    description: Risk assessments and method statements have been approved by the client or principal contractor.
+  - object: project
+    key: insurance_verified
+    label: Insurance verified
+    type: checkbox
+    description: The client has confirmed our insurance certificates meet the contract.
+  - object: project
+    key: retention_held
+    label: Retention held
+    type: currency
+    description: The amount the client is holding back until the defects period ends.
+  - object: project
+    key: retention_release_date
+    label: Retention release date
+    type: date
+    description: When retention falls due. A reminder fires before it.
+  - object: project
+    key: final_margin
+    label: Final margin
+    type: percent
+    description: Margin achieved once the final account is agreed.
+  - object: project
+    key: cancellation_reason
+    label: Cancellation reason
+    type: select
+    description: Why the project did not complete. Required on the cancelled stage.
+    options:
+      client_cancelled: Client cancelled
+      funding_lost: Client funding lost
+      dispute: Contract dispute
+      client_insolvent: Client insolvent
+      other: Other
+  # Estimate
+  - object: estimate
+    key: name
+    label: Name
+    type: text
+    description: Deal name and revision, for example the high street unit fit-out, revision 2.
+    required: true
+  - object: estimate
+    key: revision
+    label: Revision
+    type: number
+    description: Revision number, starting at 1. A new price is a new estimate, never an edit.
+  - object: estimate
+    key: status
+    label: Status
+    type: select
+    description: Where this revision stands.
+    options: {draft: Draft, in_review: In review, issued: Issued, accepted: Accepted, rejected: Rejected, superseded: Superseded}
+  - object: estimate
+    key: price
+    label: Price
+    type: currency
+    description: Total price excluding VAT for this revision.
+  - object: estimate
+    key: margin
+    label: Margin
+    type: percent
+    description: Margin built into this revision.
+  - object: estimate
+    key: valid_until
+    label: Valid until
+    type: date
+    description: The last day the price can be accepted.
+  - object: estimate
+    key: estimator
+    label: Estimator
+    type: user
+    description: The team member who priced it.
+
+add_relationships:
+  - key: site_company
+    from: site
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: Sites
+    purpose: Shows every site a client owns or manages.
+  - key: site_person
+    from: site
+    to: person
+    cardinality: many_to_many
+    from_label: Site contacts
+    to_label: Sites
+    purpose: Names who to call for access or on-site issues.
+  - key: deal_site
+    from: deal
+    to: site
+    cardinality: many_to_one
+    from_label: Site
+    to_label: Deals
+    purpose: Links each bid to the place the work would be done.
+  - key: estimate_deal
+    from: estimate
+    to: deal
+    cardinality: many_to_one
+    from_label: Deal
+    to_label: Estimates
+    purpose: Keeps the price history of one bid.
+  - key: project_deal
+    from: project
+    to: deal
+    cardinality: one_to_one
+    from_label: Winning deal
+    to_label: Project
+    purpose: Ties the project to the bid that won it, so estimated and final margin can be compared.
+  - key: project_site
+    from: project
+    to: site
+    cardinality: many_to_one
+    from_label: Site
+    to_label: Projects
+    purpose: Shows the history of work done at each site.
+  - key: project_company
+    from: project
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: Projects
+    purpose: Shows all work done for a client, for repeat-work and account reviews.
+
+pipelines:
+  - object: deal
+    key: tender_estimate
+    name: Tender and estimate
+    stages:
+      - key: opportunity
+        label: Opportunity
+        type: open
+        probability: 5
+        exit_criteria: Entered when a named client contact has an actual project with a site and a rough scope.
+        required_fields: [procurement_route, work_type]
+      - key: go_no_go
+        label: Go or no-go
+        type: open
+        probability: 15
+        exit_criteria: Entered when the tender documents or brief have been received and the bid decision is being made.
+        required_fields: [tender_deadline, go_no_go]
+      - key: estimating
+        label: Estimating
+        type: open
+        probability: 25
+        exit_criteria: Entered when the decision is go and a site visit or drawings review has been done.
+        required_fields: [site_visit_done, next_step_date]
+      - key: bid_submitted
+        label: Bid submitted
+        type: open
+        probability: 35
+        exit_criteria: Entered when the priced bid has been sent to the client.
+        required_fields: [amount, estimated_margin, contract_form]
+      - key: clarification
+        label: Clarification
+        type: open
+        probability: 55
+        exit_criteria: Entered when the client has asked for clarifications, a revised price or an interview.
+        required_fields: [next_step_date]
+      - key: preferred_bidder
+        label: Preferred bidder
+        type: open
+        probability: 80
+        exit_criteria: Entered when the client has told us in writing that we are preferred or recommended for award.
+        required_fields: [amount, retention_percent, expected_start_date]
+      - key: awarded
+        label: Awarded
+        type: won
+        probability: 100
+        exit_criteria: Entered when the contract, order or letter of intent is signed and a project record is created.
+        required_fields: [amount, close_date, contract_form]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client awards elsewhere, withdraws, or we decide not to bid.
+        required_fields: [lost_reason]
+  - object: project
+    key: project_delivery
+    name: Project delivery
+    stages:
+      - key: pre_start
+        label: Pre-start
+        type: open
+        probability: 100
+        exit_criteria: Entered when the project record is created from an awarded deal.
+        required_fields: [contract_value]
+      - key: mobilising
+        label: Mobilising
+        type: open
+        probability: 100
+        exit_criteria: Entered when the project manager is named and RAMS and insurance checks are under way.
+        required_fields: [project_manager, planned_completion_date]
+      - key: on_site
+        label: On site
+        type: open
+        probability: 100
+        exit_criteria: Entered when work has started on site.
+        required_fields: [start_on_site_date, rams_approved, insurance_verified]
+      - key: snagging
+        label: Snagging
+        type: open
+        probability: 100
+        exit_criteria: Entered when the main works are finished and the client's snag list has been issued.
+        required_fields: [planned_completion_date]
+      - key: defects_period
+        label: Defects period
+        type: open
+        probability: 100
+        exit_criteria: Entered when practical completion is certified and retention is being held.
+        required_fields: [actual_completion_date, retention_held, retention_release_date]
+      - key: closed_out
+        label: Closed out
+        type: won
+        probability: 100
+        exit_criteria: Entered when defects are cleared, retention is released and the final account is agreed.
+        required_fields: [final_margin]
+      - key: cancelled
+        label: Cancelled
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the project is stopped before practical completion.
+        required_fields: [cancellation_reason]
+
+decisions:
+  - key: delivery_on_project_object
+    question: Is the job tracked on a project object with its own pipeline rather than as stages on the deal?
+    recommended_default: >-
+      Yes. The tender deal ends at awarded. The project has a different owner, dates and money
+      (retention, final margin) and carries on for months or years after the sale.
+  - key: estimates_as_records
+    question: Are estimate revisions separate records or only a number on the deal?
+    recommended_default: >-
+      Separate records. A bid is often repriced several times. The deal amount shows the latest
+      issued price and each revision keeps its own margin and status.
+  - key: domestic_customers
+    question: Does the business also serve homeowners or other individuals who have no company?
+    recommended_default: >-
+      Out of scope for this blueprint, which is built for business clients. If the client does
+      domestic work, add a person-based client type and a lighter quote pipeline as a separate design.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects and a pipeline on a custom object?
+    recommended_default: >-
+      Check before the build. If not, hold the project as a second deal pipeline with the project
+      fields on the deal, and keep site as a company-level text field. Record the gap in client notes.
+  - key: tender_portals
+    question: Are bids found and managed in an outside tender portal?
+    recommended_default: >-
+      Yes where used. Create the deal when the team decides to pursue, put the portal reference in the
+      deal name, and keep documents in the portal or the shared drive, not the CRM.
+
+automations:
+  - key: create_project_on_award
+    name: Create project on award
+    trigger: A deal in the tender and estimate pipeline moves to awarded.
+    action: >-
+      Create a project linked to the deal, site and client, copy the contract value and work type,
+      and set the company's relationship status to active client.
+  - key: tender_deadline_reminder
+    name: Tender deadline reminder
+    trigger: A deal at estimating or go or no-go has a tender deadline within 3 days.
+    action: Notify the deal owner and the estimator daily until the deal reaches bid submitted.
+  - key: retention_release_reminder
+    name: Retention release reminder
+    trigger: A project in the defects period has a retention release date within 30 days.
+    action: Create a task for the project manager and finance to invoice the retention release.
+  - key: supersede_old_estimates
+    name: Supersede old estimates
+    trigger: An estimate is set to issued.
+    action: Set earlier estimates on the same deal to superseded and update the deal amount and estimated margin.
+  - key: flag_stalled_bids
+    name: Flag stalled bids
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled bids view.
+
+views:
+  - key: bids_due
+    name: Bids due
+    object: deal
+    filter: Stage is go or no-go or estimating and tender deadline is within 14 days.
+    sort: Tender deadline, soonest first.
+  - key: my_open_bids
+    name: My open bids
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_bids
+    name: Stalled bids
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: projects_on_site
+    name: Projects on site
+    object: project
+    filter: Stage is on site or snagging.
+    sort: Planned completion, soonest first.
+  - key: retention_due
+    name: Retention due
+    object: project
+    filter: Stage is defects period and retention release date is within 60 days.
+    sort: Retention release date, soonest first.
+  - key: dormant_clients
+    name: Dormant clients
+    object: company
+    filter: Relationship status is dormant.
+    sort: Name, A to Z.
+
+platform_overrides:
+  attio:
+    objects:
+      site: {api_slug: sites}
+      project: {api_slug: projects}
+      estimate: {api_slug: estimates}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      site: {api_name: Site__c}
+      project: {api_name: Project__c}
+      estimate: {api_name: Estimate__c}

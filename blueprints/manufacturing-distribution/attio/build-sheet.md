@@ -1,0 +1,487 @@
+# Build sheet: Manufacturing and distribution, B2B (attio)
+
+A manufacturer or distributor that sells to trade customers by quote. New accounts are won through an opportunity pipeline. Every price request is tracked as a quote with its own pipeline, and orders are tracked on their own object so repeat business can be seen and chased.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are quotes tracked as their own object rather than as deals?**
+  - Recommended default: Yes. Distributors quote many times a week for existing accounts, and most of those are not new opportunities. A quote object with its own pipeline keeps the deal pipeline for new accounts.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are orders and their delivery tracked on a separate object from deals and quotes?**
+  - Recommended default: Yes. Orders have a different owner and dates and repeat every few weeks, so they get their own object. The ERP stays the system of record for stock and invoices.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does an ERP or accounting system already hold orders, prices and credit terms?**
+  - Recommended default: Yes, assume so. Sync orders into the CRM by integration rather than typing them. Keep only the order fields needed for reorder chasing and account reviews.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: What sets an account tier, and who reviews it?**
+  - Recommended default: Tier follows annual spend band, reviewed each quarter by the sales manager. Key accounts get a named owner and a scheduled review call.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Quote and Order?**
+  - Recommended default: Check before the build. If not, record quotes as deals in a second pipeline and keep orders in the ERP, with last order date and expected reorder interval on the company.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do quotes and orders need line items in the CRM?**
+  - Recommended default: No for the first build. Keep totals only. Line items live in the ERP or quoting tool.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Quote**
+  - Where: Workspace settings, then Objects, then New object. Use singular Quote, plural Quotes, slug `quotes`.
+  - Purpose: One request for quote (RFQ) and the quote sent in reply: what was asked for, the price, the lead time and the outcome. Sales handling, so it sits apart from the order that follows.
+  - Done when: the object Quote exists with plural name Quotes.
+- [ ] **Create object Order**
+  - Where: Workspace settings, then Objects, then New object. Use singular Order, plural Orders, slug `orders`.
+  - Purpose: One customer purchase order accepted by the business. Tracks acknowledgement, dispatch and payment. This is the delivery side. It stays separate from the quote and the deal.
+  - Done when: the object Order exists with plural name Orders.
+- [ ] **Create relationship quote to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Choose a relationship to company, name this side 'Company' and the other side 'Quotes'.
+  - Purpose: Shows every price request and quote for a customer.
+  - Done when: a quote record shows the link as 'Company' and a company record shows it as 'Quotes'.
+- [ ] **Create relationship quote to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Choose a relationship to person, name this side 'Requested by' and the other side 'Quotes requested'.
+  - Purpose: Records who at the customer asked for the quote.
+  - Done when: a quote record shows the link as 'Requested by' and a person record shows it as 'Quotes requested'.
+- [ ] **Create relationship quote to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Opportunity' and the other side 'Quotes'.
+  - Purpose: Ties quotes to the new-account opportunity they belong to. Repeat quotes for existing accounts have no deal.
+  - Done when: a quote record shows the link as 'Opportunity' and a deal record shows it as 'Quotes'.
+- [ ] **Create relationship order to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Choose a relationship to company, name this side 'Company' and the other side 'Orders'.
+  - Purpose: Gives the full order history for an account.
+  - Done when: a order record shows the link as 'Company' and a company record shows it as 'Orders'.
+- [ ] **Create relationship order to quote (many_to_one)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Choose a relationship to quote, name this side 'Accepted quote' and the other side 'Orders'.
+  - Purpose: Links an order to the quote it came from, so quote-to-order conversion can be measured.
+  - Done when: a order record shows the link as 'Accepted quote' and a quote record shows it as 'Orders'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New accounts on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'New accounts' (slug `new_accounts`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline New accounts exists with 8 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 5%.
+  - Entered when a target company with a buying need is logged and has a named contact.
+  - Set Probability to 5 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: opportunity_type.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: First contact**
+  - Type: open. Probability: 10%.
+  - Entered when a conversation with a purchasing contact has happened and the products of interest are noted.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage First contact is in position 2 and its rule is in place.
+- [ ] **Stage 3: Needs confirmed**
+  - Type: open. Probability: 25%.
+  - Entered when the technical contact has confirmed the specification and the expected volumes.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: spec_confirmed, annual_volume_estimate, next_step_date.
+  - Done when: the stage Needs confirmed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Sample or trial**
+  - Type: open. Probability: 40%.
+  - Entered when a sample, trial run or spec approval has been requested.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: sample_status, next_step_date.
+  - Done when: the stage Sample or trial is in position 4 and its rule is in place.
+- [ ] **Stage 5: Quote issued**
+  - Type: open. Probability: 55%.
+  - Entered when a priced quote has been sent against a confirmed specification.
+  - Set Probability to 55 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, spec_confirmed, next_step_date.
+  - Done when: the stage Quote issued is in position 5 and its rule is in place.
+- [ ] **Stage 6: Terms agreed**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has accepted price and lead time and credit terms are being set up.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, credit_approved.
+  - Done when: the stage Terms agreed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the first purchase order is received from the account.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Closed won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer chooses another supplier or goes silent after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline RFQ handling on quote**
+  - Where: Lists in the left sidebar, then New list, parent object quote, named 'RFQ handling' (slug `rfq_handling`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline RFQ handling exists with 8 stages in the order below.
+- [ ] **Stage 1: Received**
+  - Type: open. Probability: 20%.
+  - Entered when an RFQ is logged with the customer, the source and the date received.
+  - Set Probability to 20 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: received_date, source.
+  - Done when: the stage Received is in position 1 and its rule is in place.
+- [ ] **Stage 2: Qualified**
+  - Type: open. Probability: 30%.
+  - Entered when the team has decided to quote, the product family is set and a due date is agreed.
+  - Set Probability to 30 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: product_family, due_date.
+  - Done when: the stage Qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Pricing**
+  - Type: open. Probability: 40%.
+  - Entered when stock or capacity is checked and a lead time is set.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: stock_checked, lead_time_days.
+  - Done when: the stage Pricing is in position 3 and its rule is in place.
+- [ ] **Stage 4: Approval**
+  - Type: open. Probability: 45%.
+  - Entered when the price is built and breaks a margin or credit rule that needs manager sign-off.
+  - Set Probability to 45 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: value, margin_percent, approval_needed.
+  - Done when: the stage Approval is in position 4 and its rule is in place.
+- [ ] **Stage 5: Sent**
+  - Type: open. Probability: 50%.
+  - Entered when the quote has been sent to the buyer with a validity date.
+  - Set Probability to 50 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: value, valid_until, lead_time_days.
+  - Done when: the stage Sent is in position 5 and its rule is in place.
+- [ ] **Stage 6: Follow-up**
+  - Type: open. Probability: 60%.
+  - Entered when the first chase has been made and the buyer has given a decision date.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: value, valid_until.
+  - Done when: the stage Follow-up is in position 6 and its rule is in place.
+- [ ] **Stage 7: Accepted**
+  - Type: won. Probability: 100%.
+  - Entered when the buyer sends a purchase order or written acceptance against the quote.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: value.
+  - Done when: the stage Accepted is in position 7 and its rule is in place.
+- [ ] **Stage 8: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer rejects the quote, the validity date passes unanswered, or the business decides not to quote.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: decline_reason.
+  - Done when: the stage Declined is in position 8 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Account tier (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `account_tier`.
+  - Purpose: Service tier set by annual spend and strategic value. Drives pricing, call frequency and who owns the account.
+  - Options: Key account, Core, Standard, Occasional
+  - Done when: Company records show Account tier and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `account_type`.
+  - Purpose: What the company does with our products. Used to route enquiries and report by channel.
+  - Options: OEM or manufacturer, Contractor or installer, Reseller or dealer, End user, Public sector
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Industry sector (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `industry_sector`.
+  - Purpose: The customer's main market. Used for reporting and targeted campaigns.
+  - Options: Construction, Automotive, Food and drink, Engineering, Energy and utilities, Healthcare, Other
+  - Done when: Company records show Industry sector and it accepts the right values.
+- [ ] **Create field Account status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `account_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active, Dormant, Lapsed
+  - Done when: Company records show Account status and it accepts the right values.
+- [ ] **Create field Credit terms (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `credit_terms`.
+  - Purpose: Payment terms agreed with finance. Checked before a quote is sent to a new account.
+  - Options: Pro forma, Net 30, Net 60, Credit hold
+  - Done when: Company records show Credit terms and it accepts the right values.
+- [ ] **Create field Last order date (date)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type date, slug `last_order_date`.
+  - Purpose: Date of the most recent accepted order. Set by automation and used to spot accounts that have stopped ordering.
+  - Done when: Company records show Last order date and it accepts the right values.
+- [ ] **Create field Expected reorder interval (days) (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `expected_reorder_days`.
+  - Purpose: Typical days between orders for this account. The reorder-due view compares it with the last order date.
+  - Done when: Company records show Expected reorder interval (days) and it accepts the right values.
+- [ ] **Create field Annual spend band (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `annual_spend_band`.
+  - Purpose: Spend with us over the last 12 months. Used to review the account tier.
+  - Options: Under 10k, 10k to 50k, 50k to 250k, Over 250k
+  - Done when: Company records show Annual spend band and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `buying_role`.
+  - Purpose: The part this person plays in a purchase. Used to check a deal or quote has the right people attached.
+  - Options: Purchasing or procurement, Engineer or specifier, Economic buyer, End user or site contact, Accounts payable
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the opportunity was lost. Required on the lost stage.
+  - Options: Price, Lead time, Stayed with current supplier, Specification not met, Credit declined, No response, Project cancelled, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Opportunity type (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `opportunity_type`.
+  - Purpose: Whether this is a new account, a new product line for an existing account or a one-off project.
+  - Options: New account, New product line, One-off project, Tender
+  - Done when: Deal records show Opportunity type and it accepts the right values.
+- [ ] **Create field Annual volume estimate (currency)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type currency, slug `annual_volume_estimate`.
+  - Purpose: Expected yearly spend if the account is won. Used to set the account tier.
+  - Done when: Deal records show Annual volume estimate and it accepts the right values.
+- [ ] **Create field Sample status (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `sample_status`.
+  - Purpose: Progress of any sample, trial run or spec approval the buyer needs before ordering.
+  - Options: Not needed, Requested, Sent, Approved, Rejected
+  - Done when: Deal records show Sample status and it accepts the right values.
+- [ ] **Create field Specification confirmed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `spec_confirmed`.
+  - Purpose: The buyer's technical contact has confirmed the specification we are quoting against.
+  - Done when: Deal records show Specification confirmed and it accepts the right values.
+- [ ] **Create field Credit approved (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `credit_approved`.
+  - Purpose: Finance has approved credit terms for this account.
+  - Done when: Deal records show Credit approved and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Quote
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type text, slug `quote_name`.
+  - Purpose: Company and a short description of the request, for example the product family.
+  - Done when: Quote records show Name and it accepts the right values.
+- [ ] **Create field RFQ source (select)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type select, slug `source`.
+  - Purpose: How the request reached us. Used to see which channels create work.
+  - Options: Email, Phone, Web form, Customer portal, Rep visit, Tender portal
+  - Done when: Quote records show RFQ source and it accepts the right values.
+- [ ] **Create field Product family (select)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type select, slug `product_family`.
+  - Purpose: The main product group quoted. Used to see win rate and lead time by range.
+  - Options: Standard range, Made to order, Spares and parts, Bulk supply, Service
+  - Done when: Quote records show Product family and it accepts the right values.
+- [ ] **Create field Received date (date)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type date, slug `received_date`.
+  - Purpose: The day the RFQ arrived. Measures speed to quote.
+  - Done when: Quote records show Received date and it accepts the right values.
+- [ ] **Create field Quote due date (date)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type date, slug `due_date`.
+  - Purpose: The date the buyer asked for the quote. Late quotes are reported on.
+  - Done when: Quote records show Quote due date and it accepts the right values.
+- [ ] **Create field Quote value (currency)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type currency, slug `value`.
+  - Purpose: Total quoted price excluding tax.
+  - Done when: Quote records show Quote value and it accepts the right values.
+- [ ] **Create field Margin (percent)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type number, slug `margin_percent`.
+  - Purpose: Expected gross margin on the quote. Over a set discount threshold it needs approval.
+  - Done when: Quote records show Margin and it accepts the right values.
+- [ ] **Create field Lead time (days) (number)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type number, slug `lead_time_days`.
+  - Purpose: Quoted days from order to delivery to the customer.
+  - Done when: Quote records show Lead time (days) and it accepts the right values.
+- [ ] **Create field Valid until (date)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type date, slug `valid_until`.
+  - Purpose: Last day the quoted price holds.
+  - Done when: Quote records show Valid until and it accepts the right values.
+- [ ] **Create field Approval needed (checkbox)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type checkbox, slug `approval_needed`.
+  - Purpose: The quote breaks a margin or credit rule and a manager must approve before it is sent.
+  - Done when: Quote records show Approval needed and it accepts the right values.
+- [ ] **Create field Stock checked (checkbox)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type checkbox, slug `stock_checked`.
+  - Purpose: Stock or production capacity has been checked for the quoted lead time.
+  - Done when: Quote records show Stock checked and it accepts the right values.
+- [ ] **Create field Decline reason (select)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type select, slug `decline_reason`.
+  - Purpose: Why the quote was lost or not quoted. Required on the lost stage.
+  - Options: Price, Lead time, Cannot supply, Specification not met, No response, Bought elsewhere, Out of scope
+  - Done when: Quote records show Decline reason and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Quote, then Attributes, then New attribute. Type actor-reference, slug `quote_owner`.
+  - Purpose: The team member who prepares and chases the quote.
+  - Done when: Quote records show Owner and it accepts the right values.
+
+### Order
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type text, slug `order_name`.
+  - Purpose: Company and the customer's purchase order number.
+  - Done when: Order records show Name and it accepts the right values.
+- [ ] **Create field Order type (select)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type select, slug `order_type`.
+  - Purpose: Whether the order is a first order, a repeat order or a call-off against a standing agreement.
+  - Options: First order, Repeat order, Call-off, Sample order
+  - Done when: Order records show Order type and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the order stands.
+  - Options: Received, Acknowledged, In production or picking, Dispatched, Delivered, Invoiced, Cancelled
+  - Done when: Order records show Status and it accepts the right values.
+- [ ] **Create field Order date (date)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type date, slug `order_date`.
+  - Purpose: Date the customer order was accepted.
+  - Done when: Order records show Order date and it accepts the right values.
+- [ ] **Create field Promised date (date)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type date, slug `promised_date`.
+  - Purpose: Delivery date promised to the customer. Late orders are reported on.
+  - Done when: Order records show Promised date and it accepts the right values.
+- [ ] **Create field Delivered date (date)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type date, slug `delivered_date`.
+  - Purpose: Date the goods reached the customer. Compared with the promised date for on-time delivery.
+  - Done when: Order records show Delivered date and it accepts the right values.
+- [ ] **Create field Order value (currency)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type currency, slug `order_value`.
+  - Purpose: Total order value excluding tax.
+  - Done when: Order records show Order value and it accepts the right values.
+- [ ] **Create field Customer PO number (text)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type text, slug `customer_po`.
+  - Purpose: The customer's purchase order reference, used on invoices and to match queries.
+  - Done when: Order records show Customer PO number and it accepts the right values.
+- [ ] **Create field Account manager (user)**
+  - Where: Workspace settings, then Objects, then Order, then Attributes, then New attribute. Type actor-reference, slug `order_owner`.
+  - Purpose: The team member responsible for the order and the customer relationship.
+  - Done when: Order records show Account manager and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Update company on order**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An order is created or its status moves to received.
+  - Action: Set the company's last order date and account status to active, and set the order type to first order if the company had no earlier order.
+  - Done when: the automation runs on a test record and the result matches: Set the company's last order date and account status to active, and set the order type to first order if the company had no earlier order.
+- [ ] **Flag late quotes**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A quote is open and its due date is today or in the past.
+  - Action: Notify the quote owner and add the quote to the overdue quotes view.
+  - Done when: the automation runs on a test record and the result matches: Notify the quote owner and add the quote to the overdue quotes view.
+- [ ] **Chase sent quotes**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A quote has been in sent for 5 working days.
+  - Action: Create a task for the owner to chase the buyer and move the quote to follow-up when done.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the owner to chase the buyer and move the quote to follow-up when done.
+- [ ] **Reorder due**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: Days since the company's last order date exceed its expected reorder interval and the account is active.
+  - Action: Create a task for the account owner to call the buyer and set the account status to dormant after 2 intervals.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account owner to call the buyer and set the account status to dormant after 2 intervals.
+- [ ] **Route quote for approval**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A quote moves to approval.
+  - Action: Notify the sales manager, who either approves it or sends it back to pricing.
+  - Done when: the automation runs on a test record and the result matches: Notify the sales manager, who either approves it or sends it back to pricing.
+- [ ] **Quarterly tier review**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: Each quarter, for every active account.
+  - Action: Compare the account's annual spend band with its tier and list mismatches for the sales manager.
+  - Done when: the automation runs on a test record and the result matches: Compare the account's annual spend band with its tier and list mismatches for the sales manager.
+
+## 6. Views
+
+- [ ] **Open quotes**
+  - Where: Open Quotes in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: quote
+  - Filter: Quote is not accepted or declined and owner is me.
+  - Sort: Due date, soonest first.
+  - Done when: the view Open quotes is saved and shows the expected records.
+- [ ] **Overdue quotes**
+  - Where: Open Quotes in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: quote
+  - Filter: Quote is open and due date is in the past.
+  - Sort: Due date, oldest first.
+  - Done when: the view Overdue quotes is saved and shows the expected records.
+- [ ] **Reorders due**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Account status is active and last order date is older than the expected reorder interval.
+  - Sort: Last order date, oldest first.
+  - Done when: the view Reorders due is saved and shows the expected records.
+- [ ] **Key and core accounts**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Account tier is key account or core.
+  - Sort: Last order date, oldest first.
+  - Done when: the view Key and core accounts is saved and shows the expected records.
+- [ ] **Orders in flight**
+  - Where: Open Orders in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: order
+  - Filter: Status is not delivered, invoiced or cancelled.
+  - Sort: Promised date, soonest first.
+  - Done when: the view Orders in flight is saved and shows the expected records.
+- [ ] **My open opportunities**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Next step date, soonest first.
+  - Done when: the view My open opportunities is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

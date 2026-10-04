@@ -1,0 +1,1423 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account tier",
+          "description": "Service tier set by annual spend and strategic value. Drives pricing, call frequency and who owns the account.",
+          "api_slug": "account_tier",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_tier/options",
+      "body": {
+        "data": {
+          "title": "Key account"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_tier/options",
+      "body": {
+        "data": {
+          "title": "Core"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_tier/options",
+      "body": {
+        "data": {
+          "title": "Standard"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_tier/options",
+      "body": {
+        "data": {
+          "title": "Occasional"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account type",
+          "description": "What the company does with our products. Used to route enquiries and report by channel.",
+          "api_slug": "account_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "OEM or manufacturer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Contractor or installer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Reseller or dealer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "End user"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Industry sector",
+          "description": "The customer's main market. Used for reporting and targeted campaigns.",
+          "api_slug": "industry_sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Construction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Automotive"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Food and drink"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Engineering"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Energy and utilities"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Healthcare"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry_sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "account_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Dormant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Lapsed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Credit terms",
+          "description": "Payment terms agreed with finance. Checked before a quote is sent to a new account.",
+          "api_slug": "credit_terms",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/credit_terms/options",
+      "body": {
+        "data": {
+          "title": "Pro forma"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/credit_terms/options",
+      "body": {
+        "data": {
+          "title": "Net 30"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/credit_terms/options",
+      "body": {
+        "data": {
+          "title": "Net 60"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/credit_terms/options",
+      "body": {
+        "data": {
+          "title": "Credit hold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Last order date",
+          "description": "Date of the most recent accepted order. Set by automation and used to spot accounts that have stopped ordering.",
+          "api_slug": "last_order_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Expected reorder interval (days)",
+          "description": "Typical days between orders for this account. The reorder-due view compares it with the last order date.",
+          "api_slug": "expected_reorder_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Annual spend band",
+          "description": "Spend with us over the last 12 months. Used to review the account tier.",
+          "api_slug": "annual_spend_band",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/annual_spend_band/options",
+      "body": {
+        "data": {
+          "title": "Under 10k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/annual_spend_band/options",
+      "body": {
+        "data": {
+          "title": "10k to 50k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/annual_spend_band/options",
+      "body": {
+        "data": {
+          "title": "50k to 250k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/annual_spend_band/options",
+      "body": {
+        "data": {
+          "title": "Over 250k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in a purchase. Used to check a deal or quote has the right people attached.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Purchasing or procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Engineer or specifier"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Economic buyer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "End user or site contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Accounts payable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the opportunity was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Lead time"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Stayed with current supplier"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Specification not met"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Project cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Opportunity type",
+          "description": "Whether this is a new account, a new product line for an existing account or a one-off project.",
+          "api_slug": "opportunity_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/opportunity_type/options",
+      "body": {
+        "data": {
+          "title": "New account"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/opportunity_type/options",
+      "body": {
+        "data": {
+          "title": "New product line"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/opportunity_type/options",
+      "body": {
+        "data": {
+          "title": "One-off project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/opportunity_type/options",
+      "body": {
+        "data": {
+          "title": "Tender"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Annual volume estimate",
+          "description": "Expected yearly spend if the account is won. Used to set the account tier.",
+          "api_slug": "annual_volume_estimate",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Sample status",
+          "description": "Progress of any sample, trial run or spec approval the buyer needs before ordering.",
+          "api_slug": "sample_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/sample_status/options",
+      "body": {
+        "data": {
+          "title": "Not needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/sample_status/options",
+      "body": {
+        "data": {
+          "title": "Requested"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/sample_status/options",
+      "body": {
+        "data": {
+          "title": "Sent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/sample_status/options",
+      "body": {
+        "data": {
+          "title": "Approved"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/sample_status/options",
+      "body": {
+        "data": {
+          "title": "Rejected"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Specification confirmed",
+          "description": "The buyer's technical contact has confirmed the specification we are quoting against.",
+          "api_slug": "spec_confirmed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Credit approved",
+          "description": "Finance has approved credit terms for this account.",
+          "api_slug": "credit_approved",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "RFQ source",
+          "description": "How the request reached us. Used to see which channels create work.",
+          "api_slug": "source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Email"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Phone"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Web form"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Customer portal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Rep visit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Tender portal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Product family",
+          "description": "The main product group quoted. Used to see win rate and lead time by range.",
+          "api_slug": "product_family",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/product_family/options",
+      "body": {
+        "data": {
+          "title": "Standard range"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/product_family/options",
+      "body": {
+        "data": {
+          "title": "Made to order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/product_family/options",
+      "body": {
+        "data": {
+          "title": "Spares and parts"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/product_family/options",
+      "body": {
+        "data": {
+          "title": "Bulk supply"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/product_family/options",
+      "body": {
+        "data": {
+          "title": "Service"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Received date",
+          "description": "The day the RFQ arrived. Measures speed to quote.",
+          "api_slug": "received_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Quote due date",
+          "description": "The date the buyer asked for the quote. Late quotes are reported on.",
+          "api_slug": "due_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Quote value",
+          "description": "Total quoted price excluding tax.",
+          "api_slug": "value",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Margin",
+          "description": "Expected gross margin on the quote. Over a set discount threshold it needs approval. Percentage stored as a number from 0 to 100.",
+          "api_slug": "margin_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Lead time (days)",
+          "description": "Quoted days from order to delivery to the customer.",
+          "api_slug": "lead_time_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Valid until",
+          "description": "Last day the quoted price holds.",
+          "api_slug": "valid_until",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Approval needed",
+          "description": "The quote breaks a margin or credit rule and a manager must approve before it is sent.",
+          "api_slug": "approval_needed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Stock checked",
+          "description": "Stock or production capacity has been checked for the quoted lead time.",
+          "api_slug": "stock_checked",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Decline reason",
+          "description": "Why the quote was lost or not quoted. Required on the lost stage.",
+          "api_slug": "decline_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Lead time"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Cannot supply"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Specification not met"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Bought elsewhere"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Out of scope"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/quotes/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member who prepares and chases the quote.",
+          "api_slug": "quote_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order type",
+          "description": "Whether the order is a first order, a repeat order or a call-off against a standing agreement.",
+          "api_slug": "order_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "First order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Repeat order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Call-off"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Sample order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the order stands.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Received"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Acknowledged"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In production or picking"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Dispatched"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Delivered"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Invoiced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order date",
+          "description": "Date the customer order was accepted.",
+          "api_slug": "order_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Promised date",
+          "description": "Delivery date promised to the customer. Late orders are reported on.",
+          "api_slug": "promised_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Delivered date",
+          "description": "Date the goods reached the customer. Compared with the promised date for on-time delivery.",
+          "api_slug": "delivered_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order value",
+          "description": "Total order value excluding tax.",
+          "api_slug": "order_value",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Customer PO number",
+          "description": "The customer's purchase order reference, used on invoices and to match queries.",
+          "api_slug": "customer_po",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/orders/attributes",
+      "body": {
+        "data": {
+          "title": "Account manager",
+          "description": "The team member responsible for the order and the customer relationship.",
+          "api_slug": "order_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

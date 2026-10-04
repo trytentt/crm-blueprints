@@ -1,0 +1,499 @@
+extends: core
+name: Commercial real estate, leasing
+description: >-
+  A commercial property agent or landlord that lets offices, retail and industrial space. Properties
+  and their units are records. Companies play landlord and tenant roles. Lettings run through a lease
+  pipeline, and each signed lease becomes a lease record that tracks rent, breaks and expiry.
+
+add_objects:
+  - key: property
+    label: Property
+    plural_label: Properties
+    description: >-
+      A building or estate that is let or managed. Holds its address, type, size and availability so
+      enquiries and lettings can be matched to space.
+  - key: lease
+    label: Lease
+    plural_label: Leases
+    description: >-
+      One signed lease of space in a property: tenant, rent, term, break and expiry dates. Created
+      when a letting completes. This is the management side, separate from the letting deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: company_roles
+    label: Company roles
+    type: multi_select
+    description: The roles this company plays in our business. One company can be landlord, tenant and investor at once.
+    options:
+      landlord: Landlord
+      tenant: Tenant
+      occupier_requirement: Occupier looking for space
+      investor: Investor
+      managing_agent: Managing agent
+      solicitor: Solicitor
+      surveyor: Surveyor or consultant
+  - object: company
+    key: occupier_sector
+    label: Occupier sector
+    type: select
+    description: The tenant's line of business. Used to match prospects to space and report by sector.
+    options:
+      professional_services: Professional services
+      technology: Technology
+      retail: Retail
+      hospitality: Hospitality
+      logistics: Logistics
+      light_industrial: Light industrial
+      healthcare: Healthcare
+      public_sector: Public sector
+      other: Other
+  - object: company
+    key: relationship_status
+    label: Relationship status
+    type: select
+    description: Where the company stands with us.
+    options: {prospect: Prospect, active_requirement: Active requirement, current_tenant: Current tenant, former_tenant: Former tenant, partner: Partner}
+  - object: company
+    key: covenant_strength
+    label: Covenant strength
+    type: select
+    description: Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.
+    options: {strong: Strong, satisfactory: Satisfactory, weak: Weak, not_checked: Not checked}
+  # Person
+  - object: person
+    key: contact_role
+    label: Contact role
+    type: select
+    description: The part this person plays in a letting. Used to send the right documents to the right person.
+    options:
+      decision_maker: Decision maker
+      property_manager: Property or facilities manager
+      occupier_agent: Tenant's agent
+      landlord_contact: Landlord contact
+      solicitor: Solicitor
+      finance: Finance contact
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the letting did not complete. Required on the lost stage.
+    options:
+      took_other_space: Took other space
+      terms_not_agreed: Terms not agreed
+      covenant_failed: Referencing failed
+      space_unsuitable: Space unsuitable
+      budget_changed: Budget changed
+      requirement_withdrawn: Requirement withdrawn
+      landlord_withdrew: Landlord withdrew
+      no_response: No response
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: instruction_type
+    label: Instruction type
+    type: select
+    description: Whom we act for on this deal. Sets the fee basis and conflicts check.
+    options: {landlord_letting: Acting for landlord, tenant_search: Acting for tenant, joint_agency: Joint agency}
+  - object: deal
+    key: requirement_size_sqft
+    label: Size required (sq ft)
+    type: number
+    description: Floor area the occupier wants. Used to match against available units.
+  - object: deal
+    key: target_move_date
+    label: Target move date
+    type: date
+    description: When the occupier needs to be in. Drives urgency and the lease start date.
+  - object: deal
+    key: viewing_held
+    label: Viewing held
+    type: checkbox
+    description: At least one viewing of the space has taken place with a decision maker.
+  - object: deal
+    key: heads_of_terms_status
+    label: Heads of terms status
+    type: select
+    description: Progress of the written summary of agreed commercial terms, which is not binding until the lease is signed.
+    options: {not_started: Not started, drafted: Drafted, issued: Issued, agreed: Agreed}
+  - object: deal
+    key: referencing_status
+    label: Referencing status
+    type: select
+    description: Progress of the tenant covenant and reference checks.
+    options: {not_started: Not started, in_progress: In progress, passed: Passed, failed: Failed}
+  - object: deal
+    key: solicitors_instructed
+    label: Solicitors instructed
+    type: checkbox
+    description: Both sides have instructed solicitors to draft and agree the lease.
+  - object: deal
+    key: headline_rent
+    label: Headline rent (per year)
+    type: currency
+    description: Annual rent offered or agreed, before incentives.
+  # Property
+  - object: property
+    key: name
+    label: Name
+    type: text
+    description: Building name or street address used day to day.
+    required: true
+  - object: property
+    key: address
+    label: Address
+    type: text
+    description: Full address including postcode.
+  - object: property
+    key: property_type
+    label: Property type
+    type: select
+    description: Use class of the building. Used to match enquiries and report availability.
+    options: {office: Office, retail: Retail, industrial: Industrial, mixed_use: Mixed use, serviced: Serviced or flexible, land: Land}
+  - object: property
+    key: total_area_sqft
+    label: Total area (sq ft)
+    type: number
+    description: Total lettable floor area of the property.
+  - object: property
+    key: available_area_sqft
+    label: Available area (sq ft)
+    type: number
+    description: Floor area currently available to let. Updated when a lease completes or ends.
+  - object: property
+    key: availability_status
+    label: Availability
+    type: select
+    description: Whether there is space to let now. Drives the availability view and enquiry matching.
+    options: {fully_let: Fully let, part_available: Part available, fully_available: Fully available, under_offer: Under offer, off_market: Off market}
+  - object: property
+    key: asking_rent_psf
+    label: Asking rent (per sq ft)
+    type: currency
+    description: Quoted annual rent per square foot for available space.
+  - object: property
+    key: energy_rating
+    label: Energy rating
+    type: select
+    description: Energy performance rating band shown on the certificate. Needed before marketing.
+    options: {a: A, b: B, c: C, d: D, e: E, f: F, g: G, not_rated: Not rated}
+  - object: property
+    key: market_area
+    label: Market area
+    type: select
+    description: Submarket the property sits in. Edit the options to the agent's patch. Used to match requirements.
+    options: {central: Central, north: North, south: South, east: East, west: West, out_of_town: Out of town}
+  # Lease
+  - object: lease
+    key: name
+    label: Name
+    type: text
+    description: Tenant, property and unit, for example Tenant name, Building name, 2nd floor.
+    required: true
+  - object: lease
+    key: status
+    label: Status
+    type: select
+    description: Where the lease stands.
+    options: {agreed: Agreed, active: Active, in_review: In review, holding_over: Holding over, ended: Ended}
+  - object: lease
+    key: unit
+    label: Unit
+    type: text
+    description: Floor, suite or unit let under this lease.
+  - object: lease
+    key: area_sqft
+    label: Area (sq ft)
+    type: number
+    description: Floor area let.
+  - object: lease
+    key: start_date
+    label: Start date
+    type: date
+    description: First day of the term.
+  - object: lease
+    key: expiry_date
+    label: Expiry date
+    type: date
+    description: Contractual end date. A renewal opens before it.
+  - object: lease
+    key: break_date
+    label: Break date
+    type: date
+    description: Earliest date the tenant or landlord may end the lease early, if there is a break clause.
+  - object: lease
+    key: next_rent_review
+    label: Next rent review
+    type: date
+    description: Date the rent is next reviewed.
+  - object: lease
+    key: annual_rent
+    label: Annual rent
+    type: currency
+    description: Passing rent per year.
+  - object: lease
+    key: rent_free_months
+    label: Rent-free months
+    type: number
+    description: Months of rent-free incentive granted at the start.
+  - object: lease
+    key: security_of_tenure
+    label: Inside security of tenure
+    type: checkbox
+    description: The lease has statutory renewal rights. This changes how renewal is handled. Confirm with the solicitor.
+  - object: lease
+    key: outcome_reason
+    label: Outcome reason
+    type: select
+    description: Why a lease was not renewed. Required on the lost renewal stage.
+    options: {tenant_relocated: Tenant relocated, downsized: Downsized, business_closed: Business closed, rent_too_high: Rent too high, landlord_redevelop: Landlord redevelopment, space_unsuitable: Space unsuitable}
+  - object: lease
+    key: managing_owner
+    label: Lease manager
+    type: user
+    description: The team member who manages this lease and its renewal.
+
+add_relationships:
+  - key: deal_property
+    from: deal
+    to: property
+    cardinality: many_to_one
+    from_label: Property
+    to_label: Deals
+    purpose: Shows every letting enquiry and deal for a building.
+  - key: property_landlord
+    from: property
+    to: company
+    cardinality: many_to_one
+    from_label: Landlord
+    to_label: Properties owned
+    purpose: Shows which landlord owns each property.
+  - key: lease_property
+    from: lease
+    to: property
+    cardinality: many_to_one
+    from_label: Property
+    to_label: Leases
+    purpose: Shows every lease, current and past, in a building.
+  - key: lease_tenant
+    from: lease
+    to: company
+    cardinality: many_to_one
+    from_label: Tenant
+    to_label: Leases as tenant
+    purpose: Shows the tenant's leases and so their footprint with us.
+  - key: lease_deal
+    from: lease
+    to: deal
+    cardinality: many_to_one
+    from_label: Letting deal
+    to_label: Leases
+    purpose: Links a lease to the deal that created it, for fee reporting.
+
+pipelines:
+  - object: deal
+    key: letting
+    name: Letting
+    stages:
+      - key: enquiry
+        label: Enquiry
+        type: open
+        probability: 5
+        exit_criteria: Entered when an occupier or landlord enquiry is logged against a contact.
+        required_fields: [instruction_type]
+      - key: requirement_qualified
+        label: Requirement qualified
+        type: open
+        probability: 15
+        exit_criteria: Entered when size, budget, location and move date have been confirmed with a decision maker.
+        required_fields: [requirement_size_sqft, target_move_date, next_step_date]
+      - key: viewing
+        label: Viewing
+        type: open
+        probability: 30
+        exit_criteria: Entered when a viewing is booked for specific space.
+        required_fields: [next_step_date]
+      - key: offer
+        label: Offer
+        type: open
+        probability: 50
+        exit_criteria: Entered when the occupier has viewed the space and made a first offer on rent and term.
+        required_fields: [viewing_held, headline_rent]
+      - key: heads_of_terms
+        label: Heads of terms
+        type: open
+        probability: 65
+        exit_criteria: Entered when landlord and tenant have agreed the main terms and heads of terms are issued, subject to contract.
+        required_fields: [heads_of_terms_status, headline_rent]
+      - key: referencing
+        label: Referencing
+        type: open
+        probability: 75
+        exit_criteria: Entered when heads of terms are signed back and tenant reference checks are under way.
+        required_fields: [referencing_status]
+      - key: legals
+        label: Legals
+        type: open
+        probability: 85
+        exit_criteria: Entered when referencing has passed and both sides have instructed solicitors.
+        required_fields: [referencing_status, solicitors_instructed, close_date]
+      - key: completed
+        label: Completed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the lease is signed by both sides and the lease record is created.
+        required_fields: [headline_rent, close_date]
+      - key: lost
+        label: Lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when either side withdraws, the space is let elsewhere, or there is no reply after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: lease
+    key: lease_renewal
+    name: Lease renewal
+    stages:
+      - key: upcoming
+        label: Upcoming
+        type: open
+        probability: 40
+        exit_criteria: Entered when the lease is within 12 months of its expiry or break date.
+        required_fields: [expiry_date]
+      - key: tenant_contacted
+        label: Tenant contacted
+        type: open
+        probability: 50
+        exit_criteria: Entered when the tenant's intentions have been asked for and noted.
+        required_fields: [managing_owner]
+      - key: terms_discussed
+        label: Terms discussed
+        type: open
+        probability: 70
+        exit_criteria: Entered when the landlord and tenant are negotiating new rent and term.
+        required_fields: [annual_rent, security_of_tenure]
+      - key: renewal_agreed
+        label: Renewal agreed
+        type: open
+        probability: 90
+        exit_criteria: Entered when heads of terms for the renewal are agreed and solicitors are instructed.
+        required_fields: [annual_rent, expiry_date]
+      - key: renewed
+        label: Renewed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the renewal lease or variation is signed and the dates on the record are updated.
+        required_fields: [annual_rent, expiry_date]
+      - key: not_renewed
+        label: Not renewed
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the tenant leaves or the lease ends without renewal.
+        required_fields: [outcome_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is the signed lease tracked on its own object rather than as the end of the letting deal?
+    recommended_default: >-
+      Yes. A lease lives for years, has its own dates and is managed by a different person than the
+      one who agreed the letting. The deal ends at completed and the lease record carries on.
+  - key: units_as_objects
+    question: Does each unit or floor need its own record?
+    recommended_default: >-
+      No for the first build. Keep unit as text on the lease and available area on the property. Add
+      a unit object when the portfolio has many small units and availability reporting by unit matters.
+  - key: roles_on_company
+    question: How are landlord and tenant roles recorded?
+    recommended_default: >-
+      A multi-select on company, because one company can be both. The role on a specific lease or
+      property comes from the relationship, landlord on a property and tenant on a lease.
+  - key: investment_sales
+    question: Does the firm also run investment sales or acquisitions?
+    recommended_default: >-
+      Not in this build. Add a second deal pipeline for sales if the client describes one.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects for Property and Lease?
+    recommended_default: >-
+      Check before the build. If not, hold the building on the company record, use a deal pipeline for
+      renewals with lease dates as deal properties, and record the gap in the client notes.
+  - key: client_money
+    question: Does the CRM hold client money, rent collection or service charge detail?
+    recommended_default: >-
+      No. Rent collection stays in property management software. The CRM holds passing rent and dates only.
+
+automations:
+  - key: create_lease_on_completion
+    name: Create lease on completion
+    trigger: A deal in the letting pipeline moves to completed.
+    action: >-
+      Create a lease from the deal's rent and dates, link it to the property and the tenant, set the
+      company's relationship status to current tenant and reduce the property's available area.
+  - key: open_renewal
+    name: Open renewal
+    trigger: A lease is 12 months from its expiry or break date and its status is active.
+    action: Move the lease to upcoming in the renewal pipeline and notify the lease manager.
+  - key: rent_review_reminder
+    name: Rent review reminder
+    trigger: A lease's next rent review is 6 months away.
+    action: Create a task for the lease manager to prepare the rent review.
+  - key: flag_stalled_lettings
+    name: Flag stalled lettings
+    trigger: An open letting deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled lettings view.
+  - key: match_requirement
+    name: Match requirement to space
+    trigger: A deal reaches requirement qualified.
+    action: Create a task to list properties with available area and market area that fit the requirement.
+  - key: lease_ended
+    name: Free the space
+    trigger: A lease moves to not renewed.
+    action: Set its status to ended and create a task to update the property's availability.
+
+views:
+  - key: available_space
+    name: Available space
+    object: property
+    filter: Availability is part available or fully available.
+    sort: Available area, largest first.
+  - key: open_lettings
+    name: Open lettings
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_lettings
+    name: Stalled lettings
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: expiries_and_breaks
+    name: Expiries and breaks in 18 months
+    object: lease
+    filter: Status is active and expiry date or break date is within 18 months.
+    sort: Expiry date, soonest first.
+  - key: rent_reviews_due
+    name: Rent reviews due
+    object: lease
+    filter: Status is active and next rent review is within 6 months.
+    sort: Next rent review, soonest first.
+  - key: active_requirements
+    name: Active requirements
+    object: company
+    filter: Relationship status is active requirement.
+    sort: Name, A to Z.
+
+platform_overrides:
+  attio:
+    objects:
+      property: {api_slug: properties}
+      lease: {api_slug: leases}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      property: {api_name: Property__c}
+      lease: {api_name: Lease__c}

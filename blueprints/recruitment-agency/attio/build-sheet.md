@@ -1,0 +1,528 @@
+# Build sheet: Recruitment agency (attio)
+
+A recruitment agency that wins clients on contingent or retained terms, takes roles from them, and places candidates. Clients and candidates are both People, told apart by a type field. Business development runs on deals, roles are their own object, and each candidate put forward on a role moves through the placement pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are candidates their own object, or People with a type?**
+  - Recommended default: People with a type. A candidate can become a client contact, or a referrer, and should stay one record. The person type field separates them. Views and permissions filter by it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is the work of filling a role tracked on its own objects rather than as deal stages?**
+  - Recommended default: Yes. The deal is the client relationship and its terms. Roles and submissions carry the delivery, so one client deal supports many roles and many candidates without duplicate deals.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Where is placement revenue recorded?**
+  - Recommended default: On the submission that reaches placed, with fee amount and invoice status. Do not create a deal per placement. Forecast from role fee estimate multiplied by the placement pipeline probability.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are contingent and retained work run in the same pipeline?**
+  - Recommended default: Yes for the first build. Search model is a select on the deal and role. If retained work needs staged fees, use the executive search blueprint for those desks.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How long is candidate data kept, and on what lawful basis?**
+  - Recommended default: Set a retention period with the agency's data protection lead, for example review after 24 months of no contact. Record the privacy basis at entry and a data review date. Candidates can ask for deletion, so keep a documented process outside the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and a pipeline on one?**
+  - Recommended default: Check before the build. If not, model each submission as a deal in a placement pipeline and each role as a custom property group on the client deal, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which candidate data must not be stored in the CRM?**
+  - Recommended default: No protected-characteristic or diversity data, health data, criminal-record detail or copies of identity documents. Store the status of checks only. Hold documents in the applicant tracking or document system with restricted access.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Role**
+  - Where: Workspace settings, then Objects, then New object. Use singular Role, plural Roles, slug `roles`.
+  - Purpose: One vacancy a client has asked us to fill, with its terms, fee basis and status. This is the job order. Candidates are submitted against it. A client company has many roles over time.
+  - Done when: the object Role exists with plural name Roles.
+- [ ] **Create object Submission**
+  - Where: Workspace settings, then Objects, then New object. Use singular Submission, plural Submissions, slug `submissions`.
+  - Purpose: One candidate considered for one role. It moves through the placement pipeline from sourced to placed or rejected, and holds the fee earned if the candidate starts.
+  - Done when: the object Submission exists with plural name Submissions.
+- [ ] **Create relationship role to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Choose a relationship to company, name this side 'Client' and the other side 'Roles'.
+  - Purpose: Shows every role a client has given us.
+  - Done when: a role record shows the link as 'Client' and a company record shows it as 'Roles'.
+- [ ] **Create relationship role to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Choose a relationship to person, name this side 'Hiring manager' and the other side 'Roles'.
+  - Purpose: Links a role to the client contact who owns the hire.
+  - Done when: a role record shows the link as 'Hiring manager' and a person record shows it as 'Roles'.
+- [ ] **Create relationship role to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Client deal' and the other side 'Roles'.
+  - Purpose: Ties each role to the client deal whose terms it runs under.
+  - Done when: a role record shows the link as 'Client deal' and a deal record shows it as 'Roles'.
+- [ ] **Create relationship submission to role (many_to_one)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Choose a relationship to role, name this side 'Role' and the other side 'Submissions'.
+  - Purpose: Lists every candidate considered for the role.
+  - Done when: a submission record shows the link as 'Role' and a role record shows it as 'Submissions'.
+- [ ] **Create relationship submission to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Choose a relationship to person, name this side 'Candidate' and the other side 'Submissions'.
+  - Purpose: Shows every role a candidate has been considered for. The candidate is a Person with type candidate.
+  - Done when: a submission record shows the link as 'Candidate' and a person record shows it as 'Submissions'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Client development on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Client development' (slug `client_development`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Client development exists with 6 stages in the order below.
+- [ ] **Stage 1: Target**
+  - Type: open. Probability: 5%.
+  - Entered when a company with a likely hiring need is chosen for outreach and a hiring contact is identified.
+  - Set Probability to 5 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Target is in position 1 and its rule is in place.
+- [ ] **Stage 2: Conversation**
+  - Type: open. Probability: 15%.
+  - Entered when a hiring manager has spoken to us about a current or planned hire.
+  - Set Probability to 15 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Conversation is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms discussed**
+  - Type: open. Probability: 40%.
+  - Entered when the client has asked for our fees and terms of business.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: search_model, fee_percent.
+  - Done when: the stage Terms discussed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Terms sent**
+  - Type: open. Probability: 60%.
+  - Entered when the terms of business have been sent to someone with authority to sign.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: search_model, fee_percent, exclusivity.
+  - Done when: the stage Terms sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Terms signed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed terms of business are received and the company terms status is set to signed.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: search_model, fee_percent.
+  - Done when: the stage Terms signed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not won**
+  - Type: lost. Probability: 0%.
+  - Entered when the client declines terms, or has not replied after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Not won is in position 6 and its rule is in place.
+- [ ] **Create pipeline Placement on submission**
+  - Where: Lists in the left sidebar, then New list, parent object submission, named 'Placement' (slug `placement`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Placement exists with 8 stages in the order below.
+- [ ] **Stage 1: Sourced**
+  - Type: open. Probability: 10%.
+  - Entered when a candidate has been matched to the role and the consultant has recorded how they were found.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: source.
+  - Done when: the stage Sourced is in position 1 and its rule is in place.
+- [ ] **Stage 2: Screened**
+  - Type: open. Probability: 25%.
+  - Entered when the consultant has spoken to the candidate and confirmed interest, salary expectation and availability.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: salary_expected.
+  - Done when: the stage Screened is in position 2 and its rule is in place.
+- [ ] **Stage 3: Submitted**
+  - Type: open. Probability: 40%.
+  - Entered when the candidate has been formally sent to the client with their agreement.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: cv_sent_date.
+  - Done when: the stage Submitted is in position 3 and its rule is in place.
+- [ ] **Stage 4: Interviewing**
+  - Type: open. Probability: 60%.
+  - Entered when the client has booked a first interview with the candidate.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: interview_date.
+  - Done when: the stage Interviewing is in position 4 and its rule is in place.
+- [ ] **Stage 5: Offer**
+  - Type: open. Probability: 80%.
+  - Entered when the client has said they want to make an offer.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: agreed_salary.
+  - Done when: the stage Offer is in position 5 and its rule is in place.
+- [ ] **Stage 6: Offer accepted**
+  - Type: open. Probability: 90%.
+  - Entered when the candidate has accepted in writing and a start date is agreed.
+  - Set Probability to 90 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: agreed_salary, start_date, checks_complete.
+  - Done when: the stage Offer accepted is in position 6 and its rule is in place.
+- [ ] **Stage 7: Placed**
+  - Type: won. Probability: 100%.
+  - Entered when the candidate has started and the fee amount is recorded.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: start_date, fee_amount.
+  - Done when: the stage Placed is in position 7 and its rule is in place.
+- [ ] **Stage 8: Rejected**
+  - Type: lost. Probability: 0%.
+  - Entered when the client or the candidate ends the process, or the role is filled by someone else.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: rejection_reason.
+  - Done when: the stage Rejected is in position 8 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Client status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `client_status`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active client, Dormant client, Do not work with
+  - Done when: Company records show Client status and it accepts the right values.
+- [ ] **Create field Terms status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `terms_status`.
+  - Purpose: Whether signed terms of business exist. We should not submit candidates to a client without terms.
+  - Options: No terms, Sent, Signed, Expired
+  - Done when: Company records show Terms status and it accepts the right values.
+- [ ] **Create field Default fee percent (percent)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `default_fee_percent`.
+  - Purpose: The fee, as a percentage of first-year salary, agreed in the client's terms of business.
+  - Done when: Company records show Default fee percent and it accepts the right values.
+- [ ] **Create field Rebate period (days) (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `rebate_period_days`.
+  - Purpose: Days after start during which the fee is partly or fully refundable if the placement leaves.
+  - Done when: Company records show Rebate period (days) and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `sector`.
+  - Purpose: The client's sector. Used to match consultants and to report where placements come from.
+  - Options: Technology, Financial services, Engineering and manufacturing, Healthcare, Construction, Retail and consumer, Public sector, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Outbound, Referral, Inbound, Candidate-led, Event
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Person type (multi_select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select (allow several), slug `person_type`.
+  - Purpose: What this person is to us. One human has one record, so someone who is a candidate and later a hiring manager carries both types.
+  - Options: Client contact, Candidate, Referee, Referrer, Other
+  - Done when: Person records show Person type and it accepts the right values.
+- [ ] **Create field Client role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `client_role`.
+  - Purpose: For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.
+  - Options: Hiring manager, HR or talent lead, Budget holder, Procurement, Other
+  - Done when: Person records show Client role and it accepts the right values.
+- [ ] **Create field Candidate status (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `candidate_status`.
+  - Purpose: For candidates, whether we can currently put them forward.
+  - Options: Active, looking, Passive, open to approach, Placed recently, Not looking, Do not contact
+  - Done when: Person records show Candidate status and it accepts the right values.
+- [ ] **Create field Availability (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `availability`.
+  - Purpose: For candidates, how soon they could start. Used to filter submissions by what the client needs.
+  - Options: Immediate, One month, Three months, Over three months
+  - Done when: Person records show Availability and it accepts the right values.
+- [ ] **Create field Right to work (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `right_to_work`.
+  - Purpose: Whether we have seen evidence the candidate can work in the role's country. Record the status only, never copies of documents.
+  - Options: Not checked, Confirmed, Needs sponsorship, Not eligible
+  - Done when: Person records show Right to work and it accepts the right values.
+- [ ] **Create field Desired salary (currency)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type currency, slug `desired_salary`.
+  - Purpose: For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.
+  - Done when: Person records show Desired salary and it accepts the right values.
+- [ ] **Create field Sector experience (multi_select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select (allow several), slug `sector_experience`.
+  - Purpose: For candidates, the sectors they have worked in. Used to find candidates for a role.
+  - Options: Technology, Financial services, Engineering and manufacturing, Healthcare, Construction, Retail and consumer, Public sector, Other
+  - Done when: Person records show Sector experience and it accepts the right values.
+- [ ] **Create field Privacy basis (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `privacy_basis`.
+  - Purpose: The lawful basis for holding and contacting this person, recorded when they are added.
+  - Options: Consent, Legitimate interest, Contract, Unknown
+  - Done when: Person records show Privacy basis and it accepts the right values.
+- [ ] **Create field Data review date (date)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type date, slug `data_review_date`.
+  - Purpose: The date this record must be reviewed or deleted under the agency's retention policy.
+  - Done when: Person records show Data review date and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the client deal was lost. Required on every lost stage.
+  - Options: No hiring need, Uses other agencies, Hires in-house, Fees too high, Terms rejected, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Search model (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `search_model`.
+  - Purpose: How the client will engage us. Contingent is paid on a hire. Retained is paid in stages.
+  - Options: Contingent, Retained, Container, Contract or temp
+  - Done when: Deal records show Search model and it accepts the right values.
+- [ ] **Create field Fee percent (percent)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `fee_percent`.
+  - Purpose: The fee proposed as a percentage of first-year salary.
+  - Done when: Deal records show Fee percent and it accepts the right values.
+- [ ] **Create field Exclusivity (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `exclusivity`.
+  - Purpose: Whether we are the only agency on the work. Exclusive or retained roles fill far more often.
+  - Options: Exclusive, Preferred supplier, Shared with others
+  - Done when: Deal records show Exclusivity and it accepts the right values.
+- [ ] **Create field Expected roles per year (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `expected_roles_per_year`.
+  - Purpose: How many roles the client is likely to give us in a year. Used to size the account.
+  - Done when: Deal records show Expected roles per year and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Role
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type text, slug `role_name`.
+  - Purpose: Job title and client name, for example Finance manager at Client name.
+  - Done when: Role records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the role stands with the client. Roles are reported on by status, so this is a select, not a stage.
+  - Options: Open, On hold, Offer stage, Filled by us, Filled elsewhere, Withdrawn
+  - Done when: Role records show Status and it accepts the right values.
+- [ ] **Create field Search model (select)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type select, slug `search_model`.
+  - Purpose: How this role is engaged. Decides when we are paid.
+  - Options: Contingent, Retained, Container, Contract or temp
+  - Done when: Role records show Search model and it accepts the right values.
+- [ ] **Create field Employment type (select)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type select, slug `employment_type`.
+  - Purpose: Permanent, contract or temporary. Contract and temporary roles are paid by margin, not percentage.
+  - Options: Permanent, Contract, Temporary
+  - Done when: Role records show Employment type and it accepts the right values.
+- [ ] **Create field Specialism (select)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type select, slug `specialism`.
+  - Purpose: The desk or specialism responsible. Used to route roles and report by desk.
+  - Options: Technology, Finance, Engineering, Sales and marketing, Operations, Healthcare, Other
+  - Done when: Role records show Specialism and it accepts the right values.
+- [ ] **Create field Salary minimum (currency)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type currency, slug `salary_min`.
+  - Purpose: Bottom of the annual salary range the client has given us.
+  - Done when: Role records show Salary minimum and it accepts the right values.
+- [ ] **Create field Salary maximum (currency)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type currency, slug `salary_max`.
+  - Purpose: Top of the annual salary range. The fee estimate uses the midpoint.
+  - Done when: Role records show Salary maximum and it accepts the right values.
+- [ ] **Create field Fee percent (percent)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type number, slug `fee_percent`.
+  - Purpose: Fee as a percentage of first-year salary for this role. Defaults from the client's terms.
+  - Done when: Role records show Fee percent and it accepts the right values.
+- [ ] **Create field Fee estimate (currency)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type currency, slug `fee_estimate`.
+  - Purpose: Expected fee if the role is filled, from fee percent and salary midpoint. Used for the weighted forecast.
+  - Done when: Role records show Fee estimate and it accepts the right values.
+- [ ] **Create field Work location (select)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type select, slug `work_location`.
+  - Purpose: Where the work happens. Used to match candidates.
+  - Options: On-site, Hybrid, Remote
+  - Done when: Role records show Work location and it accepts the right values.
+- [ ] **Create field Openings (number)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type number, slug `openings`.
+  - Purpose: Number of people the client wants to hire into this role.
+  - Done when: Role records show Openings and it accepts the right values.
+- [ ] **Create field Received date (date)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type date, slug `received_date`.
+  - Purpose: The day the client gave us the role. Used to measure time to fill.
+  - Done when: Role records show Received date and it accepts the right values.
+- [ ] **Create field Target fill date (date)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type date, slug `target_fill_date`.
+  - Purpose: The day the client needs the role filled by.
+  - Done when: Role records show Target fill date and it accepts the right values.
+- [ ] **Create field Consultant (user)**
+  - Where: Workspace settings, then Objects, then Role, then Attributes, then New attribute. Type actor-reference, slug `consultant`.
+  - Purpose: The recruiter responsible for the role.
+  - Done when: Role records show Consultant and it accepts the right values.
+
+### Submission
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type text, slug `submission_name`.
+  - Purpose: Candidate name and role, for example Candidate name for Finance manager.
+  - Done when: Submission records show Name and it accepts the right values.
+- [ ] **Create field Source (select)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type select, slug `source`.
+  - Purpose: How the candidate came to this role. Used to see which channels produce placements.
+  - Options: Our database, Job board, LinkedIn, Referral, Inbound application, Headhunted
+  - Done when: Submission records show Source and it accepts the right values.
+- [ ] **Create field Rejection reason (select)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type select, slug `rejection_reason`.
+  - Purpose: Why the candidate did not move forward. Required on the rejected stage.
+  - Options: Skills not a fit, Culture not a fit, Salary mismatch, Candidate withdrew, Accepted another offer, Role filled elsewhere, Failed checks, Offer declined, Other
+  - Done when: Submission records show Rejection reason and it accepts the right values.
+- [ ] **Create field Salary expected (currency)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type currency, slug `salary_expected`.
+  - Purpose: Annual salary the candidate expects for this role.
+  - Done when: Submission records show Salary expected and it accepts the right values.
+- [ ] **Create field Agreed salary (currency)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type currency, slug `agreed_salary`.
+  - Purpose: Annual salary in the accepted offer. The fee is calculated from this.
+  - Done when: Submission records show Agreed salary and it accepts the right values.
+- [ ] **Create field CV sent date (date)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type date, slug `cv_sent_date`.
+  - Purpose: The day the candidate was formally submitted to the client.
+  - Done when: Submission records show CV sent date and it accepts the right values.
+- [ ] **Create field Interview date (date)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type date, slug `interview_date`.
+  - Purpose: The date of the next or most recent client interview.
+  - Done when: Submission records show Interview date and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type date, slug `start_date`.
+  - Purpose: The day the candidate starts. The fee is earned on this date and the rebate period runs from it.
+  - Done when: Submission records show Start date and it accepts the right values.
+- [ ] **Create field Fee amount (currency)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type currency, slug `fee_amount`.
+  - Purpose: Fee due for this placement, from agreed salary and the fee percent on the role.
+  - Done when: Submission records show Fee amount and it accepts the right values.
+- [ ] **Create field Invoice status (select)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type select, slug `invoice_status`.
+  - Purpose: Where the placement invoice stands. Invoicing itself happens in the finance system.
+  - Options: Not due, To invoice, Invoiced, Paid, Rebated
+  - Done when: Submission records show Invoice status and it accepts the right values.
+- [ ] **Create field Checks complete (checkbox)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type checkbox, slug `checks_complete`.
+  - Purpose: Right to work, references and any required qualification checks are done.
+  - Done when: Submission records show Checks complete and it accepts the right values.
+- [ ] **Create field Consultant (user)**
+  - Where: Workspace settings, then Objects, then Submission, then Attributes, then New attribute. Type actor-reference, slug `consultant`.
+  - Purpose: The recruiter who owns this candidate on this role.
+  - Done when: Submission records show Consultant and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Block submissions without terms**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A submission is created for a role whose client has terms status other than signed.
+  - Action: Notify the consultant and the desk manager that the client has no signed terms, and flag the submission.
+  - Done when: the automation runs on a test record and the result matches: Notify the consultant and the desk manager that the client has no signed terms, and flag the submission.
+- [ ] **Calculate fee**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A submission has an agreed salary set.
+  - Action: Set fee amount from the agreed salary and the fee percent on the role.
+  - Done when: the automation runs on a test record and the result matches: Set fee amount from the agreed salary and the fee percent on the role.
+- [ ] **Mark role filled**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A submission moves to placed and the role's openings are all filled.
+  - Action: Set the role status to filled by us and close other open submissions on the role as rejected with role filled elsewhere.
+  - Done when: the automation runs on a test record and the result matches: Set the role status to filled by us and close other open submissions on the role as rejected with role filled elsewhere.
+- [ ] **Rebate period reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A placed submission's start date plus the client's rebate period is 14 days away.
+  - Action: Notify the consultant to check in with the client and the new starter.
+  - Done when: the automation runs on a test record and the result matches: Notify the consultant to check in with the client and the new starter.
+- [ ] **Mark dormant client**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An active client has had no new role for 6 months.
+  - Action: Set client status to dormant client and add the company to the reactivation view.
+  - Done when: the automation runs on a test record and the result matches: Set client status to dormant client and add the company to the reactivation view.
+- [ ] **Review candidate data**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A person of type candidate has a data review date in 30 days.
+  - Action: Notify the owner to confirm consent or delete the record.
+  - Done when: the automation runs on a test record and the result matches: Notify the owner to confirm consent or delete the record.
+- [ ] **Flag stalled deals**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **Open roles**
+  - Where: Open Roles in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: role
+  - Filter: Status is open or offer stage.
+  - Sort: Target fill date, soonest first.
+  - Done when: the view Open roles is saved and shows the expected records.
+- [ ] **My candidates in process**
+  - Where: Open Submissions in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: submission
+  - Filter: Consultant is me and stage is open.
+  - Sort: Interview date, soonest first.
+  - Done when: the view My candidates in process is saved and shows the expected records.
+- [ ] **Offers to close**
+  - Where: Open Submissions in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: submission
+  - Filter: Stage is offer or offer accepted.
+  - Sort: Start date, soonest first.
+  - Done when: the view Offers to close is saved and shows the expected records.
+- [ ] **Placements to invoice**
+  - Where: Open Submissions in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: submission
+  - Filter: Stage is placed and invoice status is to invoice.
+  - Sort: Start date, oldest first.
+  - Done when: the view Placements to invoice is saved and shows the expected records.
+- [ ] **Candidates due for data review**
+  - Where: Open People in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: person
+  - Filter: Person type includes candidate and data review date is within 30 days.
+  - Sort: Data review date, soonest first.
+  - Done when: the view Candidates due for data review is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

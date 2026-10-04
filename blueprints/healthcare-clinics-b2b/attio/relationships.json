@@ -1,0 +1,206 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Customer",
+          "description": "Shows every contract a customer has had.",
+          "api_slug": "customer",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Service contracts",
+            "api_slug": "service_contracts",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Originating deal",
+          "description": "Ties a contract to the deal that won it and to later renewal deals.",
+          "api_slug": "originating_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Service contracts",
+            "api_slug": "service_contracts",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Services",
+          "description": "Records which service lines each contract includes.",
+          "api_slug": "services",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "services"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "services",
+            "title": "Service contracts",
+            "api_slug": "service_contracts",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Services quoted",
+          "description": "Shows which services were quoted on a deal, to see what sells.",
+          "api_slug": "services_quoted",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "services"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "services",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Partner organisation",
+          "description": "Links each agreement to the organisation that is the partner.",
+          "api_slug": "partner_organisation",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Referral agreements",
+            "api_slug": "referral_agreements",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Partner contact",
+          "description": "Names the business contact who manages the partnership. Never a patient.",
+          "api_slug": "partner_contact",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Referral agreements",
+            "api_slug": "referral_agreements",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Source partner",
+          "description": "Credits the partner that introduced a deal, so partner value can be reported.",
+          "api_slug": "source_partner",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "referral_agreements"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "referral_agreements",
+            "title": "Deals sourced",
+            "api_slug": "deals_sourced",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

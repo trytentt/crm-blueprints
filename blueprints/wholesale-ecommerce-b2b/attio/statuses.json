@@ -1,0 +1,149 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Identified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Contacted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Line sheet sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Range review",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms discussion",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Account setup",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Account opened",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retailer_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Placed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Confirmed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Picking",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Shipped",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Delivered and paid",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/order_status/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Cancelled",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

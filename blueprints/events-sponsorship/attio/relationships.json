@@ -1,0 +1,178 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Event",
+          "description": "Shows all sponsor and exhibitor deals for an edition.",
+          "api_slug": "event",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "events"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "events",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Packages",
+          "description": "Records which packages and add-ons a deal includes.",
+          "api_slug": "packages",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "packages"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "packages",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/packages/attributes",
+      "body": {
+        "data": {
+          "title": "Event",
+          "description": "Lists the inventory for each edition and its sell-through.",
+          "api_slug": "event",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "events"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "events",
+            "title": "Packages",
+            "api_slug": "packages",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fulfilments/attributes",
+      "body": {
+        "data": {
+          "title": "Deal",
+          "description": "Ties delivery to the signed deal so promises made in sales are visible to the delivery team.",
+          "api_slug": "deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Fulfilment",
+            "api_slug": "fulfilment",
+            "is_multiselect": false
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fulfilments/attributes",
+      "body": {
+        "data": {
+          "title": "Event",
+          "description": "Gives the event lead one list of everything to deliver.",
+          "api_slug": "event",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "events"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "events",
+            "title": "Fulfilments",
+            "api_slug": "fulfilments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fulfilments/attributes",
+      "body": {
+        "data": {
+          "title": "Partner",
+          "description": "Shows a company's delivery history across editions.",
+          "api_slug": "partner",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Fulfilments",
+            "api_slug": "fulfilments",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

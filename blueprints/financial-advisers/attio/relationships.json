@@ -1,0 +1,178 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Household",
+          "description": "Groups the people in a client unit while each human keeps one record.",
+          "api_slug": "household",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "households"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "households",
+            "title": "Members",
+            "api_slug": "members",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Household",
+          "description": "Links the deal that won a client to their household.",
+          "api_slug": "household",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "households"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "households",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Household",
+          "description": "Gives the full history of advice for a household.",
+          "api_slug": "household",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "households"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "households",
+            "title": "Advice cases",
+            "api_slug": "advice_cases",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Won deal",
+          "description": "Links the first advice case to the deal that created it.",
+          "api_slug": "won_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Advice cases",
+            "api_slug": "advice_cases",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Household",
+          "description": "Shows every review a household has had.",
+          "api_slug": "household",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "households"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "households",
+            "title": "Reviews",
+            "api_slug": "reviews",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Referred by",
+          "description": "Shows which professional introducer brought each household, for referral reporting.",
+          "api_slug": "referred_by",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Households referred",
+            "api_slug": "households_referred",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

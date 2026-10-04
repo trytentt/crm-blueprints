@@ -1,0 +1,20 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "engagements",
+          "singular_noun": "Engagement",
+          "plural_noun": "Engagements"
+        }
+      }
+    }
+  ]
+}

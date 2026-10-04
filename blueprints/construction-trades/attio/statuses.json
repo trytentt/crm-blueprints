@@ -1,0 +1,159 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Opportunity",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Go or no-go",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Estimating",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Bid submitted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Clarification",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Preferred bidder",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Awarded",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/tender_estimate/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Pre-start",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Mobilising",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "On site",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Snagging",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Defects period",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed out",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/project_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Cancelled",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

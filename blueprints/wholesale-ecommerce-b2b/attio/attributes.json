@@ -1,0 +1,1376 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Retailer type",
+          "description": "The kind of retailer. Used for pricing, assortment and reporting.",
+          "api_slug": "retailer_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Independent shop"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Small chain"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "National chain"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Department store"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Online-only retailer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Marketplace seller"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/retailer_type/options",
+      "body": {
+        "data": {
+          "title": "Distributor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account status",
+          "description": "Where the retailer is in its life with us. Drives views and reorder chasing.",
+          "api_slug": "account_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Onboarding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "At risk"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_status/options",
+      "body": {
+        "data": {
+          "title": "Lapsed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Pricing tier",
+          "description": "Wholesale price band the retailer buys on. Set by order volume and agreed terms.",
+          "api_slug": "pricing_tier",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/pricing_tier/options",
+      "body": {
+        "data": {
+          "title": "Standard"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/pricing_tier/options",
+      "body": {
+        "data": {
+          "title": "Preferred"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/pricing_tier/options",
+      "body": {
+        "data": {
+          "title": "Key account"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Payment terms",
+          "description": "Payment terms agreed with the retailer. New accounts usually start on payment with order.",
+          "api_slug": "payment_terms",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/payment_terms/options",
+      "body": {
+        "data": {
+          "title": "Pay on order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/payment_terms/options",
+      "body": {
+        "data": {
+          "title": "Net 30"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/payment_terms/options",
+      "body": {
+        "data": {
+          "title": "Net 60"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/payment_terms/options",
+      "body": {
+        "data": {
+          "title": "Credit hold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Credit limit",
+          "description": "Maximum unpaid balance allowed, set by finance after a credit check.",
+          "api_slug": "credit_limit",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Store count",
+          "description": "Number of physical shops. Used to size the opportunity and plan assortments.",
+          "api_slug": "store_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "First order date",
+          "description": "Date of the account's first order. Set by automation.",
+          "api_slug": "first_order_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Last order date",
+          "description": "Date of the most recent order. Set by automation. Used to spot lapsing accounts.",
+          "api_slug": "last_order_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Reorder cycle (days)",
+          "description": "Usual days between orders for this retailer, often tied to a season. Compared with the last order date.",
+          "api_slug": "reorder_cycle_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Orders to date",
+          "description": "Count of orders placed. A count of one means the retailer has not yet reordered.",
+          "api_slug": "lifetime_orders",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the retailer first came to us. Set once and never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Trade show"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound enquiry"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Rep outreach"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Showroom"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Wholesale marketplace"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account rep",
+          "description": "The sales rep who looks after this retailer. Normally the rep of its territory.",
+          "api_slug": "territory_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays at the retailer. Used to find the buyer to approach and who to invoice.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Buyer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Owner or director"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Merchandiser"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Accounts payable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Store manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the retailer did not open an account. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Range does not fit the shop"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Opening minimum too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Margin too low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Stocks a competing brand"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Missed the buying season"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Line sheet sent",
+          "description": "The current line sheet or catalogue has been sent to the buyer.",
+          "api_slug": "line_sheet_sent",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Samples status",
+          "description": "Progress of any samples or showroom visit the buyer asked for.",
+          "api_slug": "samples_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/samples_status/options",
+      "body": {
+        "data": {
+          "title": "Not needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/samples_status/options",
+      "body": {
+        "data": {
+          "title": "Requested"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/samples_status/options",
+      "body": {
+        "data": {
+          "title": "Sent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/samples_status/options",
+      "body": {
+        "data": {
+          "title": "Reviewed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Buying season",
+          "description": "The collection or season the retailer is buying for. Wholesale orders are seasonal, so forecasts are reported by season.",
+          "api_slug": "buying_season",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/buying_season/options",
+      "body": {
+        "data": {
+          "title": "Spring/summer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/buying_season/options",
+      "body": {
+        "data": {
+          "title": "Autumn/winter"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/buying_season/options",
+      "body": {
+        "data": {
+          "title": "Christmas"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/buying_season/options",
+      "body": {
+        "data": {
+          "title": "Year-round"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Terms agreed",
+          "description": "Opening minimum, payment terms and returns policy are agreed in writing.",
+          "api_slug": "terms_agreed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Account application received",
+          "description": "The retailer has returned the account form with trade references or tax details.",
+          "api_slug": "account_application_received",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected first order value",
+          "description": "The retailer's expected opening order value. Used to forecast.",
+          "api_slug": "first_order_expected",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes",
+      "body": {
+        "data": {
+          "title": "Rep",
+          "description": "The sales rep responsible for retailers in this territory.",
+          "api_slug": "rep",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes",
+      "body": {
+        "data": {
+          "title": "Territory type",
+          "description": "Whether the territory is cut by place or by channel.",
+          "api_slug": "territory_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/territory_type/options",
+      "body": {
+        "data": {
+          "title": "Geographic"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/territory_type/options",
+      "body": {
+        "data": {
+          "title": "Channel"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/territory_type/options",
+      "body": {
+        "data": {
+          "title": "National accounts"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes",
+      "body": {
+        "data": {
+          "title": "Annual target",
+          "description": "Wholesale revenue target for the territory for the year.",
+          "api_slug": "annual_target",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Whether the territory has a rep and is being worked.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Covered"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Vacant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/territories/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Paused"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order type",
+          "description": "Whether this is the retailer's first order or a reorder. Used to report the reorder rate.",
+          "api_slug": "order_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "First order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Reorder"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Pre-order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_type/options",
+      "body": {
+        "data": {
+          "title": "Sample order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order channel",
+          "description": "How the order was placed. Used to see how much sells through the portal and how much through reps.",
+          "api_slug": "order_channel",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_channel/options",
+      "body": {
+        "data": {
+          "title": "Wholesale portal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_channel/options",
+      "body": {
+        "data": {
+          "title": "Rep"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_channel/options",
+      "body": {
+        "data": {
+          "title": "Trade show"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_channel/options",
+      "body": {
+        "data": {
+          "title": "Email"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/order_channel/options",
+      "body": {
+        "data": {
+          "title": "EDI"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order date",
+          "description": "Date the order was placed.",
+          "api_slug": "order_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Ship date",
+          "description": "Date the order is promised to leave, or left, the warehouse.",
+          "api_slug": "ship_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order value",
+          "description": "Total wholesale value excluding tax.",
+          "api_slug": "order_value",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Units",
+          "description": "Total units ordered. Compared with the opening minimum.",
+          "api_slug": "units",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Payment status",
+          "description": "Where payment stands for the order.",
+          "api_slug": "payment_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Unpaid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Part paid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Paid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/payment_status/options",
+      "body": {
+        "data": {
+          "title": "Overdue"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Cancel reason",
+          "description": "Why the order was cancelled. Required on the cancelled stage.",
+          "api_slug": "cancel_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Stock unavailable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Retailer cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Credit hold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Payment failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Duplicate order"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/cancel_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Season",
+          "description": "The collection the order is for. Used for seasonal reorder analysis.",
+          "api_slug": "season",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/season/options",
+      "body": {
+        "data": {
+          "title": "Spring/summer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/season/options",
+      "body": {
+        "data": {
+          "title": "Autumn/winter"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/season/options",
+      "body": {
+        "data": {
+          "title": "Christmas"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes/season/options",
+      "body": {
+        "data": {
+          "title": "Year-round"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/wholesale_orders/attributes",
+      "body": {
+        "data": {
+          "title": "Order owner",
+          "description": "The team member (rep or customer service) responsible for the order.",
+          "api_slug": "wholesale_order_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

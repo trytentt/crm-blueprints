@@ -1,0 +1,169 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Conflict check",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms agreed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Engagement letter out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Opening",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Cleared to start",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "In progress",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Awaiting client",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Final billing",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Withdrawn",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

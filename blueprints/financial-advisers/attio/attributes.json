@@ -1,0 +1,1873 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Company type",
+          "description": "What the organisation is to the practice. Used to report referral sources and manage provider contacts.",
+          "api_slug": "company_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_type/options",
+      "body": {
+        "data": {
+          "title": "Professional referrer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_type/options",
+      "body": {
+        "data": {
+          "title": "Employer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_type/options",
+      "body": {
+        "data": {
+          "title": "Product provider or platform"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_type/options",
+      "body": {
+        "data": {
+          "title": "Outsourced partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/company_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Referral agreement",
+          "description": "A written referral agreement is in place with this organisation.",
+          "api_slug": "referral_agreement",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Client status",
+          "description": "Where this person is with the practice. Drives views and which automations apply.",
+          "api_slug": "client_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Former client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Professional contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Household role",
+          "description": "The person's place in their household. Used to address correspondence and find the main contact.",
+          "api_slug": "household_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/household_role/options",
+      "body": {
+        "data": {
+          "title": "Main client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/household_role/options",
+      "body": {
+        "data": {
+          "title": "Partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/household_role/options",
+      "body": {
+        "data": {
+          "title": "Dependant"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/household_role/options",
+      "body": {
+        "data": {
+          "title": "Attorney or trustee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Date of birth",
+          "description": "DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to advisers and administrators only.",
+          "api_slug": "date_of_birth",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Employment status",
+          "description": "DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.",
+          "api_slug": "employment_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/employment_status/options",
+      "body": {
+        "data": {
+          "title": "Employed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/employment_status/options",
+      "body": {
+        "data": {
+          "title": "Self-employed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/employment_status/options",
+      "body": {
+        "data": {
+          "title": "Company director"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/employment_status/options",
+      "body": {
+        "data": {
+          "title": "Retired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/employment_status/options",
+      "body": {
+        "data": {
+          "title": "Not working"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Vulnerability flag",
+          "description": "DATA PROTECTION: may reveal health or personal circumstances. Records whether the client may need extra care or adjusted service. Visible to advisers and compliance only. Keep detail in the case notes, not here.",
+          "api_slug": "vulnerability_flag",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/vulnerability_flag/options",
+      "body": {
+        "data": {
+          "title": "None identified"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/vulnerability_flag/options",
+      "body": {
+        "data": {
+          "title": "Possible"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/vulnerability_flag/options",
+      "body": {
+        "data": {
+          "title": "Confirmed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Identity verified",
+          "description": "DATA PROTECTION: identity checks are complete and the evidence is held in the document system, not in the CRM. Required before advice work starts.",
+          "api_slug": "id_verified",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Marketing consent",
+          "description": "Whether the person agreed to receive newsletters and invitations. Respect it in every campaign and sync.",
+          "api_slug": "marketing_consent",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Opted in"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Opted out"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Not asked"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Preferred contact method",
+          "description": "How the client prefers to be contacted. Used when booking reviews.",
+          "api_slug": "preferred_contact",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/preferred_contact/options",
+      "body": {
+        "data": {
+          "title": "Email"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/preferred_contact/options",
+      "body": {
+        "data": {
+          "title": "Phone"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/preferred_contact/options",
+      "body": {
+        "data": {
+          "title": "Post"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/preferred_contact/options",
+      "body": {
+        "data": {
+          "title": "Video call"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the prospect did not become a client. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another adviser"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No need now"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside our service"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Did not proceed after advice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Referral source",
+          "description": "How the prospect found the practice. Most business is by introduction, so this is reported monthly.",
+          "api_slug": "referral_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Existing client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Accountant or solicitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Employer or workplace"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Website"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Seminar or event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/referral_source/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Service interest",
+          "description": "What the prospect wants help with. Used to route to the right adviser and set the fee basis.",
+          "api_slug": "service_interest",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Retirement planning"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Investments"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Protection"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Mortgages"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Inheritance planning"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Whole-of-life planning"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected investable assets",
+          "description": "DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on. Used to forecast fees.",
+          "api_slug": "expected_investable_assets",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Initial meeting held",
+          "description": "The free initial meeting has taken place and the services and fees were explained.",
+          "api_slug": "initial_meeting_held",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Fee basis agreed",
+          "description": "How the practice will be paid. Must be agreed before advice work starts.",
+          "api_slug": "fee_basis_agreed",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_basis_agreed/options",
+      "body": {
+        "data": {
+          "title": "Not discussed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_basis_agreed/options",
+      "body": {
+        "data": {
+          "title": "Initial plus ongoing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_basis_agreed/options",
+      "body": {
+        "data": {
+          "title": "Fixed fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_basis_agreed/options",
+      "body": {
+        "data": {
+          "title": "Hourly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_basis_agreed/options",
+      "body": {
+        "data": {
+          "title": "Percentage of assets"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Client agreement signed",
+          "description": "The client agreement and terms of business are signed and held in the document system.",
+          "api_slug": "engagement_signed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the household is with the practice.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Onboarding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Ongoing client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "One-off client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Former client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Service tier",
+          "description": "The level of service the household pays for. Sets review frequency and who attends.",
+          "api_slug": "service_tier",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/service_tier/options",
+      "body": {
+        "data": {
+          "title": "Premier"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/service_tier/options",
+      "body": {
+        "data": {
+          "title": "Standard"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/service_tier/options",
+      "body": {
+        "data": {
+          "title": "Essential"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/service_tier/options",
+      "body": {
+        "data": {
+          "title": "One-off advice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Lead adviser",
+          "description": "The adviser responsible for the household.",
+          "api_slug": "lead_adviser",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Attitude to risk",
+          "description": "DATA PROTECTION: personal financial data. The risk level agreed with the client from the practice's risk questionnaire. Reconfirmed at each review.",
+          "api_slug": "attitude_to_risk",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/attitude_to_risk/options",
+      "body": {
+        "data": {
+          "title": "Cautious"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/attitude_to_risk/options",
+      "body": {
+        "data": {
+          "title": "Cautious to balanced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/attitude_to_risk/options",
+      "body": {
+        "data": {
+          "title": "Balanced"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/attitude_to_risk/options",
+      "body": {
+        "data": {
+          "title": "Balanced to adventurous"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/attitude_to_risk/options",
+      "body": {
+        "data": {
+          "title": "Adventurous"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Capacity for loss",
+          "description": "DATA PROTECTION: personal financial data. How much loss the household could bear without harm to its standard of living. Assessed separately from attitude to risk.",
+          "api_slug": "capacity_for_loss",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/capacity_for_loss/options",
+      "body": {
+        "data": {
+          "title": "Low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/capacity_for_loss/options",
+      "body": {
+        "data": {
+          "title": "Medium"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/capacity_for_loss/options",
+      "body": {
+        "data": {
+          "title": "High"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Assets under advice band",
+          "description": "DATA PROTECTION: personal financial data. Banded size of assets advised on. Used for tiering and fee reporting without storing exact balances.",
+          "api_slug": "assets_under_advice_band",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/assets_under_advice_band/options",
+      "body": {
+        "data": {
+          "title": "Under 100k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/assets_under_advice_band/options",
+      "body": {
+        "data": {
+          "title": "100k to 250k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/assets_under_advice_band/options",
+      "body": {
+        "data": {
+          "title": "250k to 500k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/assets_under_advice_band/options",
+      "body": {
+        "data": {
+          "title": "500k to 1m"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/assets_under_advice_band/options",
+      "body": {
+        "data": {
+          "title": "Over 1m"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Annual ongoing fee",
+          "description": "Expected ongoing fee per year. Used to forecast recurring income.",
+          "api_slug": "annual_fee",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Review frequency",
+          "description": "How often the household is reviewed under its service agreement.",
+          "api_slug": "review_frequency",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/review_frequency/options",
+      "body": {
+        "data": {
+          "title": "Annual"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/review_frequency/options",
+      "body": {
+        "data": {
+          "title": "Six-monthly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/review_frequency/options",
+      "body": {
+        "data": {
+          "title": "Quarterly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes/review_frequency/options",
+      "body": {
+        "data": {
+          "title": "As needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Last review date",
+          "description": "Date of the most recent completed review. Set by automation.",
+          "api_slug": "last_review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Next review date",
+          "description": "Date the next review is due. Set from the last review date and frequency. Drives the review cycle.",
+          "api_slug": "next_review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/households/attributes",
+      "body": {
+        "data": {
+          "title": "Agreement date",
+          "description": "Date the client agreement was signed. Starts the service.",
+          "api_slug": "agreement_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Advice topic",
+          "description": "The area of advice. Used to route work and report volumes.",
+          "api_slug": "advice_topic",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "Retirement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "Investments"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "Protection"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "Mortgage"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "Inheritance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/advice_topic/options",
+      "body": {
+        "data": {
+          "title": "General planning"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Adviser",
+          "description": "The adviser accountable for the recommendation.",
+          "api_slug": "adviser",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Paraplanner",
+          "description": "The team member who researches and drafts the report.",
+          "api_slug": "paraplanner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Fact find complete",
+          "description": "DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have been gathered and checked. The detail is held in the planning system.",
+          "api_slug": "fact_find_complete",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Report issued date",
+          "description": "Date the written recommendation was sent to the client.",
+          "api_slug": "report_issued_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Compliance check",
+          "description": "Progress of the internal check of the advice before it goes to the client.",
+          "api_slug": "compliance_check",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/compliance_check/options",
+      "body": {
+        "data": {
+          "title": "Not required"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/compliance_check/options",
+      "body": {
+        "data": {
+          "title": "Pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/compliance_check/options",
+      "body": {
+        "data": {
+          "title": "Passed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/compliance_check/options",
+      "body": {
+        "data": {
+          "title": "Rework needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Client decision",
+          "description": "What the client decided after the recommendation. Reported to see how often advice is followed.",
+          "api_slug": "client_decision",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/client_decision/options",
+      "body": {
+        "data": {
+          "title": "Awaiting"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/client_decision/options",
+      "body": {
+        "data": {
+          "title": "Accepted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/client_decision/options",
+      "body": {
+        "data": {
+          "title": "Partly accepted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/client_decision/options",
+      "body": {
+        "data": {
+          "title": "Declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Applications submitted",
+          "description": "Applications to the product providers or platforms have been sent.",
+          "api_slug": "applications_submitted",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Closure reason",
+          "description": "Why the case closed without completing. Required on the closed-without-advice stage.",
+          "api_slug": "closure_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Client withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Advice declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Unable to advise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes/closure_reason/options",
+      "body": {
+        "data": {
+          "title": "Circumstances changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/advice_cases/attributes",
+      "body": {
+        "data": {
+          "title": "Completion date",
+          "description": "Date all agreed actions were completed.",
+          "api_slug": "completion_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Review type",
+          "description": "The kind of review. Used to prepare the right agenda.",
+          "api_slug": "review_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/review_type/options",
+      "body": {
+        "data": {
+          "title": "Annual"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/review_type/options",
+      "body": {
+        "data": {
+          "title": "Six-monthly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/review_type/options",
+      "body": {
+        "data": {
+          "title": "Life event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/review_type/options",
+      "body": {
+        "data": {
+          "title": "Ad hoc"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Due date",
+          "description": "Date by which the review should be held under the service agreement.",
+          "api_slug": "due_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Meeting date",
+          "description": "When the review meeting is or was held.",
+          "api_slug": "meeting_date",
+          "type": "timestamp",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Circumstances changed",
+          "description": "DATA PROTECTION: personal circumstances. Something material changed since the last review, such as family, income, health or goals. Detail goes in the planning system.",
+          "api_slug": "circumstances_changed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Risk profile reconfirmed",
+          "description": "The attitude to risk and capacity for loss were checked again at this review.",
+          "api_slug": "risk_profile_reconfirmed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Outcome",
+          "description": "What the review concluded. Reported to see how many reviews lead to new advice.",
+          "api_slug": "outcome",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/outcome/options",
+      "body": {
+        "data": {
+          "title": "No change"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/outcome/options",
+      "body": {
+        "data": {
+          "title": "Minor changes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/outcome/options",
+      "body": {
+        "data": {
+          "title": "New advice needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/outcome/options",
+      "body": {
+        "data": {
+          "title": "Service level change"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Missed reason",
+          "description": "Why the review did not happen. Required on the not-completed stage.",
+          "api_slug": "missed_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Client declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Client unresponsive"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Moved to another adviser"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Left the practice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes/missed_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/reviews/attributes",
+      "body": {
+        "data": {
+          "title": "Adviser",
+          "description": "The adviser who runs the review.",
+          "api_slug": "adviser",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

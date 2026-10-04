@@ -1,0 +1,504 @@
+# Build sheet: Construction and trades (attio)
+
+A contractor or specialist trade that wins work by tender, negotiated quote or repeat client. Sales run as a tender and estimate pipeline on Deal. Each win becomes a project on a site, tracked in its own delivery pipeline, with estimate revisions kept on a separate object.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the job tracked on a project object with its own pipeline rather than as stages on the deal?**
+  - Recommended default: Yes. The tender deal ends at awarded. The project has a different owner, dates and money (retention, final margin) and carries on for months or years after the sale.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are estimate revisions separate records or only a number on the deal?**
+  - Recommended default: Separate records. A bid is often repriced several times. The deal amount shows the latest issued price and each revision keeps its own margin and status.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the business also serve homeowners or other individuals who have no company?**
+  - Recommended default: Out of scope for this blueprint, which is built for business clients. If the client does domestic work, add a person-based client type and a lighter quote pipeline as a separate design.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects and a pipeline on a custom object?**
+  - Recommended default: Check before the build. If not, hold the project as a second deal pipeline with the project fields on the deal, and keep site as a company-level text field. Record the gap in client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are bids found and managed in an outside tender portal?**
+  - Recommended default: Yes where used. Create the deal when the team decides to pursue, put the portal reference in the deal name, and keep documents in the portal or the shared drive, not the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Site**
+  - Where: Workspace settings, then Objects, then New object. Use singular Site, plural Sites, slug `sites`.
+  - Purpose: A physical location where work is done, with access and induction needs. One client can have many sites, and one site can host several projects over the years. Holds no personal data.
+  - Done when: the object Site exists with plural name Sites.
+- [ ] **Create object Project**
+  - Where: Workspace settings, then Objects, then New object. Use singular Project, plural Projects, slug `projects`.
+  - Purpose: One awarded job on one site, from pre-start to close-out and the defects period. Created when a tender or quote is won. Owned by the project manager, not the estimator.
+  - Done when: the object Project exists with plural name Projects.
+- [ ] **Create object Estimate**
+  - Where: Workspace settings, then Objects, then New object. Use singular Estimate, plural Estimates, slug `estimates`.
+  - Purpose: One priced revision of a bid or quote. A deal can have several, so price history and margin are kept without overwriting the deal amount.
+  - Done when: the object Estimate exists with plural name Estimates.
+- [ ] **Create relationship site to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Choose a relationship to company, name this side 'Client' and the other side 'Sites'.
+  - Purpose: Shows every site a client owns or manages.
+  - Done when: a site record shows the link as 'Client' and a company record shows it as 'Sites'.
+- [ ] **Create relationship site to person (many_to_many)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Choose a relationship to person, name this side 'Site contacts' and the other side 'Sites'.
+  - Purpose: Names who to call for access or on-site issues.
+  - Done when: a site record shows the link as 'Site contacts' and a person record shows it as 'Sites'.
+- [ ] **Create relationship deal to site (many_to_one)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to site, name this side 'Site' and the other side 'Deals'.
+  - Purpose: Links each bid to the place the work would be done.
+  - Done when: a deal record shows the link as 'Site' and a site record shows it as 'Deals'.
+- [ ] **Create relationship estimate to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Deal' and the other side 'Estimates'.
+  - Purpose: Keeps the price history of one bid.
+  - Done when: a estimate record shows the link as 'Deal' and a deal record shows it as 'Estimates'.
+- [ ] **Create relationship project to deal (one_to_one)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Winning deal' and the other side 'Project'.
+  - Purpose: Ties the project to the bid that won it, so estimated and final margin can be compared.
+  - Done when: a project record shows the link as 'Winning deal' and a deal record shows it as 'Project'.
+- [ ] **Create relationship project to site (many_to_one)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Choose a relationship to site, name this side 'Site' and the other side 'Projects'.
+  - Purpose: Shows the history of work done at each site.
+  - Done when: a project record shows the link as 'Site' and a site record shows it as 'Projects'.
+- [ ] **Create relationship project to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Choose a relationship to company, name this side 'Client' and the other side 'Projects'.
+  - Purpose: Shows all work done for a client, for repeat-work and account reviews.
+  - Done when: a project record shows the link as 'Client' and a company record shows it as 'Projects'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Tender and estimate on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Tender and estimate' (slug `tender_estimate`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Tender and estimate exists with 8 stages in the order below.
+- [ ] **Stage 1: Opportunity**
+  - Type: open. Probability: 5%.
+  - Entered when a named client contact has an actual project with a site and a rough scope.
+  - Set Probability to 5 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: procurement_route, work_type.
+  - Done when: the stage Opportunity is in position 1 and its rule is in place.
+- [ ] **Stage 2: Go or no-go**
+  - Type: open. Probability: 15%.
+  - Entered when the tender documents or brief have been received and the bid decision is being made.
+  - Set Probability to 15 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: tender_deadline, go_no_go.
+  - Done when: the stage Go or no-go is in position 2 and its rule is in place.
+- [ ] **Stage 3: Estimating**
+  - Type: open. Probability: 25%.
+  - Entered when the decision is go and a site visit or drawings review has been done.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: site_visit_done, next_step_date.
+  - Done when: the stage Estimating is in position 3 and its rule is in place.
+- [ ] **Stage 4: Bid submitted**
+  - Type: open. Probability: 35%.
+  - Entered when the priced bid has been sent to the client.
+  - Set Probability to 35 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, estimated_margin, contract_form.
+  - Done when: the stage Bid submitted is in position 4 and its rule is in place.
+- [ ] **Stage 5: Clarification**
+  - Type: open. Probability: 55%.
+  - Entered when the client has asked for clarifications, a revised price or an interview.
+  - Set Probability to 55 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Clarification is in position 5 and its rule is in place.
+- [ ] **Stage 6: Preferred bidder**
+  - Type: open. Probability: 80%.
+  - Entered when the client has told us in writing that we are preferred or recommended for award.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, retention_percent, expected_start_date.
+  - Done when: the stage Preferred bidder is in position 6 and its rule is in place.
+- [ ] **Stage 7: Awarded**
+  - Type: won. Probability: 100%.
+  - Entered when the contract, order or letter of intent is signed and a project record is created.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, contract_form.
+  - Done when: the stage Awarded is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the client awards elsewhere, withdraws, or we decide not to bid.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Project delivery on project**
+  - Where: Lists in the left sidebar, then New list, parent object project, named 'Project delivery' (slug `project_delivery`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Project delivery exists with 7 stages in the order below.
+- [ ] **Stage 1: Pre-start**
+  - Type: open. Probability: 100%.
+  - Entered when the project record is created from an awarded deal.
+  - Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: contract_value.
+  - Done when: the stage Pre-start is in position 1 and its rule is in place.
+- [ ] **Stage 2: Mobilising**
+  - Type: open. Probability: 100%.
+  - Entered when the project manager is named and RAMS and insurance checks are under way.
+  - Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: project_manager, planned_completion_date.
+  - Done when: the stage Mobilising is in position 2 and its rule is in place.
+- [ ] **Stage 3: On site**
+  - Type: open. Probability: 100%.
+  - Entered when work has started on site.
+  - Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: start_on_site_date, rams_approved, insurance_verified.
+  - Done when: the stage On site is in position 3 and its rule is in place.
+- [ ] **Stage 4: Snagging**
+  - Type: open. Probability: 100%.
+  - Entered when the main works are finished and the client's snag list has been issued.
+  - Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: planned_completion_date.
+  - Done when: the stage Snagging is in position 4 and its rule is in place.
+- [ ] **Stage 5: Defects period**
+  - Type: open. Probability: 100%.
+  - Entered when practical completion is certified and retention is being held.
+  - Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: actual_completion_date, retention_held, retention_release_date.
+  - Done when: the stage Defects period is in position 5 and its rule is in place.
+- [ ] **Stage 6: Closed out**
+  - Type: won. Probability: 100%.
+  - Entered when defects are cleared, retention is released and the final account is agreed.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: final_margin.
+  - Done when: the stage Closed out is in position 6 and its rule is in place.
+- [ ] **Stage 7: Cancelled**
+  - Type: lost. Probability: 0%.
+  - Entered when the project is stopped before practical completion.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: cancellation_reason.
+  - Done when: the stage Cancelled is in position 7 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Client type (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `client_type`.
+  - Purpose: What kind of client or partner this is. Drives pricing approach and reporting.
+  - Options: Main contractor, Developer, Housing provider, Public body, Private commercial, Facilities manager, Other
+  - Done when: Company records show Client type and it accepts the right values.
+- [ ] **Create field Relationship status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `relationship_status`.
+  - Purpose: Where the company is in its life with us. Drives bid invitations and repeat-work follow-up.
+  - Options: Prospect, On their tender list, Active client, Dormant
+  - Done when: Company records show Relationship status and it accepts the right values.
+- [ ] **Create field Supplier approval (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `supplier_approval`.
+  - Purpose: Whether we are approved to work for this client. Many clients will not take a bid until approved.
+  - Options: Not required, Not started, Applied, Approved, Suspended
+  - Done when: Company records show Supplier approval and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `lead_source`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Tender portal, Repeat client, Referral, Inbound enquiry, Outbound, Framework
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `buying_role`.
+  - Purpose: The part this person plays in awarding or running the work. Used to check who has been engaged.
+  - Options: Decision maker, Quantity surveyor, Project manager, Architect or designer, Site manager, Procurement, Accounts
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the tender or quote was lost. Required on the lost stage.
+  - Options: Price, Programme or start date, Chose another contractor, We lacked capacity, Client cancelled the project, Not shortlisted, Never awarded, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Procurement route (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `procurement_route`.
+  - Purpose: How the work is being bought. Tender routes need a deadline and go or no-go before estimating.
+  - Options: Open tender, Selective or invited tender, Negotiated quote, Framework call-off, Repeat client
+  - Done when: Deal records show Procurement route and it accepts the right values.
+- [ ] **Create field Work type (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `work_type`.
+  - Purpose: The kind of work. Used to report win rate and margin by type.
+  - Options: New build, Refurbishment, Fit-out, Maintenance and repair, Specialist trade package
+  - Done when: Deal records show Work type and it accepts the right values.
+- [ ] **Create field Tender deadline (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `tender_deadline`.
+  - Purpose: The date and time bids must be in by. A missed deadline is a lost deal.
+  - Done when: Deal records show Tender deadline and it accepts the right values.
+- [ ] **Create field Go or no-go (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `go_no_go`.
+  - Purpose: The bid decision. Estimating hours are only spent on a go.
+  - Options: Pending, Go, No-go
+  - Done when: Deal records show Go or no-go and it accepts the right values.
+- [ ] **Create field Site visit done (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `site_visit_done`.
+  - Purpose: Someone from the estimating team has visited the site or reviewed drawings with the client.
+  - Done when: Deal records show Site visit done and it accepts the right values.
+- [ ] **Create field Estimated margin (percent)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `estimated_margin`.
+  - Purpose: Margin in the submitted price. Compared with actual margin on the project after close-out.
+  - Done when: Deal records show Estimated margin and it accepts the right values.
+- [ ] **Create field Contract form (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `contract_form`.
+  - Purpose: The type of contract the work will be done under. Affects retention and payment terms.
+  - Options: Standard form of building contract, Subcontract order, Purchase order, Bespoke terms
+  - Done when: Deal records show Contract form and it accepts the right values.
+- [ ] **Create field Retention (percent)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `retention_percent`.
+  - Purpose: Percentage of each payment held back by the client until defects are put right.
+  - Done when: Deal records show Retention and it accepts the right values.
+- [ ] **Create field Expected start date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `expected_start_date`.
+  - Purpose: When the client expects work to start on site.
+  - Done when: Deal records show Expected start date and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Site
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Type text, slug `site_name`.
+  - Purpose: Site name or street, for example the high street unit. Use a place name, never a person's name.
+  - Done when: Site records show Name and it accepts the right values.
+- [ ] **Create field Postcode (text)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Type text, slug `postcode`.
+  - Purpose: Postcode of the site, for routing crews and checking travel time.
+  - Done when: Site records show Postcode and it accepts the right values.
+- [ ] **Create field Site type (select)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Type select, slug `site_type`.
+  - Purpose: The kind of premises. Decides induction, permits and working hours.
+  - Options: Commercial, Residential block, Public building, Industrial, Education, Healthcare, Other
+  - Done when: Site records show Site type and it accepts the right values.
+- [ ] **Create field Induction required (checkbox)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Type checkbox, slug `induction_required`.
+  - Purpose: Operatives must complete a site induction before starting.
+  - Done when: Site records show Induction required and it accepts the right values.
+- [ ] **Create field Access notes (long_text)**
+  - Where: Workspace settings, then Objects, then Site, then Attributes, then New attribute. Type text, slug `access_notes`.
+  - Purpose: Parking, working hours, security and hazards for crews. Must not hold personal data.
+  - Done when: Site records show Access notes and it accepts the right values.
+
+### Project
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type text, slug `project_name`.
+  - Purpose: Client and site, for example the client and the high street unit fit-out.
+  - Done when: Project records show Name and it accepts the right values.
+- [ ] **Create field Project reference (text)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type text, slug `reference`.
+  - Purpose: The job number used in accounts and on site, so the CRM matches finance records.
+  - Done when: Project records show Project reference and it accepts the right values.
+- [ ] **Create field Work type (select)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type select, slug `work_type`.
+  - Purpose: The kind of work, copied from the deal. Used to compare margin by type.
+  - Options: New build, Refurbishment, Fit-out, Maintenance and repair, Specialist trade package
+  - Done when: Project records show Work type and it accepts the right values.
+- [ ] **Create field Contract value (currency)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type currency, slug `contract_value`.
+  - Purpose: Agreed contract sum at award, before variations.
+  - Done when: Project records show Contract value and it accepts the right values.
+- [ ] **Create field Start on site (date)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type date, slug `start_on_site_date`.
+  - Purpose: The day work starts on site.
+  - Done when: Project records show Start on site and it accepts the right values.
+- [ ] **Create field Planned completion (date)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type date, slug `planned_completion_date`.
+  - Purpose: The contractual date for practical completion.
+  - Done when: Project records show Planned completion and it accepts the right values.
+- [ ] **Create field Actual completion (date)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type date, slug `actual_completion_date`.
+  - Purpose: The date practical completion was certified.
+  - Done when: Project records show Actual completion and it accepts the right values.
+- [ ] **Create field Project manager (user)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type actor-reference, slug `project_manager`.
+  - Purpose: The team member running the job day to day.
+  - Done when: Project records show Project manager and it accepts the right values.
+- [ ] **Create field RAMS approved (checkbox)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type checkbox, slug `rams_approved`.
+  - Purpose: Risk assessments and method statements have been approved by the client or principal contractor.
+  - Done when: Project records show RAMS approved and it accepts the right values.
+- [ ] **Create field Insurance verified (checkbox)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type checkbox, slug `insurance_verified`.
+  - Purpose: The client has confirmed our insurance certificates meet the contract.
+  - Done when: Project records show Insurance verified and it accepts the right values.
+- [ ] **Create field Retention held (currency)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type currency, slug `retention_held`.
+  - Purpose: The amount the client is holding back until the defects period ends.
+  - Done when: Project records show Retention held and it accepts the right values.
+- [ ] **Create field Retention release date (date)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type date, slug `retention_release_date`.
+  - Purpose: When retention falls due. A reminder fires before it.
+  - Done when: Project records show Retention release date and it accepts the right values.
+- [ ] **Create field Final margin (percent)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type number, slug `final_margin`.
+  - Purpose: Margin achieved once the final account is agreed.
+  - Done when: Project records show Final margin and it accepts the right values.
+- [ ] **Create field Cancellation reason (select)**
+  - Where: Workspace settings, then Objects, then Project, then Attributes, then New attribute. Type select, slug `cancellation_reason`.
+  - Purpose: Why the project did not complete. Required on the cancelled stage.
+  - Options: Client cancelled, Client funding lost, Contract dispute, Client insolvent, Other
+  - Done when: Project records show Cancellation reason and it accepts the right values.
+
+### Estimate
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type text, slug `estimate_name`.
+  - Purpose: Deal name and revision, for example the high street unit fit-out, revision 2.
+  - Done when: Estimate records show Name and it accepts the right values.
+- [ ] **Create field Revision (number)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type number, slug `revision`.
+  - Purpose: Revision number, starting at 1. A new price is a new estimate, never an edit.
+  - Done when: Estimate records show Revision and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where this revision stands.
+  - Options: Draft, In review, Issued, Accepted, Rejected, Superseded
+  - Done when: Estimate records show Status and it accepts the right values.
+- [ ] **Create field Price (currency)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type currency, slug `price`.
+  - Purpose: Total price excluding VAT for this revision.
+  - Done when: Estimate records show Price and it accepts the right values.
+- [ ] **Create field Margin (percent)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type number, slug `margin`.
+  - Purpose: Margin built into this revision.
+  - Done when: Estimate records show Margin and it accepts the right values.
+- [ ] **Create field Valid until (date)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type date, slug `valid_until`.
+  - Purpose: The last day the price can be accepted.
+  - Done when: Estimate records show Valid until and it accepts the right values.
+- [ ] **Create field Estimator (user)**
+  - Where: Workspace settings, then Objects, then Estimate, then Attributes, then New attribute. Type actor-reference, slug `estimator`.
+  - Purpose: The team member who priced it.
+  - Done when: Estimate records show Estimator and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create project on award**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal in the tender and estimate pipeline moves to awarded.
+  - Action: Create a project linked to the deal, site and client, copy the contract value and work type, and set the company's relationship status to active client.
+  - Done when: the automation runs on a test record and the result matches: Create a project linked to the deal, site and client, copy the contract value and work type, and set the company's relationship status to active client.
+- [ ] **Tender deadline reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal at estimating or go or no-go has a tender deadline within 3 days.
+  - Action: Notify the deal owner and the estimator daily until the deal reaches bid submitted.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and the estimator daily until the deal reaches bid submitted.
+- [ ] **Retention release reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A project in the defects period has a retention release date within 30 days.
+  - Action: Create a task for the project manager and finance to invoice the retention release.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the project manager and finance to invoice the retention release.
+- [ ] **Supersede old estimates**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An estimate is set to issued.
+  - Action: Set earlier estimates on the same deal to superseded and update the deal amount and estimated margin.
+  - Done when: the automation runs on a test record and the result matches: Set earlier estimates on the same deal to superseded and update the deal amount and estimated margin.
+- [ ] **Flag stalled bids**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled bids view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled bids view.
+
+## 6. Views
+
+- [ ] **Bids due**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is go or no-go or estimating and tender deadline is within 14 days.
+  - Sort: Tender deadline, soonest first.
+  - Done when: the view Bids due is saved and shows the expected records.
+- [ ] **My open bids**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open bids is saved and shows the expected records.
+- [ ] **Stalled bids**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled bids is saved and shows the expected records.
+- [ ] **Projects on site**
+  - Where: Open Projects in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: project
+  - Filter: Stage is on site or snagging.
+  - Sort: Planned completion, soonest first.
+  - Done when: the view Projects on site is saved and shows the expected records.
+- [ ] **Retention due**
+  - Where: Open Projects in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: project
+  - Filter: Stage is defects period and retention release date is within 60 days.
+  - Sort: Retention release date, soonest first.
+  - Done when: the view Retention due is saved and shows the expected records.
+- [ ] **Dormant clients**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Relationship status is dormant.
+  - Sort: Name, A to Z.
+  - Done when: the view Dormant clients is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

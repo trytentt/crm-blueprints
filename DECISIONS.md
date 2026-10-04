@@ -146,3 +146,22 @@ reason should say why in a decision.
 folder must hold only generated files. A platform with no generator module is skipped with a message and
 does not fail the check. A missing generator is detected by the module name, so a broken import inside an
 existing generator still raises.
+
+## D-11. Blueprint batch two judgement calls (2026-10-04)
+
+- Manufacturing uses custom `Trade_Quote__c` and `Trade_Order__c` on Salesforce (via overrides), because standard Quote and Order exist there with their own rules.
+- Delivery or fulfilment pipelines live on non-Deal objects (wholesale order, advice case, review, lease), each with its own won and lost stages and a select reason on the lost stage.
+- Financial advisers store sensitive values as bands or yes/no only; detail stays in external planning systems. Fields holding regulated data start their description with "DATA PROTECTION:".
+- Real estate: landlord and tenant are a multi-select role on Company, with separate landlord and tenant relationships on lease and property.
+- Placeholder select options (market areas, fund names) are generic and marked "edit at build".
+- Industry reasoning in blueprint READMEs is general knowledge, not cited research (David, 2026-10-04: "these are just CRM builds").
+
+## D-12. Blueprint batches one and three judgement calls (2026-10-04)
+
+- Delivery, placement and enrolment pipelines sit on custom objects where the business delivers through them (engagement, matter, search, submission, enrolment, project, referral agreement). Each README gives a deal-pipeline fallback for plans that cannot put pipelines on custom objects.
+- Delivery pipelines may hold open stages at probability 100: the sale is already won, so the figure is not weighted revenue. Generators decide whether a platform needs probability on non-deal pipelines.
+- Recruitment and executive search mark people with a multi-select `person_type`, so a person who is both candidate and client contact stays one record (principle 2).
+- Recruitment fee revenue sits on the submission; the recruitment deal is the client agreement and is won at "terms signed".
+- Conflict checks are a custom object for the audit trail, with the latest result copied to the deal to gate the proposal stage.
+- Healthcare blueprint stores no patient or health data anywhere; counts are aggregate only.
+- Stage keys may repeat across pipelines in one design (`proposal`, `placed`). Generators must scope stage identifiers to their pipeline.

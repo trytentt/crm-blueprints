@@ -1,0 +1,94 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Shows every retainer and project a client has had with us.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Engagements",
+            "api_slug": "engagements",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Engagement",
+          "description": "Ties the deal that created an engagement, and every later renewal or upsell deal, to it.",
+          "api_slug": "engagement",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "engagements"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "engagements",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Client contacts",
+          "description": "Links the client people who approve work and receive reports to the engagement.",
+          "api_slug": "client_contacts",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Engagements",
+            "api_slug": "engagements",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

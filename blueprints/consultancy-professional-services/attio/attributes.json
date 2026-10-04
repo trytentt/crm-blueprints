@@ -1,0 +1,1473 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "client_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Active client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Past client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Referrer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Adverse or related party"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Sector",
+          "description": "The client's sector. Used to report where work comes from and to find relevant experience.",
+          "api_slug": "sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Financial services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Real estate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Health and life sciences"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Energy and infrastructure"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Private individual or family"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client risk rating",
+          "description": "Firm's anti-money-laundering risk rating for this client. Set by compliance, not the fee earner.",
+          "api_slug": "client_risk_rating",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_risk_rating/options",
+      "body": {
+        "data": {
+          "title": "Low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_risk_rating/options",
+      "body": {
+        "data": {
+          "title": "Medium"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_risk_rating/options",
+      "body": {
+        "data": {
+          "title": "High"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_risk_rating/options",
+      "body": {
+        "data": {
+          "title": "Not assessed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Client referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Professional referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Event or publication"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Directory or ranking"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in instructing the firm. Used to check we know who signs and who pays.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Instructing decision maker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Sponsor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Finance contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "In-house legal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Day-to-day contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Referrer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the client left. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict of interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We had no capacity"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another firm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Work not going ahead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside our expertise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined on risk or compliance grounds"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Service area",
+          "description": "The practice or service the work belongs to. Used to route enquiries and report by practice.",
+          "api_slug": "service_area",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Advisory"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Transactions"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Disputes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Tax"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Audit and assurance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Regulatory and compliance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lead partner",
+          "description": "The partner or director who will be accountable for the work and signs the engagement letter.",
+          "api_slug": "lead_partner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Scope summary",
+          "description": "What the client has asked for and what is outside it. Becomes the scope of the engagement letter. Long text: Attio has one text type.",
+          "api_slug": "scope_summary",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Billing model",
+          "description": "How the work will be charged. Needed before a proposal because it changes the margin risk.",
+          "api_slug": "billing_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Hourly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Fixed fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Capped fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Success fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Hybrid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Conflict check result",
+          "description": "Latest result of the conflict check for this deal, copied from the conflict check record. Gates the proposal stage.",
+          "api_slug": "conflict_check_result",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conflict_check_result/options",
+      "body": {
+        "data": {
+          "title": "Not run"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conflict_check_result/options",
+      "body": {
+        "data": {
+          "title": "Pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conflict_check_result/options",
+      "body": {
+        "data": {
+          "title": "Cleared"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conflict_check_result/options",
+      "body": {
+        "data": {
+          "title": "Cleared with waiver"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conflict_check_result/options",
+      "body": {
+        "data": {
+          "title": "Conflicted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Engagement letter status",
+          "description": "Where the engagement letter stands. Work must not start until it is signed.",
+          "api_slug": "engagement_letter_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_letter_status/options",
+      "body": {
+        "data": {
+          "title": "Not drafted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_letter_status/options",
+      "body": {
+        "data": {
+          "title": "Drafted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_letter_status/options",
+      "body": {
+        "data": {
+          "title": "Sent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_letter_status/options",
+      "body": {
+        "data": {
+          "title": "Signed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Referrer",
+          "description": "Name of the person or firm who referred the work, for referral fee and thank-you tracking.",
+          "api_slug": "referrer_company",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Matter reference",
+          "description": "The reference from the practice management or billing system. Matches CRM to invoices.",
+          "api_slug": "matter_reference",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Service area",
+          "description": "The practice or service this matter belongs to. Used for reporting by practice.",
+          "api_slug": "service_area",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Advisory"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Transactions"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Disputes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Tax"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Audit and assurance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Regulatory and compliance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/service_area/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Billing model",
+          "description": "How this matter is charged, copied from the engagement letter.",
+          "api_slug": "billing_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Hourly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Fixed fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Capped fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Success fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_model/options",
+      "body": {
+        "data": {
+          "title": "Hybrid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Fee estimate",
+          "description": "Total fees expected for the matter, or the fixed or capped amount.",
+          "api_slug": "fee_estimate",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Budget hours",
+          "description": "Hours the team has budgeted. Compared with hours recorded in the billing system.",
+          "api_slug": "budget_hours",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Billing frequency",
+          "description": "How often the client is invoiced.",
+          "api_slug": "billing_frequency",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_frequency/options",
+      "body": {
+        "data": {
+          "title": "Monthly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_frequency/options",
+      "body": {
+        "data": {
+          "title": "On milestones"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_frequency/options",
+      "body": {
+        "data": {
+          "title": "On completion"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/billing_frequency/options",
+      "body": {
+        "data": {
+          "title": "Quarterly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "The date work started, which must be after the engagement letter was signed.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Target end date",
+          "description": "The date the work is expected to be complete.",
+          "api_slug": "target_end_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Engagement letter signed date",
+          "description": "The date the client signed the engagement letter. Empty means work should not have started.",
+          "api_slug": "engagement_letter_signed_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "AML check status",
+          "description": "Status of client identity and source-of-funds checks required by money laundering rules for this matter type.",
+          "api_slug": "aml_check_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/aml_check_status/options",
+      "body": {
+        "data": {
+          "title": "Not required"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/aml_check_status/options",
+      "body": {
+        "data": {
+          "title": "Outstanding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/aml_check_status/options",
+      "body": {
+        "data": {
+          "title": "Complete"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/aml_check_status/options",
+      "body": {
+        "data": {
+          "title": "Enhanced due diligence"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Confidential",
+          "description": "Restricts who can see the matter record. Set for sensitive matters, with an ethical wall where needed.",
+          "api_slug": "confidential",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Responsible partner",
+          "description": "The partner accountable for the matter.",
+          "api_slug": "responsible_partner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Matter manager",
+          "description": "The team member who runs the matter day to day.",
+          "api_slug": "matter_manager",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Close reason",
+          "description": "Why the matter ended without completing. Required on the withdrawn stage.",
+          "api_slug": "close_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "We withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict arose"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Non-payment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Work no longer needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Result",
+          "description": "Outcome of this check.",
+          "api_slug": "result",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes/result/options",
+      "body": {
+        "data": {
+          "title": "Pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes/result/options",
+      "body": {
+        "data": {
+          "title": "Cleared"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes/result/options",
+      "body": {
+        "data": {
+          "title": "Cleared with waiver"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes/result/options",
+      "body": {
+        "data": {
+          "title": "Conflicted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Check date",
+          "description": "The date the check was run. A check is valid for a stated period only.",
+          "api_slug": "check_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Parties checked",
+          "description": "Names of every party searched, including the client, related companies and adverse parties. Names only, no matter detail. Long text: Attio has one text type.",
+          "api_slug": "parties_checked",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Cleared by",
+          "description": "The risk partner or compliance officer who signed off the result.",
+          "api_slug": "cleared_by",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Ethical wall needed",
+          "description": "The clearance depends on keeping two teams apart. Matter team access must be restricted.",
+          "api_slug": "ethical_wall_needed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

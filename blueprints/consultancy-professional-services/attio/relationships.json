@@ -1,0 +1,150 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Shows every matter for a client, including past work.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Matters",
+            "api_slug": "matters",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Matter",
+          "description": "Ties the deal that created a matter, and any extension or follow-on deal, to it.",
+          "api_slug": "matter",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "matters"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "matters",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Deal",
+          "description": "Links each check to the opportunity it was run for.",
+          "api_slug": "deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Conflict checks",
+            "api_slug": "conflict_checks",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/conflict_checks/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Lets compliance see every check run for a client.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Conflict checks",
+            "api_slug": "conflict_checks",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/matters/attributes",
+      "body": {
+        "data": {
+          "title": "Client contacts",
+          "description": "Links the client people who instruct, approve and receive reports on the matter.",
+          "api_slug": "client_contacts",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Matters",
+            "api_slug": "matters",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

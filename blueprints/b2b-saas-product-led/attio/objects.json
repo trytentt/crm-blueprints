@@ -1,0 +1,31 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "workspaces",
+          "singular_noun": "Workspace",
+          "plural_noun": "Workspaces"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "adoption_plans",
+          "singular_noun": "Adoption plan",
+          "plural_noun": "Adoption plans"
+        }
+      }
+    }
+  ]
+}

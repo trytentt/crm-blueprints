@@ -1,0 +1,1631 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Organisation type",
+          "description": "What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.",
+          "api_slug": "org_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Startup"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Co-investor or other fund"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Limited partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Accelerator or studio"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Corporate or strategic"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/org_type/options",
+      "body": {
+        "data": {
+          "title": "Advisor or service provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Sector",
+          "description": "The startup's main market. Used to see thesis fit and portfolio spread. Edit the options to the investment thesis.",
+          "api_slug": "sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Software"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Fintech"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Health"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Climate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Consumer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Deep tech"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Marketplace"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Funding stage",
+          "description": "The startup's current funding stage. Used to check fit with the fund's cheque size and focus.",
+          "api_slug": "funding_stage",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/funding_stage/options",
+      "body": {
+        "data": {
+          "title": "Pre-seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/funding_stage/options",
+      "body": {
+        "data": {
+          "title": "Seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/funding_stage/options",
+      "body": {
+        "data": {
+          "title": "Series A"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/funding_stage/options",
+      "body": {
+        "data": {
+          "title": "Series B"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/funding_stage/options",
+      "body": {
+        "data": {
+          "title": "Later stage"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Thesis fit",
+          "description": "Our view of how well the company fits the investment thesis. Set at screening.",
+          "api_slug": "thesis_fit",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/thesis_fit/options",
+      "body": {
+        "data": {
+          "title": "Strong"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/thesis_fit/options",
+      "body": {
+        "data": {
+          "title": "Possible"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/thesis_fit/options",
+      "body": {
+        "data": {
+          "title": "Weak"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/thesis_fit/options",
+      "body": {
+        "data": {
+          "title": "Not assessed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Relationship strength",
+          "description": "How well we know the organisation. Used to rank co-investors and introducers.",
+          "api_slug": "relationship_strength",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_strength/options",
+      "body": {
+        "data": {
+          "title": "Close"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_strength/options",
+      "body": {
+        "data": {
+          "title": "Warm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/relationship_strength/options",
+      "body": {
+        "data": {
+          "title": "Cold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Country",
+          "description": "Where the company is based. Used to check geography rules and report by region.",
+          "api_slug": "hq_country",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/hq_country/options",
+      "body": {
+        "data": {
+          "title": "Home market"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/hq_country/options",
+      "body": {
+        "data": {
+          "title": "Rest of Europe"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/hq_country/options",
+      "body": {
+        "data": {
+          "title": "North America"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/hq_country/options",
+      "body": {
+        "data": {
+          "title": "Rest of world"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Person role",
+          "description": "The part this person plays for us. Used to find founders to track and co-investors to call.",
+          "api_slug": "person_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Founder"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Executive"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Co-investor partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Introducer or scout"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Limited partner contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_role/options",
+      "body": {
+        "data": {
+          "title": "Advisor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Relationship strength",
+          "description": "How well the team knows this person. Used to find the best route in to a founder.",
+          "api_slug": "intro_strength",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/intro_strength/options",
+      "body": {
+        "data": {
+          "title": "Close"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/intro_strength/options",
+      "body": {
+        "data": {
+          "title": "Warm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/intro_strength/options",
+      "body": {
+        "data": {
+          "title": "Cold"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Relationship owner",
+          "description": "The partner or associate who holds the relationship with this person.",
+          "api_slug": "relationship_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Pass reason",
+          "description": "Why we passed on the company. Required on the passed stage. Reported to refine the thesis.",
+          "api_slug": "pass_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside thesis"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Team concerns"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Market too small"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Not enough traction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Valuation too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms not agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Diligence issue"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Lost the round"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Too early or too late"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Deal source",
+          "description": "How the deal reached us. Reported to see which channels produce investments.",
+          "api_slug": "deal_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Founder inbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Warm introduction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Co-investor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Accelerator or studio"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Our outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/deal_source/options",
+      "body": {
+        "data": {
+          "title": "Portfolio founder referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Round type",
+          "description": "The type of round the startup is raising.",
+          "api_slug": "round_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Pre-seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Series A"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Series B"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Bridge"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/round_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Round size",
+          "description": "Total amount the startup is raising in this round.",
+          "api_slug": "round_size",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Pre-money valuation",
+          "description": "Valuation before the round, as proposed or agreed.",
+          "api_slug": "pre_money_valuation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Our role",
+          "description": "Whether we lead the round, follow another lead or take part as a small investor.",
+          "api_slug": "our_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/our_role/options",
+      "body": {
+        "data": {
+          "title": "Lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/our_role/options",
+      "body": {
+        "data": {
+          "title": "Co-lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/our_role/options",
+      "body": {
+        "data": {
+          "title": "Follow"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/our_role/options",
+      "body": {
+        "data": {
+          "title": "Undecided"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Conviction",
+          "description": "The deal lead's confidence in the deal after the latest stage. Updated at each stage.",
+          "api_slug": "conviction",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conviction/options",
+      "body": {
+        "data": {
+          "title": "High"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conviction/options",
+      "body": {
+        "data": {
+          "title": "Medium"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conviction/options",
+      "body": {
+        "data": {
+          "title": "Low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/conviction/options",
+      "body": {
+        "data": {
+          "title": "Not set"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Deal lead",
+          "description": "The partner or associate who owns the deal and presents it at partner meetings.",
+          "api_slug": "deal_lead",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Thesis fit confirmed",
+          "description": "The deal lead has checked the company against stage, sector, geography and cheque size.",
+          "api_slug": "thesis_fit_confirmed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Diligence complete",
+          "description": "Commercial, financial, legal and reference checks are finished with no blocking findings.",
+          "api_slug": "diligence_complete",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Investment committee approved",
+          "description": "The investment committee has approved the investment on the stated terms.",
+          "api_slug": "ic_approved",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Term sheet status",
+          "description": "Progress of the term sheet, which sets valuation, amount and investor rights.",
+          "api_slug": "term_sheet_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/term_sheet_status/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/term_sheet_status/options",
+      "body": {
+        "data": {
+          "title": "Drafted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/term_sheet_status/options",
+      "body": {
+        "data": {
+          "title": "Issued"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/term_sheet_status/options",
+      "body": {
+        "data": {
+          "title": "Negotiating"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/term_sheet_status/options",
+      "body": {
+        "data": {
+          "title": "Signed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the investment stands.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Follow-on review"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Exit in progress"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Exited"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Written off"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Fund",
+          "description": "The fund or vehicle that made the investment. Edit the options to the client's funds at build.",
+          "api_slug": "fund",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/fund/options",
+      "body": {
+        "data": {
+          "title": "Fund one"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/fund/options",
+      "body": {
+        "data": {
+          "title": "Fund two"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/fund/options",
+      "body": {
+        "data": {
+          "title": "Angel syndicate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/fund/options",
+      "body": {
+        "data": {
+          "title": "Direct or personal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Entry round",
+          "description": "The round in which we first invested.",
+          "api_slug": "entry_round",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/entry_round/options",
+      "body": {
+        "data": {
+          "title": "Pre-seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/entry_round/options",
+      "body": {
+        "data": {
+          "title": "Seed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/entry_round/options",
+      "body": {
+        "data": {
+          "title": "Series A"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/entry_round/options",
+      "body": {
+        "data": {
+          "title": "Series B"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/entry_round/options",
+      "body": {
+        "data": {
+          "title": "Later stage"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Investment date",
+          "description": "Date the money was sent.",
+          "api_slug": "investment_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Amount invested",
+          "description": "Total invested across all rounds.",
+          "api_slug": "amount_invested",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Ownership",
+          "description": "Current fully diluted ownership. Updated after each round. Percentage stored as a number from 0 to 100.",
+          "api_slug": "ownership_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Latest valuation",
+          "description": "Our latest carrying value of the holding, per the most recent valuation.",
+          "api_slug": "latest_valuation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Follow-on reserve",
+          "description": "Money held back for follow-on investment in this company.",
+          "api_slug": "follow_on_reserve",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Board seat",
+          "description": "We hold a board seat or observer seat.",
+          "api_slug": "board_seat",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Health",
+          "description": "The partner's view of how the company is doing. Reviewed monthly.",
+          "api_slug": "health",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "Thriving"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "On track"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "Needs support"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "At risk"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Next update due",
+          "description": "When the next investor update or catch-up is due from the founders.",
+          "api_slug": "next_update_due",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Exit route",
+          "description": "How the investment was realised. Required on the exited stage.",
+          "api_slug": "exit_route",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/exit_route/options",
+      "body": {
+        "data": {
+          "title": "Acquisition"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/exit_route/options",
+      "body": {
+        "data": {
+          "title": "IPO"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/exit_route/options",
+      "body": {
+        "data": {
+          "title": "Secondary sale"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/exit_route/options",
+      "body": {
+        "data": {
+          "title": "Buyback"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Write-off reason",
+          "description": "Why the investment was written off. Required on the written-off stage.",
+          "api_slug": "write_off_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Ran out of cash"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Product failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Team split"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Market changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Lead partner",
+          "description": "The partner responsible for supporting the company.",
+          "api_slug": "lead_partner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,532 @@
+extends: core
+name: Manufacturing and distribution, B2B
+description: >-
+  A manufacturer or distributor that sells to trade customers by quote. New accounts are won
+  through an opportunity pipeline. Every price request is tracked as a quote with its own
+  pipeline, and orders are tracked on their own object so repeat business can be seen and chased.
+
+add_objects:
+  - key: quote
+    label: Quote
+    plural_label: Quotes
+    description: >-
+      One request for quote (RFQ) and the quote sent in reply: what was asked for, the price, the
+      lead time and the outcome. Sales handling, so it sits apart from the order that follows.
+  - key: order
+    label: Order
+    plural_label: Orders
+    description: >-
+      One customer purchase order accepted by the business. Tracks acknowledgement, dispatch and
+      payment. This is the delivery side. It stays separate from the quote and the deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: account_tier
+    label: Account tier
+    type: select
+    description: Service tier set by annual spend and strategic value. Drives pricing, call frequency and who owns the account.
+    options:
+      key_account: Key account
+      core: Core
+      standard: Standard
+      occasional: Occasional
+  - object: company
+    key: account_type
+    label: Account type
+    type: select
+    description: What the company does with our products. Used to route enquiries and report by channel.
+    options:
+      oem: OEM or manufacturer
+      contractor: Contractor or installer
+      reseller: Reseller or dealer
+      end_user: End user
+      government: Public sector
+  - object: company
+    key: industry_sector
+    label: Industry sector
+    type: select
+    description: The customer's main market. Used for reporting and targeted campaigns.
+    options:
+      construction: Construction
+      automotive: Automotive
+      food_and_drink: Food and drink
+      engineering: Engineering
+      energy: Energy and utilities
+      healthcare: Healthcare
+      other: Other
+  - object: company
+    key: account_status
+    label: Account status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options: {prospect: Prospect, active: Active, dormant: Dormant, lapsed: Lapsed}
+  - object: company
+    key: credit_terms
+    label: Credit terms
+    type: select
+    description: Payment terms agreed with finance. Checked before a quote is sent to a new account.
+    options:
+      pro_forma: Pro forma
+      net_30: Net 30
+      net_60: Net 60
+      on_hold: Credit hold
+  - object: company
+    key: last_order_date
+    label: Last order date
+    type: date
+    description: Date of the most recent accepted order. Set by automation and used to spot accounts that have stopped ordering.
+  - object: company
+    key: expected_reorder_days
+    label: Expected reorder interval (days)
+    type: number
+    description: Typical days between orders for this account. The reorder-due view compares it with the last order date.
+  - object: company
+    key: annual_spend_band
+    label: Annual spend band
+    type: select
+    description: Spend with us over the last 12 months. Used to review the account tier.
+    options:
+      under_10k: Under 10k
+      from_10k_to_50k: 10k to 50k
+      from_50k_to_250k: 50k to 250k
+      over_250k: Over 250k
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in a purchase. Used to check a deal or quote has the right people attached.
+    options:
+      purchasing: Purchasing or procurement
+      specifier: Engineer or specifier
+      economic_buyer: Economic buyer
+      end_user: End user or site contact
+      accounts_payable: Accounts payable
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the opportunity was lost. Required on the lost stage.
+    options:
+      price: Price
+      lead_time: Lead time
+      incumbent: Stayed with current supplier
+      spec_not_met: Specification not met
+      credit_declined: Credit declined
+      no_response: No response
+      project_cancelled: Project cancelled
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: opportunity_type
+    label: Opportunity type
+    type: select
+    description: Whether this is a new account, a new product line for an existing account or a one-off project.
+    options: {new_account: New account, new_line: New product line, project: One-off project, tender: Tender}
+  - object: deal
+    key: annual_volume_estimate
+    label: Annual volume estimate
+    type: currency
+    description: Expected yearly spend if the account is won. Used to set the account tier.
+  - object: deal
+    key: sample_status
+    label: Sample status
+    type: select
+    description: Progress of any sample, trial run or spec approval the buyer needs before ordering.
+    options: {not_needed: Not needed, requested: Requested, sent: Sent, approved: Approved, rejected: Rejected}
+  - object: deal
+    key: spec_confirmed
+    label: Specification confirmed
+    type: checkbox
+    description: The buyer's technical contact has confirmed the specification we are quoting against.
+  - object: deal
+    key: credit_approved
+    label: Credit approved
+    type: checkbox
+    description: Finance has approved credit terms for this account.
+  # Quote
+  - object: quote
+    key: name
+    label: Name
+    type: text
+    description: Company and a short description of the request, for example the product family.
+    required: true
+  - object: quote
+    key: source
+    label: RFQ source
+    type: select
+    description: How the request reached us. Used to see which channels create work.
+    options: {email: Email, phone: Phone, web_form: Web form, portal: Customer portal, rep_visit: Rep visit, tender_portal: Tender portal}
+  - object: quote
+    key: product_family
+    label: Product family
+    type: select
+    description: The main product group quoted. Used to see win rate and lead time by range.
+    options: {standard_range: Standard range, made_to_order: Made to order, spares: Spares and parts, bulk: Bulk supply, service: Service}
+  - object: quote
+    key: received_date
+    label: Received date
+    type: date
+    description: The day the RFQ arrived. Measures speed to quote.
+  - object: quote
+    key: due_date
+    label: Quote due date
+    type: date
+    description: The date the buyer asked for the quote. Late quotes are reported on.
+  - object: quote
+    key: value
+    label: Quote value
+    type: currency
+    description: Total quoted price excluding tax.
+  - object: quote
+    key: margin_percent
+    label: Margin
+    type: percent
+    description: Expected gross margin on the quote. Over a set discount threshold it needs approval.
+  - object: quote
+    key: lead_time_days
+    label: Lead time (days)
+    type: number
+    description: Quoted days from order to delivery to the customer.
+  - object: quote
+    key: valid_until
+    label: Valid until
+    type: date
+    description: Last day the quoted price holds.
+  - object: quote
+    key: approval_needed
+    label: Approval needed
+    type: checkbox
+    description: The quote breaks a margin or credit rule and a manager must approve before it is sent.
+  - object: quote
+    key: stock_checked
+    label: Stock checked
+    type: checkbox
+    description: Stock or production capacity has been checked for the quoted lead time.
+  - object: quote
+    key: decline_reason
+    label: Decline reason
+    type: select
+    description: Why the quote was lost or not quoted. Required on the lost stage.
+    options:
+      price: Price
+      lead_time: Lead time
+      stock_unavailable: Cannot supply
+      spec_not_met: Specification not met
+      no_response: No response
+      went_elsewhere: Bought elsewhere
+      out_of_scope: Out of scope
+  - object: quote
+    key: owner
+    label: Owner
+    type: user
+    description: The team member who prepares and chases the quote.
+  # Order
+  - object: order
+    key: name
+    label: Name
+    type: text
+    description: Company and the customer's purchase order number.
+    required: true
+  - object: order
+    key: order_type
+    label: Order type
+    type: select
+    description: Whether the order is a first order, a repeat order or a call-off against a standing agreement.
+    options: {first_order: First order, repeat: Repeat order, call_off: Call-off, sample: Sample order}
+  - object: order
+    key: status
+    label: Status
+    type: select
+    description: Where the order stands.
+    options:
+      received: Received
+      acknowledged: Acknowledged
+      in_production: In production or picking
+      dispatched: Dispatched
+      delivered: Delivered
+      invoiced: Invoiced
+      cancelled: Cancelled
+  - object: order
+    key: order_date
+    label: Order date
+    type: date
+    description: Date the customer order was accepted.
+  - object: order
+    key: promised_date
+    label: Promised date
+    type: date
+    description: Delivery date promised to the customer. Late orders are reported on.
+  - object: order
+    key: delivered_date
+    label: Delivered date
+    type: date
+    description: Date the goods reached the customer. Compared with the promised date for on-time delivery.
+  - object: order
+    key: order_value
+    label: Order value
+    type: currency
+    description: Total order value excluding tax.
+  - object: order
+    key: customer_po
+    label: Customer PO number
+    type: text
+    description: The customer's purchase order reference, used on invoices and to match queries.
+  - object: order
+    key: owner
+    label: Account manager
+    type: user
+    description: The team member responsible for the order and the customer relationship.
+
+add_relationships:
+  - key: quote_company
+    from: quote
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Quotes
+    purpose: Shows every price request and quote for a customer.
+  - key: quote_person
+    from: quote
+    to: person
+    cardinality: many_to_one
+    from_label: Requested by
+    to_label: Quotes requested
+    purpose: Records who at the customer asked for the quote.
+  - key: quote_deal
+    from: quote
+    to: deal
+    cardinality: many_to_one
+    from_label: Opportunity
+    to_label: Quotes
+    purpose: Ties quotes to the new-account opportunity they belong to. Repeat quotes for existing accounts have no deal.
+  - key: order_company
+    from: order
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Orders
+    purpose: Gives the full order history for an account.
+  - key: order_quote
+    from: order
+    to: quote
+    cardinality: many_to_one
+    from_label: Accepted quote
+    to_label: Orders
+    purpose: Links an order to the quote it came from, so quote-to-order conversion can be measured.
+
+pipelines:
+  - object: deal
+    key: new_accounts
+    name: New accounts
+    stages:
+      - key: identified
+        label: Identified
+        type: open
+        probability: 5
+        exit_criteria: Entered when a target company with a buying need is logged and has a named contact.
+        required_fields: [opportunity_type]
+      - key: first_contact
+        label: First contact
+        type: open
+        probability: 10
+        exit_criteria: Entered when a conversation with a purchasing contact has happened and the products of interest are noted.
+        required_fields: [next_step_date]
+      - key: needs_confirmed
+        label: Needs confirmed
+        type: open
+        probability: 25
+        exit_criteria: Entered when the technical contact has confirmed the specification and the expected volumes.
+        required_fields: [spec_confirmed, annual_volume_estimate, next_step_date]
+      - key: sample_or_trial
+        label: Sample or trial
+        type: open
+        probability: 40
+        exit_criteria: Entered when a sample, trial run or spec approval has been requested.
+        required_fields: [sample_status, next_step_date]
+      - key: quote_issued
+        label: Quote issued
+        type: open
+        probability: 55
+        exit_criteria: Entered when a priced quote has been sent against a confirmed specification.
+        required_fields: [amount, spec_confirmed, next_step_date]
+      - key: terms_agreed
+        label: Terms agreed
+        type: open
+        probability: 80
+        exit_criteria: Entered when the buyer has accepted price and lead time and credit terms are being set up.
+        required_fields: [amount, close_date, credit_approved]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the first purchase order is received from the account.
+        required_fields: [amount, close_date]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer chooses another supplier or goes silent after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: quote
+    key: rfq_handling
+    name: RFQ handling
+    stages:
+      - key: received
+        label: Received
+        type: open
+        probability: 20
+        exit_criteria: Entered when an RFQ is logged with the customer, the source and the date received.
+        required_fields: [received_date, source]
+      - key: qualified
+        label: Qualified
+        type: open
+        probability: 30
+        exit_criteria: Entered when the team has decided to quote, the product family is set and a due date is agreed.
+        required_fields: [product_family, due_date]
+      - key: pricing
+        label: Pricing
+        type: open
+        probability: 40
+        exit_criteria: Entered when stock or capacity is checked and a lead time is set.
+        required_fields: [stock_checked, lead_time_days]
+      - key: approval
+        label: Approval
+        type: open
+        probability: 45
+        exit_criteria: Entered when the price is built and breaks a margin or credit rule that needs manager sign-off.
+        required_fields: [value, margin_percent, approval_needed]
+      - key: sent
+        label: Sent
+        type: open
+        probability: 50
+        exit_criteria: Entered when the quote has been sent to the buyer with a validity date.
+        required_fields: [value, valid_until, lead_time_days]
+      - key: follow_up
+        label: Follow-up
+        type: open
+        probability: 60
+        exit_criteria: Entered when the first chase has been made and the buyer has given a decision date.
+        required_fields: [value, valid_until]
+      - key: accepted
+        label: Accepted
+        type: won
+        probability: 100
+        exit_criteria: Entered when the buyer sends a purchase order or written acceptance against the quote.
+        required_fields: [value]
+      - key: declined
+        label: Declined
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer rejects the quote, the validity date passes unanswered, or the business decides not to quote.
+        required_fields: [decline_reason]
+
+decisions:
+  - key: quotes_as_object
+    question: Are quotes tracked as their own object rather than as deals?
+    recommended_default: >-
+      Yes. Distributors quote many times a week for existing accounts, and most of those are not new
+      opportunities. A quote object with its own pipeline keeps the deal pipeline for new accounts.
+  - key: delivery_on_own_object
+    question: Are orders and their delivery tracked on a separate object from deals and quotes?
+    recommended_default: >-
+      Yes. Orders have a different owner and dates and repeat every few weeks, so they get their own
+      object. The ERP stays the system of record for stock and invoices.
+  - key: erp_sync
+    question: Does an ERP or accounting system already hold orders, prices and credit terms?
+    recommended_default: >-
+      Yes, assume so. Sync orders into the CRM by integration rather than typing them. Keep only the
+      order fields needed for reorder chasing and account reviews.
+  - key: account_tier_rules
+    question: What sets an account tier, and who reviews it?
+    recommended_default: >-
+      Tier follows annual spend band, reviewed each quarter by the sales manager. Key accounts get a
+      named owner and a scheduled review call.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects for Quote and Order?
+    recommended_default: >-
+      Check before the build. If not, record quotes as deals in a second pipeline and keep orders in
+      the ERP, with last order date and expected reorder interval on the company.
+  - key: line_items
+    question: Do quotes and orders need line items in the CRM?
+    recommended_default: >-
+      No for the first build. Keep totals only. Line items live in the ERP or quoting tool.
+
+automations:
+  - key: log_order_on_win
+    name: Update company on order
+    trigger: An order is created or its status moves to received.
+    action: >-
+      Set the company's last order date and account status to active, and set the order type to
+      first order if the company had no earlier order.
+  - key: flag_late_quotes
+    name: Flag late quotes
+    trigger: A quote is open and its due date is today or in the past.
+    action: Notify the quote owner and add the quote to the overdue quotes view.
+  - key: chase_open_quotes
+    name: Chase sent quotes
+    trigger: A quote has been in sent for 5 working days.
+    action: Create a task for the owner to chase the buyer and move the quote to follow-up when done.
+  - key: reorder_due
+    name: Reorder due
+    trigger: Days since the company's last order date exceed its expected reorder interval and the account is active.
+    action: Create a task for the account owner to call the buyer and set the account status to dormant after 2 intervals.
+  - key: quote_approval
+    name: Route quote for approval
+    trigger: A quote moves to approval.
+    action: Notify the sales manager, who either approves it or sends it back to pricing.
+  - key: review_tier
+    name: Quarterly tier review
+    trigger: Each quarter, for every active account.
+    action: Compare the account's annual spend band with its tier and list mismatches for the sales manager.
+
+views:
+  - key: open_quotes
+    name: Open quotes
+    object: quote
+    filter: Quote is not accepted or declined and owner is me.
+    sort: Due date, soonest first.
+  - key: overdue_quotes
+    name: Overdue quotes
+    object: quote
+    filter: Quote is open and due date is in the past.
+    sort: Due date, oldest first.
+  - key: reorder_due_accounts
+    name: Reorders due
+    object: company
+    filter: Account status is active and last order date is older than the expected reorder interval.
+    sort: Last order date, oldest first.
+  - key: key_accounts
+    name: Key and core accounts
+    object: company
+    filter: Account tier is key account or core.
+    sort: Last order date, oldest first.
+  - key: orders_in_flight
+    name: Orders in flight
+    object: order
+    filter: Status is not delivered, invoiced or cancelled.
+    sort: Promised date, soonest first.
+  - key: my_open_opportunities
+    name: My open opportunities
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Next step date, soonest first.
+
+platform_overrides:
+  attio:
+    objects:
+      quote: {api_slug: quotes}
+      order: {api_slug: orders}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      quote: {api_name: Trade_Quote__c}
+      order: {api_name: Trade_Order__c}

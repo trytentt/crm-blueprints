@@ -1,0 +1,488 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Mandate acquisition",
+          "api_slug": "mandate_acquisition",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Mandate acquisition pipeline. Target: Entered when a senior hire or a likely leadership change is identified at a company, with a named sponsor. Introduction: Entered when a partner has met the sponsor and discussed a specific role. Brief: Entered when the client has shared a role brief and agreed to see a proposal. Proposal sent: Entered when a written proposal with approach, timetable and fee has been sent to the sponsor. Pitch or finalist: Entered when the client has invited us to present to a wider group or named us a finalist. Terms agreed: Entered when the client has verbally chosen us and fee, structure and exclusivity are agreed. Mandate won: Entered when the signed search agreement is received and the search record is created. Mandate lost: Entered when the client chooses another route or firm, or cancels the role, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the mandate deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another firm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Went contingent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Hired internally"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Role cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fee terms"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict or off-limits"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Search delivery",
+          "api_slug": "search_delivery",
+          "parent_object": "searches",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Search delivery pipeline. Position specification: Entered when the search record is created from a won mandate and a partner and consultant are named. Market mapping: Entered when the client has signed off the position specification and target company list. Longlist: Entered when a longlist of people to approach has been agreed with the client. Shortlist: Entered when a shortlist of assessed candidates has been presented to the client. Client interviews: Entered when the client has interviewed at least one shortlisted candidate. Offer and references: Entered when the client has chosen a preferred candidate and offer and reference work has begun. Placed: Entered when a candidate has signed the offer and a start date is agreed. Closed without placement: Entered when the search ends without a placement, whether the client or the firm ends it.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Close reason",
+          "description": "Why the search ended without a placement. Required on the closed stage.",
+          "api_slug": "close_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client filled internally"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Role cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client paused indefinitely"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "We withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Candidate pool exhausted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Candidate progress",
+          "api_slug": "candidate_progress",
+          "parent_object": "search_candidates",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Candidate progress pipeline. Identified: Entered when a person is on the longlist for a search and has no contact restriction. Approached: Entered when the first confidential approach has been made. Engaged: Entered when the person has replied and agreed to talk about the role. Assessed: Entered when we have completed a full interview and rated the person. Shortlisted: Entered when the candidate's profile has been presented to the client with their agreement. Client interview: Entered when the client has scheduled an interview with the candidate. Offer: Entered when the client has said they want to make an offer to the candidate. Placed: Entered when the candidate has accepted the offer in writing and a start date is agreed. Out: Entered when the candidate withdraws or is declined at any step.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes",
+      "body": {
+        "data": {
+          "title": "Out reason",
+          "description": "Why the candidate left the search. Required on the out stage.",
+          "api_slug": "out_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined approach"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Not suitable on assessment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Client did not proceed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Accepted another role"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Offer declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Off-limits"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Fee collection",
+          "api_slug": "fee_collection",
+          "parent_object": "fee_instalments",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Fee collection pipeline. Scheduled: Entered when the instalment is created from the signed fee schedule. Due: Entered when the trigger event has happened or the set date has arrived. Invoiced: Entered when the invoice has been issued and its reference recorded. Paid: Entered when payment has been received in the bank. Waived: Entered when the instalment is cancelled or waived by agreement.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes",
+      "body": {
+        "data": {
+          "title": "Waiver reason",
+          "description": "Why the instalment was cancelled or waived. Required on the waived stage.",
+          "api_slug": "waiver_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Search cancelled early"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Commercial concession"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Replaced by credit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Raised in error"
+        }
+      }
+    }
+  ]
+}

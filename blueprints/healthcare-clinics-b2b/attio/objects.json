@@ -1,0 +1,42 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "services",
+          "singular_noun": "Service",
+          "plural_noun": "Services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "service_contracts",
+          "singular_noun": "Service contract",
+          "plural_noun": "Service contracts"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "referral_agreements",
+          "singular_noun": "Referral agreement",
+          "plural_noun": "Referral agreements"
+        }
+      }
+    }
+  ]
+}

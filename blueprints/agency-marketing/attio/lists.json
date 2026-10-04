@@ -1,0 +1,445 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "New business",
+          "api_slug": "new_business",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the New business pipeline. Lead: Entered when a company has asked for help or accepted a first conversation. Discovery: Entered when a discovery call has happened with someone who can name the goal and the budget range. Brief and scope: Entered when the client has given a written brief and agreed we should prepare a proposal. Proposal sent: Entered when a priced proposal has been sent to the decision maker. Pitch or review: Entered when the client has asked for a pitch session or a proposal walk-through with more than one stakeholder. Negotiation: Entered when the client has said we are the preferred agency and is discussing scope, fee or terms. Closed won: Entered when the signed statement of work or agreement is received and the engagement record is created. Closed lost: Entered when the client chooses someone else or says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the client left. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Went in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Scope mismatch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Unhappy with results"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Relationship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Client closed or acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Retainer renewals",
+          "api_slug": "retainer_renewals",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Retainer renewals pipeline. Upcoming: Entered when a retainer engagement is 90 days from its end date. Review booked: Entered when a results review with the client decision maker is in the diary. Proposal sent: Entered when a renewal proposal with the next term's scope and fee has been sent. Negotiation: Entered when the client has asked for changes to scope, fee or term. Awaiting signature: Entered when the renewal agreement has been sent for signature. Renewed: Entered when the signed renewal is received and the engagement dates and fee are updated. Not renewed: Entered when the client confirms they will not renew, or the term ends unsigned.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the client left. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Went in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Scope mismatch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Unhappy with results"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Relationship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Client closed or acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/retainer_renewals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Delivery",
+          "api_slug": "delivery",
+          "parent_object": "engagements",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Delivery pipeline. Onboarding: Entered when the engagement record is created from a won deal and a delivery lead is named. Kickoff done: Entered when the kickoff meeting has happened and access to the client's accounts has been received. First deliverables: Entered when the first agreed deliverable or report has been sent to the client. Steady state: Entered when the first monthly review has taken place and the client has accepted the reporting format. At risk: Entered when health is set to red, or the client has raised a written concern. Wrapping up: Entered when the engagement is within 30 days of its end date and no renewal is agreed. Completed: Entered when the work is delivered to scope and the engagement has reached its end date or been renewed into a new engagement. Terminated: Entered when the client or the agency has given notice to end the engagement early.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes",
+      "body": {
+        "data": {
+          "title": "End reason",
+          "description": "Why the engagement ended early or was not renewed. Required on the terminated stage.",
+          "api_slug": "end_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Budget cut"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Went in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Moved to another agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Unhappy with results"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Relationship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Client closed or acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "We ended it"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delivery/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

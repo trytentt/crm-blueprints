@@ -1,0 +1,159 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Enquiry",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Requirement qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Viewing",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Offer",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Heads of terms",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Referencing",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Legals",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Completed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/letting/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Upcoming",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Tenant contacted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms discussed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Renewal agreed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Renewed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/lease_renewal/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Not renewed",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

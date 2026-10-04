@@ -1,0 +1,478 @@
+# Build sheet: Commercial real estate, leasing (attio)
+
+A commercial property agent or landlord that lets offices, retail and industrial space. Properties and their units are records. Companies play landlord and tenant roles. Lettings run through a lease pipeline, and each signed lease becomes a lease record that tracks rent, breaks and expiry.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the signed lease tracked on its own object rather than as the end of the letting deal?**
+  - Recommended default: Yes. A lease lives for years, has its own dates and is managed by a different person than the one who agreed the letting. The deal ends at completed and the lease record carries on.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does each unit or floor need its own record?**
+  - Recommended default: No for the first build. Keep unit as text on the lease and available area on the property. Add a unit object when the portfolio has many small units and availability reporting by unit matters.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are landlord and tenant roles recorded?**
+  - Recommended default: A multi-select on company, because one company can be both. The role on a specific lease or property comes from the relationship, landlord on a property and tenant on a lease.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the firm also run investment sales or acquisitions?**
+  - Recommended default: Not in this build. Add a second deal pipeline for sales if the client describes one.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Property and Lease?**
+  - Recommended default: Check before the build. If not, hold the building on the company record, use a deal pipeline for renewals with lease dates as deal properties, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM hold client money, rent collection or service charge detail?**
+  - Recommended default: No. Rent collection stays in property management software. The CRM holds passing rent and dates only.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Property**
+  - Where: Workspace settings, then Objects, then New object. Use singular Property, plural Properties, slug `properties`.
+  - Purpose: A building or estate that is let or managed. Holds its address, type, size and availability so enquiries and lettings can be matched to space.
+  - Done when: the object Property exists with plural name Properties.
+- [ ] **Create object Lease**
+  - Where: Workspace settings, then Objects, then New object. Use singular Lease, plural Leases, slug `leases`.
+  - Purpose: One signed lease of space in a property: tenant, rent, term, break and expiry dates. Created when a letting completes. This is the management side, separate from the letting deal.
+  - Done when: the object Lease exists with plural name Leases.
+- [ ] **Create relationship deal to property (many_to_one)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to property, name this side 'Property' and the other side 'Deals'.
+  - Purpose: Shows every letting enquiry and deal for a building.
+  - Done when: a deal record shows the link as 'Property' and a property record shows it as 'Deals'.
+- [ ] **Create relationship property to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Choose a relationship to company, name this side 'Landlord' and the other side 'Properties owned'.
+  - Purpose: Shows which landlord owns each property.
+  - Done when: a property record shows the link as 'Landlord' and a company record shows it as 'Properties owned'.
+- [ ] **Create relationship lease to property (many_to_one)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Choose a relationship to property, name this side 'Property' and the other side 'Leases'.
+  - Purpose: Shows every lease, current and past, in a building.
+  - Done when: a lease record shows the link as 'Property' and a property record shows it as 'Leases'.
+- [ ] **Create relationship lease to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Choose a relationship to company, name this side 'Tenant' and the other side 'Leases as tenant'.
+  - Purpose: Shows the tenant's leases and so their footprint with us.
+  - Done when: a lease record shows the link as 'Tenant' and a company record shows it as 'Leases as tenant'.
+- [ ] **Create relationship lease to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Letting deal' and the other side 'Leases'.
+  - Purpose: Links a lease to the deal that created it, for fee reporting.
+  - Done when: a lease record shows the link as 'Letting deal' and a deal record shows it as 'Leases'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Letting on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Letting' (slug `letting`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Letting exists with 9 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 5%.
+  - Entered when an occupier or landlord enquiry is logged against a contact.
+  - Set Probability to 5 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: instruction_type.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Requirement qualified**
+  - Type: open. Probability: 15%.
+  - Entered when size, budget, location and move date have been confirmed with a decision maker.
+  - Set Probability to 15 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: requirement_size_sqft, target_move_date, next_step_date.
+  - Done when: the stage Requirement qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Viewing**
+  - Type: open. Probability: 30%.
+  - Entered when a viewing is booked for specific space.
+  - Set Probability to 30 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Viewing is in position 3 and its rule is in place.
+- [ ] **Stage 4: Offer**
+  - Type: open. Probability: 50%.
+  - Entered when the occupier has viewed the space and made a first offer on rent and term.
+  - Set Probability to 50 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: viewing_held, headline_rent.
+  - Done when: the stage Offer is in position 4 and its rule is in place.
+- [ ] **Stage 5: Heads of terms**
+  - Type: open. Probability: 65%.
+  - Entered when landlord and tenant have agreed the main terms and heads of terms are issued, subject to contract.
+  - Set Probability to 65 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: heads_of_terms_status, headline_rent.
+  - Done when: the stage Heads of terms is in position 5 and its rule is in place.
+- [ ] **Stage 6: Referencing**
+  - Type: open. Probability: 75%.
+  - Entered when heads of terms are signed back and tenant reference checks are under way.
+  - Set Probability to 75 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: referencing_status.
+  - Done when: the stage Referencing is in position 6 and its rule is in place.
+- [ ] **Stage 7: Legals**
+  - Type: open. Probability: 85%.
+  - Entered when referencing has passed and both sides have instructed solicitors.
+  - Set Probability to 85 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: referencing_status, solicitors_instructed, close_date.
+  - Done when: the stage Legals is in position 7 and its rule is in place.
+- [ ] **Stage 8: Completed**
+  - Type: won. Probability: 100%.
+  - Entered when the lease is signed by both sides and the lease record is created.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: headline_rent, close_date.
+  - Done when: the stage Completed is in position 8 and its rule is in place.
+- [ ] **Stage 9: Lost**
+  - Type: lost. Probability: 0%.
+  - Entered when either side withdraws, the space is let elsewhere, or there is no reply after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Lost is in position 9 and its rule is in place.
+- [ ] **Create pipeline Lease renewal on lease**
+  - Where: Lists in the left sidebar, then New list, parent object lease, named 'Lease renewal' (slug `lease_renewal`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Lease renewal exists with 6 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 40%.
+  - Entered when the lease is within 12 months of its expiry or break date.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: expiry_date.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Tenant contacted**
+  - Type: open. Probability: 50%.
+  - Entered when the tenant's intentions have been asked for and noted.
+  - Set Probability to 50 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: managing_owner.
+  - Done when: the stage Tenant contacted is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms discussed**
+  - Type: open. Probability: 70%.
+  - Entered when the landlord and tenant are negotiating new rent and term.
+  - Set Probability to 70 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: annual_rent, security_of_tenure.
+  - Done when: the stage Terms discussed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Renewal agreed**
+  - Type: open. Probability: 90%.
+  - Entered when heads of terms for the renewal are agreed and solicitors are instructed.
+  - Set Probability to 90 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: annual_rent, expiry_date.
+  - Done when: the stage Renewal agreed is in position 4 and its rule is in place.
+- [ ] **Stage 5: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the renewal lease or variation is signed and the dates on the record are updated.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: annual_rent, expiry_date.
+  - Done when: the stage Renewed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not renewed**
+  - Type: lost. Probability: 0%.
+  - Entered when the tenant leaves or the lease ends without renewal.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: outcome_reason.
+  - Done when: the stage Not renewed is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Company roles (multi_select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select (allow several), slug `company_roles`.
+  - Purpose: The roles this company plays in our business. One company can be landlord, tenant and investor at once.
+  - Options: Landlord, Tenant, Occupier looking for space, Investor, Managing agent, Solicitor, Surveyor or consultant
+  - Done when: Company records show Company roles and it accepts the right values.
+- [ ] **Create field Occupier sector (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `occupier_sector`.
+  - Purpose: The tenant's line of business. Used to match prospects to space and report by sector.
+  - Options: Professional services, Technology, Retail, Hospitality, Logistics, Light industrial, Healthcare, Public sector, Other
+  - Done when: Company records show Occupier sector and it accepts the right values.
+- [ ] **Create field Relationship status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `relationship_status`.
+  - Purpose: Where the company stands with us.
+  - Options: Prospect, Active requirement, Current tenant, Former tenant, Partner
+  - Done when: Company records show Relationship status and it accepts the right values.
+- [ ] **Create field Covenant strength (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `covenant_strength`.
+  - Purpose: Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.
+  - Options: Strong, Satisfactory, Weak, Not checked
+  - Done when: Company records show Covenant strength and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Contact role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `contact_role`.
+  - Purpose: The part this person plays in a letting. Used to send the right documents to the right person.
+  - Options: Decision maker, Property or facilities manager, Tenant's agent, Landlord contact, Solicitor, Finance contact
+  - Done when: Person records show Contact role and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the letting did not complete. Required on the lost stage.
+  - Options: Took other space, Terms not agreed, Referencing failed, Space unsuitable, Budget changed, Requirement withdrawn, Landlord withdrew, No response
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Instruction type (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `instruction_type`.
+  - Purpose: Whom we act for on this deal. Sets the fee basis and conflicts check.
+  - Options: Acting for landlord, Acting for tenant, Joint agency
+  - Done when: Deal records show Instruction type and it accepts the right values.
+- [ ] **Create field Size required (sq ft) (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `requirement_size_sqft`.
+  - Purpose: Floor area the occupier wants. Used to match against available units.
+  - Done when: Deal records show Size required (sq ft) and it accepts the right values.
+- [ ] **Create field Target move date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `target_move_date`.
+  - Purpose: When the occupier needs to be in. Drives urgency and the lease start date.
+  - Done when: Deal records show Target move date and it accepts the right values.
+- [ ] **Create field Viewing held (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `viewing_held`.
+  - Purpose: At least one viewing of the space has taken place with a decision maker.
+  - Done when: Deal records show Viewing held and it accepts the right values.
+- [ ] **Create field Heads of terms status (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `heads_of_terms_status`.
+  - Purpose: Progress of the written summary of agreed commercial terms, which is not binding until the lease is signed.
+  - Options: Not started, Drafted, Issued, Agreed
+  - Done when: Deal records show Heads of terms status and it accepts the right values.
+- [ ] **Create field Referencing status (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `referencing_status`.
+  - Purpose: Progress of the tenant covenant and reference checks.
+  - Options: Not started, In progress, Passed, Failed
+  - Done when: Deal records show Referencing status and it accepts the right values.
+- [ ] **Create field Solicitors instructed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `solicitors_instructed`.
+  - Purpose: Both sides have instructed solicitors to draft and agree the lease.
+  - Done when: Deal records show Solicitors instructed and it accepts the right values.
+- [ ] **Create field Headline rent (per year) (currency)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type currency, slug `headline_rent`.
+  - Purpose: Annual rent offered or agreed, before incentives.
+  - Done when: Deal records show Headline rent (per year) and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Property
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type text, slug `property_name`.
+  - Purpose: Building name or street address used day to day.
+  - Done when: Property records show Name and it accepts the right values.
+- [ ] **Create field Address (text)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type text, slug `address`.
+  - Purpose: Full address including postcode.
+  - Done when: Property records show Address and it accepts the right values.
+- [ ] **Create field Property type (select)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type select, slug `property_type`.
+  - Purpose: Use class of the building. Used to match enquiries and report availability.
+  - Options: Office, Retail, Industrial, Mixed use, Serviced or flexible, Land
+  - Done when: Property records show Property type and it accepts the right values.
+- [ ] **Create field Total area (sq ft) (number)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type number, slug `total_area_sqft`.
+  - Purpose: Total lettable floor area of the property.
+  - Done when: Property records show Total area (sq ft) and it accepts the right values.
+- [ ] **Create field Available area (sq ft) (number)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type number, slug `available_area_sqft`.
+  - Purpose: Floor area currently available to let. Updated when a lease completes or ends.
+  - Done when: Property records show Available area (sq ft) and it accepts the right values.
+- [ ] **Create field Availability (select)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type select, slug `availability_status`.
+  - Purpose: Whether there is space to let now. Drives the availability view and enquiry matching.
+  - Options: Fully let, Part available, Fully available, Under offer, Off market
+  - Done when: Property records show Availability and it accepts the right values.
+- [ ] **Create field Asking rent (per sq ft) (currency)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type currency, slug `asking_rent_psf`.
+  - Purpose: Quoted annual rent per square foot for available space.
+  - Done when: Property records show Asking rent (per sq ft) and it accepts the right values.
+- [ ] **Create field Energy rating (select)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type select, slug `energy_rating`.
+  - Purpose: Energy performance rating band shown on the certificate. Needed before marketing.
+  - Options: A, B, C, D, E, F, G, Not rated
+  - Done when: Property records show Energy rating and it accepts the right values.
+- [ ] **Create field Market area (select)**
+  - Where: Workspace settings, then Objects, then Property, then Attributes, then New attribute. Type select, slug `market_area`.
+  - Purpose: Submarket the property sits in. Edit the options to the agent's patch. Used to match requirements.
+  - Options: Central, North, South, East, West, Out of town
+  - Done when: Property records show Market area and it accepts the right values.
+
+### Lease
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type text, slug `lease_name`.
+  - Purpose: Tenant, property and unit, for example Tenant name, Building name, 2nd floor.
+  - Done when: Lease records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the lease stands.
+  - Options: Agreed, Active, In review, Holding over, Ended
+  - Done when: Lease records show Status and it accepts the right values.
+- [ ] **Create field Unit (text)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type text, slug `unit`.
+  - Purpose: Floor, suite or unit let under this lease.
+  - Done when: Lease records show Unit and it accepts the right values.
+- [ ] **Create field Area (sq ft) (number)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type number, slug `area_sqft`.
+  - Purpose: Floor area let.
+  - Done when: Lease records show Area (sq ft) and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type date, slug `start_date`.
+  - Purpose: First day of the term.
+  - Done when: Lease records show Start date and it accepts the right values.
+- [ ] **Create field Expiry date (date)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type date, slug `expiry_date`.
+  - Purpose: Contractual end date. A renewal opens before it.
+  - Done when: Lease records show Expiry date and it accepts the right values.
+- [ ] **Create field Break date (date)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type date, slug `break_date`.
+  - Purpose: Earliest date the tenant or landlord may end the lease early, if there is a break clause.
+  - Done when: Lease records show Break date and it accepts the right values.
+- [ ] **Create field Next rent review (date)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type date, slug `next_rent_review`.
+  - Purpose: Date the rent is next reviewed.
+  - Done when: Lease records show Next rent review and it accepts the right values.
+- [ ] **Create field Annual rent (currency)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type currency, slug `annual_rent`.
+  - Purpose: Passing rent per year.
+  - Done when: Lease records show Annual rent and it accepts the right values.
+- [ ] **Create field Rent-free months (number)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type number, slug `rent_free_months`.
+  - Purpose: Months of rent-free incentive granted at the start.
+  - Done when: Lease records show Rent-free months and it accepts the right values.
+- [ ] **Create field Inside security of tenure (checkbox)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type checkbox, slug `security_of_tenure`.
+  - Purpose: The lease has statutory renewal rights. This changes how renewal is handled. Confirm with the solicitor.
+  - Done when: Lease records show Inside security of tenure and it accepts the right values.
+- [ ] **Create field Outcome reason (select)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type select, slug `outcome_reason`.
+  - Purpose: Why a lease was not renewed. Required on the lost renewal stage.
+  - Options: Tenant relocated, Downsized, Business closed, Rent too high, Landlord redevelopment, Space unsuitable
+  - Done when: Lease records show Outcome reason and it accepts the right values.
+- [ ] **Create field Lease manager (user)**
+  - Where: Workspace settings, then Objects, then Lease, then Attributes, then New attribute. Type actor-reference, slug `managing_owner`.
+  - Purpose: The team member who manages this lease and its renewal.
+  - Done when: Lease records show Lease manager and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create lease on completion**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal in the letting pipeline moves to completed.
+  - Action: Create a lease from the deal's rent and dates, link it to the property and the tenant, set the company's relationship status to current tenant and reduce the property's available area.
+  - Done when: the automation runs on a test record and the result matches: Create a lease from the deal's rent and dates, link it to the property and the tenant, set the company's relationship status to current tenant and reduce the property's available area.
+- [ ] **Open renewal**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A lease is 12 months from its expiry or break date and its status is active.
+  - Action: Move the lease to upcoming in the renewal pipeline and notify the lease manager.
+  - Done when: the automation runs on a test record and the result matches: Move the lease to upcoming in the renewal pipeline and notify the lease manager.
+- [ ] **Rent review reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A lease's next rent review is 6 months away.
+  - Action: Create a task for the lease manager to prepare the rent review.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lease manager to prepare the rent review.
+- [ ] **Flag stalled lettings**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open letting deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled lettings view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled lettings view.
+- [ ] **Match requirement to space**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal reaches requirement qualified.
+  - Action: Create a task to list properties with available area and market area that fit the requirement.
+  - Done when: the automation runs on a test record and the result matches: Create a task to list properties with available area and market area that fit the requirement.
+- [ ] **Free the space**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A lease moves to not renewed.
+  - Action: Set its status to ended and create a task to update the property's availability.
+  - Done when: the automation runs on a test record and the result matches: Set its status to ended and create a task to update the property's availability.
+
+## 6. Views
+
+- [ ] **Available space**
+  - Where: Open Properties in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: property
+  - Filter: Availability is part available or fully available.
+  - Sort: Available area, largest first.
+  - Done when: the view Available space is saved and shows the expected records.
+- [ ] **Open lettings**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view Open lettings is saved and shows the expected records.
+- [ ] **Stalled lettings**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled lettings is saved and shows the expected records.
+- [ ] **Expiries and breaks in 18 months**
+  - Where: Open Leases in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: lease
+  - Filter: Status is active and expiry date or break date is within 18 months.
+  - Sort: Expiry date, soonest first.
+  - Done when: the view Expiries and breaks in 18 months is saved and shows the expected records.
+- [ ] **Rent reviews due**
+  - Where: Open Leases in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: lease
+  - Filter: Status is active and next rent review is within 6 months.
+  - Sort: Next rent review, soonest first.
+  - Done when: the view Rent reviews due is saved and shows the expected records.
+- [ ] **Active requirements**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Relationship status is active requirement.
+  - Sort: Name, A to Z.
+  - Done when: the view Active requirements is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

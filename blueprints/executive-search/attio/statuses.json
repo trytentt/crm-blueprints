@@ -1,0 +1,309 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Target",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Introduction",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Brief",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Pitch or finalist",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms agreed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Mandate won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/mandate_acquisition/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Mandate lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Position specification",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Market mapping",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Longlist",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Shortlist",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Client interviews",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Offer and references",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Placed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/search_delivery/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed without placement",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Identified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Approached",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Engaged",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Assessed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Shortlisted",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Client interview",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Offer",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Placed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/candidate_progress/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Scheduled",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Due",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Invoiced",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Paid",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/fee_collection/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Waived",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

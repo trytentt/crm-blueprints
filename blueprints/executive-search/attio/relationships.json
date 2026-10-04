@@ -1,0 +1,178 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Shows every search a client has retained us for.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Searches",
+            "api_slug": "searches",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Mandate deal",
+          "description": "Ties each search to the deal that won it.",
+          "api_slug": "mandate_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Searches",
+            "api_slug": "searches",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Client contacts",
+          "description": "Links the hiring sponsor, chair and HR lead on the client side to the search.",
+          "api_slug": "client_contacts",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Searches as client contact",
+            "api_slug": "searches_as_client_contact",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Search",
+          "description": "Lists every individual considered for the search, with their stage.",
+          "api_slug": "search",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "searches"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "searches",
+            "title": "Candidates",
+            "api_slug": "candidates",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Candidate",
+          "description": "Shows every search a person has been considered for. The candidate is a Person with type candidate.",
+          "api_slug": "candidate",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Search candidacies",
+            "api_slug": "search_candidacies",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Search",
+          "description": "Lists the fee schedule for the search.",
+          "api_slug": "search",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "searches"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "searches",
+            "title": "Fee instalments",
+            "api_slug": "fee_instalments",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

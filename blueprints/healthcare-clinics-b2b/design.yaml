@@ -1,0 +1,628 @@
+extends: core
+name: Healthcare clinics, B2B
+description: >-
+  A private clinic or health-services provider that sells to businesses only. Customers are employers,
+  insurers and intermediaries who buy services for their people, and referral partners who send work.
+  The CRM holds NO patient or health data of any kind. It records organisations, business contacts,
+  contracts and aggregate counts only. Patient records stay in the clinical system.
+
+add_objects:
+  - key: service
+    label: Service
+    plural_label: Services
+    description: >-
+      One service line the clinic sells to organisations, for example a type of assessment, programme or
+      screening. A catalogue entry with price and delivery mode. Holds no patient or health data.
+  - key: service_contract
+    label: Service contract
+    plural_label: Service contracts
+    description: >-
+      The agreement under which the clinic provides services to one employer or insurer, with its term,
+      pricing basis and renewal date. Created when a deal is won. Holds only commercial terms and
+      aggregate headcount, never information about any patient.
+  - key: referral_agreement
+    label: Referral agreement
+    plural_label: Referral agreements
+    description: >-
+      The working arrangement with one referral partner, such as a broker, insurer panel or another
+      provider. Tracks governance checks and the agreement. Volumes are aggregate counts only. Never
+      record who was referred or why.
+
+add_fields:
+  # Company
+  - object: company
+    key: account_type
+    label: Account type
+    type: select
+    description: What kind of organisation this is. Decides which pipeline it belongs in.
+    options:
+      employer: Employer
+      insurer: Insurer
+      broker: Broker or intermediary
+      case_management: Case management provider
+      other_provider: Other healthcare provider
+      other: Other
+  - object: company
+    key: headcount_band
+    label: Headcount band
+    type: select
+    description: Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.
+    options:
+      under_50: Under 50
+      from_50_to_249: 50 to 249
+      from_250_to_999: 250 to 999
+      from_1000_up: 1,000 or more
+  - object: company
+    key: sector
+    label: Sector
+    type: select
+    description: The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.
+    options:
+      manufacturing: Manufacturing
+      logistics: Logistics and transport
+      construction: Construction
+      public_sector: Public sector
+      professional_services: Professional services
+      retail_hospitality: Retail and hospitality
+      other: Other
+  - object: company
+    key: customer_status
+    label: Customer status
+    type: select
+    description: Where the organisation is in its life with us.
+    options: {prospect: Prospect, active_customer: Active customer, former_customer: Former customer}
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the organisation first came to us. Set once, never overwritten.
+    options:
+      referral_partner: Referral partner
+      inbound_enquiry: Inbound enquiry
+      outbound: Outbound
+      event: Event
+      existing_customer: Existing customer
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: >-
+      The part this person plays in a purchase. These are business contacts only. A patient is never
+      stored as a person here.
+    options:
+      hr_lead: HR lead
+      benefits_manager: Benefits manager
+      health_safety_lead: Health and safety lead
+      finance_lead: Finance lead
+      procurement: Procurement
+      broker_contact: Broker contact
+      claims_contact: Claims contact
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost. Required on every lost stage.
+    options:
+      no_budget: No budget
+      incumbent_kept: Kept current provider
+      price: Price
+      coverage_gap: We could not cover their sites or services
+      governance_failed: Governance or data protection review failed
+      no_decision: No decision made
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: service_interest
+    label: Service interest
+    type: multi_select
+    description: Which service lines the buyer wants quoted. Used to report demand by service.
+    options:
+      assessments: Workplace assessments
+      physiotherapy: Workplace physiotherapy
+      diagnostics: Diagnostics
+      screening: Screening and surveillance
+      vaccination: Vaccination programmes
+      mental_wellbeing: Wellbeing support programmes
+  - object: deal
+    key: covered_headcount
+    label: Covered headcount
+    type: number
+    description: Number of employees the contract would cover, as stated by the employer. A count only.
+  - object: deal
+    key: sites_covered
+    label: Sites covered
+    type: number
+    description: Number of employer sites the clinic would serve. Sets travel and on-site cost.
+  - object: deal
+    key: pricing_model
+    label: Pricing model
+    type: select
+    description: How the buyer will be charged.
+    options:
+      per_appointment: Per appointment
+      per_employee_per_month: Per employee per month
+      annual_retainer: Annual retainer
+      pay_as_you_go: Pay as you go
+  - object: deal
+    key: governance_review_passed
+    label: Governance review passed
+    type: checkbox
+    description: >-
+      The buyer's data protection and clinical governance review is complete and a data processing
+      agreement is agreed.
+  - object: deal
+    key: pilot_agreed
+    label: Pilot agreed
+    type: checkbox
+    description: A time-limited trial with a defined scope has been agreed in writing.
+  - object: deal
+    key: contract_term_months
+    label: Contract term (months)
+    type: number
+    description: Length of the proposed contract in months.
+  - object: deal
+    key: renewal_risk
+    label: Renewal risk
+    type: select
+    description: Account manager's view of how likely a renewal deal is to close.
+    options: {low: Low, medium: Medium, high: High}
+  # Service
+  - object: service
+    key: name
+    label: Name
+    type: text
+    description: The service line as sold, for example a type of workplace assessment.
+    required: true
+  - object: service
+    key: category
+    label: Category
+    type: select
+    description: Group of the service, for reporting revenue by line.
+    options:
+      assessments: Assessments
+      treatment: Treatment programmes
+      diagnostics: Diagnostics
+      screening: Screening and surveillance
+      vaccination: Vaccination
+      wellbeing: Wellbeing
+  - object: service
+    key: delivery_mode
+    label: Delivery mode
+    type: select
+    description: Where the service is provided. Affects cost and which sites a contract can cover.
+    options: {at_clinic: At the clinic, on_site_at_client: On site at the client, remote: Remote}
+  - object: service
+    key: list_price
+    label: List price
+    type: currency
+    description: Standard price per pricing unit before discount.
+  - object: service
+    key: pricing_unit
+    label: Pricing unit
+    type: select
+    description: What the list price is charged against.
+    options: {per_appointment: Per appointment, per_employee: Per employee, per_session: Per session, per_day: Per day}
+  - object: service
+    key: active
+    label: Active
+    type: checkbox
+    description: The service can currently be sold.
+  - object: service
+    key: regulated
+    label: Regulated activity
+    type: checkbox
+    description: The service needs regulator registration or a named clinician lead before it is sold.
+  # Service contract
+  - object: service_contract
+    key: name
+    label: Name
+    type: text
+    description: Organisation name and the word contract. Never include a person's name.
+    required: true
+  - object: service_contract
+    key: status
+    label: Status
+    type: select
+    description: Where the contract is in its life.
+    options: {pending_start: Pending start, active: Active, in_renewal: In renewal, ended: Ended}
+  - object: service_contract
+    key: start_date
+    label: Start date
+    type: date
+    description: First day of the current term.
+  - object: service_contract
+    key: renewal_date
+    label: Renewal date
+    type: date
+    description: Last day of the current term. A renewal deal opens 90 days before it.
+  - object: service_contract
+    key: pricing_model
+    label: Pricing model
+    type: select
+    description: How the customer is charged under this contract.
+    options:
+      per_appointment: Per appointment
+      per_employee_per_month: Per employee per month
+      annual_retainer: Annual retainer
+      pay_as_you_go: Pay as you go
+  - object: service_contract
+    key: annual_value
+    label: Annual value
+    type: currency
+    description: Expected yearly revenue from this contract at current prices.
+  - object: service_contract
+    key: covered_headcount
+    label: Covered headcount
+    type: number
+    description: Number of employees in scope, as told to us by the employer. A count only, never a list of people.
+  - object: service_contract
+    key: dpa_signed
+    label: Data processing agreement signed
+    type: checkbox
+    description: A data processing agreement is in place before any service starts. Required for every contract.
+  - object: service_contract
+    key: review_cadence
+    label: Review cadence
+    type: select
+    description: How often the account manager holds a service review with the customer.
+    options: {monthly: Monthly, quarterly: Quarterly, annually: Annually}
+  - object: service_contract
+    key: account_manager
+    label: Account manager
+    type: user
+    description: The team member responsible for the customer after the sale.
+  # Referral agreement
+  - object: referral_agreement
+    key: name
+    label: Name
+    type: text
+    description: Partner organisation name and the word agreement.
+    required: true
+  - object: referral_agreement
+    key: agreement_type
+    label: Agreement type
+    type: select
+    description: Which way work flows and how the partner is listed.
+    options:
+      referral_in: Partner refers to us
+      referral_out: We refer to partner
+      preferred_provider: Preferred provider listing
+      broker_introduction: Broker introduction
+  - object: referral_agreement
+    key: fee_basis
+    label: Fee basis
+    type: select
+    description: Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.
+    options: {none: None, fixed_fee: Fixed fee, revenue_share: Revenue share}
+  - object: referral_agreement
+    key: governance_checked
+    label: Governance checked
+    type: checkbox
+    description: Information governance and clinical governance checks on the partner are complete.
+  - object: referral_agreement
+    key: signed_date
+    label: Signed date
+    type: date
+    description: The day the agreement was signed by both sides.
+  - object: referral_agreement
+    key: review_date
+    label: Review date
+    type: date
+    description: When the arrangement is next reviewed.
+  - object: referral_agreement
+    key: referrals_last_quarter
+    label: Referrals last quarter
+    type: number
+    description: Aggregate number of referrals in the last quarter. A count only. Never record who was referred.
+  - object: referral_agreement
+    key: decline_reason
+    label: Decline reason
+    type: select
+    description: Why the partnership did not go ahead. Required on the declined stage.
+    options:
+      governance_failed: Governance check failed
+      not_a_fit: Not a fit
+      conflict: Conflict of interest
+      partner_declined: Partner declined
+      no_response: No response
+      other: Other
+
+add_relationships:
+  - key: service_contract_company
+    from: service_contract
+    to: company
+    cardinality: many_to_one
+    from_label: Customer
+    to_label: Service contracts
+    purpose: Shows every contract a customer has had.
+  - key: service_contract_deal
+    from: service_contract
+    to: deal
+    cardinality: many_to_one
+    from_label: Originating deal
+    to_label: Service contracts
+    purpose: Ties a contract to the deal that won it and to later renewal deals.
+  - key: service_contract_service
+    from: service_contract
+    to: service
+    cardinality: many_to_many
+    from_label: Services
+    to_label: Service contracts
+    purpose: Records which service lines each contract includes.
+  - key: deal_service
+    from: deal
+    to: service
+    cardinality: many_to_many
+    from_label: Services quoted
+    to_label: Deals
+    purpose: Shows which services were quoted on a deal, to see what sells.
+  - key: referral_agreement_company
+    from: referral_agreement
+    to: company
+    cardinality: many_to_one
+    from_label: Partner organisation
+    to_label: Referral agreements
+    purpose: Links each agreement to the organisation that is the partner.
+  - key: referral_agreement_person
+    from: referral_agreement
+    to: person
+    cardinality: many_to_one
+    from_label: Partner contact
+    to_label: Referral agreements
+    purpose: Names the business contact who manages the partnership. Never a patient.
+  - key: deal_referral_agreement
+    from: deal
+    to: referral_agreement
+    cardinality: many_to_one
+    from_label: Source partner
+    to_label: Deals sourced
+    purpose: Credits the partner that introduced a deal, so partner value can be reported.
+
+pipelines:
+  - object: deal
+    key: employer_insurer_contracts
+    name: Employer and insurer contracts
+    stages:
+      - key: qualified
+        label: Qualified
+        type: open
+        probability: 10
+        exit_criteria: Entered when a named buyer at an employer or insurer has a stated need and enough people to be worth a contract.
+        required_fields: [service_interest, next_step_date]
+      - key: discovery
+        label: Discovery
+        type: open
+        probability: 25
+        exit_criteria: Entered when the first needs call has happened and sites, headcount and services are written down.
+        required_fields: [covered_headcount, sites_covered, next_step_date]
+      - key: proposal
+        label: Proposal
+        type: open
+        probability: 45
+        exit_criteria: Entered when a priced proposal with services and pricing model has been sent.
+        required_fields: [amount, pricing_model, contract_term_months]
+      - key: governance_review
+        label: Governance review
+        type: open
+        probability: 65
+        exit_criteria: Entered when the buyer has started their data protection, clinical governance or procurement review.
+        required_fields: [next_step_date]
+      - key: pilot
+        label: Pilot
+        type: open
+        probability: 75
+        exit_criteria: Entered when a pilot has been agreed in writing and has a start date.
+        required_fields: [pilot_agreed, next_step_date]
+      - key: contract_out
+        label: Contract out
+        type: open
+        probability: 90
+        exit_criteria: Entered when the governance review is passed and the contract has been sent for signature.
+        required_fields: [amount, close_date, governance_review_passed]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed contract is received and a service contract record is created.
+        required_fields: [amount, close_date, governance_review_passed]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: deal
+    key: contract_renewals
+    name: Contract renewals
+    stages:
+      - key: upcoming
+        label: Upcoming
+        type: open
+        probability: 60
+        exit_criteria: Entered when the service contract is 90 days from its renewal date.
+        required_fields: [renewal_risk]
+      - key: review_meeting
+        label: Review meeting
+        type: open
+        probability: 70
+        exit_criteria: Entered when a service review with the customer has been held.
+        required_fields: [renewal_risk, next_step_date]
+      - key: terms_proposed
+        label: Terms proposed
+        type: open
+        probability: 80
+        exit_criteria: Entered when renewal pricing and terms have been sent to the buyer.
+        required_fields: [amount, pricing_model, contract_term_months]
+      - key: awaiting_signature
+        label: Awaiting signature
+        type: open
+        probability: 95
+        exit_criteria: Entered when the final renewal contract has been sent for signature.
+        required_fields: [amount, close_date]
+      - key: renewed
+        label: Renewed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed renewal is received and the contract dates are updated.
+        required_fields: [amount, close_date]
+      - key: not_renewed
+        label: Not renewed
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the customer confirms they will not renew, or the term ends unsigned.
+        required_fields: [lost_reason]
+  - object: referral_agreement
+    key: referral_partners
+    name: Referral partners
+    stages:
+      - key: identified
+        label: Identified
+        type: open
+        probability: 10
+        exit_criteria: Entered when a likely partner and a named business contact have been identified.
+        required_fields: [agreement_type]
+      - key: intro_meeting
+        label: Intro meeting
+        type: open
+        probability: 30
+        exit_criteria: Entered when a first meeting with the partner has happened and both sides want to continue.
+        required_fields: [fee_basis]
+      - key: governance_check
+        label: Governance check
+        type: open
+        probability: 55
+        exit_criteria: Entered when information governance and clinical governance checks on the partner have started.
+        required_fields: [fee_basis]
+      - key: agreement_sent
+        label: Agreement sent
+        type: open
+        probability: 80
+        exit_criteria: Entered when governance checks are complete and the agreement has been sent for signature.
+        required_fields: [governance_checked]
+      - key: active
+        label: Active
+        type: won
+        probability: 100
+        exit_criteria: Entered when the agreement is signed by both sides.
+        required_fields: [signed_date, review_date, governance_checked]
+      - key: declined
+        label: Declined
+        type: lost
+        probability: 0
+        exit_criteria: Entered when either side decides not to proceed, or a governance check fails.
+        required_fields: [decline_reason]
+
+decisions:
+  - key: no_patient_data
+    question: Does the CRM store any patient, health or clinical information?
+    recommended_default: >-
+      No, never. The CRM is for organisations, business contacts, contracts and aggregate counts. A
+      patient is not a Person record, and no field, note, form, email sync or call recording may carry
+      health information. Health data is special category data under UK GDPR and stays in the clinical
+      system, which is also where consent and retention rules are enforced.
+  - key: delivery_on_service_contract
+    question: Is delivery tracked on a service contract object rather than as stages on the deal?
+    recommended_default: >-
+      Yes. The sales deal ends at closed won. The service contract carries term, pricing basis,
+      data processing agreement and renewal date, and is owned by the account manager.
+  - key: referral_partners_pipeline
+    question: Are referral partners tracked in their own pipeline rather than as deals?
+    recommended_default: >-
+      Yes. A partnership has no sale value and a governance check no deal has, so it gets its own
+      object and pipeline. Deals link back to the source partner for attribution.
+  - key: referral_fees
+    question: Do any referral partnerships involve payment?
+    recommended_default: >-
+      Default to none. Any fixed fee or revenue share is reviewed by legal and the clinical lead
+      before the agreement is sent, because fees for healthcare referrals can be restricted.
+  - key: access_restrictions
+    question: Who can see the CRM, and is email or call sync allowed?
+    recommended_default: >-
+      Give access only to commercial staff. Do not connect clinical mailboxes or recorded patient
+      calls. Turn off call transcription and email body capture on shared inboxes, and set
+      free-text fields with a warning not to enter personal health details.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects and a pipeline on a custom object?
+    recommended_default: >-
+      Check before the build. If not, hold the referral partners as a deal pipeline and the service
+      contract as company fields, and record the gap in the client notes.
+
+automations:
+  - key: create_service_contract_on_win
+    name: Create service contract on win
+    trigger: A deal in the employer and insurer contracts pipeline moves to closed won.
+    action: >-
+      Create a service contract with the deal's amount, term and services, link it to the deal and
+      the company, set status to pending start and the customer status to active customer.
+  - key: block_start_without_dpa
+    name: Block start without data processing agreement
+    trigger: A service contract is set to active and the data processing agreement signed box is empty.
+    action: Set the status back to pending start and notify the account manager and the data protection lead.
+  - key: open_renewal_deal
+    name: Open renewal deal
+    trigger: A service contract's renewal date is 90 days away and its status is active.
+    action: >-
+      Create a deal in the contract renewals pipeline at upcoming, linked to the contract, and set
+      the contract status to in renewal.
+  - key: partner_review_reminder
+    name: Partner review reminder
+    trigger: An active referral agreement has a review date within 30 days.
+    action: Create a task for the partnerships owner to hold the review and update the quarterly referral count.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+
+views:
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: deals_in_governance
+    name: Deals in governance review
+    object: deal
+    filter: Stage is governance review or pilot.
+    sort: Next step date, soonest first.
+  - key: renewals_next_90_days
+    name: Renewals in the next 90 days
+    object: service_contract
+    filter: Status is active or in renewal and renewal date is within 90 days.
+    sort: Renewal date, soonest first.
+  - key: partners_due_review
+    name: Partners due review
+    object: referral_agreement
+    filter: Stage is active and review date is within 60 days.
+    sort: Review date, soonest first.
+  - key: brokers_and_insurers
+    name: Brokers and insurers
+    object: company
+    filter: Account type is insurer or broker.
+    sort: Name, A to Z.
+
+platform_overrides:
+  attio:
+    objects:
+      service: {api_slug: services}
+      service_contract: {api_slug: service_contracts}
+      referral_agreement: {api_slug: referral_agreements}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      service: {api_name: Service__c}
+      service_contract: {api_name: Service_Contract__c}
+      referral_agreement: {api_name: Referral_Agreement__c}

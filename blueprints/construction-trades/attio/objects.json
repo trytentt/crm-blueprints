@@ -1,0 +1,42 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "sites",
+          "singular_noun": "Site",
+          "plural_noun": "Sites"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "projects",
+          "singular_noun": "Project",
+          "plural_noun": "Projects"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "estimates",
+          "singular_noun": "Estimate",
+          "plural_noun": "Estimates"
+        }
+      }
+    }
+  ]
+}

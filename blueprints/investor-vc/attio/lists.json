@@ -1,0 +1,258 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Deal flow",
+          "api_slug": "deal_flow",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Deal flow pipeline. Sourced: Entered when a startup is logged with a source and a founder contact. Screening: Entered when a team member has read the materials and picked the deal up for review. First meeting: Entered when a founder meeting is booked after the deal passes screening. Deep dive: Entered when the first meeting has happened and the deal lead has more calls and data requests planned. Partner meeting: Entered when the deal lead has presented to the partners and they agreed to a term sheet or diligence. Term sheet: Entered when a term sheet has been issued to the startup. Due diligence: Entered when the term sheet is signed and legal, financial and reference checks are running. Investment committee: Entered when diligence is finished and the investment memo has gone to the committee. Invested: Entered when the investment is approved, documents are signed and funds are sent. Passed: Entered when we decide not to invest or the startup closes its round without us.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes",
+      "body": {
+        "data": {
+          "title": "Pass reason",
+          "description": "Why we passed on the company. Required on the passed stage. Reported to refine the thesis.",
+          "api_slug": "pass_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside thesis"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Team concerns"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Market too small"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Not enough traction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Valuation too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms not agreed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Diligence issue"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Lost the round"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/pass_reason/options",
+      "body": {
+        "data": {
+          "title": "Too early or too late"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Portfolio outcome",
+          "api_slug": "portfolio_outcome",
+          "parent_object": "portfolio_investments",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Portfolio outcome pipeline. Active: Entered when the investment is made and recorded. Follow-on review: Entered when the company is raising again or has asked for more capital. Exit preparation: Entered when the partners agree to start planning a sale or listing. Exit process: Entered when an acquirer or listing process is under way with a signed letter of intent or mandate. Exited: Entered when proceeds from the sale or listing have been received. Written off: Entered when the company has closed or the holding is written down to nil.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes",
+      "body": {
+        "data": {
+          "title": "Write-off reason",
+          "description": "Why the investment was written off. Required on the written-off stage.",
+          "api_slug": "write_off_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Ran out of cash"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Product failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Team split"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Market changed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/write_off_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

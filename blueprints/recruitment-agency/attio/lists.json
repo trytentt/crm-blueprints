@@ -1,0 +1,276 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Client development",
+          "api_slug": "client_development",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Client development pipeline. Target: Entered when a company with a likely hiring need is chosen for outreach and a hiring contact is identified. Conversation: Entered when a hiring manager has spoken to us about a current or planned hire. Terms discussed: Entered when the client has asked for our fees and terms of business. Terms sent: Entered when the terms of business have been sent to someone with authority to sign. Terms signed: Entered when the signed terms of business are received and the company terms status is set to signed. Not won: Entered when the client declines terms, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the client deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No hiring need"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Uses other agencies"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Hires in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Terms rejected"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/client_development/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Placement",
+          "api_slug": "placement",
+          "parent_object": "submissions",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Placement pipeline. Sourced: Entered when a candidate has been matched to the role and the consultant has recorded how they were found. Screened: Entered when the consultant has spoken to the candidate and confirmed interest, salary expectation and availability. Submitted: Entered when the candidate has been formally sent to the client with their agreement. Interviewing: Entered when the client has booked a first interview with the candidate. Offer: Entered when the client has said they want to make an offer. Offer accepted: Entered when the candidate has accepted in writing and a start date is agreed. Placed: Entered when the candidate has started and the fee amount is recorded. Rejected: Entered when the client or the candidate ends the process, or the role is filled by someone else.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes",
+      "body": {
+        "data": {
+          "title": "Rejection reason",
+          "description": "Why the candidate did not move forward. Required on the rejected stage.",
+          "api_slug": "rejection_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Skills not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Culture not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Salary mismatch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Candidate withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Accepted another offer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Role filled elsewhere"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Failed checks"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Offer declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/placement/attributes/rejection_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

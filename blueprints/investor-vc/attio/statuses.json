@@ -1,0 +1,169 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Sourced",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Screening",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "First meeting",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Deep dive",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Partner meeting",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Term sheet",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Due diligence",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Investment committee",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Invested",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/deal_flow/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Passed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Active",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Follow-on review",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Exit preparation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Exit process",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Exited",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/portfolio_outcome/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Written off",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

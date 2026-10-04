@@ -1,0 +1,42 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "events",
+          "singular_noun": "Event",
+          "plural_noun": "Events"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "packages",
+          "singular_noun": "Package",
+          "plural_noun": "Packages"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "fulfilments",
+          "singular_noun": "Fulfilment",
+          "plural_noun": "Fulfilments"
+        }
+      }
+    }
+  ]
+}

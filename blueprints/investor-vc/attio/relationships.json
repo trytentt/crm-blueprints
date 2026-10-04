@@ -1,0 +1,150 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Shows each investment we hold in a company across rounds.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Our investments",
+            "api_slug": "our_investments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Source deal",
+          "description": "Links an investment to the deal that created it.",
+          "api_slug": "source_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Investments",
+            "api_slug": "investments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/portfolio_investments/attributes",
+      "body": {
+        "data": {
+          "title": "Co-investors",
+          "description": "Records which other funds invested alongside us, so we can see who we back with.",
+          "api_slug": "co_investors",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Co-invested in",
+            "api_slug": "co_invested_in",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Co-investors on the round",
+          "description": "Records the other investors in a round we are looking at, including who leads.",
+          "api_slug": "co_investors_on_the_round",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Rounds considered",
+            "api_slug": "rounds_considered",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Introduced by",
+          "description": "Records who sent us the deal, so introducers can be thanked and measured.",
+          "api_slug": "introduced_by",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Deals introduced",
+            "api_slug": "deals_introduced",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

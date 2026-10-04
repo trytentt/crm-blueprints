@@ -1,0 +1,206 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Programme",
+          "description": "Shows every dated run of a programme and its fill rate.",
+          "api_slug": "programme",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "programmes"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "programmes",
+            "title": "Cohorts",
+            "api_slug": "cohorts",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/cohorts/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Names the client for an in-house cohort. Empty for open cohorts.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "In-house cohorts",
+            "api_slug": "in_house_cohorts",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Cohort",
+          "description": "Counts places taken on each cohort.",
+          "api_slug": "cohort",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "cohorts"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "cohorts",
+            "title": "Enrolments",
+            "api_slug": "enrolments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Delegate",
+          "description": "Gives each delegate a single history of everything they have attended.",
+          "api_slug": "delegate",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Enrolments",
+            "api_slug": "enrolments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Paying employer",
+          "description": "Shows what an employer has booked in total, for repeat-booking follow-up.",
+          "api_slug": "paying_employer",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Enrolments",
+            "api_slug": "enrolments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/enrolments/attributes",
+      "body": {
+        "data": {
+          "title": "Corporate deal",
+          "description": "Ties delegate places back to the corporate deal that bought them, where there was one.",
+          "api_slug": "corporate_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Enrolments",
+            "api_slug": "enrolments",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Programmes",
+          "description": "Records which programmes a deal covers, to see which sell best.",
+          "api_slug": "programmes",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "programmes"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "programmes",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

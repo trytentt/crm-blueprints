@@ -1,0 +1,1968 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "client_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Active client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Past client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Off-limits"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Off-limits until",
+          "description": "If the company is off-limits for candidate approaches because of a client agreement, the date that ends the restriction.",
+          "api_slug": "off_limits_until",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Sector",
+          "description": "The company's sector. Used to match partners and to map the market for searches.",
+          "api_slug": "sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Financial services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Consumer and retail"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Industrial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Healthcare and life sciences"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Private equity portfolio"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Public and not-for-profit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Repeat client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Investor introduction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Person type",
+          "description": "What this person is to us. One human has one record, so a candidate who later becomes a client carries both types.",
+          "api_slug": "person_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Client contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Candidate"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Source or market expert"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Referee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Investor or board member"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/person_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Seniority",
+          "description": "For candidates and contacts, their level. Used to map the market and brief the right partner.",
+          "api_slug": "seniority",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Board or chair"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "C-suite"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "VP or director"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Head of function"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Function",
+          "description": "For candidates, their function. Used to find people for searches.",
+          "api_slug": "function",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "General management"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Finance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Operations"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Commercial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "People"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Legal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Contact restriction",
+          "description": "Whether we may approach this person. Set before any outreach and honoured across all searches.",
+          "api_slug": "contact_restriction",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_restriction/options",
+      "body": {
+        "data": {
+          "title": "None"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_restriction/options",
+      "body": {
+        "data": {
+          "title": "Do not contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_restriction/options",
+      "body": {
+        "data": {
+          "title": "Off-limits because of a client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/contact_restriction/options",
+      "body": {
+        "data": {
+          "title": "Waiting for consent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Privacy basis",
+          "description": "The lawful basis for holding and contacting this person, recorded when they are added.",
+          "api_slug": "privacy_basis",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Consent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Legitimate interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Contract"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/privacy_basis/options",
+      "body": {
+        "data": {
+          "title": "Unknown"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Current total compensation",
+          "description": "Candidate's current annual total pay as they told us. Sensitive personal data. Visible to the search team only.",
+          "api_slug": "current_total_compensation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Data review date",
+          "description": "The date this record must be reviewed or deleted under the firm's retention policy.",
+          "api_slug": "data_review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the mandate deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another firm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Went contingent"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Hired internally"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Role cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fee terms"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict or off-limits"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Role title",
+          "description": "The senior role the client wants to fill, as they describe it.",
+          "api_slug": "role_title",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected total compensation",
+          "description": "The role's expected first-year total pay. The fee is calculated from it.",
+          "api_slug": "expected_total_compensation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Fee percent",
+          "description": "Retained fee as a percentage of first-year total compensation. Percentage stored as a number from 0 to 100.",
+          "api_slug": "fee_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Fee structure",
+          "description": "How the retained fee is split into instalments. Agreed in the proposal.",
+          "api_slug": "fee_structure",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_structure/options",
+      "body": {
+        "data": {
+          "title": "Thirds on engagement, shortlist and placement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_structure/options",
+      "body": {
+        "data": {
+          "title": "Thirds on a monthly schedule"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_structure/options",
+      "body": {
+        "data": {
+          "title": "Half on engagement, half on placement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_structure/options",
+      "body": {
+        "data": {
+          "title": "Fixed fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/fee_structure/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Confidential search",
+          "description": "The incumbent does not know the role is open. Restricts who sees the deal and how it is named.",
+          "api_slug": "confidential_search",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Competing firms",
+          "description": "Whether other firms are pitching for the mandate.",
+          "api_slug": "competing_firms",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/competing_firms/options",
+      "body": {
+        "data": {
+          "title": "Sole pitch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/competing_firms/options",
+      "body": {
+        "data": {
+          "title": "Two or three firms"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/competing_firms/options",
+      "body": {
+        "data": {
+          "title": "Panel or formal tender"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/competing_firms/options",
+      "body": {
+        "data": {
+          "title": "Unknown"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Exclusivity confirmed",
+          "description": "The client has confirmed we are the only firm retained for the role.",
+          "api_slug": "exclusivity_confirmed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Role title",
+          "description": "The senior role being filled. Kept off confidential searches' visible names.",
+          "api_slug": "role_title",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Function",
+          "description": "The function of the role. Used to report by practice.",
+          "api_slug": "function",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "General management"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Finance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Technology"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Operations"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Commercial"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "People"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Legal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/function/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Seniority",
+          "description": "The level of the role. Used to report by level.",
+          "api_slug": "seniority",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Board or chair"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "C-suite"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "VP or director"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Head of function"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/seniority/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Confidential",
+          "description": "The incumbent or market must not know. Restricts record access and sets approach rules.",
+          "api_slug": "confidential",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Expected total compensation",
+          "description": "The role's expected first-year total pay, from the signed mandate.",
+          "api_slug": "expected_total_compensation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Total fee",
+          "description": "Total retained fee agreed in the mandate, excluding expenses.",
+          "api_slug": "total_fee",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Engaged date",
+          "description": "The date the mandate was signed. The timetable runs from here.",
+          "api_slug": "engaged_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Target shortlist date",
+          "description": "The date the mandate promises a shortlist to the client.",
+          "api_slug": "target_shortlist_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Target placement date",
+          "description": "The date the client wants the new executive to start.",
+          "api_slug": "target_placement_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Longlist size",
+          "description": "Number of people agreed on the longlist. Used to see how much mapping each search needs.",
+          "api_slug": "longlist_size",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Partner",
+          "description": "The partner accountable for the search and the client relationship.",
+          "api_slug": "partner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Consultant",
+          "description": "The consultant who runs the search day to day.",
+          "api_slug": "consultant",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes",
+      "body": {
+        "data": {
+          "title": "Close reason",
+          "description": "Why the search ended without a placement. Required on the closed stage.",
+          "api_slug": "close_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client filled internally"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Role cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client paused indefinitely"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "We withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Candidate pool exhausted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/searches/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Source",
+          "description": "How the candidate came to this search. Used to see which channels produce shortlisted people.",
+          "api_slug": "source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Market mapping"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Network referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Inbound application"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Client suggestion"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/source/options",
+      "body": {
+        "data": {
+          "title": "Our database"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Assessment rating",
+          "description": "The consultant's rating after the first full interview. Decides whether the candidate reaches the shortlist.",
+          "api_slug": "assessment_rating",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/assessment_rating/options",
+      "body": {
+        "data": {
+          "title": "Strong"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/assessment_rating/options",
+      "body": {
+        "data": {
+          "title": "Good"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/assessment_rating/options",
+      "body": {
+        "data": {
+          "title": "Marginal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/assessment_rating/options",
+      "body": {
+        "data": {
+          "title": "Not suitable"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Motivation",
+          "description": "How open the candidate is to moving. Used to prioritise outreach.",
+          "api_slug": "motivation",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/motivation/options",
+      "body": {
+        "data": {
+          "title": "Actively looking"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/motivation/options",
+      "body": {
+        "data": {
+          "title": "Open to move"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/motivation/options",
+      "body": {
+        "data": {
+          "title": "Would consider for the right role"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/motivation/options",
+      "body": {
+        "data": {
+          "title": "Not interested"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Client feedback",
+          "description": "The client's decision after seeing the candidate's profile or meeting them.",
+          "api_slug": "client_feedback",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/client_feedback/options",
+      "body": {
+        "data": {
+          "title": "Pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/client_feedback/options",
+      "body": {
+        "data": {
+          "title": "Want to meet"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/client_feedback/options",
+      "body": {
+        "data": {
+          "title": "Not proceeding"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/client_feedback/options",
+      "body": {
+        "data": {
+          "title": "Offer wanted"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Outreach date",
+          "description": "The date of the first approach to the candidate.",
+          "api_slug": "outreach_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Interview date",
+          "description": "The date of our full interview with the candidate.",
+          "api_slug": "interview_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Client interview date",
+          "description": "The date of the next or latest interview with the client.",
+          "api_slug": "client_interview_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Offered compensation",
+          "description": "First-year total pay in the offer. Confirms the fee basis.",
+          "api_slug": "offered_compensation",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "The day the candidate starts. Triggers the final fee instalment where the fee is tied to placement.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "References complete",
+          "description": "Referee checks are done and held in the document system. Record completion only.",
+          "api_slug": "references_complete",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes",
+      "body": {
+        "data": {
+          "title": "Out reason",
+          "description": "Why the candidate left the search. Required on the out stage.",
+          "api_slug": "out_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined approach"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Not suitable on assessment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Client did not proceed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Accepted another role"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Offer declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Off-limits"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/search_candidates/attributes/out_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Instalment number",
+          "description": "Position of this instalment in the fee schedule, starting at 1.",
+          "api_slug": "instalment_number",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Trigger",
+          "description": "The event or date that makes this instalment due.",
+          "api_slug": "trigger",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/trigger/options",
+      "body": {
+        "data": {
+          "title": "On engagement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/trigger/options",
+      "body": {
+        "data": {
+          "title": "On shortlist presented"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/trigger/options",
+      "body": {
+        "data": {
+          "title": "On placement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/trigger/options",
+      "body": {
+        "data": {
+          "title": "On a set date"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Amount",
+          "description": "The instalment amount before tax and expenses.",
+          "api_slug": "amount",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Due date",
+          "description": "The date the instalment may be invoiced. Empty until the trigger happens.",
+          "api_slug": "due_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Invoice reference",
+          "description": "The invoice number in the finance system. Matches CRM to the ledger.",
+          "api_slug": "invoice_reference",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes",
+      "body": {
+        "data": {
+          "title": "Waiver reason",
+          "description": "Why the instalment was cancelled or waived. Required on the waived stage.",
+          "api_slug": "waiver_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Search cancelled early"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Commercial concession"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Replaced by credit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/fee_instalments/attributes/waiver_reason/options",
+      "body": {
+        "data": {
+          "title": "Raised in error"
+        }
+      }
+    }
+  ]
+}

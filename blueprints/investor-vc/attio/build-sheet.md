@@ -1,0 +1,484 @@
+# Build sheet: Investor, VC and angel deal flow (attio)
+
+A venture or angel investor that sources startups, runs a deal-flow pipeline from first look to investment, then manages the investments as a portfolio. Startups and investors are companies, founders and partners are people, and co-investors are linked to each investment.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the investment tracked on its own object rather than as the end of the deal flow?**
+  - Recommended default: Yes. The deal flow ends at invested. The portfolio investment then lives for years, with its own owner, health check, follow-on decisions and exit, so it gets its own object and pipeline.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are co-investors recorded?**
+  - Recommended default: As companies with type co-investor, linked many-to-many to deals and investments. Their partners are people. This lets the team see who they back with and who leads rounds.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM also track fundraising from limited partners?**
+  - Recommended default: Not in this build. LPs are companies and people with type limited partner. Add a fundraising pipeline on Deal when the client describes one.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How much financial and valuation data sits in the CRM?**
+  - Recommended default: Headline numbers only: amount invested, ownership and latest carrying value. Cap tables, fund accounting and detailed reporting stay in the fund administrator's system.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do some deals need restricted visibility, for example inside information or conflicts?**
+  - Recommended default: Check the plan's record permissions before the build. If restricted records are not available, keep names out of deal titles for sensitive deals and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow a custom object for Portfolio investment?**
+  - Recommended default: Check before the build. If not, use a second deal pipeline for the portfolio, with ownership and valuation as deal properties, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are passed companies revisited later?**
+  - Recommended default: Yes. Record a pass reason and set a revisit date in the next step date, so a company passed as too early comes back at the next round.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Portfolio investment**
+  - Where: Workspace settings, then Objects, then New object. Use singular Portfolio investment, plural Portfolio investments, slug `portfolio_investments`.
+  - Purpose: One investment the firm has made in a company: amount, ownership, entry round, status and exit. Created when a deal closes. This is the post-investment side, separate from the deal flow.
+  - Done when: the object Portfolio investment exists with plural name Portfolio investments.
+- [ ] **Create relationship portfolio_investment to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Choose a relationship to company, name this side 'Company' and the other side 'Our investments'.
+  - Purpose: Shows each investment we hold in a company across rounds.
+  - Done when: a portfolio_investment record shows the link as 'Company' and a company record shows it as 'Our investments'.
+- [ ] **Create relationship portfolio_investment to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Source deal' and the other side 'Investments'.
+  - Purpose: Links an investment to the deal that created it.
+  - Done when: a portfolio_investment record shows the link as 'Source deal' and a deal record shows it as 'Investments'.
+- [ ] **Create relationship portfolio_investment to company (many_to_many)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Choose a relationship to company, name this side 'Co-investors' and the other side 'Co-invested in'.
+  - Purpose: Records which other funds invested alongside us, so we can see who we back with.
+  - Done when: a portfolio_investment record shows the link as 'Co-investors' and a company record shows it as 'Co-invested in'.
+- [ ] **Create relationship deal to company (many_to_many)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to company, name this side 'Co-investors on the round' and the other side 'Rounds considered'.
+  - Purpose: Records the other investors in a round we are looking at, including who leads.
+  - Done when: a deal record shows the link as 'Co-investors on the round' and a company record shows it as 'Rounds considered'.
+- [ ] **Create relationship deal to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to person, name this side 'Introduced by' and the other side 'Deals introduced'.
+  - Purpose: Records who sent us the deal, so introducers can be thanked and measured.
+  - Done when: a deal record shows the link as 'Introduced by' and a person record shows it as 'Deals introduced'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Deal flow on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Deal flow' (slug `deal_flow`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Deal flow exists with 10 stages in the order below.
+- [ ] **Stage 1: Sourced**
+  - Type: open. Probability: 2%.
+  - Entered when a startup is logged with a source and a founder contact.
+  - Set Probability to 2 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: deal_source.
+  - Done when: the stage Sourced is in position 1 and its rule is in place.
+- [ ] **Stage 2: Screening**
+  - Type: open. Probability: 5%.
+  - Entered when a team member has read the materials and picked the deal up for review.
+  - Set Probability to 5 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: deal_lead, round_type.
+  - Done when: the stage Screening is in position 2 and its rule is in place.
+- [ ] **Stage 3: First meeting**
+  - Type: open. Probability: 10%.
+  - Entered when a founder meeting is booked after the deal passes screening.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: thesis_fit_confirmed, next_step_date.
+  - Done when: the stage First meeting is in position 3 and its rule is in place.
+- [ ] **Stage 4: Deep dive**
+  - Type: open. Probability: 20%.
+  - Entered when the first meeting has happened and the deal lead has more calls and data requests planned.
+  - Set Probability to 20 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: conviction, round_size, next_step_date.
+  - Done when: the stage Deep dive is in position 4 and its rule is in place.
+- [ ] **Stage 5: Partner meeting**
+  - Type: open. Probability: 35%.
+  - Entered when the deal lead has presented to the partners and they agreed to a term sheet or diligence.
+  - Set Probability to 35 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: our_role, pre_money_valuation, conviction.
+  - Done when: the stage Partner meeting is in position 5 and its rule is in place.
+- [ ] **Stage 6: Term sheet**
+  - Type: open. Probability: 55%.
+  - Entered when a term sheet has been issued to the startup.
+  - Set Probability to 55 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: term_sheet_status, amount, pre_money_valuation.
+  - Done when: the stage Term sheet is in position 6 and its rule is in place.
+- [ ] **Stage 7: Due diligence**
+  - Type: open. Probability: 70%.
+  - Entered when the term sheet is signed and legal, financial and reference checks are running.
+  - Set Probability to 70 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: term_sheet_status, next_step_date.
+  - Done when: the stage Due diligence is in position 7 and its rule is in place.
+- [ ] **Stage 8: Investment committee**
+  - Type: open. Probability: 85%.
+  - Entered when diligence is finished and the investment memo has gone to the committee.
+  - Set Probability to 85 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: diligence_complete, amount.
+  - Done when: the stage Investment committee is in position 8 and its rule is in place.
+- [ ] **Stage 9: Invested**
+  - Type: won. Probability: 100%.
+  - Entered when the investment is approved, documents are signed and funds are sent.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: ic_approved, amount, close_date.
+  - Done when: the stage Invested is in position 9 and its rule is in place.
+- [ ] **Stage 10: Passed**
+  - Type: lost. Probability: 0%.
+  - Entered when we decide not to invest or the startup closes its round without us.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: pass_reason.
+  - Done when: the stage Passed is in position 10 and its rule is in place.
+- [ ] **Create pipeline Portfolio outcome on portfolio_investment**
+  - Where: Lists in the left sidebar, then New list, parent object portfolio_investment, named 'Portfolio outcome' (slug `portfolio_outcome`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Portfolio outcome exists with 6 stages in the order below.
+- [ ] **Stage 1: Active**
+  - Type: open. Probability: 30%.
+  - Entered when the investment is made and recorded.
+  - Set Probability to 30 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount_invested, ownership_percent, lead_partner.
+  - Done when: the stage Active is in position 1 and its rule is in place.
+- [ ] **Stage 2: Follow-on review**
+  - Type: open. Probability: 40%.
+  - Entered when the company is raising again or has asked for more capital.
+  - Set Probability to 40 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: follow_on_reserve, health.
+  - Done when: the stage Follow-on review is in position 2 and its rule is in place.
+- [ ] **Stage 3: Exit preparation**
+  - Type: open. Probability: 60%.
+  - Entered when the partners agree to start planning a sale or listing.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: latest_valuation.
+  - Done when: the stage Exit preparation is in position 3 and its rule is in place.
+- [ ] **Stage 4: Exit process**
+  - Type: open. Probability: 80%.
+  - Entered when an acquirer or listing process is under way with a signed letter of intent or mandate.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: latest_valuation, lead_partner.
+  - Done when: the stage Exit process is in position 4 and its rule is in place.
+- [ ] **Stage 5: Exited**
+  - Type: won. Probability: 100%.
+  - Entered when proceeds from the sale or listing have been received.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: exit_route.
+  - Done when: the stage Exited is in position 5 and its rule is in place.
+- [ ] **Stage 6: Written off**
+  - Type: lost. Probability: 0%.
+  - Entered when the company has closed or the holding is written down to nil.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: write_off_reason.
+  - Done when: the stage Written off is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Organisation type (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `org_type`.
+  - Purpose: What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.
+  - Options: Startup, Co-investor or other fund, Limited partner, Accelerator or studio, Corporate or strategic, Advisor or service provider
+  - Done when: Company records show Organisation type and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `sector`.
+  - Purpose: The startup's main market. Used to see thesis fit and portfolio spread. Edit the options to the investment thesis.
+  - Options: Software, Fintech, Health, Climate, Consumer, Deep tech, Marketplace, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Funding stage (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `funding_stage`.
+  - Purpose: The startup's current funding stage. Used to check fit with the fund's cheque size and focus.
+  - Options: Pre-seed, Seed, Series A, Series B, Later stage
+  - Done when: Company records show Funding stage and it accepts the right values.
+- [ ] **Create field Thesis fit (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `thesis_fit`.
+  - Purpose: Our view of how well the company fits the investment thesis. Set at screening.
+  - Options: Strong, Possible, Weak, Not assessed
+  - Done when: Company records show Thesis fit and it accepts the right values.
+- [ ] **Create field Relationship strength (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `relationship_strength`.
+  - Purpose: How well we know the organisation. Used to rank co-investors and introducers.
+  - Options: Close, Warm, Cold
+  - Done when: Company records show Relationship strength and it accepts the right values.
+- [ ] **Create field Country (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `hq_country`.
+  - Purpose: Where the company is based. Used to check geography rules and report by region.
+  - Options: Home market, Rest of Europe, North America, Rest of world
+  - Done when: Company records show Country and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Person role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `person_role`.
+  - Purpose: The part this person plays for us. Used to find founders to track and co-investors to call.
+  - Options: Founder, Executive, Co-investor partner, Introducer or scout, Limited partner contact, Advisor
+  - Done when: Person records show Person role and it accepts the right values.
+- [ ] **Create field Relationship strength (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `intro_strength`.
+  - Purpose: How well the team knows this person. Used to find the best route in to a founder.
+  - Options: Close, Warm, Cold
+  - Done when: Person records show Relationship strength and it accepts the right values.
+- [ ] **Create field Relationship owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `relationship_owner`.
+  - Purpose: The partner or associate who holds the relationship with this person.
+  - Done when: Person records show Relationship owner and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Pass reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `pass_reason`.
+  - Purpose: Why we passed on the company. Required on the passed stage. Reported to refine the thesis.
+  - Options: Outside thesis, Team concerns, Market too small, Not enough traction, Valuation too high, Terms not agreed, Diligence issue, Lost the round, Too early or too late
+  - Done when: Deal records show Pass reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Deal source (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `deal_source`.
+  - Purpose: How the deal reached us. Reported to see which channels produce investments.
+  - Options: Founder inbound, Warm introduction, Co-investor, Accelerator or studio, Our outbound, Event, Portfolio founder referral
+  - Done when: Deal records show Deal source and it accepts the right values.
+- [ ] **Create field Round type (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `round_type`.
+  - Purpose: The type of round the startup is raising.
+  - Options: Pre-seed, Seed, Series A, Series B, Bridge, Other
+  - Done when: Deal records show Round type and it accepts the right values.
+- [ ] **Create field Round size (currency)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type currency, slug `round_size`.
+  - Purpose: Total amount the startup is raising in this round.
+  - Done when: Deal records show Round size and it accepts the right values.
+- [ ] **Create field Pre-money valuation (currency)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type currency, slug `pre_money_valuation`.
+  - Purpose: Valuation before the round, as proposed or agreed.
+  - Done when: Deal records show Pre-money valuation and it accepts the right values.
+- [ ] **Create field Our role (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `our_role`.
+  - Purpose: Whether we lead the round, follow another lead or take part as a small investor.
+  - Options: Lead, Co-lead, Follow, Undecided
+  - Done when: Deal records show Our role and it accepts the right values.
+- [ ] **Create field Conviction (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `conviction`.
+  - Purpose: The deal lead's confidence in the deal after the latest stage. Updated at each stage.
+  - Options: High, Medium, Low, Not set
+  - Done when: Deal records show Conviction and it accepts the right values.
+- [ ] **Create field Deal lead (user)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type actor-reference, slug `deal_lead`.
+  - Purpose: The partner or associate who owns the deal and presents it at partner meetings.
+  - Done when: Deal records show Deal lead and it accepts the right values.
+- [ ] **Create field Thesis fit confirmed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `thesis_fit_confirmed`.
+  - Purpose: The deal lead has checked the company against stage, sector, geography and cheque size.
+  - Done when: Deal records show Thesis fit confirmed and it accepts the right values.
+- [ ] **Create field Diligence complete (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `diligence_complete`.
+  - Purpose: Commercial, financial, legal and reference checks are finished with no blocking findings.
+  - Done when: Deal records show Diligence complete and it accepts the right values.
+- [ ] **Create field Investment committee approved (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `ic_approved`.
+  - Purpose: The investment committee has approved the investment on the stated terms.
+  - Done when: Deal records show Investment committee approved and it accepts the right values.
+- [ ] **Create field Term sheet status (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `term_sheet_status`.
+  - Purpose: Progress of the term sheet, which sets valuation, amount and investor rights.
+  - Options: Not started, Drafted, Issued, Negotiating, Signed
+  - Done when: Deal records show Term sheet status and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Portfolio investment
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type text, slug `portfolio_investment_name`.
+  - Purpose: Company name and the round, for example the company's name and seed.
+  - Done when: Portfolio investment records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the investment stands.
+  - Options: Active, Follow-on review, Exit in progress, Exited, Written off
+  - Done when: Portfolio investment records show Status and it accepts the right values.
+- [ ] **Create field Fund (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `fund`.
+  - Purpose: The fund or vehicle that made the investment. Edit the options to the client's funds at build.
+  - Options: Fund one, Fund two, Angel syndicate, Direct or personal
+  - Done when: Portfolio investment records show Fund and it accepts the right values.
+- [ ] **Create field Entry round (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `entry_round`.
+  - Purpose: The round in which we first invested.
+  - Options: Pre-seed, Seed, Series A, Series B, Later stage
+  - Done when: Portfolio investment records show Entry round and it accepts the right values.
+- [ ] **Create field Investment date (date)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type date, slug `investment_date`.
+  - Purpose: Date the money was sent.
+  - Done when: Portfolio investment records show Investment date and it accepts the right values.
+- [ ] **Create field Amount invested (currency)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type currency, slug `amount_invested`.
+  - Purpose: Total invested across all rounds.
+  - Done when: Portfolio investment records show Amount invested and it accepts the right values.
+- [ ] **Create field Ownership (percent)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type number, slug `ownership_percent`.
+  - Purpose: Current fully diluted ownership. Updated after each round.
+  - Done when: Portfolio investment records show Ownership and it accepts the right values.
+- [ ] **Create field Latest valuation (currency)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type currency, slug `latest_valuation`.
+  - Purpose: Our latest carrying value of the holding, per the most recent valuation.
+  - Done when: Portfolio investment records show Latest valuation and it accepts the right values.
+- [ ] **Create field Follow-on reserve (currency)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type currency, slug `follow_on_reserve`.
+  - Purpose: Money held back for follow-on investment in this company.
+  - Done when: Portfolio investment records show Follow-on reserve and it accepts the right values.
+- [ ] **Create field Board seat (checkbox)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type checkbox, slug `board_seat`.
+  - Purpose: We hold a board seat or observer seat.
+  - Done when: Portfolio investment records show Board seat and it accepts the right values.
+- [ ] **Create field Health (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `health`.
+  - Purpose: The partner's view of how the company is doing. Reviewed monthly.
+  - Options: Thriving, On track, Needs support, At risk
+  - Done when: Portfolio investment records show Health and it accepts the right values.
+- [ ] **Create field Next update due (date)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type date, slug `next_update_due`.
+  - Purpose: When the next investor update or catch-up is due from the founders.
+  - Done when: Portfolio investment records show Next update due and it accepts the right values.
+- [ ] **Create field Exit route (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `exit_route`.
+  - Purpose: How the investment was realised. Required on the exited stage.
+  - Options: Acquisition, IPO, Secondary sale, Buyback
+  - Done when: Portfolio investment records show Exit route and it accepts the right values.
+- [ ] **Create field Write-off reason (select)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type select, slug `write_off_reason`.
+  - Purpose: Why the investment was written off. Required on the written-off stage.
+  - Options: Ran out of cash, Product failed, Team split, Market changed, Other
+  - Done when: Portfolio investment records show Write-off reason and it accepts the right values.
+- [ ] **Create field Lead partner (user)**
+  - Where: Workspace settings, then Objects, then Portfolio investment, then Attributes, then New attribute. Type actor-reference, slug `lead_partner`.
+  - Purpose: The partner responsible for supporting the company.
+  - Done when: Portfolio investment records show Lead partner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create investment on invested**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal in the deal flow pipeline moves to invested.
+  - Action: Create a portfolio investment from the deal's amount, valuation and close date, link it to the company and the deal, copy the round co-investors, and set the company's organisation type to startup.
+  - Done when: the automation runs on a test record and the result matches: Create a portfolio investment from the deal's amount, valuation and close date, link it to the company and the deal, copy the round co-investors, and set the company's organisation type to startup.
+- [ ] **Flag stalled deals**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal lead and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal lead and add the deal to the stalled deals view.
+- [ ] **Revisit passed companies**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal moves to passed with a pass reason of timing or traction and its next step date arrives.
+  - Action: Create a task for the deal lead to check progress and reopen the company at sourced if it now fits.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the deal lead to check progress and reopen the company at sourced if it now fits.
+- [ ] **Investor update reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A portfolio investment's next update due date is 7 days away.
+  - Action: Create a task for the lead partner to request the update from the founders.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lead partner to request the update from the founders.
+- [ ] **Follow-on alert**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A portfolio company's funding stage changes or its health changes to needs support.
+  - Action: Move the investment to follow-on review and notify the lead partner.
+  - Done when: the automation runs on a test record and the result matches: Move the investment to follow-on review and notify the lead partner.
+- [ ] **Thank the introducer**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal with an introducer moves to term sheet or invested.
+  - Action: Create a task for the deal lead to thank the introducer.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the deal lead to thank the introducer.
+
+## 6. Views
+
+- [ ] **Active deal flow**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and deal lead is me.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Active deal flow is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Passed, to revisit**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is passed and pass reason is timing or traction.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Passed, to revisit is saved and shows the expected records.
+- [ ] **Portfolio health**
+  - Where: Open Portfolio investments in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: portfolio_investment
+  - Filter: Status is active or follow-on review.
+  - Sort: Health, at risk first.
+  - Done when: the view Portfolio health is saved and shows the expected records.
+- [ ] **Investor updates due**
+  - Where: Open Portfolio investments in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: portfolio_investment
+  - Filter: Status is active and next update due is within 14 days.
+  - Sort: Next update due, soonest first.
+  - Done when: the view Investor updates due is saved and shows the expected records.
+- [ ] **Co-investors**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Organisation type is co-investor or other fund.
+  - Sort: Relationship strength, close first.
+  - Done when: the view Co-investors is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

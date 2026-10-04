@@ -1,0 +1,602 @@
+extends: core
+name: Recruitment agency
+description: >-
+  A recruitment agency that wins clients on contingent or retained terms, takes roles from them, and
+  places candidates. Clients and candidates are both People, told apart by a type field. Business
+  development runs on deals, roles are their own object, and each candidate put forward on a role
+  moves through the placement pipeline.
+
+add_objects:
+  - key: role
+    label: Role
+    plural_label: Roles
+    description: >-
+      One vacancy a client has asked us to fill, with its terms, fee basis and status. This is the
+      job order. Candidates are submitted against it. A client company has many roles over time.
+  - key: submission
+    label: Submission
+    plural_label: Submissions
+    description: >-
+      One candidate considered for one role. It moves through the placement pipeline from sourced to
+      placed or rejected, and holds the fee earned if the candidate starts.
+
+add_fields:
+  # Company
+  - object: company
+    key: client_status
+    label: Client status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options:
+      prospect: Prospect
+      active_client: Active client
+      dormant_client: Dormant client
+      do_not_work: Do not work with
+  - object: company
+    key: terms_status
+    label: Terms status
+    type: select
+    description: Whether signed terms of business exist. We should not submit candidates to a client without terms.
+    options: {none: No terms, sent: Sent, signed: Signed, expired: Expired}
+  - object: company
+    key: default_fee_percent
+    label: Default fee percent
+    type: percent
+    description: The fee, as a percentage of first-year salary, agreed in the client's terms of business.
+  - object: company
+    key: rebate_period_days
+    label: Rebate period (days)
+    type: number
+    description: Days after start during which the fee is partly or fully refundable if the placement leaves.
+  - object: company
+    key: sector
+    label: Sector
+    type: select
+    description: The client's sector. Used to match consultants and to report where placements come from.
+    options:
+      technology: Technology
+      financial_services: Financial services
+      engineering_manufacturing: Engineering and manufacturing
+      healthcare: Healthcare
+      construction: Construction
+      retail_consumer: Retail and consumer
+      public_sector: Public sector
+      other: Other
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options: {outbound: Outbound, referral: Referral, inbound: Inbound, candidate_led: Candidate-led, event: Event}
+  # Person
+  - object: person
+    key: person_type
+    label: Person type
+    type: multi_select
+    description: What this person is to us. One human has one record, so someone who is a candidate and later a hiring manager carries both types.
+    options:
+      client_contact: Client contact
+      candidate: Candidate
+      referee: Referee
+      referrer: Referrer
+      other: Other
+  - object: person
+    key: client_role
+    label: Client role
+    type: select
+    description: For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.
+    options:
+      hiring_manager: Hiring manager
+      hr_talent: HR or talent lead
+      budget_holder: Budget holder
+      procurement: Procurement
+      other: Other
+  - object: person
+    key: candidate_status
+    label: Candidate status
+    type: select
+    description: For candidates, whether we can currently put them forward.
+    options:
+      active: Active, looking
+      passive: Passive, open to approach
+      placed_recently: Placed recently
+      not_looking: Not looking
+      do_not_contact: Do not contact
+  - object: person
+    key: availability
+    label: Availability
+    type: select
+    description: For candidates, how soon they could start. Used to filter submissions by what the client needs.
+    options: {immediate: Immediate, one_month: One month, three_months: Three months, over_three_months: Over three months}
+  - object: person
+    key: right_to_work
+    label: Right to work
+    type: select
+    description: Whether we have seen evidence the candidate can work in the role's country. Record the status only, never copies of documents.
+    options: {not_checked: Not checked, confirmed: Confirmed, needs_sponsorship: Needs sponsorship, not_eligible: Not eligible}
+  - object: person
+    key: desired_salary
+    label: Desired salary
+    type: currency
+    description: For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.
+  - object: person
+    key: sector_experience
+    label: Sector experience
+    type: multi_select
+    description: For candidates, the sectors they have worked in. Used to find candidates for a role.
+    options:
+      technology: Technology
+      financial_services: Financial services
+      engineering_manufacturing: Engineering and manufacturing
+      healthcare: Healthcare
+      construction: Construction
+      retail_consumer: Retail and consumer
+      public_sector: Public sector
+      other: Other
+  - object: person
+    key: privacy_basis
+    label: Privacy basis
+    type: select
+    description: The lawful basis for holding and contacting this person, recorded when they are added.
+    options: {consent: Consent, legitimate_interest: Legitimate interest, contract: Contract, unknown: Unknown}
+  - object: person
+    key: data_review_date
+    label: Data review date
+    type: date
+    description: The date this record must be reviewed or deleted under the agency's retention policy.
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the client deal was lost. Required on every lost stage.
+    options:
+      no_hiring_need: No hiring need
+      uses_another_agency: Uses other agencies
+      hires_in_house: Hires in-house
+      fees_too_high: Fees too high
+      terms_rejected: Terms rejected
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: search_model
+    label: Search model
+    type: select
+    description: How the client will engage us. Contingent is paid on a hire. Retained is paid in stages.
+    options: {contingent: Contingent, retained: Retained, container: Container, contract_temp: Contract or temp}
+  - object: deal
+    key: fee_percent
+    label: Fee percent
+    type: percent
+    description: The fee proposed as a percentage of first-year salary.
+  - object: deal
+    key: exclusivity
+    label: Exclusivity
+    type: select
+    description: Whether we are the only agency on the work. Exclusive or retained roles fill far more often.
+    options: {exclusive: Exclusive, preferred_supplier: Preferred supplier, shared: Shared with others}
+  - object: deal
+    key: expected_roles_per_year
+    label: Expected roles per year
+    type: number
+    description: How many roles the client is likely to give us in a year. Used to size the account.
+  # Role
+  - object: role
+    key: name
+    label: Name
+    type: text
+    description: Job title and client name, for example Finance manager at Client name.
+    required: true
+  - object: role
+    key: status
+    label: Status
+    type: select
+    description: Where the role stands with the client. Roles are reported on by status, so this is a select, not a stage.
+    options:
+      open: Open
+      on_hold: On hold
+      offer_stage: Offer stage
+      filled_by_us: Filled by us
+      filled_elsewhere: Filled elsewhere
+      withdrawn: Withdrawn
+  - object: role
+    key: search_model
+    label: Search model
+    type: select
+    description: How this role is engaged. Decides when we are paid.
+    options: {contingent: Contingent, retained: Retained, container: Container, contract_temp: Contract or temp}
+  - object: role
+    key: employment_type
+    label: Employment type
+    type: select
+    description: Permanent, contract or temporary. Contract and temporary roles are paid by margin, not percentage.
+    options: {permanent: Permanent, contract: Contract, temporary: Temporary}
+  - object: role
+    key: specialism
+    label: Specialism
+    type: select
+    description: The desk or specialism responsible. Used to route roles and report by desk.
+    options:
+      technology: Technology
+      finance: Finance
+      engineering: Engineering
+      sales_marketing: Sales and marketing
+      operations: Operations
+      healthcare: Healthcare
+      other: Other
+  - object: role
+    key: salary_min
+    label: Salary minimum
+    type: currency
+    description: Bottom of the annual salary range the client has given us.
+  - object: role
+    key: salary_max
+    label: Salary maximum
+    type: currency
+    description: Top of the annual salary range. The fee estimate uses the midpoint.
+  - object: role
+    key: fee_percent
+    label: Fee percent
+    type: percent
+    description: Fee as a percentage of first-year salary for this role. Defaults from the client's terms.
+  - object: role
+    key: fee_estimate
+    label: Fee estimate
+    type: currency
+    description: Expected fee if the role is filled, from fee percent and salary midpoint. Used for the weighted forecast.
+  - object: role
+    key: work_location
+    label: Work location
+    type: select
+    description: Where the work happens. Used to match candidates.
+    options: {onsite: On-site, hybrid: Hybrid, remote: Remote}
+  - object: role
+    key: openings
+    label: Openings
+    type: number
+    description: Number of people the client wants to hire into this role.
+  - object: role
+    key: received_date
+    label: Received date
+    type: date
+    description: The day the client gave us the role. Used to measure time to fill.
+  - object: role
+    key: target_fill_date
+    label: Target fill date
+    type: date
+    description: The day the client needs the role filled by.
+  - object: role
+    key: consultant
+    label: Consultant
+    type: user
+    description: The recruiter responsible for the role.
+  # Submission
+  - object: submission
+    key: name
+    label: Name
+    type: text
+    description: Candidate name and role, for example Candidate name for Finance manager.
+    required: true
+  - object: submission
+    key: source
+    label: Source
+    type: select
+    description: How the candidate came to this role. Used to see which channels produce placements.
+    options:
+      database: Our database
+      job_board: Job board
+      linkedin: LinkedIn
+      referral: Referral
+      inbound_application: Inbound application
+      headhunted: Headhunted
+  - object: submission
+    key: rejection_reason
+    label: Rejection reason
+    type: select
+    description: Why the candidate did not move forward. Required on the rejected stage.
+    options:
+      not_a_fit_skills: Skills not a fit
+      not_a_fit_culture: Culture not a fit
+      salary_mismatch: Salary mismatch
+      candidate_withdrew: Candidate withdrew
+      accepted_other_offer: Accepted another offer
+      client_filled_elsewhere: Role filled elsewhere
+      failed_checks: Failed checks
+      offer_declined: Offer declined
+      other: Other
+  - object: submission
+    key: salary_expected
+    label: Salary expected
+    type: currency
+    description: Annual salary the candidate expects for this role.
+  - object: submission
+    key: agreed_salary
+    label: Agreed salary
+    type: currency
+    description: Annual salary in the accepted offer. The fee is calculated from this.
+  - object: submission
+    key: cv_sent_date
+    label: CV sent date
+    type: date
+    description: The day the candidate was formally submitted to the client.
+  - object: submission
+    key: interview_date
+    label: Interview date
+    type: date
+    description: The date of the next or most recent client interview.
+  - object: submission
+    key: start_date
+    label: Start date
+    type: date
+    description: The day the candidate starts. The fee is earned on this date and the rebate period runs from it.
+  - object: submission
+    key: fee_amount
+    label: Fee amount
+    type: currency
+    description: Fee due for this placement, from agreed salary and the fee percent on the role.
+  - object: submission
+    key: invoice_status
+    label: Invoice status
+    type: select
+    description: Where the placement invoice stands. Invoicing itself happens in the finance system.
+    options: {not_due: Not due, to_invoice: To invoice, invoiced: Invoiced, paid: Paid, rebated: Rebated}
+  - object: submission
+    key: checks_complete
+    label: Checks complete
+    type: checkbox
+    description: Right to work, references and any required qualification checks are done.
+  - object: submission
+    key: consultant
+    label: Consultant
+    type: user
+    description: The recruiter who owns this candidate on this role.
+
+add_relationships:
+  - key: role_company
+    from: role
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: Roles
+    purpose: Shows every role a client has given us.
+  - key: role_contact
+    from: role
+    to: person
+    cardinality: many_to_one
+    from_label: Hiring manager
+    to_label: Roles
+    purpose: Links a role to the client contact who owns the hire.
+  - key: role_deal
+    from: role
+    to: deal
+    cardinality: many_to_one
+    from_label: Client deal
+    to_label: Roles
+    purpose: Ties each role to the client deal whose terms it runs under.
+  - key: submission_role
+    from: submission
+    to: role
+    cardinality: many_to_one
+    from_label: Role
+    to_label: Submissions
+    purpose: Lists every candidate considered for the role.
+  - key: submission_candidate
+    from: submission
+    to: person
+    cardinality: many_to_one
+    from_label: Candidate
+    to_label: Submissions
+    purpose: Shows every role a candidate has been considered for. The candidate is a Person with type candidate.
+
+pipelines:
+  - object: deal
+    key: client_development
+    name: Client development
+    stages:
+      - key: target
+        label: Target
+        type: open
+        probability: 5
+        exit_criteria: Entered when a company with a likely hiring need is chosen for outreach and a hiring contact is identified.
+        required_fields: [next_step_date]
+      - key: conversation
+        label: Conversation
+        type: open
+        probability: 15
+        exit_criteria: Entered when a hiring manager has spoken to us about a current or planned hire.
+        required_fields: [next_step_date]
+      - key: terms_discussed
+        label: Terms discussed
+        type: open
+        probability: 40
+        exit_criteria: Entered when the client has asked for our fees and terms of business.
+        required_fields: [search_model, fee_percent]
+      - key: terms_sent
+        label: Terms sent
+        type: open
+        probability: 60
+        exit_criteria: Entered when the terms of business have been sent to someone with authority to sign.
+        required_fields: [search_model, fee_percent, exclusivity]
+      - key: terms_signed
+        label: Terms signed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed terms of business are received and the company terms status is set to signed.
+        required_fields: [search_model, fee_percent]
+      - key: not_won
+        label: Not won
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client declines terms, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: submission
+    key: placement
+    name: Placement
+    stages:
+      - key: sourced
+        label: Sourced
+        type: open
+        probability: 10
+        exit_criteria: Entered when a candidate has been matched to the role and the consultant has recorded how they were found.
+        required_fields: [source]
+      - key: screened
+        label: Screened
+        type: open
+        probability: 25
+        exit_criteria: Entered when the consultant has spoken to the candidate and confirmed interest, salary expectation and availability.
+        required_fields: [salary_expected]
+      - key: submitted
+        label: Submitted
+        type: open
+        probability: 40
+        exit_criteria: Entered when the candidate has been formally sent to the client with their agreement.
+        required_fields: [cv_sent_date]
+      - key: interviewing
+        label: Interviewing
+        type: open
+        probability: 60
+        exit_criteria: Entered when the client has booked a first interview with the candidate.
+        required_fields: [interview_date]
+      - key: offer
+        label: Offer
+        type: open
+        probability: 80
+        exit_criteria: Entered when the client has said they want to make an offer.
+        required_fields: [agreed_salary]
+      - key: offer_accepted
+        label: Offer accepted
+        type: open
+        probability: 90
+        exit_criteria: Entered when the candidate has accepted in writing and a start date is agreed.
+        required_fields: [agreed_salary, start_date, checks_complete]
+      - key: placed
+        label: Placed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the candidate has started and the fee amount is recorded.
+        required_fields: [start_date, fee_amount]
+      - key: rejected
+        label: Rejected
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client or the candidate ends the process, or the role is filled by someone else.
+        required_fields: [rejection_reason]
+
+decisions:
+  - key: candidates_are_people
+    question: Are candidates their own object, or People with a type?
+    recommended_default: >-
+      People with a type. A candidate can become a client contact, or a referrer, and should stay one
+      record. The person type field separates them. Views and permissions filter by it.
+  - key: delivery_on_own_object
+    question: Is the work of filling a role tracked on its own objects rather than as deal stages?
+    recommended_default: >-
+      Yes. The deal is the client relationship and its terms. Roles and submissions carry the
+      delivery, so one client deal supports many roles and many candidates without duplicate deals.
+  - key: fee_on_submission
+    question: Where is placement revenue recorded?
+    recommended_default: >-
+      On the submission that reaches placed, with fee amount and invoice status. Do not create a deal
+      per placement. Forecast from role fee estimate multiplied by the placement pipeline probability.
+  - key: contingent_and_retained
+    question: Are contingent and retained work run in the same pipeline?
+    recommended_default: >-
+      Yes for the first build. Search model is a select on the deal and role. If retained work needs
+      staged fees, use the executive search blueprint for those desks.
+  - key: personal_data_retention
+    question: How long is candidate data kept, and on what lawful basis?
+    recommended_default: >-
+      Set a retention period with the agency's data protection lead, for example review after 24
+      months of no contact. Record the privacy basis at entry and a data review date. Candidates can
+      ask for deletion, so keep a documented process outside the CRM.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects, and a pipeline on one?
+    recommended_default: >-
+      Check before the build. If not, model each submission as a deal in a placement pipeline and each
+      role as a custom property group on the client deal, and record the gap in the client notes.
+  - key: sensitive_candidate_data
+    question: Which candidate data must not be stored in the CRM?
+    recommended_default: >-
+      No protected-characteristic or diversity data, health data, criminal-record detail or copies of
+      identity documents. Store the status of checks only. Hold documents in the applicant tracking
+      or document system with restricted access.
+
+automations:
+  - key: create_role_terms_check
+    name: Block submissions without terms
+    trigger: A submission is created for a role whose client has terms status other than signed.
+    action: Notify the consultant and the desk manager that the client has no signed terms, and flag the submission.
+  - key: fee_calculation
+    name: Calculate fee
+    trigger: A submission has an agreed salary set.
+    action: Set fee amount from the agreed salary and the fee percent on the role.
+  - key: mark_role_filled
+    name: Mark role filled
+    trigger: A submission moves to placed and the role's openings are all filled.
+    action: Set the role status to filled by us and close other open submissions on the role as rejected with role filled elsewhere.
+  - key: rebate_watch
+    name: Rebate period reminder
+    trigger: A placed submission's start date plus the client's rebate period is 14 days away.
+    action: Notify the consultant to check in with the client and the new starter.
+  - key: dormant_client
+    name: Mark dormant client
+    trigger: An active client has had no new role for 6 months.
+    action: Set client status to dormant client and add the company to the reactivation view.
+  - key: review_candidate_data
+    name: Review candidate data
+    trigger: A person of type candidate has a data review date in 30 days.
+    action: Notify the owner to confirm consent or delete the record.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+
+views:
+  - key: open_roles
+    name: Open roles
+    object: role
+    filter: Status is open or offer stage.
+    sort: Target fill date, soonest first.
+  - key: my_candidates_in_process
+    name: My candidates in process
+    object: submission
+    filter: Consultant is me and stage is open.
+    sort: Interview date, soonest first.
+  - key: offers_to_close
+    name: Offers to close
+    object: submission
+    filter: Stage is offer or offer accepted.
+    sort: Start date, soonest first.
+  - key: placements_to_invoice
+    name: Placements to invoice
+    object: submission
+    filter: Stage is placed and invoice status is to invoice.
+    sort: Start date, oldest first.
+  - key: candidates_to_review
+    name: Candidates due for data review
+    object: person
+    filter: Person type includes candidate and data review date is within 30 days.
+    sort: Data review date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+
+platform_overrides:
+  attio:
+    objects:
+      role: {api_slug: roles}
+      submission: {api_slug: submissions}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      role: {api_name: Role__c}
+      submission: {api_name: Submission__c}

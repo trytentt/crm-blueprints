@@ -1,0 +1,276 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Sponsor sales",
+          "api_slug": "sponsor_sales",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Sponsor sales pipeline. Prospect: Entered when a target company and a named marketing contact have been identified for an event. Meeting held: Entered when a discovery call has happened and the sponsor's goals are written down. Proposal sent: Entered when a proposal tied to the sponsor's goals, with tier and price, has been sent. Negotiating: Entered when the sponsor has asked for changes to the package, price or terms. Contract out: Entered when final terms are agreed and the contract has been sent for signature. Signed: Entered when the signed contract is received and a fulfilment record is created. Closed lost: Entered when the sponsor says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Audience not right"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Category exclusivity taken"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Internal priority change"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/sponsor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Exhibitor sales",
+          "api_slug": "exhibitor_sales",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Exhibitor sales pipeline. Enquiry: Entered when a company has asked about a stand or been contacted and replied. Qualified: Entered when the exhibitor's goals and space needs have been discussed. Space held: Entered when a specific stand has been offered with a price and held for a stated number of days. Contract sent: Entered when the booking form and terms have been sent for signature. Confirmed: Entered when the signed booking form and deposit are received and a fulfilment record is created. Closed lost: Entered when the company declines, or the held space is released with no booking.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Audience not right"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Category exclusivity taken"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Internal priority change"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/exhibitor_sales/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

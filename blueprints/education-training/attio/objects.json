@@ -1,0 +1,42 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "programmes",
+          "singular_noun": "Programme",
+          "plural_noun": "Programmes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "cohorts",
+          "singular_noun": "Cohort",
+          "plural_noun": "Cohorts"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "enrolments",
+          "singular_noun": "Enrolment",
+          "plural_noun": "Enrolments"
+        }
+      }
+    }
+  ]
+}

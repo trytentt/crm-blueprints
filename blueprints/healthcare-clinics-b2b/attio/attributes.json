@@ -1,0 +1,1549 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Account type",
+          "description": "What kind of organisation this is. Decides which pipeline it belongs in.",
+          "api_slug": "account_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Employer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Insurer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Broker or intermediary"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Case management provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Other healthcare provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/account_type/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Headcount band",
+          "description": "Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.",
+          "api_slug": "headcount_band",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/headcount_band/options",
+      "body": {
+        "data": {
+          "title": "Under 50"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/headcount_band/options",
+      "body": {
+        "data": {
+          "title": "50 to 249"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/headcount_band/options",
+      "body": {
+        "data": {
+          "title": "250 to 999"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/headcount_band/options",
+      "body": {
+        "data": {
+          "title": "1,000 or more"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Sector",
+          "description": "The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.",
+          "api_slug": "sector",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Manufacturing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Logistics and transport"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Construction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Public sector"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Professional services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Retail and hospitality"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/sector/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Customer status",
+          "description": "Where the organisation is in its life with us.",
+          "api_slug": "customer_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Active customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Former customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the organisation first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound enquiry"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Existing customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in a purchase. These are business contacts only. A patient is never stored as a person here.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "HR lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Benefits manager"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Health and safety lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Finance lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Broker contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Claims contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Kept current provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We could not cover their sites or services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Governance or data protection review failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Open deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Service interest",
+          "description": "Which service lines the buyer wants quoted. Used to report demand by service.",
+          "api_slug": "service_interest",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Workplace assessments"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Workplace physiotherapy"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Diagnostics"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Screening and surveillance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Vaccination programmes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_interest/options",
+      "body": {
+        "data": {
+          "title": "Wellbeing support programmes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Covered headcount",
+          "description": "Number of employees the contract would cover, as stated by the employer. A count only.",
+          "api_slug": "covered_headcount",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Sites covered",
+          "description": "Number of employer sites the clinic would serve. Sets travel and on-site cost.",
+          "api_slug": "sites_covered",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Pricing model",
+          "description": "How the buyer will be charged.",
+          "api_slug": "pricing_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Per appointment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Per employee per month"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Annual retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Pay as you go"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Governance review passed",
+          "description": "The buyer's data protection and clinical governance review is complete and a data processing agreement is agreed.",
+          "api_slug": "governance_review_passed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Pilot agreed",
+          "description": "A time-limited trial with a defined scope has been agreed in writing.",
+          "api_slug": "pilot_agreed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Contract term (months)",
+          "description": "Length of the proposed contract in months.",
+          "api_slug": "contract_term_months",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Renewal risk",
+          "description": "Account manager's view of how likely a renewal deal is to close.",
+          "api_slug": "renewal_risk",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "Low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "Medium"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "High"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "Category",
+          "description": "Group of the service, for reporting revenue by line.",
+          "api_slug": "category",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Assessments"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Treatment programmes"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Diagnostics"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Screening and surveillance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Vaccination"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/category/options",
+      "body": {
+        "data": {
+          "title": "Wellbeing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "Delivery mode",
+          "description": "Where the service is provided. Affects cost and which sites a contract can cover.",
+          "api_slug": "delivery_mode",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/delivery_mode/options",
+      "body": {
+        "data": {
+          "title": "At the clinic"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/delivery_mode/options",
+      "body": {
+        "data": {
+          "title": "On site at the client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/delivery_mode/options",
+      "body": {
+        "data": {
+          "title": "Remote"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "List price",
+          "description": "Standard price per pricing unit before discount.",
+          "api_slug": "list_price",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "Pricing unit",
+          "description": "What the list price is charged against.",
+          "api_slug": "pricing_unit",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/pricing_unit/options",
+      "body": {
+        "data": {
+          "title": "Per appointment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/pricing_unit/options",
+      "body": {
+        "data": {
+          "title": "Per employee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/pricing_unit/options",
+      "body": {
+        "data": {
+          "title": "Per session"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes/pricing_unit/options",
+      "body": {
+        "data": {
+          "title": "Per day"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "Active",
+          "description": "The service can currently be sold.",
+          "api_slug": "active",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/services/attributes",
+      "body": {
+        "data": {
+          "title": "Regulated activity",
+          "description": "The service needs regulator registration or a named clinician lead before it is sold.",
+          "api_slug": "regulated",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the contract is in its life.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Pending start"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In renewal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Ended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "First day of the current term.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Renewal date",
+          "description": "Last day of the current term. A renewal deal opens 90 days before it.",
+          "api_slug": "renewal_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Pricing model",
+          "description": "How the customer is charged under this contract.",
+          "api_slug": "pricing_model",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Per appointment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Per employee per month"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Annual retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/pricing_model/options",
+      "body": {
+        "data": {
+          "title": "Pay as you go"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Annual value",
+          "description": "Expected yearly revenue from this contract at current prices.",
+          "api_slug": "annual_value",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Covered headcount",
+          "description": "Number of employees in scope, as told to us by the employer. A count only, never a list of people.",
+          "api_slug": "covered_headcount",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Data processing agreement signed",
+          "description": "A data processing agreement is in place before any service starts. Required for every contract.",
+          "api_slug": "dpa_signed",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Review cadence",
+          "description": "How often the account manager holds a service review with the customer.",
+          "api_slug": "review_cadence",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/review_cadence/options",
+      "body": {
+        "data": {
+          "title": "Monthly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/review_cadence/options",
+      "body": {
+        "data": {
+          "title": "Quarterly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes/review_cadence/options",
+      "body": {
+        "data": {
+          "title": "Annually"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/service_contracts/attributes",
+      "body": {
+        "data": {
+          "title": "Account manager",
+          "description": "The team member responsible for the customer after the sale.",
+          "api_slug": "account_manager",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Agreement type",
+          "description": "Which way work flows and how the partner is listed.",
+          "api_slug": "agreement_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/agreement_type/options",
+      "body": {
+        "data": {
+          "title": "Partner refers to us"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/agreement_type/options",
+      "body": {
+        "data": {
+          "title": "We refer to partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/agreement_type/options",
+      "body": {
+        "data": {
+          "title": "Preferred provider listing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/agreement_type/options",
+      "body": {
+        "data": {
+          "title": "Broker introduction"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Fee basis",
+          "description": "Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.",
+          "api_slug": "fee_basis",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/fee_basis/options",
+      "body": {
+        "data": {
+          "title": "None"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/fee_basis/options",
+      "body": {
+        "data": {
+          "title": "Fixed fee"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/fee_basis/options",
+      "body": {
+        "data": {
+          "title": "Revenue share"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Governance checked",
+          "description": "Information governance and clinical governance checks on the partner are complete.",
+          "api_slug": "governance_checked",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Signed date",
+          "description": "The day the agreement was signed by both sides.",
+          "api_slug": "signed_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Review date",
+          "description": "When the arrangement is next reviewed.",
+          "api_slug": "review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Referrals last quarter",
+          "description": "Aggregate number of referrals in the last quarter. A count only. Never record who was referred.",
+          "api_slug": "referrals_last_quarter",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes",
+      "body": {
+        "data": {
+          "title": "Decline reason",
+          "description": "Why the partnership did not go ahead. Required on the declined stage.",
+          "api_slug": "decline_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Governance check failed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Not a fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict of interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Partner declined"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/referral_agreements/attributes/decline_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

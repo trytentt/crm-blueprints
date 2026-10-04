@@ -1,0 +1,206 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Shows every site a client owns or manages.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Sites",
+            "api_slug": "sites",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/sites/attributes",
+      "body": {
+        "data": {
+          "title": "Site contacts",
+          "description": "Names who to call for access or on-site issues.",
+          "api_slug": "site_contacts",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Sites",
+            "api_slug": "sites",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Site",
+          "description": "Links each bid to the place the work would be done.",
+          "api_slug": "site",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "sites"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "sites",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/estimates/attributes",
+      "body": {
+        "data": {
+          "title": "Deal",
+          "description": "Keeps the price history of one bid.",
+          "api_slug": "deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Estimates",
+            "api_slug": "estimates",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Winning deal",
+          "description": "Ties the project to the bid that won it, so estimated and final margin can be compared.",
+          "api_slug": "winning_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Project",
+            "api_slug": "project",
+            "is_multiselect": false
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Site",
+          "description": "Shows the history of work done at each site.",
+          "api_slug": "site",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "sites"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "sites",
+            "title": "Projects",
+            "api_slug": "projects",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/projects/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Shows all work done for a client, for repeat-work and account reviews.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Projects",
+            "api_slug": "projects",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

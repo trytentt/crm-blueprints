@@ -1,0 +1,653 @@
+extends: core
+name: Financial advisers, client households
+description: >-
+  An independent adviser or wealth management practice that wins clients by referral, advises
+  households rather than single people, and keeps them through a scheduled review cycle. Winning a
+  client, producing advice and reviewing the relationship are three separate records. Fields that hold
+  regulated or sensitive personal data are flagged in their descriptions.
+
+add_objects:
+  - key: household
+    label: Household
+    plural_label: Households
+    description: >-
+      A client unit, one person or a couple or family, that the practice advises together. Holds the
+      service terms, risk profile and review dates. People link to it, so each human keeps one record.
+  - key: advice_case
+    label: Advice case
+    plural_label: Advice cases
+    description: >-
+      One piece of advice work for a household, from fact find to recommendation to products placed.
+      This is the delivery of advice and stays apart from the deal that won the client.
+  - key: review
+    label: Review
+    plural_label: Reviews
+    description: >-
+      One scheduled review of a household's plan, usually yearly. Tracks the invitation, the meeting
+      and the follow-up actions so no household goes unreviewed.
+
+add_fields:
+  # Company
+  - object: company
+    key: company_type
+    label: Company type
+    type: select
+    description: What the organisation is to the practice. Used to report referral sources and manage provider contacts.
+    options:
+      referrer_professional: Professional referrer
+      employer: Employer
+      product_provider: Product provider or platform
+      paraplanning_partner: Outsourced partner
+      other: Other
+  - object: company
+    key: referral_agreement
+    label: Referral agreement
+    type: checkbox
+    description: A written referral agreement is in place with this organisation.
+  # Person
+  - object: person
+    key: client_status
+    label: Client status
+    type: select
+    description: Where this person is with the practice. Drives views and which automations apply.
+    options: {prospect: Prospect, client: Client, former_client: Former client, professional_contact: Professional contact}
+  - object: person
+    key: household_role
+    label: Household role
+    type: select
+    description: The person's place in their household. Used to address correspondence and find the main contact.
+    options: {main_client: Main client, partner: Partner, dependant: Dependant, attorney_or_trustee: Attorney or trustee}
+  - object: person
+    key: date_of_birth
+    label: Date of birth
+    type: date
+    description: >-
+      DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to
+      advisers and administrators only.
+  - object: person
+    key: employment_status
+    label: Employment status
+    type: select
+    description: >-
+      DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.
+    options: {employed: Employed, self_employed: Self-employed, director: Company director, retired: Retired, not_working: Not working}
+  - object: person
+    key: vulnerability_flag
+    label: Vulnerability flag
+    type: select
+    description: >-
+      DATA PROTECTION: may reveal health or personal circumstances. Records whether the client may
+      need extra care or adjusted service. Visible to advisers and compliance only. Keep detail in the
+      case notes, not here.
+    options: {none: None identified, possible: Possible, confirmed: Confirmed}
+  - object: person
+    key: id_verified
+    label: Identity verified
+    type: checkbox
+    description: >-
+      DATA PROTECTION: identity checks are complete and the evidence is held in the document system,
+      not in the CRM. Required before advice work starts.
+  - object: person
+    key: marketing_consent
+    label: Marketing consent
+    type: select
+    description: Whether the person agreed to receive newsletters and invitations. Respect it in every campaign and sync.
+    options: {opted_in: Opted in, opted_out: Opted out, not_asked: Not asked}
+  - object: person
+    key: preferred_contact
+    label: Preferred contact method
+    type: select
+    description: How the client prefers to be contacted. Used when booking reviews.
+    options: {email: Email, phone: Phone, post: Post, video: Video call}
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the prospect did not become a client. Required on the lost stage.
+    options:
+      chose_other_adviser: Chose another adviser
+      fees_too_high: Fees too high
+      no_need_now: No need now
+      outside_service: Outside our service
+      did_not_proceed: Did not proceed after advice
+      no_response: No response
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: referral_source
+    label: Referral source
+    type: select
+    description: How the prospect found the practice. Most business is by introduction, so this is reported monthly.
+    options:
+      client_referral: Existing client
+      professional_referral: Accountant or solicitor
+      employer_scheme: Employer or workplace
+      website: Website
+      event: Seminar or event
+      other: Other
+  - object: deal
+    key: service_interest
+    label: Service interest
+    type: select
+    description: What the prospect wants help with. Used to route to the right adviser and set the fee basis.
+    options:
+      retirement_planning: Retirement planning
+      investments: Investments
+      protection: Protection
+      mortgages: Mortgages
+      inheritance_planning: Inheritance planning
+      holistic_planning: Whole-of-life planning
+  - object: deal
+    key: expected_investable_assets
+    label: Expected investable assets
+    type: currency
+    description: >-
+      DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on.
+      Used to forecast fees.
+  - object: deal
+    key: initial_meeting_held
+    label: Initial meeting held
+    type: checkbox
+    description: The free initial meeting has taken place and the services and fees were explained.
+  - object: deal
+    key: fee_basis_agreed
+    label: Fee basis agreed
+    type: select
+    description: How the practice will be paid. Must be agreed before advice work starts.
+    options: {not_discussed: Not discussed, initial_plus_ongoing: Initial plus ongoing, fixed_fee: Fixed fee, hourly: Hourly, percentage_of_assets: Percentage of assets}
+  - object: deal
+    key: engagement_signed
+    label: Client agreement signed
+    type: checkbox
+    description: The client agreement and terms of business are signed and held in the document system.
+  # Household
+  - object: household
+    key: name
+    label: Name
+    type: text
+    description: Household name, for example the family name followed by household.
+    required: true
+  - object: household
+    key: status
+    label: Status
+    type: select
+    description: Where the household is with the practice.
+    options: {prospect: Prospect, onboarding: Onboarding, ongoing_client: Ongoing client, one_off_client: One-off client, former_client: Former client}
+  - object: household
+    key: service_tier
+    label: Service tier
+    type: select
+    description: The level of service the household pays for. Sets review frequency and who attends.
+    options: {premier: Premier, standard: Standard, essential: Essential, one_off: One-off advice}
+  - object: household
+    key: lead_adviser
+    label: Lead adviser
+    type: user
+    description: The adviser responsible for the household.
+  - object: household
+    key: attitude_to_risk
+    label: Attitude to risk
+    type: select
+    description: >-
+      DATA PROTECTION: personal financial data. The risk level agreed with the client from the
+      practice's risk questionnaire. Reconfirmed at each review.
+    options: {cautious: Cautious, balanced_cautious: Cautious to balanced, balanced: Balanced, balanced_adventurous: Balanced to adventurous, adventurous: Adventurous}
+  - object: household
+    key: capacity_for_loss
+    label: Capacity for loss
+    type: select
+    description: >-
+      DATA PROTECTION: personal financial data. How much loss the household could bear without harm to
+      its standard of living. Assessed separately from attitude to risk.
+    options: {low: Low, medium: Medium, high: High}
+  - object: household
+    key: assets_under_advice_band
+    label: Assets under advice band
+    type: select
+    description: >-
+      DATA PROTECTION: personal financial data. Banded size of assets advised on. Used for tiering and
+      fee reporting without storing exact balances.
+    options: {under_100k: Under 100k, from_100k_to_250k: 100k to 250k, from_250k_to_500k: 250k to 500k, from_500k_to_1m: 500k to 1m, over_1m: Over 1m}
+  - object: household
+    key: annual_fee
+    label: Annual ongoing fee
+    type: currency
+    description: Expected ongoing fee per year. Used to forecast recurring income.
+  - object: household
+    key: review_frequency
+    label: Review frequency
+    type: select
+    description: How often the household is reviewed under its service agreement.
+    options: {annual: Annual, six_monthly: Six-monthly, quarterly: Quarterly, ad_hoc: As needed}
+  - object: household
+    key: last_review_date
+    label: Last review date
+    type: date
+    description: Date of the most recent completed review. Set by automation.
+  - object: household
+    key: next_review_date
+    label: Next review date
+    type: date
+    description: Date the next review is due. Set from the last review date and frequency. Drives the review cycle.
+  - object: household
+    key: agreement_date
+    label: Agreement date
+    type: date
+    description: Date the client agreement was signed. Starts the service.
+  # Advice case
+  - object: advice_case
+    key: name
+    label: Name
+    type: text
+    description: Household name and the advice topic, for example retirement planning.
+    required: true
+  - object: advice_case
+    key: advice_topic
+    label: Advice topic
+    type: select
+    description: The area of advice. Used to route work and report volumes.
+    options: {retirement: Retirement, investments: Investments, protection: Protection, mortgage: Mortgage, inheritance: Inheritance, general_planning: General planning}
+  - object: advice_case
+    key: adviser
+    label: Adviser
+    type: user
+    description: The adviser accountable for the recommendation.
+  - object: advice_case
+    key: paraplanner
+    label: Paraplanner
+    type: user
+    description: The team member who researches and drafts the report.
+  - object: advice_case
+    key: fact_find_complete
+    label: Fact find complete
+    type: checkbox
+    description: >-
+      DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have
+      been gathered and checked. The detail is held in the planning system.
+  - object: advice_case
+    key: report_issued_date
+    label: Report issued date
+    type: date
+    description: Date the written recommendation was sent to the client.
+  - object: advice_case
+    key: compliance_check
+    label: Compliance check
+    type: select
+    description: Progress of the internal check of the advice before it goes to the client.
+    options: {not_required: Not required, pending: Pending, passed: Passed, rework_needed: Rework needed}
+  - object: advice_case
+    key: client_decision
+    label: Client decision
+    type: select
+    description: What the client decided after the recommendation. Reported to see how often advice is followed.
+    options: {awaiting: Awaiting, accepted: Accepted, partly_accepted: Partly accepted, declined: Declined}
+  - object: advice_case
+    key: applications_submitted
+    label: Applications submitted
+    type: checkbox
+    description: Applications to the product providers or platforms have been sent.
+  - object: advice_case
+    key: closure_reason
+    label: Closure reason
+    type: select
+    description: Why the case closed without completing. Required on the closed-without-advice stage.
+    options: {client_withdrew: Client withdrew, advice_declined: Advice declined, unable_to_advise: Unable to advise, no_response: No response, circumstances_changed: Circumstances changed}
+  - object: advice_case
+    key: completion_date
+    label: Completion date
+    type: date
+    description: Date all agreed actions were completed.
+  # Review
+  - object: review
+    key: name
+    label: Name
+    type: text
+    description: Household name and review year, for example the family name 2027 review.
+    required: true
+  - object: review
+    key: review_type
+    label: Review type
+    type: select
+    description: The kind of review. Used to prepare the right agenda.
+    options: {annual: Annual, six_monthly: Six-monthly, life_event: Life event, ad_hoc: Ad hoc}
+  - object: review
+    key: due_date
+    label: Due date
+    type: date
+    description: Date by which the review should be held under the service agreement.
+  - object: review
+    key: meeting_date
+    label: Meeting date
+    type: datetime
+    description: When the review meeting is or was held.
+  - object: review
+    key: circumstances_changed
+    label: Circumstances changed
+    type: checkbox
+    description: >-
+      DATA PROTECTION: personal circumstances. Something material changed since the last review, such
+      as family, income, health or goals. Detail goes in the planning system.
+  - object: review
+    key: risk_profile_reconfirmed
+    label: Risk profile reconfirmed
+    type: checkbox
+    description: The attitude to risk and capacity for loss were checked again at this review.
+  - object: review
+    key: outcome
+    label: Outcome
+    type: select
+    description: What the review concluded. Reported to see how many reviews lead to new advice.
+    options: {no_change: No change, minor_changes: Minor changes, new_advice_needed: New advice needed, service_change: Service level change}
+  - object: review
+    key: missed_reason
+    label: Missed reason
+    type: select
+    description: Why the review did not happen. Required on the not-completed stage.
+    options: {client_declined: Client declined, client_unresponsive: Client unresponsive, moved_adviser: Moved to another adviser, left_practice: Left the practice, other: Other}
+  - object: review
+    key: adviser
+    label: Adviser
+    type: user
+    description: The adviser who runs the review.
+
+add_relationships:
+  - key: person_household
+    from: person
+    to: household
+    cardinality: many_to_one
+    from_label: Household
+    to_label: Members
+    purpose: Groups the people in a client unit while each human keeps one record.
+  - key: deal_household
+    from: deal
+    to: household
+    cardinality: many_to_one
+    from_label: Household
+    to_label: Deals
+    purpose: Links the deal that won a client to their household.
+  - key: advice_case_household
+    from: advice_case
+    to: household
+    cardinality: many_to_one
+    from_label: Household
+    to_label: Advice cases
+    purpose: Gives the full history of advice for a household.
+  - key: advice_case_deal
+    from: advice_case
+    to: deal
+    cardinality: many_to_one
+    from_label: Won deal
+    to_label: Advice cases
+    purpose: Links the first advice case to the deal that created it.
+  - key: review_household
+    from: review
+    to: household
+    cardinality: many_to_one
+    from_label: Household
+    to_label: Reviews
+    purpose: Shows every review a household has had.
+  - key: household_referrer
+    from: household
+    to: company
+    cardinality: many_to_one
+    from_label: Referred by
+    to_label: Households referred
+    purpose: Shows which professional introducer brought each household, for referral reporting.
+
+pipelines:
+  - object: deal
+    key: new_client
+    name: New client
+    stages:
+      - key: enquiry
+        label: Enquiry
+        type: open
+        probability: 10
+        exit_criteria: Entered when a prospect is logged with a referral source and a way to contact them.
+        required_fields: [referral_source]
+      - key: initial_meeting_booked
+        label: Initial meeting booked
+        type: open
+        probability: 25
+        exit_criteria: Entered when the free initial meeting is in the diary.
+        required_fields: [service_interest, next_step_date]
+      - key: initial_meeting_held
+        label: Initial meeting held
+        type: open
+        probability: 40
+        exit_criteria: Entered when the initial meeting has taken place and services and fees have been explained.
+        required_fields: [initial_meeting_held, expected_investable_assets]
+      - key: fee_proposal
+        label: Fee proposal
+        type: open
+        probability: 60
+        exit_criteria: Entered when a written proposal of services and fees has been sent.
+        required_fields: [fee_basis_agreed, next_step_date]
+      - key: agreement_out
+        label: Agreement out
+        type: open
+        probability: 80
+        exit_criteria: Entered when the prospect has said yes to the proposal and the client agreement has been sent for signature.
+        required_fields: [fee_basis_agreed, amount, close_date]
+      - key: client_won
+        label: Client won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the client agreement is signed and identity checks are complete.
+        required_fields: [engagement_signed, close_date]
+      - key: lost
+        label: Lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the prospect declines, chooses another adviser or does not reply after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: advice_case
+    key: advice_delivery
+    name: Advice delivery
+    stages:
+      - key: fact_find
+        label: Fact find
+        type: open
+        probability: 20
+        exit_criteria: Entered when the client agreement is signed and the fact find has been issued to the household.
+        required_fields: [adviser, advice_topic]
+      - key: analysis
+        label: Analysis
+        type: open
+        probability: 40
+        exit_criteria: Entered when the fact find and supporting documents are complete and checked.
+        required_fields: [fact_find_complete, paraplanner]
+      - key: report_drafted
+        label: Report drafted
+        type: open
+        probability: 60
+        exit_criteria: Entered when the recommendation report is drafted and sent for internal checking.
+        required_fields: [compliance_check]
+      - key: report_issued
+        label: Report issued
+        type: open
+        probability: 75
+        exit_criteria: Entered when the checked report has been sent to the client and a meeting to discuss it is booked.
+        required_fields: [report_issued_date, compliance_check]
+      - key: accepted
+        label: Accepted
+        type: open
+        probability: 90
+        exit_criteria: Entered when the client has decided to proceed with some or all recommendations.
+        required_fields: [client_decision]
+      - key: completed
+        label: Completed
+        type: won
+        probability: 100
+        exit_criteria: Entered when applications are placed and the client has confirmation of every agreed action.
+        required_fields: [applications_submitted, completion_date]
+      - key: closed_without_advice
+        label: Closed without advice
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the case ends before completion because the client withdrew or the practice could not advise.
+        required_fields: [closure_reason]
+  - object: review
+    key: review_cycle
+    name: Review cycle
+    stages:
+      - key: due
+        label: Due
+        type: open
+        probability: 20
+        exit_criteria: Entered when the household is within 90 days of its review due date.
+        required_fields: [review_type, due_date]
+      - key: invited
+        label: Invited
+        type: open
+        probability: 40
+        exit_criteria: Entered when the client has been sent the review invitation and questionnaire.
+        required_fields: [adviser]
+      - key: booked
+        label: Booked
+        type: open
+        probability: 60
+        exit_criteria: Entered when the review meeting is in the diary.
+        required_fields: [meeting_date]
+      - key: meeting_held
+        label: Meeting held
+        type: open
+        probability: 80
+        exit_criteria: Entered when the review meeting has taken place.
+        required_fields: [circumstances_changed, risk_profile_reconfirmed]
+      - key: review_completed
+        label: Review completed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the review letter has been sent and follow-up actions are logged.
+        required_fields: [outcome, risk_profile_reconfirmed]
+      - key: not_completed
+        label: Not completed
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the review will not happen in this cycle, because the client declined or could not be reached.
+        required_fields: [missed_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is advice work tracked on its own object rather than as stages on the new-client deal?
+    recommended_default: >-
+      Yes. The deal wins the client and ends at client won. Advice cases and reviews are delivery,
+      run by advisers and paraplanners on their own dates, and they repeat for years.
+  - key: household_object
+    question: Are clients modelled as households or as individual people?
+    recommended_default: >-
+      Households. Advice, fees and reviews are agreed for the household, and people link to it. Each
+      human keeps one person record, matched by email, whatever household they belong to.
+  - key: sensitive_data_minimum
+    question: Which regulated or sensitive personal data does the CRM hold?
+    recommended_default: >-
+      As little as possible. Hold banded or yes/no values here and keep the full fact find, valuations,
+      health detail and identity documents in the planning and document systems. Fields marked DATA
+      PROTECTION in their description need restricted access, and the client confirms a legal basis
+      and retention rule before the build.
+  - key: field_level_access
+    question: Can the client's CRM plan restrict access to individual fields or records?
+    recommended_default: >-
+      Check before the build. If it cannot, move flagged fields to the planning system and keep only
+      status fields in the CRM, then record the gap in the client notes.
+  - key: review_cycle_source
+    question: What triggers a review and who sets its frequency?
+    recommended_default: >-
+      The service tier sets the frequency. The next review date is the last review date plus the
+      frequency, and review records open 90 days before it.
+  - key: regulatory_wording
+    question: Does the firm need its regulatory statements and record-keeping rules built in?
+    recommended_default: >-
+      Not by this blueprint. It keeps to general structure. The firm's compliance lead confirms its
+      own record-keeping, suitability and customer-outcome requirements, and any required fields or
+      approval steps are added as amendments.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects for Household, Advice case and Review?
+    recommended_default: >-
+      Check before the build. If not, use the Company object as the household and deal pipelines for
+      advice cases and reviews, and record the gap in the client notes.
+
+automations:
+  - key: start_advice_on_win
+    name: Start advice case on client won
+    trigger: A deal in the new client pipeline moves to client won.
+    action: >-
+      Set the household status to onboarding, set the agreement date, create an advice case at fact
+      find assigned to the lead adviser, and set the next review date from the review frequency.
+  - key: open_review
+    name: Open review
+    trigger: A household's next review date is 90 days away and its status is ongoing client.
+    action: Create a review at due for the household, assigned to the lead adviser.
+  - key: complete_review
+    name: Roll the review cycle forward
+    trigger: A review moves to review completed.
+    action: Set the household's last review date to the meeting date and its next review date to the date plus its review frequency.
+  - key: chase_overdue_reviews
+    name: Chase overdue reviews
+    trigger: A review is open and its due date has passed.
+    action: Notify the lead adviser and add the review to the overdue reviews view.
+  - key: vulnerability_alert
+    name: Vulnerability flag alert
+    trigger: A person's vulnerability flag changes to possible or confirmed.
+    action: Notify the lead adviser and compliance lead to check the service and communication preferences.
+  - key: compliance_check_gate
+    name: Compliance check request
+    trigger: An advice case moves to report drafted.
+    action: Notify the compliance lead and set the compliance check to pending.
+  - key: referrer_thanks
+    name: Thank the referrer
+    trigger: A deal with a professional referral source moves to client won.
+    action: Create a task for the lead adviser to thank the referrer, subject to the referral agreement and client consent.
+
+views:
+  - key: reviews_due_90_days
+    name: Reviews due in 90 days
+    object: household
+    filter: Status is ongoing client and next review date is within 90 days.
+    sort: Next review date, soonest first.
+  - key: overdue_reviews
+    name: Overdue reviews
+    object: review
+    filter: Review is open and due date is in the past.
+    sort: Due date, oldest first.
+  - key: my_advice_cases
+    name: My advice cases
+    object: advice_case
+    filter: Adviser or paraplanner is me and stage is open.
+    sort: Report issued date, oldest first.
+  - key: new_client_pipeline
+    name: My prospects
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Next step date, soonest first.
+  - key: flagged_clients
+    name: Clients with a vulnerability flag
+    object: person
+    filter: Vulnerability flag is possible or confirmed.
+    sort: Last name, A to Z.
+  - key: households_by_tier
+    name: Households by service tier
+    object: household
+    filter: Status is ongoing client.
+    sort: Service tier, then name.
+
+platform_overrides:
+  attio:
+    objects:
+      household: {api_slug: households}
+      advice_case: {api_slug: advice_cases}
+      review: {api_slug: reviews}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      household: {api_name: Client_Household__c}
+      advice_case: {api_name: Advice_Case__c}
+      review: {api_name: Client_Review__c}

@@ -1,0 +1,209 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Discovery",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Governance review",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Pilot",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Contract out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/employer_insurer_contracts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Upcoming",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Review meeting",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms proposed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Awaiting signature",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Renewed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/contract_renewals/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Not renewed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Identified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Intro meeting",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Governance check",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Agreement sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Active",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/referral_partners/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Declined",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

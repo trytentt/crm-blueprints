@@ -1,0 +1,1358 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Client status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "client_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Active client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Past client"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/client_status/options",
+      "body": {
+        "data": {
+          "title": "Partner or referrer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Industry",
+          "description": "The client's sector. Used to report which sectors we win in and to choose case studies.",
+          "api_slug": "industry",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Software"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Financial services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Health"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Retail and ecommerce"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Manufacturing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Professional services"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Public sector and charity"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/industry/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Marketing budget band",
+          "description": "The client's annual marketing spend as they tell us. Used to judge fit before a proposal.",
+          "api_slug": "marketing_budget_band",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/marketing_budget_band/options",
+      "body": {
+        "data": {
+          "title": "Under 50k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/marketing_budget_band/options",
+      "body": {
+        "data": {
+          "title": "50k to 250k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/marketing_budget_band/options",
+      "body": {
+        "data": {
+          "title": "250k to 1m"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/marketing_budget_band/options",
+      "body": {
+        "data": {
+          "title": "Over 1m"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/marketing_budget_band/options",
+      "body": {
+        "data": {
+          "title": "Unknown"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Lead source",
+          "description": "How the company first came to us. Set once, never overwritten.",
+          "api_slug": "lead_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Inbound content"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Partner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Event"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/lead_source/options",
+      "body": {
+        "data": {
+          "title": "Past client returning"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in choosing or managing the agency. Used to check deals are not single-threaded.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Decision maker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Day-to-day lead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Finance"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Procurement"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Influencer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Blocker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the client left. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Went in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Scope mismatch"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Unhappy with results"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Relationship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Client closed or acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Service lines",
+          "description": "The services in the proposal. Used to report revenue and win rate by service.",
+          "api_slug": "service_lines",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": true,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Paid media"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "SEO and content"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Social"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Brand and creative"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Web build"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Email and CRM"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "GTM engineering"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/service_lines/options",
+      "body": {
+        "data": {
+          "title": "Strategy and consulting"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Engagement type",
+          "description": "Whether the deal sells a monthly retainer or a fixed-scope project. Decides what the engagement record gets.",
+          "api_slug": "engagement_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_type/options",
+      "body": {
+        "data": {
+          "title": "Retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_type/options",
+      "body": {
+        "data": {
+          "title": "Project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/engagement_type/options",
+      "body": {
+        "data": {
+          "title": "Retainer plus project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Brief received",
+          "description": "The client has given a written brief or goals we can scope against.",
+          "api_slug": "brief_received",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Budget range",
+          "description": "The monthly or project budget the client has indicated for this work.",
+          "api_slug": "budget_range",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/budget_range/options",
+      "body": {
+        "data": {
+          "title": "Under 5k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/budget_range/options",
+      "body": {
+        "data": {
+          "title": "5k to 15k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/budget_range/options",
+      "body": {
+        "data": {
+          "title": "15k to 50k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/budget_range/options",
+      "body": {
+        "data": {
+          "title": "Over 50k"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/budget_range/options",
+      "body": {
+        "data": {
+          "title": "Not shared"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Competitive pitch",
+          "description": "The client is comparing us formally with other agencies. Changes how much unpaid work we do.",
+          "api_slug": "competitive_pitch",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Decision date",
+          "description": "The date the client has said they will choose.",
+          "api_slug": "decision_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Renewal type",
+          "description": "Whether a renewals-pipeline deal is a straight renewal, an upsell or a re-scope.",
+          "api_slug": "renewal_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_type/options",
+      "body": {
+        "data": {
+          "title": "Renewal"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_type/options",
+      "body": {
+        "data": {
+          "title": "Upsell"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_type/options",
+      "body": {
+        "data": {
+          "title": "Re-scope"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_type/options",
+      "body": {
+        "data": {
+          "title": "Cross-sell"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Renewal risk",
+          "description": "Account lead's view of how likely the retainer is to renew.",
+          "api_slug": "renewal_risk",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "Low"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "Medium"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/renewal_risk/options",
+      "body": {
+        "data": {
+          "title": "High"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Engagement type",
+          "description": "Whether this is a monthly retainer or a fixed-scope project. Retainers renew, projects end.",
+          "api_slug": "engagement_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/engagement_type/options",
+      "body": {
+        "data": {
+          "title": "Retainer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/engagement_type/options",
+      "body": {
+        "data": {
+          "title": "Project"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Service line",
+          "description": "The main service delivered. One value so revenue and margin can be reported by service.",
+          "api_slug": "service_line",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Paid media"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "SEO and content"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Social"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Brand and creative"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Web build"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Email and CRM"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "GTM engineering"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/service_line/options",
+      "body": {
+        "data": {
+          "title": "Strategy and consulting"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Health",
+          "description": "Account lead's current view of the relationship and results. Reviewed at least monthly.",
+          "api_slug": "health",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "Green"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "Amber"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/health/options",
+      "body": {
+        "data": {
+          "title": "Red"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Start date",
+          "description": "First day of the contracted work.",
+          "api_slug": "start_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "End date",
+          "description": "Last day of the current term. A renewal deal opens 90 days before it for retainers.",
+          "api_slug": "end_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Monthly fee",
+          "description": "Monthly retainer fee, excluding media spend. Empty for fixed-scope projects.",
+          "api_slug": "monthly_fee",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Project fee",
+          "description": "Total fixed fee for a project. Empty for retainers.",
+          "api_slug": "project_fee",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Hours per month",
+          "description": "Hours of team time included each month, used to check scope against what is delivered.",
+          "api_slug": "hours_per_month",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Notice period (days)",
+          "description": "Days of notice either side must give to end the engagement early.",
+          "api_slug": "notice_period_days",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Access received",
+          "description": "The client has given the accounts, logins and assets needed to start work.",
+          "api_slug": "access_received",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Scope summary",
+          "description": "What we are and are not committed to deliver, copied from the signed statement of work. Long text: Attio has one text type.",
+          "api_slug": "scope_summary",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Next review date",
+          "description": "The date of the next client review meeting. Empty means no review is booked.",
+          "api_slug": "next_review_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Account lead",
+          "description": "The team member responsible for the client relationship on this engagement.",
+          "api_slug": "account_lead",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "Delivery lead",
+          "description": "The team member responsible for getting the work done.",
+          "api_slug": "delivery_lead",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes",
+      "body": {
+        "data": {
+          "title": "End reason",
+          "description": "Why the engagement ended early or was not renewed. Required on the terminated stage.",
+          "api_slug": "end_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Budget cut"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Went in-house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Moved to another agency"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Unhappy with results"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Relationship"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Client closed or acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "We ended it"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/engagements/attributes/end_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

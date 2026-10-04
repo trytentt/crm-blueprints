@@ -1,0 +1,540 @@
+extends: core
+name: Agency, marketing and creative
+description: >-
+  A marketing, creative or GTM agency that wins clients through proposals and pitches, then
+  delivers on retainers or fixed-scope projects. Selling runs in deal pipelines. Each signed piece
+  of work becomes an engagement, which has its own delivery pipeline, and retainers renew through
+  a separate renewals pipeline.
+
+add_objects:
+  - key: engagement
+    label: Engagement
+    plural_label: Engagements
+    description: >-
+      One signed piece of work for a client: a retainer or a fixed-scope project. Holds scope, fee,
+      term and team. Created when a deal is won. Renewal deals point back to it, and its delivery
+      pipeline tracks the work.
+
+add_fields:
+  # Company
+  - object: company
+    key: client_status
+    label: Client status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options:
+      prospect: Prospect
+      active_client: Active client
+      past_client: Past client
+      partner: Partner or referrer
+  - object: company
+    key: industry
+    label: Industry
+    type: select
+    description: The client's sector. Used to report which sectors we win in and to choose case studies.
+    options:
+      software: Software
+      financial_services: Financial services
+      health: Health
+      retail_ecommerce: Retail and ecommerce
+      manufacturing: Manufacturing
+      professional_services: Professional services
+      public_sector_charity: Public sector and charity
+      other: Other
+  - object: company
+    key: marketing_budget_band
+    label: Marketing budget band
+    type: select
+    description: The client's annual marketing spend as they tell us. Used to judge fit before a proposal.
+    options:
+      under_50k: Under 50k
+      from_50k_to_250k: 50k to 250k
+      from_250k_to_1m: 250k to 1m
+      over_1m: Over 1m
+      unknown: Unknown
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options:
+      referral: Referral
+      inbound_content: Inbound content
+      outbound: Outbound
+      partner: Partner
+      event: Event
+      past_client: Past client returning
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in choosing or managing the agency. Used to check deals are not single-threaded.
+    options:
+      decision_maker: Decision maker
+      day_to_day_lead: Day-to-day lead
+      finance: Finance
+      procurement: Procurement
+      influencer: Influencer
+      blocker: Blocker
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost or the client left. Required on every lost stage.
+    options:
+      no_budget: No budget
+      no_decision: No decision made
+      chose_another_agency: Chose another agency
+      went_in_house: Went in-house
+      price: Price
+      scope_mismatch: Scope mismatch
+      results: Unhappy with results
+      relationship: Relationship
+      client_closed_or_acquired: Client closed or acquired
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: service_lines
+    label: Service lines
+    type: multi_select
+    description: The services in the proposal. Used to report revenue and win rate by service.
+    options:
+      paid_media: Paid media
+      seo_content: SEO and content
+      social: Social
+      brand_creative: Brand and creative
+      web_build: Web build
+      email_crm: Email and CRM
+      gtm_engineering: GTM engineering
+      consulting: Strategy and consulting
+  - object: deal
+    key: engagement_type
+    label: Engagement type
+    type: select
+    description: Whether the deal sells a monthly retainer or a fixed-scope project. Decides what the engagement record gets.
+    options: {retainer: Retainer, project: Project, hybrid: Retainer plus project}
+  - object: deal
+    key: brief_received
+    label: Brief received
+    type: checkbox
+    description: The client has given a written brief or goals we can scope against.
+  - object: deal
+    key: budget_range
+    label: Budget range
+    type: select
+    description: The monthly or project budget the client has indicated for this work.
+    options: {under_5k: Under 5k, from_5k_to_15k: 5k to 15k, from_15k_to_50k: 15k to 50k, over_50k: Over 50k, not_shared: Not shared}
+  - object: deal
+    key: competitive_pitch
+    label: Competitive pitch
+    type: checkbox
+    description: The client is comparing us formally with other agencies. Changes how much unpaid work we do.
+  - object: deal
+    key: decision_date
+    label: Decision date
+    type: date
+    description: The date the client has said they will choose.
+  - object: deal
+    key: renewal_type
+    label: Renewal type
+    type: select
+    description: Whether a renewals-pipeline deal is a straight renewal, an upsell or a re-scope.
+    options: {renewal: Renewal, upsell: Upsell, re_scope: Re-scope, cross_sell: Cross-sell}
+  - object: deal
+    key: renewal_risk
+    label: Renewal risk
+    type: select
+    description: Account lead's view of how likely the retainer is to renew.
+    options: {low: Low, medium: Medium, high: High}
+  # Engagement
+  - object: engagement
+    key: name
+    label: Name
+    type: text
+    description: Client name and the work, for example Client name SEO retainer.
+    required: true
+  - object: engagement
+    key: engagement_type
+    label: Engagement type
+    type: select
+    description: Whether this is a monthly retainer or a fixed-scope project. Retainers renew, projects end.
+    options: {retainer: Retainer, project: Project}
+  - object: engagement
+    key: service_line
+    label: Service line
+    type: select
+    description: The main service delivered. One value so revenue and margin can be reported by service.
+    options:
+      paid_media: Paid media
+      seo_content: SEO and content
+      social: Social
+      brand_creative: Brand and creative
+      web_build: Web build
+      email_crm: Email and CRM
+      gtm_engineering: GTM engineering
+      consulting: Strategy and consulting
+  - object: engagement
+    key: health
+    label: Health
+    type: select
+    description: Account lead's current view of the relationship and results. Reviewed at least monthly.
+    options: {green: Green, amber: Amber, red: Red}
+  - object: engagement
+    key: start_date
+    label: Start date
+    type: date
+    description: First day of the contracted work.
+  - object: engagement
+    key: end_date
+    label: End date
+    type: date
+    description: Last day of the current term. A renewal deal opens 90 days before it for retainers.
+  - object: engagement
+    key: monthly_fee
+    label: Monthly fee
+    type: currency
+    description: Monthly retainer fee, excluding media spend. Empty for fixed-scope projects.
+  - object: engagement
+    key: project_fee
+    label: Project fee
+    type: currency
+    description: Total fixed fee for a project. Empty for retainers.
+  - object: engagement
+    key: hours_per_month
+    label: Hours per month
+    type: number
+    description: Hours of team time included each month, used to check scope against what is delivered.
+  - object: engagement
+    key: notice_period_days
+    label: Notice period (days)
+    type: number
+    description: Days of notice either side must give to end the engagement early.
+  - object: engagement
+    key: access_received
+    label: Access received
+    type: checkbox
+    description: The client has given the accounts, logins and assets needed to start work.
+  - object: engagement
+    key: scope_summary
+    label: Scope summary
+    type: long_text
+    description: What we are and are not committed to deliver, copied from the signed statement of work.
+  - object: engagement
+    key: next_review_date
+    label: Next review date
+    type: date
+    description: The date of the next client review meeting. Empty means no review is booked.
+  - object: engagement
+    key: account_lead
+    label: Account lead
+    type: user
+    description: The team member responsible for the client relationship on this engagement.
+  - object: engagement
+    key: delivery_lead
+    label: Delivery lead
+    type: user
+    description: The team member responsible for getting the work done.
+  - object: engagement
+    key: end_reason
+    label: End reason
+    type: select
+    description: Why the engagement ended early or was not renewed. Required on the terminated stage.
+    options:
+      budget_cut: Budget cut
+      went_in_house: Went in-house
+      moved_agency: Moved to another agency
+      results: Unhappy with results
+      relationship: Relationship
+      client_closed_or_acquired: Client closed or acquired
+      we_ended_it: We ended it
+      other: Other
+
+add_relationships:
+  - key: engagement_company
+    from: engagement
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Engagements
+    purpose: Shows every retainer and project a client has had with us.
+  - key: deal_engagement
+    from: deal
+    to: engagement
+    cardinality: many_to_one
+    from_label: Engagement
+    to_label: Deals
+    purpose: Ties the deal that created an engagement, and every later renewal or upsell deal, to it.
+  - key: engagement_person
+    from: engagement
+    to: person
+    cardinality: many_to_many
+    from_label: Client contacts
+    to_label: Engagements
+    purpose: Links the client people who approve work and receive reports to the engagement.
+
+pipelines:
+  - object: deal
+    key: new_business
+    name: New business
+    stages:
+      - key: lead
+        label: Lead
+        type: open
+        probability: 5
+        exit_criteria: Entered when a company has asked for help or accepted a first conversation.
+        required_fields: [next_step_date]
+      - key: discovery
+        label: Discovery
+        type: open
+        probability: 20
+        exit_criteria: Entered when a discovery call has happened with someone who can name the goal and the budget range.
+        required_fields: [next_step_date, budget_range]
+      - key: brief_and_scope
+        label: Brief and scope
+        type: open
+        probability: 35
+        exit_criteria: Entered when the client has given a written brief and agreed we should prepare a proposal.
+        required_fields: [brief_received, service_lines, engagement_type]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 50
+        exit_criteria: Entered when a priced proposal has been sent to the decision maker.
+        required_fields: [amount, decision_date, competitive_pitch]
+      - key: pitch_or_review
+        label: Pitch or review
+        type: open
+        probability: 65
+        exit_criteria: Entered when the client has asked for a pitch session or a proposal walk-through with more than one stakeholder.
+        required_fields: [decision_date, next_step_date]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 80
+        exit_criteria: Entered when the client has said we are the preferred agency and is discussing scope, fee or terms.
+        required_fields: [amount, close_date]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed statement of work or agreement is received and the engagement record is created.
+        required_fields: [amount, close_date, engagement_type]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client chooses someone else or says no, or has not replied after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: deal
+    key: retainer_renewals
+    name: Retainer renewals
+    stages:
+      - key: upcoming
+        label: Upcoming
+        type: open
+        probability: 60
+        exit_criteria: Entered when a retainer engagement is 90 days from its end date.
+        required_fields: [renewal_type]
+      - key: review_booked
+        label: Review booked
+        type: open
+        probability: 65
+        exit_criteria: Entered when a results review with the client decision maker is in the diary.
+        required_fields: [renewal_risk, next_step_date]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 75
+        exit_criteria: Entered when a renewal proposal with the next term's scope and fee has been sent.
+        required_fields: [amount]
+      - key: negotiation
+        label: Negotiation
+        type: open
+        probability: 85
+        exit_criteria: Entered when the client has asked for changes to scope, fee or term.
+        required_fields: [amount, close_date]
+      - key: awaiting_signature
+        label: Awaiting signature
+        type: open
+        probability: 95
+        exit_criteria: Entered when the renewal agreement has been sent for signature.
+        required_fields: [amount, close_date]
+      - key: renewed
+        label: Renewed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed renewal is received and the engagement dates and fee are updated.
+        required_fields: [amount, close_date]
+      - key: not_renewed
+        label: Not renewed
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client confirms they will not renew, or the term ends unsigned.
+        required_fields: [lost_reason]
+  - object: engagement
+    key: delivery
+    name: Delivery
+    stages:
+      - key: onboarding
+        label: Onboarding
+        type: open
+        probability: 100
+        exit_criteria: Entered when the engagement record is created from a won deal and a delivery lead is named.
+        required_fields: [account_lead, delivery_lead]
+      - key: kickoff_done
+        label: Kickoff done
+        type: open
+        probability: 100
+        exit_criteria: Entered when the kickoff meeting has happened and access to the client's accounts has been received.
+        required_fields: [access_received, scope_summary]
+      - key: first_deliverables
+        label: First deliverables
+        type: open
+        probability: 100
+        exit_criteria: Entered when the first agreed deliverable or report has been sent to the client.
+        required_fields: [next_review_date]
+      - key: steady_state
+        label: Steady state
+        type: open
+        probability: 100
+        exit_criteria: Entered when the first monthly review has taken place and the client has accepted the reporting format.
+        required_fields: [health, next_review_date]
+      - key: at_risk
+        label: At risk
+        type: open
+        probability: 100
+        exit_criteria: Entered when health is set to red, or the client has raised a written concern.
+        required_fields: [health, next_review_date]
+      - key: wrapping_up
+        label: Wrapping up
+        type: open
+        probability: 100
+        exit_criteria: Entered when the engagement is within 30 days of its end date and no renewal is agreed.
+        required_fields: [end_date]
+      - key: completed
+        label: Completed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the work is delivered to scope and the engagement has reached its end date or been renewed into a new engagement.
+        required_fields: [end_date]
+      - key: terminated
+        label: Terminated
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client or the agency has given notice to end the engagement early.
+        required_fields: [end_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is delivery tracked on its own object rather than as stages on the sales pipeline?
+    recommended_default: >-
+      Yes. The engagement has its own owners, dates and delivery pipeline. Sales pipelines end at
+      closed won, so win rate is not skewed by work in progress.
+  - key: retainer_vs_project
+    question: Are retainers and fixed-scope projects the same object?
+    recommended_default: >-
+      Yes. One engagement object with an engagement type. Retainers get a renewal deal 90 days before
+      the end date. Projects end and may create a new business deal for follow-on work.
+  - key: renewals_as_deals
+    question: Are retainer renewals tracked as deals on the same Deal object as new business?
+    recommended_default: >-
+      Yes. A second pipeline on Deal keeps one revenue report. The deal links to its engagement so
+      the history stays together.
+  - key: time_tracking_location
+    question: Where are hours tracked and billed?
+    recommended_default: >-
+      In the agency's time and invoicing tool, not the CRM. The CRM holds fee, hours per month and
+      health. Do not rebuild timesheets. Add an integration only if account leads need hours used.
+  - key: media_spend
+    question: Is client media spend tracked in the CRM?
+    recommended_default: >-
+      No. Media spend belongs to the client and the ad platform. Track the agency fee only, and
+      record any percentage-of-spend fee as a rule in the scope summary.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects, and a pipeline on one?
+    recommended_default: >-
+      Check before the build. If not, model each engagement as a deal in a delivery pipeline with the
+      engagement fields as custom properties, and record the gap in the client notes.
+  - key: pitch_work_policy
+    question: How much unpaid work is done for a competitive pitch?
+    recommended_default: >-
+      Set a rule in the sales process: no creative work before a written brief and a stated decision
+      date. Use the competitive pitch field to review the cost of pitching against win rate.
+
+automations:
+  - key: create_engagement_on_win
+    name: Create engagement on closed won
+    trigger: A deal in the new business pipeline moves to closed won.
+    action: >-
+      Create an engagement from the deal's engagement type, amount, service lines and close date,
+      link it to the deal and company, set it to onboarding, and set the company's client status to
+      active client.
+  - key: notify_delivery_lead
+    name: Notify delivery team
+    trigger: An engagement is created.
+    action: Notify the delivery lead and account lead with the scope summary and the signed agreement link.
+  - key: open_renewal_deal
+    name: Open renewal deal
+    trigger: A retainer engagement has an end date 90 days away and is not terminated.
+    action: Create a deal in the retainer renewals pipeline at upcoming, linked to the engagement.
+  - key: flag_red_health
+    name: Flag red health
+    trigger: An engagement's health is set to red.
+    action: Move it to at risk and notify the account lead and the head of delivery.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+  - key: close_out_client
+    name: Mark past client
+    trigger: A company's last active engagement moves to completed or terminated and it has no open engagement.
+    action: Set the company's client status to past client.
+
+views:
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: pitches_deciding_soon
+    name: Pitches deciding soon
+    object: deal
+    filter: Pipeline is new business, stage is open and decision date is within 14 days.
+    sort: Decision date, soonest first.
+  - key: active_engagements
+    name: Active engagements
+    object: engagement
+    filter: Stage is open.
+    sort: Health, red first, then end date.
+  - key: retainers_ending_90_days
+    name: Retainers ending in 90 days
+    object: engagement
+    filter: Engagement type is retainer, stage is open and end date is within 90 days.
+    sort: End date, soonest first.
+  - key: reviews_overdue
+    name: Reviews overdue
+    object: engagement
+    filter: Stage is open and next review date is empty or in the past.
+    sort: Next review date, oldest first.
+
+platform_overrides:
+  attio:
+    objects:
+      engagement: {api_slug: engagements}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      engagement: {api_name: Engagement__c}

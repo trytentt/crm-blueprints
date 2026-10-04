@@ -1,0 +1,513 @@
+extends: core
+name: Investor, VC and angel deal flow
+description: >-
+  A venture or angel investor that sources startups, runs a deal-flow pipeline from first look to
+  investment, then manages the investments as a portfolio. Startups and investors are companies,
+  founders and partners are people, and co-investors are linked to each investment.
+
+add_objects:
+  - key: portfolio_investment
+    label: Portfolio investment
+    plural_label: Portfolio investments
+    description: >-
+      One investment the firm has made in a company: amount, ownership, entry round, status and exit.
+      Created when a deal closes. This is the post-investment side, separate from the deal flow.
+
+add_fields:
+  # Company
+  - object: company
+    key: org_type
+    label: Organisation type
+    type: select
+    description: What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.
+    options:
+      startup: Startup
+      co_investor: Co-investor or other fund
+      limited_partner: Limited partner
+      accelerator: Accelerator or studio
+      corporate: Corporate or strategic
+      advisor: Advisor or service provider
+  - object: company
+    key: sector
+    label: Sector
+    type: select
+    description: The startup's main market. Used to see thesis fit and portfolio spread. Edit the options to the investment thesis.
+    options:
+      software: Software
+      fintech: Fintech
+      health: Health
+      climate: Climate
+      consumer: Consumer
+      deep_tech: Deep tech
+      marketplace: Marketplace
+      other: Other
+  - object: company
+    key: funding_stage
+    label: Funding stage
+    type: select
+    description: The startup's current funding stage. Used to check fit with the fund's cheque size and focus.
+    options: {pre_seed: Pre-seed, seed: Seed, series_a: Series A, series_b: Series B, later: Later stage}
+  - object: company
+    key: thesis_fit
+    label: Thesis fit
+    type: select
+    description: Our view of how well the company fits the investment thesis. Set at screening.
+    options: {strong: Strong, possible: Possible, weak: Weak, not_assessed: Not assessed}
+  - object: company
+    key: relationship_strength
+    label: Relationship strength
+    type: select
+    description: How well we know the organisation. Used to rank co-investors and introducers.
+    options: {close: Close, warm: Warm, cold: Cold}
+  - object: company
+    key: hq_country
+    label: Country
+    type: select
+    description: Where the company is based. Used to check geography rules and report by region.
+    options: {home_market: Home market, europe: Rest of Europe, north_america: North America, rest_of_world: Rest of world}
+  # Person
+  - object: person
+    key: person_role
+    label: Person role
+    type: select
+    description: The part this person plays for us. Used to find founders to track and co-investors to call.
+    options:
+      founder: Founder
+      executive: Executive
+      co_investor_partner: Co-investor partner
+      introducer: Introducer or scout
+      limited_partner: Limited partner contact
+      advisor: Advisor
+  - object: person
+    key: intro_strength
+    label: Relationship strength
+    type: select
+    description: How well the team knows this person. Used to find the best route in to a founder.
+    options: {close: Close, warm: Warm, cold: Cold}
+  - object: person
+    key: relationship_owner
+    label: Relationship owner
+    type: user
+    description: The partner or associate who holds the relationship with this person.
+  # Deal
+  - object: deal
+    key: pass_reason
+    label: Pass reason
+    type: select
+    description: Why we passed on the company. Required on the passed stage. Reported to refine the thesis.
+    options:
+      outside_thesis: Outside thesis
+      team: Team concerns
+      market_size: Market too small
+      traction: Not enough traction
+      valuation: Valuation too high
+      terms: Terms not agreed
+      diligence_issue: Diligence issue
+      lost_the_round: Lost the round
+      timing: Too early or too late
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Open deals with no future date are stalled.
+  - object: deal
+    key: deal_source
+    label: Deal source
+    type: select
+    description: How the deal reached us. Reported to see which channels produce investments.
+    options:
+      founder_inbound: Founder inbound
+      warm_intro: Warm introduction
+      co_investor: Co-investor
+      accelerator: Accelerator or studio
+      outbound: Our outbound
+      event: Event
+      portfolio_founder: Portfolio founder referral
+  - object: deal
+    key: round_type
+    label: Round type
+    type: select
+    description: The type of round the startup is raising.
+    options: {pre_seed: Pre-seed, seed: Seed, series_a: Series A, series_b: Series B, bridge: Bridge, other: Other}
+  - object: deal
+    key: round_size
+    label: Round size
+    type: currency
+    description: Total amount the startup is raising in this round.
+  - object: deal
+    key: pre_money_valuation
+    label: Pre-money valuation
+    type: currency
+    description: Valuation before the round, as proposed or agreed.
+  - object: deal
+    key: our_role
+    label: Our role
+    type: select
+    description: Whether we lead the round, follow another lead or take part as a small investor.
+    options: {lead: Lead, co_lead: Co-lead, follow: Follow, undecided: Undecided}
+  - object: deal
+    key: conviction
+    label: Conviction
+    type: select
+    description: The deal lead's confidence in the deal after the latest stage. Updated at each stage.
+    options: {high: High, medium: Medium, low: Low, not_set: Not set}
+  - object: deal
+    key: deal_lead
+    label: Deal lead
+    type: user
+    description: The partner or associate who owns the deal and presents it at partner meetings.
+  - object: deal
+    key: thesis_fit_confirmed
+    label: Thesis fit confirmed
+    type: checkbox
+    description: The deal lead has checked the company against stage, sector, geography and cheque size.
+  - object: deal
+    key: diligence_complete
+    label: Diligence complete
+    type: checkbox
+    description: Commercial, financial, legal and reference checks are finished with no blocking findings.
+  - object: deal
+    key: ic_approved
+    label: Investment committee approved
+    type: checkbox
+    description: The investment committee has approved the investment on the stated terms.
+  - object: deal
+    key: term_sheet_status
+    label: Term sheet status
+    type: select
+    description: Progress of the term sheet, which sets valuation, amount and investor rights.
+    options: {not_started: Not started, drafted: Drafted, issued: Issued, negotiating: Negotiating, signed: Signed}
+  # Portfolio investment
+  - object: portfolio_investment
+    key: name
+    label: Name
+    type: text
+    description: Company name and the round, for example the company's name and seed.
+    required: true
+  - object: portfolio_investment
+    key: status
+    label: Status
+    type: select
+    description: Where the investment stands.
+    options: {active: Active, follow_on_review: Follow-on review, exit_in_progress: Exit in progress, exited: Exited, written_off: Written off}
+  - object: portfolio_investment
+    key: fund
+    label: Fund
+    type: select
+    description: The fund or vehicle that made the investment. Edit the options to the client's funds at build.
+    options: {fund_one: Fund one, fund_two: Fund two, angel_syndicate: Angel syndicate, direct: Direct or personal}
+  - object: portfolio_investment
+    key: entry_round
+    label: Entry round
+    type: select
+    description: The round in which we first invested.
+    options: {pre_seed: Pre-seed, seed: Seed, series_a: Series A, series_b: Series B, later: Later stage}
+  - object: portfolio_investment
+    key: investment_date
+    label: Investment date
+    type: date
+    description: Date the money was sent.
+  - object: portfolio_investment
+    key: amount_invested
+    label: Amount invested
+    type: currency
+    description: Total invested across all rounds.
+  - object: portfolio_investment
+    key: ownership_percent
+    label: Ownership
+    type: percent
+    description: Current fully diluted ownership. Updated after each round.
+  - object: portfolio_investment
+    key: latest_valuation
+    label: Latest valuation
+    type: currency
+    description: Our latest carrying value of the holding, per the most recent valuation.
+  - object: portfolio_investment
+    key: follow_on_reserve
+    label: Follow-on reserve
+    type: currency
+    description: Money held back for follow-on investment in this company.
+  - object: portfolio_investment
+    key: board_seat
+    label: Board seat
+    type: checkbox
+    description: We hold a board seat or observer seat.
+  - object: portfolio_investment
+    key: health
+    label: Health
+    type: select
+    description: The partner's view of how the company is doing. Reviewed monthly.
+    options: {thriving: Thriving, on_track: On track, needs_support: Needs support, at_risk: At risk}
+  - object: portfolio_investment
+    key: next_update_due
+    label: Next update due
+    type: date
+    description: When the next investor update or catch-up is due from the founders.
+  - object: portfolio_investment
+    key: exit_route
+    label: Exit route
+    type: select
+    description: How the investment was realised. Required on the exited stage.
+    options: {acquisition: Acquisition, ipo: IPO, secondary_sale: Secondary sale, buyback: Buyback}
+  - object: portfolio_investment
+    key: write_off_reason
+    label: Write-off reason
+    type: select
+    description: Why the investment was written off. Required on the written-off stage.
+    options: {ran_out_of_cash: Ran out of cash, product_failed: Product failed, team_split: Team split, market_changed: Market changed, other: Other}
+  - object: portfolio_investment
+    key: lead_partner
+    label: Lead partner
+    type: user
+    description: The partner responsible for supporting the company.
+
+add_relationships:
+  - key: portfolio_investment_company
+    from: portfolio_investment
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Our investments
+    purpose: Shows each investment we hold in a company across rounds.
+  - key: portfolio_investment_deal
+    from: portfolio_investment
+    to: deal
+    cardinality: many_to_one
+    from_label: Source deal
+    to_label: Investments
+    purpose: Links an investment to the deal that created it.
+  - key: portfolio_co_investors
+    from: portfolio_investment
+    to: company
+    cardinality: many_to_many
+    from_label: Co-investors
+    to_label: Co-invested in
+    purpose: Records which other funds invested alongside us, so we can see who we back with.
+  - key: deal_co_investors
+    from: deal
+    to: company
+    cardinality: many_to_many
+    from_label: Co-investors on the round
+    to_label: Rounds considered
+    purpose: Records the other investors in a round we are looking at, including who leads.
+  - key: deal_introducer
+    from: deal
+    to: person
+    cardinality: many_to_one
+    from_label: Introduced by
+    to_label: Deals introduced
+    purpose: Records who sent us the deal, so introducers can be thanked and measured.
+
+pipelines:
+  - object: deal
+    key: deal_flow
+    name: Deal flow
+    stages:
+      - key: sourced
+        label: Sourced
+        type: open
+        probability: 2
+        exit_criteria: Entered when a startup is logged with a source and a founder contact.
+        required_fields: [deal_source]
+      - key: screening
+        label: Screening
+        type: open
+        probability: 5
+        exit_criteria: Entered when a team member has read the materials and picked the deal up for review.
+        required_fields: [deal_lead, round_type]
+      - key: first_meeting
+        label: First meeting
+        type: open
+        probability: 10
+        exit_criteria: Entered when a founder meeting is booked after the deal passes screening.
+        required_fields: [thesis_fit_confirmed, next_step_date]
+      - key: deep_dive
+        label: Deep dive
+        type: open
+        probability: 20
+        exit_criteria: Entered when the first meeting has happened and the deal lead has more calls and data requests planned.
+        required_fields: [conviction, round_size, next_step_date]
+      - key: partner_meeting
+        label: Partner meeting
+        type: open
+        probability: 35
+        exit_criteria: Entered when the deal lead has presented to the partners and they agreed to a term sheet or diligence.
+        required_fields: [our_role, pre_money_valuation, conviction]
+      - key: term_sheet
+        label: Term sheet
+        type: open
+        probability: 55
+        exit_criteria: Entered when a term sheet has been issued to the startup.
+        required_fields: [term_sheet_status, amount, pre_money_valuation]
+      - key: due_diligence
+        label: Due diligence
+        type: open
+        probability: 70
+        exit_criteria: Entered when the term sheet is signed and legal, financial and reference checks are running.
+        required_fields: [term_sheet_status, next_step_date]
+      - key: investment_committee
+        label: Investment committee
+        type: open
+        probability: 85
+        exit_criteria: Entered when diligence is finished and the investment memo has gone to the committee.
+        required_fields: [diligence_complete, amount]
+      - key: invested
+        label: Invested
+        type: won
+        probability: 100
+        exit_criteria: Entered when the investment is approved, documents are signed and funds are sent.
+        required_fields: [ic_approved, amount, close_date]
+      - key: passed
+        label: Passed
+        type: lost
+        probability: 0
+        exit_criteria: Entered when we decide not to invest or the startup closes its round without us.
+        required_fields: [pass_reason]
+  - object: portfolio_investment
+    key: portfolio_outcome
+    name: Portfolio outcome
+    stages:
+      - key: active
+        label: Active
+        type: open
+        probability: 30
+        exit_criteria: Entered when the investment is made and recorded.
+        required_fields: [amount_invested, ownership_percent, lead_partner]
+      - key: follow_on_review
+        label: Follow-on review
+        type: open
+        probability: 40
+        exit_criteria: Entered when the company is raising again or has asked for more capital.
+        required_fields: [follow_on_reserve, health]
+      - key: exit_preparation
+        label: Exit preparation
+        type: open
+        probability: 60
+        exit_criteria: Entered when the partners agree to start planning a sale or listing.
+        required_fields: [latest_valuation]
+      - key: exit_process
+        label: Exit process
+        type: open
+        probability: 80
+        exit_criteria: Entered when an acquirer or listing process is under way with a signed letter of intent or mandate.
+        required_fields: [latest_valuation, lead_partner]
+      - key: exited
+        label: Exited
+        type: won
+        probability: 100
+        exit_criteria: Entered when proceeds from the sale or listing have been received.
+        required_fields: [exit_route]
+      - key: written_off
+        label: Written off
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the company has closed or the holding is written down to nil.
+        required_fields: [write_off_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is the investment tracked on its own object rather than as the end of the deal flow?
+    recommended_default: >-
+      Yes. The deal flow ends at invested. The portfolio investment then lives for years, with its own
+      owner, health check, follow-on decisions and exit, so it gets its own object and pipeline.
+  - key: co_investors_as_companies
+    question: How are co-investors recorded?
+    recommended_default: >-
+      As companies with type co-investor, linked many-to-many to deals and investments. Their partners
+      are people. This lets the team see who they back with and who leads rounds.
+  - key: funds_and_lps
+    question: Does the CRM also track fundraising from limited partners?
+    recommended_default: >-
+      Not in this build. LPs are companies and people with type limited partner. Add a fundraising
+      pipeline on Deal when the client describes one.
+  - key: valuation_data
+    question: How much financial and valuation data sits in the CRM?
+    recommended_default: >-
+      Headline numbers only: amount invested, ownership and latest carrying value. Cap tables,
+      fund accounting and detailed reporting stay in the fund administrator's system.
+  - key: confidential_deals
+    question: Do some deals need restricted visibility, for example inside information or conflicts?
+    recommended_default: >-
+      Check the plan's record permissions before the build. If restricted records are not available,
+      keep names out of deal titles for sensitive deals and record the gap in the client notes.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow a custom object for Portfolio investment?
+    recommended_default: >-
+      Check before the build. If not, use a second deal pipeline for the portfolio, with ownership and
+      valuation as deal properties, and record the gap in the client notes.
+  - key: pass_followup
+    question: Are passed companies revisited later?
+    recommended_default: >-
+      Yes. Record a pass reason and set a revisit date in the next step date, so a company passed as too
+      early comes back at the next round.
+
+automations:
+  - key: create_investment_on_win
+    name: Create investment on invested
+    trigger: A deal in the deal flow pipeline moves to invested.
+    action: >-
+      Create a portfolio investment from the deal's amount, valuation and close date, link it to the
+      company and the deal, copy the round co-investors, and set the company's organisation type to startup.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal lead and add the deal to the stalled deals view.
+  - key: revisit_passed
+    name: Revisit passed companies
+    trigger: A deal moves to passed with a pass reason of timing or traction and its next step date arrives.
+    action: Create a task for the deal lead to check progress and reopen the company at sourced if it now fits.
+  - key: investor_update_reminder
+    name: Investor update reminder
+    trigger: A portfolio investment's next update due date is 7 days away.
+    action: Create a task for the lead partner to request the update from the founders.
+  - key: follow_on_alert
+    name: Follow-on alert
+    trigger: A portfolio company's funding stage changes or its health changes to needs support.
+    action: Move the investment to follow-on review and notify the lead partner.
+  - key: thank_introducer
+    name: Thank the introducer
+    trigger: A deal with an introducer moves to term sheet or invested.
+    action: Create a task for the deal lead to thank the introducer.
+
+views:
+  - key: active_deal_flow
+    name: Active deal flow
+    object: deal
+    filter: Stage is open and deal lead is me.
+    sort: Next step date, soonest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: passed_to_revisit
+    name: Passed, to revisit
+    object: deal
+    filter: Stage is passed and pass reason is timing or traction.
+    sort: Next step date, soonest first.
+  - key: portfolio_health
+    name: Portfolio health
+    object: portfolio_investment
+    filter: Status is active or follow-on review.
+    sort: Health, at risk first.
+  - key: updates_due
+    name: Investor updates due
+    object: portfolio_investment
+    filter: Status is active and next update due is within 14 days.
+    sort: Next update due, soonest first.
+  - key: co_investors
+    name: Co-investors
+    object: company
+    filter: Organisation type is co-investor or other fund.
+    sort: Relationship strength, close first.
+
+platform_overrides:
+  attio:
+    objects:
+      portfolio_investment: {api_slug: portfolio_investments}
+  hubspot:
+    fields:
+      deal.pass_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      portfolio_investment: {api_name: Portfolio_Investment__c}

@@ -1,0 +1,1406 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 5,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Employee count",
+          "description": "Approximate number of employees.",
+          "api_slug": "employee_count",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Phone",
+          "description": "Main switchboard number.",
+          "api_slug": "phone",
+          "type": "phone-number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the account.",
+          "api_slug": "company_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Customer status",
+          "description": "Where the company is in its life with us. Drives which views and automations apply.",
+          "api_slug": "customer_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Prospect"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Free user"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Paying"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/customer_status/options",
+      "body": {
+        "data": {
+          "title": "Former customer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Segment",
+          "description": "Size band used to decide whether sales-assist should engage or the account stays self-serve.",
+          "api_slug": "segment",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "SMB"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "Mid-market"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/segment/options",
+      "body": {
+        "data": {
+          "title": "Enterprise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "ICP fit",
+          "description": "How closely the company matches the ideal customer profile. One input to the PQL rule.",
+          "api_slug": "icp_fit",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/icp_fit/options",
+      "body": {
+        "data": {
+          "title": "Strong"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/icp_fit/options",
+      "body": {
+        "data": {
+          "title": "Possible"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/icp_fit/options",
+      "body": {
+        "data": {
+          "title": "Weak"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes",
+      "body": {
+        "data": {
+          "title": "Acquisition channel",
+          "description": "How the first user at this company found the product. Set once, never overwritten.",
+          "api_slug": "acquisition_channel",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Organic search"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Paid"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Referral"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Community"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Integration marketplace"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/companies/attributes/acquisition_channel/options",
+      "body": {
+        "data": {
+          "title": "Outbound"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The team member responsible for the relationship.",
+          "api_slug": "person_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Workspace role",
+          "description": "What this person is inside the product. A user is not always the person who pays.",
+          "api_slug": "workspace_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/workspace_role/options",
+      "body": {
+        "data": {
+          "title": "Workspace owner"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/workspace_role/options",
+      "body": {
+        "data": {
+          "title": "Admin"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/workspace_role/options",
+      "body": {
+        "data": {
+          "title": "Member"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/workspace_role/options",
+      "body": {
+        "data": {
+          "title": "Billing contact"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/workspace_role/options",
+      "body": {
+        "data": {
+          "title": "Not a product user"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Buying role",
+          "description": "The part this person plays in a paid purchase. Used to check deals are not single-threaded on one user.",
+          "api_slug": "buying_role",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Economic buyer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Champion"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Technical evaluator"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "End user"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/buying_role/options",
+      "body": {
+        "data": {
+          "title": "Blocker"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes",
+      "body": {
+        "data": {
+          "title": "Marketing consent",
+          "description": "Lawful basis for marketing email to this person. Product sign-up alone does not give consent to sales outreach in every region.",
+          "api_slug": "marketing_consent",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Opted in"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Legitimate interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Opted out"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/people/attributes/marketing_consent/options",
+      "body": {
+        "data": {
+          "title": "Unknown"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Close date",
+          "description": "The date the deal is expected to close, or did close.",
+          "api_slug": "close_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Description",
+          "description": "What is being bought and why. Long text: Attio has one text type.",
+          "api_slug": "description",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step",
+          "description": "The single next action agreed with the buyer.",
+          "api_slug": "next_step",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the expansion declined. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Happy to stay self-serve"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose a competitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Product gap"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Bad timing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Champion left"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Next step date",
+          "description": "When the next step is due. Deals with no future date are stalled.",
+          "api_slug": "next_step_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "PQL trigger",
+          "description": "The product behaviour that made the lead product-qualified. Lets us see which signals convert.",
+          "api_slug": "pql_trigger",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Hit a usage limit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Invited teammates"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Reached activation milestone"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Viewed pricing repeatedly"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Asked to talk to sales"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/pql_trigger/options",
+      "body": {
+        "data": {
+          "title": "Trial ending while active"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expected seats",
+          "description": "Number of seats the buyer expects to need on the paid plan.",
+          "api_slug": "expected_seats",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Target plan",
+          "description": "The paid plan being discussed.",
+          "api_slug": "target_plan",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/target_plan/options",
+      "body": {
+        "data": {
+          "title": "Team"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/target_plan/options",
+      "body": {
+        "data": {
+          "title": "Business"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/target_plan/options",
+      "body": {
+        "data": {
+          "title": "Enterprise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Billing term",
+          "description": "How the buyer will pay. Moving from card to invoice is the usual sales-assist step.",
+          "api_slug": "billing_term",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_term/options",
+      "body": {
+        "data": {
+          "title": "Monthly by card"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_term/options",
+      "body": {
+        "data": {
+          "title": "Annual by card"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_term/options",
+      "body": {
+        "data": {
+          "title": "Annual by invoice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/billing_term/options",
+      "body": {
+        "data": {
+          "title": "Multi-year by invoice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Security review",
+          "description": "Progress of the buyer's security and procurement review.",
+          "api_slug": "security_review",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/security_review/options",
+      "body": {
+        "data": {
+          "title": "Not needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/security_review/options",
+      "body": {
+        "data": {
+          "title": "Requested"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/security_review/options",
+      "body": {
+        "data": {
+          "title": "In progress"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/security_review/options",
+      "body": {
+        "data": {
+          "title": "Passed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Expansion type",
+          "description": "What the expansion deal adds. Used to report where expansion revenue comes from.",
+          "api_slug": "expansion_type",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/expansion_type/options",
+      "body": {
+        "data": {
+          "title": "More seats"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/expansion_type/options",
+      "body": {
+        "data": {
+          "title": "Plan upgrade"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/expansion_type/options",
+      "body": {
+        "data": {
+          "title": "Add-on"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes/expansion_type/options",
+      "body": {
+        "data": {
+          "title": "New team or department"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Need summary",
+          "description": "What the team is trying to do with the product and what is stopping the free or current plan working. Long text: Attio has one text type.",
+          "api_slug": "need_summary",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Product workspace ID",
+          "description": "The workspace's identifier in the product database. The key used to match synced usage to this record.",
+          "api_slug": "product_workspace_id",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Plan",
+          "description": "The plan the workspace is on now.",
+          "api_slug": "plan",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/plan/options",
+      "body": {
+        "data": {
+          "title": "Free"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/plan/options",
+      "body": {
+        "data": {
+          "title": "Team"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/plan/options",
+      "body": {
+        "data": {
+          "title": "Business"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/plan/options",
+      "body": {
+        "data": {
+          "title": "Enterprise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Lifecycle stage",
+          "description": "Where the workspace is in the self-serve journey.",
+          "api_slug": "lifecycle_stage",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/lifecycle_stage/options",
+      "body": {
+        "data": {
+          "title": "Signed up"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/lifecycle_stage/options",
+      "body": {
+        "data": {
+          "title": "Activated"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/lifecycle_stage/options",
+      "body": {
+        "data": {
+          "title": "Trialling"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/lifecycle_stage/options",
+      "body": {
+        "data": {
+          "title": "Paying"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/lifecycle_stage/options",
+      "body": {
+        "data": {
+          "title": "Churned"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Sign-up date",
+          "description": "The day the workspace was created.",
+          "api_slug": "signup_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Trial end date",
+          "description": "The day the current trial ends. Empty if not on a trial.",
+          "api_slug": "trial_ends_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Activated",
+          "description": "The workspace has reached the product's activation milestone, as defined by product.",
+          "api_slug": "activated",
+          "type": "checkbox",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Seats used",
+          "description": "Active seats in the product, synced nightly.",
+          "api_slug": "seats_used",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Seats paid",
+          "description": "Seats the workspace is paying for. Compared with seats used to find expansion.",
+          "api_slug": "seats_paid",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Active users (30 days)",
+          "description": "Distinct users who used the product in the last 30 days, synced nightly.",
+          "api_slug": "active_users_30d",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Plan limit used",
+          "description": "How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal. Percentage stored as a number from 0 to 100.",
+          "api_slug": "limit_usage_percent",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Last active date",
+          "description": "The last day any user was active in the workspace.",
+          "api_slug": "last_active_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "PQL status",
+          "description": "Whether the workspace meets the product-qualified lead rule. Set by automation, not by hand.",
+          "api_slug": "pql_status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/pql_status/options",
+      "body": {
+        "data": {
+          "title": "Not qualified"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/pql_status/options",
+      "body": {
+        "data": {
+          "title": "Qualified"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/pql_status/options",
+      "body": {
+        "data": {
+          "title": "Accepted by sales"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/pql_status/options",
+      "body": {
+        "data": {
+          "title": "Rejected by sales"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "PQL score",
+          "description": "Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.",
+          "api_slug": "pql_score",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "MRR",
+          "description": "Monthly recurring revenue for this workspace at current prices, from billing.",
+          "api_slug": "mrr",
+          "type": "currency",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "currency": {
+              "default_currency_code": "GBP",
+              "display_type": "symbol"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes",
+      "body": {
+        "data": {
+          "title": "Billing source",
+          "description": "Whether the workspace pays by card through self-serve billing or by invoice agreed with sales.",
+          "api_slug": "billing_source",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/billing_source/options",
+      "body": {
+        "data": {
+          "title": "None"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/billing_source/options",
+      "body": {
+        "data": {
+          "title": "Card"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/workspaces/attributes/billing_source/options",
+      "body": {
+        "data": {
+          "title": "Invoice"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes",
+      "body": {
+        "data": {
+          "title": "Status",
+          "description": "Where the plan stands.",
+          "api_slug": "status",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Not started"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "In progress"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Complete"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes/status/options",
+      "body": {
+        "data": {
+          "title": "Stalled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes",
+      "body": {
+        "data": {
+          "title": "Target activation date",
+          "description": "The date by which the workspace should have reached the activation milestone.",
+          "api_slug": "target_activation_date",
+          "type": "date",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes",
+      "body": {
+        "data": {
+          "title": "Success criteria",
+          "description": "What good use looks like for this customer, in numbers the product can measure. Long text: Attio has one text type.",
+          "api_slug": "success_criteria",
+          "type": "text",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/adoption_plans/attributes",
+      "body": {
+        "data": {
+          "title": "Owner",
+          "description": "The customer success manager running the plan.",
+          "api_slug": "adoption_plan_owner",
+          "type": "actor-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    }
+  ]
+}

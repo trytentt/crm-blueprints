@@ -1,0 +1,551 @@
+extends: core
+name: Consultancy and professional services
+description: >-
+  A consultancy, law firm or accountancy that wins work through enquiries and proposals, clears a
+  conflict check before advising, and delivers on matters (engagements) with a stated billing model.
+  Selling runs on deals. Delivery runs on matters, and every conflict check is kept as its own record.
+
+add_objects:
+  - key: matter
+    label: Matter
+    plural_label: Matters
+    description: >-
+      One piece of client work under one engagement letter: a legal matter, audit, tax job or
+      consulting project. Holds scope, billing model, team and dates. Created when a deal is won,
+      and has its own delivery pipeline.
+  - key: conflict_check
+    label: Conflict check
+    plural_label: Conflict checks
+    description: >-
+      The record of one conflict-of-interest check run before we advised or proposed: who was
+      checked, the result and who cleared it. Kept as an audit trail, separate from the deal.
+
+add_fields:
+  # Company
+  - object: company
+    key: client_status
+    label: Client status
+    type: select
+    description: Where the company is in its life with us. Drives which views and automations apply.
+    options:
+      prospect: Prospect
+      active_client: Active client
+      past_client: Past client
+      referrer: Referrer
+      adverse_party: Adverse or related party
+  - object: company
+    key: sector
+    label: Sector
+    type: select
+    description: The client's sector. Used to report where work comes from and to find relevant experience.
+    options:
+      financial_services: Financial services
+      technology: Technology
+      real_estate: Real estate
+      health_life_sciences: Health and life sciences
+      energy_infrastructure: Energy and infrastructure
+      public_sector: Public sector
+      private_individual_or_family: Private individual or family
+      other: Other
+  - object: company
+    key: client_risk_rating
+    label: Client risk rating
+    type: select
+    description: Firm's anti-money-laundering risk rating for this client. Set by compliance, not the fee earner.
+    options: {low: Low, medium: Medium, high: High, not_assessed: Not assessed}
+  - object: company
+    key: lead_source
+    label: Lead source
+    type: select
+    description: How the company first came to us. Set once, never overwritten.
+    options:
+      client_referral: Client referral
+      professional_referral: Professional referral
+      inbound: Inbound
+      event_or_publication: Event or publication
+      directory_or_ranking: Directory or ranking
+      outbound: Outbound
+  # Person
+  - object: person
+    key: buying_role
+    label: Buying role
+    type: select
+    description: The part this person plays in instructing the firm. Used to check we know who signs and who pays.
+    options:
+      instructing_decision_maker: Instructing decision maker
+      sponsor: Sponsor
+      finance_contact: Finance contact
+      general_counsel_or_legal: In-house legal
+      day_to_day_contact: Day-to-day contact
+      referrer: Referrer
+  # Deal
+  - object: deal
+    key: lost_reason
+    label: Lost reason
+    type: select
+    description: Why the deal was lost or the client left. Required on every lost stage.
+    options:
+      conflict: Conflict of interest
+      capacity: We had no capacity
+      price: Fees too high
+      chose_another_firm: Chose another firm
+      work_not_going_ahead: Work not going ahead
+      outside_expertise: Outside our expertise
+      risk_or_compliance: Declined on risk or compliance grounds
+      no_decision: No decision made
+      other: Other
+  - object: deal
+    key: next_step_date
+    label: Next step date
+    type: date
+    description: When the next step is due. Deals with no future date are stalled.
+  - object: deal
+    key: service_area
+    label: Service area
+    type: select
+    description: The practice or service the work belongs to. Used to route enquiries and report by practice.
+    options:
+      advisory: Advisory
+      transactions: Transactions
+      disputes: Disputes
+      tax: Tax
+      audit_assurance: Audit and assurance
+      regulatory_compliance: Regulatory and compliance
+      other: Other
+  - object: deal
+    key: lead_partner
+    label: Lead partner
+    type: user
+    description: The partner or director who will be accountable for the work and signs the engagement letter.
+  - object: deal
+    key: scope_summary
+    label: Scope summary
+    type: long_text
+    description: What the client has asked for and what is outside it. Becomes the scope of the engagement letter.
+  - object: deal
+    key: billing_model
+    label: Billing model
+    type: select
+    description: How the work will be charged. Needed before a proposal because it changes the margin risk.
+    options:
+      hourly: Hourly
+      fixed_fee: Fixed fee
+      capped_fee: Capped fee
+      retainer: Retainer
+      success_fee: Success fee
+      hybrid: Hybrid
+  - object: deal
+    key: conflict_check_result
+    label: Conflict check result
+    type: select
+    description: Latest result of the conflict check for this deal, copied from the conflict check record. Gates the proposal stage.
+    options:
+      not_run: Not run
+      pending: Pending
+      cleared: Cleared
+      cleared_with_waiver: Cleared with waiver
+      conflicted: Conflicted
+  - object: deal
+    key: engagement_letter_status
+    label: Engagement letter status
+    type: select
+    description: Where the engagement letter stands. Work must not start until it is signed.
+    options: {not_drafted: Not drafted, drafted: Drafted, sent: Sent, signed: Signed}
+  - object: deal
+    key: referrer_company
+    label: Referrer
+    type: text
+    description: Name of the person or firm who referred the work, for referral fee and thank-you tracking.
+  # Conflict check
+  - object: conflict_check
+    key: name
+    label: Name
+    type: text
+    description: Client or prospect name and the date of the check.
+    required: true
+  - object: conflict_check
+    key: result
+    label: Result
+    type: select
+    description: Outcome of this check.
+    options:
+      pending: Pending
+      cleared: Cleared
+      cleared_with_waiver: Cleared with waiver
+      conflicted: Conflicted
+  - object: conflict_check
+    key: check_date
+    label: Check date
+    type: date
+    description: The date the check was run. A check is valid for a stated period only.
+  - object: conflict_check
+    key: parties_checked
+    label: Parties checked
+    type: long_text
+    description: Names of every party searched, including the client, related companies and adverse parties. Names only, no matter detail.
+  - object: conflict_check
+    key: cleared_by
+    label: Cleared by
+    type: user
+    description: The risk partner or compliance officer who signed off the result.
+  - object: conflict_check
+    key: ethical_wall_needed
+    label: Ethical wall needed
+    type: checkbox
+    description: The clearance depends on keeping two teams apart. Matter team access must be restricted.
+  # Matter
+  - object: matter
+    key: name
+    label: Name
+    type: text
+    description: Client name and a neutral work description. No confidential detail in the name.
+    required: true
+  - object: matter
+    key: matter_reference
+    label: Matter reference
+    type: text
+    description: The reference from the practice management or billing system. Matches CRM to invoices.
+  - object: matter
+    key: service_area
+    label: Service area
+    type: select
+    description: The practice or service this matter belongs to. Used for reporting by practice.
+    options:
+      advisory: Advisory
+      transactions: Transactions
+      disputes: Disputes
+      tax: Tax
+      audit_assurance: Audit and assurance
+      regulatory_compliance: Regulatory and compliance
+      other: Other
+  - object: matter
+    key: billing_model
+    label: Billing model
+    type: select
+    description: How this matter is charged, copied from the engagement letter.
+    options:
+      hourly: Hourly
+      fixed_fee: Fixed fee
+      capped_fee: Capped fee
+      retainer: Retainer
+      success_fee: Success fee
+      hybrid: Hybrid
+  - object: matter
+    key: fee_estimate
+    label: Fee estimate
+    type: currency
+    description: Total fees expected for the matter, or the fixed or capped amount.
+  - object: matter
+    key: budget_hours
+    label: Budget hours
+    type: number
+    description: Hours the team has budgeted. Compared with hours recorded in the billing system.
+  - object: matter
+    key: billing_frequency
+    label: Billing frequency
+    type: select
+    description: How often the client is invoiced.
+    options: {monthly: Monthly, on_milestones: On milestones, on_completion: On completion, quarterly: Quarterly}
+  - object: matter
+    key: start_date
+    label: Start date
+    type: date
+    description: The date work started, which must be after the engagement letter was signed.
+  - object: matter
+    key: target_end_date
+    label: Target end date
+    type: date
+    description: The date the work is expected to be complete.
+  - object: matter
+    key: engagement_letter_signed_date
+    label: Engagement letter signed date
+    type: date
+    description: The date the client signed the engagement letter. Empty means work should not have started.
+  - object: matter
+    key: aml_check_status
+    label: AML check status
+    type: select
+    description: Status of client identity and source-of-funds checks required by money laundering rules for this matter type.
+    options: {not_required: Not required, outstanding: Outstanding, complete: Complete, enhanced_due_diligence: Enhanced due diligence}
+  - object: matter
+    key: confidential
+    label: Confidential
+    type: checkbox
+    description: Restricts who can see the matter record. Set for sensitive matters, with an ethical wall where needed.
+  - object: matter
+    key: responsible_partner
+    label: Responsible partner
+    type: user
+    description: The partner accountable for the matter.
+  - object: matter
+    key: matter_manager
+    label: Matter manager
+    type: user
+    description: The team member who runs the matter day to day.
+  - object: matter
+    key: close_reason
+    label: Close reason
+    type: select
+    description: Why the matter ended without completing. Required on the withdrawn stage.
+    options:
+      client_withdrew: Client withdrew
+      we_withdrew: We withdrew
+      conflict_arose: Conflict arose
+      non_payment: Non-payment
+      work_not_needed: Work no longer needed
+      other: Other
+
+add_relationships:
+  - key: matter_company
+    from: matter
+    to: company
+    cardinality: many_to_one
+    from_label: Client
+    to_label: Matters
+    purpose: Shows every matter for a client, including past work.
+  - key: deal_matter
+    from: deal
+    to: matter
+    cardinality: many_to_one
+    from_label: Matter
+    to_label: Deals
+    purpose: Ties the deal that created a matter, and any extension or follow-on deal, to it.
+  - key: conflict_check_deal
+    from: conflict_check
+    to: deal
+    cardinality: many_to_one
+    from_label: Deal
+    to_label: Conflict checks
+    purpose: Links each check to the opportunity it was run for.
+  - key: conflict_check_company
+    from: conflict_check
+    to: company
+    cardinality: many_to_one
+    from_label: Company
+    to_label: Conflict checks
+    purpose: Lets compliance see every check run for a client.
+  - key: matter_person
+    from: matter
+    to: person
+    cardinality: many_to_many
+    from_label: Client contacts
+    to_label: Matters
+    purpose: Links the client people who instruct, approve and receive reports on the matter.
+
+pipelines:
+  - object: deal
+    key: new_work
+    name: New work
+    stages:
+      - key: enquiry
+        label: Enquiry
+        type: open
+        probability: 5
+        exit_criteria: Entered when a prospective client or referrer has asked us about a piece of work.
+        required_fields: [service_area, next_step_date]
+      - key: qualified
+        label: Qualified
+        type: open
+        probability: 15
+        exit_criteria: Entered when a partner has agreed the work is in our expertise, we have capacity, and the prospect has been told fees are charged.
+        required_fields: [lead_partner, scope_summary]
+      - key: conflict_check
+        label: Conflict check
+        type: open
+        probability: 25
+        exit_criteria: Entered when the parties have been sent to risk or compliance for a conflict check.
+        required_fields: [conflict_check_result]
+      - key: proposal
+        label: Proposal
+        type: open
+        probability: 45
+        exit_criteria: Entered when the conflict check is cleared and a scoped proposal with a billing model is being prepared.
+        required_fields: [conflict_check_result, billing_model, amount]
+      - key: proposal_sent
+        label: Proposal sent
+        type: open
+        probability: 60
+        exit_criteria: Entered when the proposal has been sent to the instructing decision maker.
+        required_fields: [amount, close_date, next_step_date]
+      - key: terms_agreed
+        label: Terms agreed
+        type: open
+        probability: 80
+        exit_criteria: Entered when the client has accepted the scope and fees in principle and is waiting for the engagement letter.
+        required_fields: [amount, billing_model, close_date]
+      - key: engagement_letter_out
+        label: Engagement letter out
+        type: open
+        probability: 90
+        exit_criteria: Entered when the engagement letter has been sent for signature.
+        required_fields: [engagement_letter_status, conflict_check_result]
+      - key: closed_won
+        label: Closed won
+        type: won
+        probability: 100
+        exit_criteria: Entered when the signed engagement letter is received and the matter record is created.
+        required_fields: [amount, close_date, engagement_letter_status]
+      - key: closed_lost
+        label: Closed lost
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the prospect declines, we decline the work, or there has been no reply after three follow-ups over 30 days.
+        required_fields: [lost_reason]
+  - object: matter
+    key: matter_delivery
+    name: Matter delivery
+    stages:
+      - key: opening
+        label: Opening
+        type: open
+        probability: 100
+        exit_criteria: Entered when the matter record is created from a won deal and a responsible partner is named.
+        required_fields: [responsible_partner, matter_manager]
+      - key: cleared_to_start
+        label: Cleared to start
+        type: open
+        probability: 100
+        exit_criteria: Entered when the engagement letter is signed and identity checks are complete or not required.
+        required_fields: [engagement_letter_signed_date, aml_check_status]
+      - key: in_progress
+        label: In progress
+        type: open
+        probability: 100
+        exit_criteria: Entered when work has started and time is being recorded against the matter.
+        required_fields: [start_date, target_end_date]
+      - key: awaiting_client
+        label: Awaiting client
+        type: open
+        probability: 100
+        exit_criteria: Entered when we are blocked on information or a decision from the client.
+        required_fields: [target_end_date]
+      - key: final_billing
+        label: Final billing
+        type: open
+        probability: 100
+        exit_criteria: Entered when the work is delivered and the final invoice is being prepared.
+        required_fields: [billing_model, fee_estimate]
+      - key: closed
+        label: Closed
+        type: won
+        probability: 100
+        exit_criteria: Entered when the work is delivered, the final invoice is issued and the file is closed.
+        required_fields: [target_end_date]
+      - key: withdrawn
+        label: Withdrawn
+        type: lost
+        probability: 0
+        exit_criteria: Entered when the client or the firm has ended the matter before the work was complete.
+        required_fields: [close_reason]
+
+decisions:
+  - key: delivery_on_own_object
+    question: Is delivery tracked on a matter object rather than as stages on the sales pipeline?
+    recommended_default: >-
+      Yes. A matter has its own partner, manager, billing model and dates. The sales pipeline ends at
+      closed won, so win rate is not skewed by work in progress.
+  - key: conflict_check_gate
+    question: Where does the conflict check sit, and who can pass it?
+    recommended_default: >-
+      A named stage before the proposal, with a conflict check record per check. Only risk or
+      compliance can set the result to cleared. A deal cannot reach proposal while the result is not
+      run, pending or conflicted. If the firm's practice system is the official register, the CRM
+      record is a copy and the decision is which side is the source of truth.
+  - key: billing_model_scope
+    question: How much billing detail belongs in the CRM?
+    recommended_default: >-
+      The billing model, fee estimate, budget hours and billing frequency. Time recording, invoices
+      and write-offs stay in the billing system, matched by matter reference.
+  - key: confidential_matter_detail
+    question: What matter detail is allowed in the CRM?
+    recommended_default: >-
+      Neutral names and short scope summaries only. No privileged advice, no case facts and no
+      opposing-party detail beyond names for conflict checks. Restrict confidential matters by
+      permission. Confirm with the firm's compliance officer before go-live.
+  - key: custom_objects_plan
+    question: Does the client's CRM plan allow custom objects, and a pipeline on one?
+    recommended_default: >-
+      Check before the build. If not, hold matters as deals in a delivery pipeline and conflict
+      checks as a select field plus note, and record the loss of the audit trail in the client notes.
+  - key: repeat_work
+    question: Is follow-on work from existing clients a separate pipeline?
+    recommended_default: >-
+      No for the first build. Use the new work pipeline linked to the existing matter. Add a client
+      development pipeline when partners track account plans.
+
+automations:
+  - key: request_conflict_check
+    name: Request conflict check
+    trigger: A deal moves to the conflict check stage.
+    action: >-
+      Create a conflict check record with result pending, link it to the deal and company, and
+      notify risk or compliance.
+  - key: copy_conflict_result
+    name: Copy conflict result to deal
+    trigger: A conflict check result changes.
+    action: Set the linked deal's conflict check result to match, and notify the lead partner.
+  - key: block_proposal_on_conflict
+    name: Return conflicted deals
+    trigger: A conflict check result is conflicted.
+    action: >-
+      Move the deal back to qualified, notify the lead partner and risk, and prompt closed lost with
+      conflict as the reason if the conflict cannot be waived.
+  - key: create_matter_on_win
+    name: Create matter on closed won
+    trigger: A deal in the new work pipeline moves to closed won.
+    action: >-
+      Create a matter from the deal's service area, billing model and amount, link it to the deal and
+      company, and set the company's client status to active client.
+  - key: flag_stalled_deals
+    name: Flag stalled deals
+    trigger: An open deal has no next step date, or the date is more than 7 days past.
+    action: Notify the deal owner and add the deal to the stalled deals view.
+  - key: flag_work_before_letter
+    name: Flag work before engagement letter
+    trigger: A matter is in progress and has no engagement letter signed date.
+    action: Notify the responsible partner and compliance.
+
+views:
+  - key: my_open_deals
+    name: My open deals
+    object: deal
+    filter: Owner is me and stage is open.
+    sort: Close date, soonest first.
+  - key: conflicts_awaiting_clearance
+    name: Conflict checks awaiting clearance
+    object: conflict_check
+    filter: Result is pending.
+    sort: Check date, oldest first.
+  - key: stalled_deals
+    name: Stalled deals
+    object: deal
+    filter: Stage is open and next step date is empty or in the past.
+    sort: Next step date, oldest first.
+  - key: active_matters
+    name: Active matters
+    object: matter
+    filter: Stage is open.
+    sort: Target end date, soonest first.
+  - key: matters_without_letter
+    name: Matters without a signed letter
+    object: matter
+    filter: Stage is in progress and engagement letter signed date is empty.
+    sort: Start date, oldest first.
+  - key: matters_ready_to_bill
+    name: Matters ready to bill
+    object: matter
+    filter: Stage is final billing.
+    sort: Target end date, oldest first.
+
+platform_overrides:
+  attio:
+    objects:
+      matter: {api_slug: matters}
+      conflict_check: {api_slug: conflict_checks}
+  hubspot:
+    fields:
+      deal.lost_reason: {property_group: dealinformation}
+  salesforce:
+    objects:
+      matter: {api_name: Matter__c}
+      conflict_check: {api_name: Conflict_Check__c}

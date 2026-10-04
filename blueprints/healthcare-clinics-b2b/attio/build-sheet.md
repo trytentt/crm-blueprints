@@ -1,0 +1,536 @@
+# Build sheet: Healthcare clinics, B2B (attio)
+
+A private clinic or health-services provider that sells to businesses only. Customers are employers, insurers and intermediaries who buy services for their people, and referral partners who send work. The CRM holds NO patient or health data of any kind. It records organisations, business contacts, contracts and aggregate counts only. Patient records stay in the clinical system.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Does the CRM store any patient, health or clinical information?**
+  - Recommended default: No, never. The CRM is for organisations, business contacts, contracts and aggregate counts. A patient is not a Person record, and no field, note, form, email sync or call recording may carry health information. Health data is special category data under UK GDPR and stays in the clinical system, which is also where consent and retention rules are enforced.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is delivery tracked on a service contract object rather than as stages on the deal?**
+  - Recommended default: Yes. The sales deal ends at closed won. The service contract carries term, pricing basis, data processing agreement and renewal date, and is owned by the account manager.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are referral partners tracked in their own pipeline rather than as deals?**
+  - Recommended default: Yes. A partnership has no sale value and a governance check no deal has, so it gets its own object and pipeline. Deals link back to the source partner for attribution.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do any referral partnerships involve payment?**
+  - Recommended default: Default to none. Any fixed fee or revenue share is reviewed by legal and the clinical lead before the agreement is sent, because fees for healthcare referrals can be restricted.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Who can see the CRM, and is email or call sync allowed?**
+  - Recommended default: Give access only to commercial staff. Do not connect clinical mailboxes or recorded patient calls. Turn off call transcription and email body capture on shared inboxes, and set free-text fields with a warning not to enter personal health details.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects and a pipeline on a custom object?**
+  - Recommended default: Check before the build. If not, hold the referral partners as a deal pipeline and the service contract as company fields, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`companies`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`people`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`deals`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Service**
+  - Where: Workspace settings, then Objects, then New object. Use singular Service, plural Services, slug `services`.
+  - Purpose: One service line the clinic sells to organisations, for example a type of assessment, programme or screening. A catalogue entry with price and delivery mode. Holds no patient or health data.
+  - Done when: the object Service exists with plural name Services.
+- [ ] **Create object Service contract**
+  - Where: Workspace settings, then Objects, then New object. Use singular Service contract, plural Service contracts, slug `service_contracts`.
+  - Purpose: The agreement under which the clinic provides services to one employer or insurer, with its term, pricing basis and renewal date. Created when a deal is won. Holds only commercial terms and aggregate headcount, never information about any patient.
+  - Done when: the object Service contract exists with plural name Service contracts.
+- [ ] **Create object Referral agreement**
+  - Where: Workspace settings, then Objects, then New object. Use singular Referral agreement, plural Referral agreements, slug `referral_agreements`.
+  - Purpose: The working arrangement with one referral partner, such as a broker, insurer panel or another provider. Tracks governance checks and the agreement. Volumes are aggregate counts only. Never record who was referred or why.
+  - Done when: the object Referral agreement exists with plural name Referral agreements.
+- [ ] **Create relationship service_contract to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Choose a relationship to company, name this side 'Customer' and the other side 'Service contracts'.
+  - Purpose: Shows every contract a customer has had.
+  - Done when: a service_contract record shows the link as 'Customer' and a company record shows it as 'Service contracts'.
+- [ ] **Create relationship service_contract to deal (many_to_one)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Choose a relationship to deal, name this side 'Originating deal' and the other side 'Service contracts'.
+  - Purpose: Ties a contract to the deal that won it and to later renewal deals.
+  - Done when: a service_contract record shows the link as 'Originating deal' and a deal record shows it as 'Service contracts'.
+- [ ] **Create relationship service_contract to service (many_to_many)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Choose a relationship to service, name this side 'Services' and the other side 'Service contracts'.
+  - Purpose: Records which service lines each contract includes.
+  - Done when: a service_contract record shows the link as 'Services' and a service record shows it as 'Service contracts'.
+- [ ] **Create relationship deal to service (many_to_many)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to service, name this side 'Services quoted' and the other side 'Deals'.
+  - Purpose: Shows which services were quoted on a deal, to see what sells.
+  - Done when: a deal record shows the link as 'Services quoted' and a service record shows it as 'Deals'.
+- [ ] **Create relationship referral_agreement to company (many_to_one)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Choose a relationship to company, name this side 'Partner organisation' and the other side 'Referral agreements'.
+  - Purpose: Links each agreement to the organisation that is the partner.
+  - Done when: a referral_agreement record shows the link as 'Partner organisation' and a company record shows it as 'Referral agreements'.
+- [ ] **Create relationship referral_agreement to person (many_to_one)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Choose a relationship to person, name this side 'Partner contact' and the other side 'Referral agreements'.
+  - Purpose: Names the business contact who manages the partnership. Never a patient.
+  - Done when: a referral_agreement record shows the link as 'Partner contact' and a person record shows it as 'Referral agreements'.
+- [ ] **Create relationship deal to referral_agreement (many_to_one)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Choose a relationship to referral_agreement, name this side 'Source partner' and the other side 'Deals sourced'.
+  - Purpose: Credits the partner that introduced a deal, so partner value can be reported.
+  - Done when: a deal record shows the link as 'Source partner' and a referral_agreement record shows it as 'Deals sourced'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Employer and insurer contracts on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Employer and insurer contracts' (slug `employer_insurer_contracts`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Employer and insurer contracts exists with 8 stages in the order below.
+- [ ] **Stage 1: Qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a named buyer at an employer or insurer has a stated need and enough people to be worth a contract.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: service_interest, next_step_date.
+  - Done when: the stage Qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Discovery**
+  - Type: open. Probability: 25%.
+  - Entered when the first needs call has happened and sites, headcount and services are written down.
+  - Set Probability to 25 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: covered_headcount, sites_covered, next_step_date.
+  - Done when: the stage Discovery is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal**
+  - Type: open. Probability: 45%.
+  - Entered when a priced proposal with services and pricing model has been sent.
+  - Set Probability to 45 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, pricing_model, contract_term_months.
+  - Done when: the stage Proposal is in position 3 and its rule is in place.
+- [ ] **Stage 4: Governance review**
+  - Type: open. Probability: 65%.
+  - Entered when the buyer has started their data protection, clinical governance or procurement review.
+  - Set Probability to 65 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: next_step_date.
+  - Done when: the stage Governance review is in position 4 and its rule is in place.
+- [ ] **Stage 5: Pilot**
+  - Type: open. Probability: 75%.
+  - Entered when a pilot has been agreed in writing and has a start date.
+  - Set Probability to 75 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: pilot_agreed, next_step_date.
+  - Done when: the stage Pilot is in position 5 and its rule is in place.
+- [ ] **Stage 6: Contract out**
+  - Type: open. Probability: 90%.
+  - Entered when the governance review is passed and the contract has been sent for signature.
+  - Set Probability to 90 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, governance_review_passed.
+  - Done when: the stage Contract out is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed contract is received and a service contract record is created.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date, governance_review_passed.
+  - Done when: the stage Closed won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Contract renewals on deal**
+  - Where: Lists in the left sidebar, then New list, parent object deal, named 'Contract renewals' (slug `contract_renewals`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Contract renewals exists with 6 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 60%.
+  - Entered when the service contract is 90 days from its renewal date.
+  - Set Probability to 60 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: renewal_risk.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Review meeting**
+  - Type: open. Probability: 70%.
+  - Entered when a service review with the customer has been held.
+  - Set Probability to 70 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: renewal_risk, next_step_date.
+  - Done when: the stage Review meeting is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms proposed**
+  - Type: open. Probability: 80%.
+  - Entered when renewal pricing and terms have been sent to the buyer.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, pricing_model, contract_term_months.
+  - Done when: the stage Terms proposed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Awaiting signature**
+  - Type: open. Probability: 95%.
+  - Entered when the final renewal contract has been sent for signature.
+  - Set Probability to 95 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Awaiting signature is in position 4 and its rule is in place.
+- [ ] **Stage 5: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed renewal is received and the contract dates are updated.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: amount, close_date.
+  - Done when: the stage Renewed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not renewed**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer confirms they will not renew, or the term ends unsigned.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: lost_reason.
+  - Done when: the stage Not renewed is in position 6 and its rule is in place.
+- [ ] **Create pipeline Referral partners on referral_agreement**
+  - Where: Lists in the left sidebar, then New list, parent object referral_agreement, named 'Referral partners' (slug `referral_partners`). Add a Status attribute called Stage, a Number attribute called Probability, and a Select attribute for the lost reason.
+  - Done when: the pipeline Referral partners exists with 6 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 10%.
+  - Entered when a likely partner and a named business contact have been identified.
+  - Set Probability to 10 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: agreement_type.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Intro meeting**
+  - Type: open. Probability: 30%.
+  - Entered when a first meeting with the partner has happened and both sides want to continue.
+  - Set Probability to 30 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: fee_basis.
+  - Done when: the stage Intro meeting is in position 2 and its rule is in place.
+- [ ] **Stage 3: Governance check**
+  - Type: open. Probability: 55%.
+  - Entered when information governance and clinical governance checks on the partner have started.
+  - Set Probability to 55 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: fee_basis.
+  - Done when: the stage Governance check is in position 3 and its rule is in place.
+- [ ] **Stage 4: Agreement sent**
+  - Type: open. Probability: 80%.
+  - Entered when governance checks are complete and the agreement has been sent for signature.
+  - Set Probability to 80 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: governance_checked.
+  - Done when: the stage Agreement sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Active**
+  - Type: won. Probability: 100%.
+  - Entered when the agreement is signed by both sides.
+  - Won stage: a plain status. Reports filter on this title. Celebration is on. Set Probability to 100 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: signed_date, review_date, governance_checked.
+  - Done when: the stage Active is in position 5 and its rule is in place.
+- [ ] **Stage 6: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when either side decides not to proceed, or a governance check fails.
+  - Lost stage: a plain status. Reports filter on this title. Set Probability to 0 on entries at this stage. Attio cannot require fields per stage. Build a Workflow (see manual-steps.md) that flags entry when these are empty: decline_reason.
+  - Done when: the stage Declined is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Employee count (number)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type number, slug `employee_count`.
+  - Purpose: Approximate number of employees.
+  - Done when: Company records show Employee count and it accepts the right values.
+- [ ] **Create field Phone (phone)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type phone-number, slug `phone`.
+  - Purpose: Main switchboard number.
+  - Done when: Company records show Phone and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type actor-reference, slug `company_owner`.
+  - Purpose: The team member responsible for the account.
+  - Done when: Company records show Owner and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `account_type`.
+  - Purpose: What kind of organisation this is. Decides which pipeline it belongs in.
+  - Options: Employer, Insurer, Broker or intermediary, Case management provider, Other healthcare provider, Other
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Headcount band (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `headcount_band`.
+  - Purpose: Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.
+  - Options: Under 50, 50 to 249, 250 to 999, 1,000 or more
+  - Done when: Company records show Headcount band and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `sector`.
+  - Purpose: The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.
+  - Options: Manufacturing, Logistics and transport, Construction, Public sector, Professional services, Retail and hospitality, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `customer_status`.
+  - Purpose: Where the organisation is in its life with us.
+  - Options: Prospect, Active customer, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Workspace settings, then Objects, then Company, then Attributes, then New attribute. Type select, slug `lead_source`.
+  - Purpose: How the organisation first came to us. Set once, never overwritten.
+  - Options: Referral partner, Inbound enquiry, Outbound, Event, Existing customer
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Domain (`domains`) exists**
+  - Done when: Domain is visible on Company records.
+- [ ] **Confirm standard field Description (`description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Company records.
+
+### Person
+
+- [ ] **Create field Owner (user)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type actor-reference, slug `person_owner`.
+  - Purpose: The team member responsible for the relationship.
+  - Done when: Person records show Owner and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Workspace settings, then Objects, then Person, then Attributes, then New attribute. Type select, slug `buying_role`.
+  - Purpose: The part this person plays in a purchase. These are business contacts only. A patient is never stored as a person here.
+  - Options: HR lead, Benefits manager, Health and safety lead, Finance lead, Procurement, Broker contact, Claims contact
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`name`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`name`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`email_addresses`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`phone_numbers`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`job_title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field LinkedIn URL (`linkedin`) exists**
+  - Done when: LinkedIn URL is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Close date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `close_date`.
+  - Purpose: The date the deal is expected to close, or did close.
+  - Done when: Deal records show Close date and it accepts the right values.
+- [ ] **Create field Description (long_text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `description`.
+  - Purpose: What is being bought and why.
+  - Done when: Deal records show Description and it accepts the right values.
+- [ ] **Create field Next step (text)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type text, slug `next_step`.
+  - Purpose: The single next action agreed with the buyer.
+  - Done when: Deal records show Next step and it accepts the right values.
+- [ ] **Create field Lost reason (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `lost_reason`.
+  - Purpose: Why the deal was lost. Required on every lost stage.
+  - Options: No budget, Kept current provider, Price, We could not cover their sites or services, Governance or data protection review failed, No decision made, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type date, slug `next_step_date`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Service interest (multi_select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select (allow several), slug `service_interest`.
+  - Purpose: Which service lines the buyer wants quoted. Used to report demand by service.
+  - Options: Workplace assessments, Workplace physiotherapy, Diagnostics, Screening and surveillance, Vaccination programmes, Wellbeing support programmes
+  - Done when: Deal records show Service interest and it accepts the right values.
+- [ ] **Create field Covered headcount (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `covered_headcount`.
+  - Purpose: Number of employees the contract would cover, as stated by the employer. A count only.
+  - Done when: Deal records show Covered headcount and it accepts the right values.
+- [ ] **Create field Sites covered (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `sites_covered`.
+  - Purpose: Number of employer sites the clinic would serve. Sets travel and on-site cost.
+  - Done when: Deal records show Sites covered and it accepts the right values.
+- [ ] **Create field Pricing model (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `pricing_model`.
+  - Purpose: How the buyer will be charged.
+  - Options: Per appointment, Per employee per month, Annual retainer, Pay as you go
+  - Done when: Deal records show Pricing model and it accepts the right values.
+- [ ] **Create field Governance review passed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `governance_review_passed`.
+  - Purpose: The buyer's data protection and clinical governance review is complete and a data processing agreement is agreed.
+  - Done when: Deal records show Governance review passed and it accepts the right values.
+- [ ] **Create field Pilot agreed (checkbox)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type checkbox, slug `pilot_agreed`.
+  - Purpose: A time-limited trial with a defined scope has been agreed in writing.
+  - Done when: Deal records show Pilot agreed and it accepts the right values.
+- [ ] **Create field Contract term (months) (number)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type number, slug `contract_term_months`.
+  - Purpose: Length of the proposed contract in months.
+  - Done when: Deal records show Contract term (months) and it accepts the right values.
+- [ ] **Create field Renewal risk (select)**
+  - Where: Workspace settings, then Objects, then Deal, then Attributes, then New attribute. Type select, slug `renewal_risk`.
+  - Purpose: Account manager's view of how likely a renewal deal is to close.
+  - Options: Low, Medium, High
+  - Done when: Deal records show Renewal risk and it accepts the right values.
+- [ ] **Confirm standard field Name (`name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`value`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Owner (`owner`) exists**
+  - Done when: Owner is visible on Deal records.
+
+### Service
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type text, slug `service_name`.
+  - Purpose: The service line as sold, for example a type of workplace assessment.
+  - Done when: Service records show Name and it accepts the right values.
+- [ ] **Create field Category (select)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type select, slug `category`.
+  - Purpose: Group of the service, for reporting revenue by line.
+  - Options: Assessments, Treatment programmes, Diagnostics, Screening and surveillance, Vaccination, Wellbeing
+  - Done when: Service records show Category and it accepts the right values.
+- [ ] **Create field Delivery mode (select)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type select, slug `delivery_mode`.
+  - Purpose: Where the service is provided. Affects cost and which sites a contract can cover.
+  - Options: At the clinic, On site at the client, Remote
+  - Done when: Service records show Delivery mode and it accepts the right values.
+- [ ] **Create field List price (currency)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type currency, slug `list_price`.
+  - Purpose: Standard price per pricing unit before discount.
+  - Done when: Service records show List price and it accepts the right values.
+- [ ] **Create field Pricing unit (select)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type select, slug `pricing_unit`.
+  - Purpose: What the list price is charged against.
+  - Options: Per appointment, Per employee, Per session, Per day
+  - Done when: Service records show Pricing unit and it accepts the right values.
+- [ ] **Create field Active (checkbox)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type checkbox, slug `active`.
+  - Purpose: The service can currently be sold.
+  - Done when: Service records show Active and it accepts the right values.
+- [ ] **Create field Regulated activity (checkbox)**
+  - Where: Workspace settings, then Objects, then Service, then Attributes, then New attribute. Type checkbox, slug `regulated`.
+  - Purpose: The service needs regulator registration or a named clinician lead before it is sold.
+  - Done when: Service records show Regulated activity and it accepts the right values.
+
+### Service contract
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type text, slug `service_contract_name`.
+  - Purpose: Organisation name and the word contract. Never include a person's name.
+  - Done when: Service contract records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type select, slug `status`.
+  - Purpose: Where the contract is in its life.
+  - Options: Pending start, Active, In renewal, Ended
+  - Done when: Service contract records show Status and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type date, slug `start_date`.
+  - Purpose: First day of the current term.
+  - Done when: Service contract records show Start date and it accepts the right values.
+- [ ] **Create field Renewal date (date)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type date, slug `renewal_date`.
+  - Purpose: Last day of the current term. A renewal deal opens 90 days before it.
+  - Done when: Service contract records show Renewal date and it accepts the right values.
+- [ ] **Create field Pricing model (select)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type select, slug `pricing_model`.
+  - Purpose: How the customer is charged under this contract.
+  - Options: Per appointment, Per employee per month, Annual retainer, Pay as you go
+  - Done when: Service contract records show Pricing model and it accepts the right values.
+- [ ] **Create field Annual value (currency)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type currency, slug `annual_value`.
+  - Purpose: Expected yearly revenue from this contract at current prices.
+  - Done when: Service contract records show Annual value and it accepts the right values.
+- [ ] **Create field Covered headcount (number)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type number, slug `covered_headcount`.
+  - Purpose: Number of employees in scope, as told to us by the employer. A count only, never a list of people.
+  - Done when: Service contract records show Covered headcount and it accepts the right values.
+- [ ] **Create field Data processing agreement signed (checkbox)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type checkbox, slug `dpa_signed`.
+  - Purpose: A data processing agreement is in place before any service starts. Required for every contract.
+  - Done when: Service contract records show Data processing agreement signed and it accepts the right values.
+- [ ] **Create field Review cadence (select)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type select, slug `review_cadence`.
+  - Purpose: How often the account manager holds a service review with the customer.
+  - Options: Monthly, Quarterly, Annually
+  - Done when: Service contract records show Review cadence and it accepts the right values.
+- [ ] **Create field Account manager (user)**
+  - Where: Workspace settings, then Objects, then Service contract, then Attributes, then New attribute. Type actor-reference, slug `account_manager`.
+  - Purpose: The team member responsible for the customer after the sale.
+  - Done when: Service contract records show Account manager and it accepts the right values.
+
+### Referral agreement
+
+- [ ] **Create field Name (text, required)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type text, slug `referral_agreement_name`.
+  - Purpose: Partner organisation name and the word agreement.
+  - Done when: Referral agreement records show Name and it accepts the right values.
+- [ ] **Create field Agreement type (select)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type select, slug `agreement_type`.
+  - Purpose: Which way work flows and how the partner is listed.
+  - Options: Partner refers to us, We refer to partner, Preferred provider listing, Broker introduction
+  - Done when: Referral agreement records show Agreement type and it accepts the right values.
+- [ ] **Create field Fee basis (select)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type select, slug `fee_basis`.
+  - Purpose: Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.
+  - Options: None, Fixed fee, Revenue share
+  - Done when: Referral agreement records show Fee basis and it accepts the right values.
+- [ ] **Create field Governance checked (checkbox)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type checkbox, slug `governance_checked`.
+  - Purpose: Information governance and clinical governance checks on the partner are complete.
+  - Done when: Referral agreement records show Governance checked and it accepts the right values.
+- [ ] **Create field Signed date (date)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type date, slug `signed_date`.
+  - Purpose: The day the agreement was signed by both sides.
+  - Done when: Referral agreement records show Signed date and it accepts the right values.
+- [ ] **Create field Review date (date)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type date, slug `review_date`.
+  - Purpose: When the arrangement is next reviewed.
+  - Done when: Referral agreement records show Review date and it accepts the right values.
+- [ ] **Create field Referrals last quarter (number)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type number, slug `referrals_last_quarter`.
+  - Purpose: Aggregate number of referrals in the last quarter. A count only. Never record who was referred.
+  - Done when: Referral agreement records show Referrals last quarter and it accepts the right values.
+- [ ] **Create field Decline reason (select)**
+  - Where: Workspace settings, then Objects, then Referral agreement, then Attributes, then New attribute. Type select, slug `decline_reason`.
+  - Purpose: Why the partnership did not go ahead. Required on the declined stage.
+  - Options: Governance check failed, Not a fit, Conflict of interest, Partner declined, No response, Other
+  - Done when: Referral agreement records show Decline reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create service contract on win**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A deal in the employer and insurer contracts pipeline moves to closed won.
+  - Action: Create a service contract with the deal's amount, term and services, link it to the deal and the company, set status to pending start and the customer status to active customer.
+  - Done when: the automation runs on a test record and the result matches: Create a service contract with the deal's amount, term and services, link it to the deal and the company, set status to pending start and the customer status to active customer.
+- [ ] **Block start without data processing agreement**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A service contract is set to active and the data processing agreement signed box is empty.
+  - Action: Set the status back to pending start and notify the account manager and the data protection lead.
+  - Done when: the automation runs on a test record and the result matches: Set the status back to pending start and notify the account manager and the data protection lead.
+- [ ] **Open renewal deal**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: A service contract's renewal date is 90 days away and its status is active.
+  - Action: Create a deal in the contract renewals pipeline at upcoming, linked to the contract, and set the contract status to in renewal.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the contract renewals pipeline at upcoming, linked to the contract, and set the contract status to in renewal.
+- [ ] **Partner review reminder**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An active referral agreement has a review date within 30 days.
+  - Action: Create a task for the partnerships owner to hold the review and update the quarterly referral count.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the partnerships owner to hold the review and update the quarterly referral count.
+- [ ] **Flag stalled deals**
+  - Where: Workflows in the left sidebar, then Create workflow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Deals in governance review**
+  - Where: Open Deals in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: deal
+  - Filter: Stage is governance review or pilot.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Deals in governance review is saved and shows the expected records.
+- [ ] **Renewals in the next 90 days**
+  - Where: Open Service contracts in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: service_contract
+  - Filter: Status is active or in renewal and renewal date is within 90 days.
+  - Sort: Renewal date, soonest first.
+  - Done when: the view Renewals in the next 90 days is saved and shows the expected records.
+- [ ] **Partners due review**
+  - Where: Open Referral agreements in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: referral_agreement
+  - Filter: Stage is active and review date is within 60 days.
+  - Sort: Review date, soonest first.
+  - Done when: the view Partners due review is saved and shows the expected records.
+- [ ] **Brokers and insurers**
+  - Where: Open Companies in the left sidebar, then + New view, set the filter and sort, and save.
+  - Object: company
+  - Filter: Account type is insurer or broker.
+  - Sort: Name, A to Z.
+  - Done when: the view Brokers and insurers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Confirm the client's Attio plan allows the objects below**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Enable the Deals object**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Test the first relationship from both sides**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Check default statuses on each new Stage attribute**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the Name attribute on custom objects**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

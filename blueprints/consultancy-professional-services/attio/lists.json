@@ -1,0 +1,267 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "New work",
+          "api_slug": "new_work",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the New work pipeline. Enquiry: Entered when a prospective client or referrer has asked us about a piece of work. Qualified: Entered when a partner has agreed the work is in our expertise, we have capacity, and the prospect has been told fees are charged. Conflict check: Entered when the parties have been sent to risk or compliance for a conflict check. Proposal: Entered when the conflict check is cleared and a scoped proposal with a billing model is being prepared. Proposal sent: Entered when the proposal has been sent to the instructing decision maker. Terms agreed: Entered when the client has accepted the scope and fees in principle and is waiting for the engagement letter. Engagement letter out: Entered when the engagement letter has been sent for signature. Closed won: Entered when the signed engagement letter is received and the matter record is created. Closed lost: Entered when the prospect declines, we decline the work, or there has been no reply after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the client left. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict of interest"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "We had no capacity"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Fees too high"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another firm"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Work not going ahead"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Outside our expertise"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined on risk or compliance grounds"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_work/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Matter delivery",
+          "api_slug": "matter_delivery",
+          "parent_object": "matters",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Matter delivery pipeline. Opening: Entered when the matter record is created from a won deal and a responsible partner is named. Cleared to start: Entered when the engagement letter is signed and identity checks are complete or not required. In progress: Entered when work has started and time is being recorded against the matter. Awaiting client: Entered when we are blocked on information or a decision from the client. Final billing: Entered when the work is delivered and the final invoice is being prepared. Closed: Entered when the work is delivered, the final invoice is issued and the file is closed. Withdrawn: Entered when the client or the firm has ended the matter before the work was complete.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes",
+      "body": {
+        "data": {
+          "title": "Close reason",
+          "description": "Why the matter ended without completing. Required on the withdrawn stage.",
+          "api_slug": "close_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Client withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "We withdrew"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Conflict arose"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Non-payment"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Work no longer needed"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/matter_delivery/attributes/close_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

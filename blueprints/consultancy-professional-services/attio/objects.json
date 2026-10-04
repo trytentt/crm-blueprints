@@ -1,0 +1,31 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "matters",
+          "singular_noun": "Matter",
+          "plural_noun": "Matters"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "conflict_checks",
+          "singular_noun": "Conflict check",
+          "plural_noun": "Conflict checks"
+        }
+      }
+    }
+  ]
+}

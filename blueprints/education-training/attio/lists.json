@@ -1,0 +1,285 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Corporate training",
+          "api_slug": "corporate_training",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Corporate training pipeline. Enquiry qualified: Entered when a named contact has a real training need and the provider can meet it. Needs analysis: Entered when the first call with the learning lead or budget holder has happened and the gap is written down. Proposal sent: Entered when a written proposal with programme, dates, format and price has been sent. Stakeholder review: Entered when the budget holder has confirmed budget and the proposal is being reviewed by others. Terms agreed: Entered when price, dates and delegate numbers are agreed and a booking form has been sent. Booked: Entered when the signed booking form or purchase order is received and a cohort or enrolments are created. Closed lost: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost. Required on the lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose to deliver in house"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Dates did not fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Content did not fit the need"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/corporate_training/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Delegate enrolment",
+          "api_slug": "delegate_enrolment",
+          "parent_object": "enrolments",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Delegate enrolment pipeline. Enquiry: Entered when a delegate or their employer has asked about a specific cohort. Applied: Entered when a completed booking form or application has been received. Place offered: Entered when eligibility and funding have been checked and a place has been offered in writing. Awaiting payment: Entered when the delegate has accepted the place and an invoice or purchase order request is out. Enrolled: Entered when payment, a purchase order or an approved funding route is confirmed for the place. Withdrawn: Entered when the delegate or employer declines or withdraws before the cohort starts, or the cohort is cancelled.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes",
+      "body": {
+        "data": {
+          "title": "Withdrawal reason",
+          "description": "Why the place did not go ahead. Required on the withdrawn stage.",
+          "api_slug": "withdrawal_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Declined the offer"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Dates did not fit"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Employer cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Funding fell through"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Cohort cancelled"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose another provider"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "No response"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/delegate_enrolment/attributes/withdrawal_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

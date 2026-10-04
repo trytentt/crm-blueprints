@@ -1,0 +1,42 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "searches",
+          "singular_noun": "Search",
+          "plural_noun": "Searches"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "search_candidates",
+          "singular_noun": "Search candidate",
+          "plural_noun": "Search candidates"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "fee_instalments",
+          "singular_noun": "Fee instalment",
+          "plural_noun": "Fee instalments"
+        }
+      }
+    }
+  ]
+}

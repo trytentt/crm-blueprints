@@ -1,0 +1,169 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Identified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "First contact",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Needs confirmed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Sample or trial",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Quote issued",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Terms agreed",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_accounts/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Received",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Pricing",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Approval",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Follow-up",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Accepted",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/rfq_handling/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Declined",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}

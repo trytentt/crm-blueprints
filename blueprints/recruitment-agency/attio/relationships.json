@@ -1,0 +1,150 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Client",
+          "description": "Shows every role a client has given us.",
+          "api_slug": "client",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Roles",
+            "api_slug": "roles",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Hiring manager",
+          "description": "Links a role to the client contact who owns the hire.",
+          "api_slug": "hiring_manager",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Roles",
+            "api_slug": "roles",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/roles/attributes",
+      "body": {
+        "data": {
+          "title": "Client deal",
+          "description": "Ties each role to the client deal whose terms it runs under.",
+          "api_slug": "client_deal",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "deals"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "deals",
+            "title": "Roles",
+            "api_slug": "roles",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Role",
+          "description": "Lists every candidate considered for the role.",
+          "api_slug": "role",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "roles"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "roles",
+            "title": "Submissions",
+            "api_slug": "submissions",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/submissions/attributes",
+      "body": {
+        "data": {
+          "title": "Candidate",
+          "description": "Shows every role a candidate has been considered for. The candidate is a Person with type candidate.",
+          "api_slug": "candidate",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "people"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "people",
+            "title": "Submissions",
+            "api_slug": "submissions",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}
