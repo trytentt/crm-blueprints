@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delivery_kickoff_done</fullName>
+    <active>true</active>
+    <description>Stage gate: Delivery, Kickoff done and later stages need Access received and Scope summary.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Onboarding", 1, "Kickoff done", 2, "First deliverables", 3, "Steady state", 4, "At risk", 5, "Wrapping up", 6, "Completed", 7, 0) &gt;= 2, OR(NOT(Access_received__c), ISBLANK(Scope_summary__c)))</errorConditionFormula>
+    <errorMessage>Fill in Access received and Scope summary before moving to Kickoff done.</errorMessage>
+</ValidationRule>

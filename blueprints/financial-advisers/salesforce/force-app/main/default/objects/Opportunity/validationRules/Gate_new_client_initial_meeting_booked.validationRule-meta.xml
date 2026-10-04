@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_client_initial_meeting_booked</fullName>
+    <active>true</active>
+    <description>Stage gate: New client, Initial meeting booked and later stages need Service interest and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) &gt;= 2, OR(ISBLANK(TEXT(Service_interest__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Service interest and Next step date before moving to Initial meeting booked.</errorMessage>
+</ValidationRule>

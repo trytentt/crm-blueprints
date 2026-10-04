@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_type__c</fullName>
+    <description>Whether this is the retailer's first order or a reorder. Used to report the reorder rate.</description>
+    <label>Order type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>First order</fullName>
+                <default>false</default>
+                <label>First order</label>
+            </value>
+            <value>
+                <fullName>Reorder</fullName>
+                <default>false</default>
+                <label>Reorder</label>
+            </value>
+            <value>
+                <fullName>Pre-order</fullName>
+                <default>false</default>
+                <label>Pre-order</label>
+            </value>
+            <value>
+                <fullName>Sample order</fullName>
+                <default>false</default>
+                <label>Sample order</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

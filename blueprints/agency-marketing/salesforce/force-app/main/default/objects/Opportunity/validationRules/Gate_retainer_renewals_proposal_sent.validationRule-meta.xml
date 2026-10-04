@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_retainer_renewals_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Retainer renewals, Proposal sent and later stages need Amount.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Retainer_renewals", CASE(StageName, "Upcoming", 1, "Review booked", 2, "Proposal sent (Retainer renewals)", 3, "Negotiation (Retainer renewals)", 4, "Awaiting signature", 5, "Renewed", 6, 0) &gt;= 3, ISBLANK(Amount))</errorConditionFormula>
+    <errorDisplayField>Amount</errorDisplayField>
+    <errorMessage>Fill in Amount before moving to Proposal sent.</errorMessage>
+</ValidationRule>

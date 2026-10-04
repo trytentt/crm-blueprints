@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Circumstances_changed__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <defaultValue>false</defaultValue>
+    <description>DATA PROTECTION: personal circumstances. Something material changed since the last review, such as family, income, health or goals. Detail goes in the planning system.</description>
+    <label>Circumstances changed</label>
+    <securityClassification>Restricted</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

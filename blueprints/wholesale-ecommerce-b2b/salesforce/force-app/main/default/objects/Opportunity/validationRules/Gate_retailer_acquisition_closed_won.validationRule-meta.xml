@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_retailer_acquisition_closed_won</fullName>
+    <active>true</active>
+    <description>Stage gate: Retailer acquisition, Account opened and later stages need Amount and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) &gt;= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Close date before moving to Account opened.</errorMessage>
+</ValidationRule>

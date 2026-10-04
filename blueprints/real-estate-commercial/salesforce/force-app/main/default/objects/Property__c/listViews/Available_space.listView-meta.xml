@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Available_space</fullName>
+    <columns>NAME</columns>
+    <columns>Availability_status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Availability_status__c</field>
+        <operation>equals</operation>
+        <value>Part available,Fully available</value>
+    </filters>
+    <label>Available space</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

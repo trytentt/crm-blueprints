@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Household__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Groups the people in a client unit while each human keeps one record.</description>
+    <externalId>false</externalId>
+    <label>Household</label>
+    <referenceTo>Client_Household__c</referenceTo>
+    <relationshipLabel>Members</relationshipLabel>
+    <relationshipName>Members</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Where the record is in its pipeline. Restricted to the pipeline's stages.</description>
+    <label>Stage</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Position specification</fullName>
+                <default>false</default>
+                <label>Position specification</label>
+            </value>
+            <value>
+                <fullName>Market mapping</fullName>
+                <default>false</default>
+                <label>Market mapping</label>
+            </value>
+            <value>
+                <fullName>Longlist</fullName>
+                <default>false</default>
+                <label>Longlist</label>
+            </value>
+            <value>
+                <fullName>Shortlist</fullName>
+                <default>false</default>
+                <label>Shortlist</label>
+            </value>
+            <value>
+                <fullName>Client interviews</fullName>
+                <default>false</default>
+                <label>Client interviews</label>
+            </value>
+            <value>
+                <fullName>Offer and references</fullName>
+                <default>false</default>
+                <label>Offer and references</label>
+            </value>
+            <value>
+                <fullName>Placed</fullName>
+                <default>false</default>
+                <label>Placed</label>
+            </value>
+            <value>
+                <fullName>Closed without placement</fullName>
+                <default>false</default>
+                <label>Closed without placement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

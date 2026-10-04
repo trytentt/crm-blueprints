@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Paraplanner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member who researches and drafts the report.</description>
+    <label>Paraplanner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Advice cases Paraplanner</relationshipLabel>
+    <relationshipName>Advice_Case_Paraplanner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

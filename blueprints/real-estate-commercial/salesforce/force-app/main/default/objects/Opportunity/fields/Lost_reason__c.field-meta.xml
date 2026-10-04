@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the letting did not complete. Required on the lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Took other space</fullName>
+                <default>false</default>
+                <label>Took other space</label>
+            </value>
+            <value>
+                <fullName>Terms not agreed</fullName>
+                <default>false</default>
+                <label>Terms not agreed</label>
+            </value>
+            <value>
+                <fullName>Referencing failed</fullName>
+                <default>false</default>
+                <label>Referencing failed</label>
+            </value>
+            <value>
+                <fullName>Space unsuitable</fullName>
+                <default>false</default>
+                <label>Space unsuitable</label>
+            </value>
+            <value>
+                <fullName>Budget changed</fullName>
+                <default>false</default>
+                <label>Budget changed</label>
+            </value>
+            <value>
+                <fullName>Requirement withdrawn</fullName>
+                <default>false</default>
+                <label>Requirement withdrawn</label>
+            </value>
+            <value>
+                <fullName>Landlord withdrew</fullName>
+                <default>false</default>
+                <label>Landlord withdrew</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

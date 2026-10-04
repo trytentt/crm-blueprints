@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flagged_clients</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>Vulnerability_flag__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Vulnerability_flag__c</field>
+        <operation>equals</operation>
+        <value>Possible,Confirmed</value>
+    </filters>
+    <label>Clients with a vulnerability flag</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

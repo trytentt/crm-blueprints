@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_project_delivery_on_site</fullName>
+    <active>true</active>
+    <description>Stage gate: Project delivery, On site and later stages need Start on site, RAMS approved and Insurance verified.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Pre-start", 1, "Mobilising", 2, "On site", 3, "Snagging", 4, "Defects period", 5, "Closed out", 6, 0) &gt;= 3, OR(ISBLANK(Start_on_site_date__c), NOT(Rams_approved__c), NOT(Insurance_verified__c)))</errorConditionFormula>
+    <errorMessage>Fill in Start on site, RAMS approved and Insurance verified before moving to On site.</errorMessage>
+</ValidationRule>

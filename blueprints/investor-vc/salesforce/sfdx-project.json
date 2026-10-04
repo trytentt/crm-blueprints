@@ -1,0 +1,12 @@
+{
+  "name": "investor-vc-and-angel-deal-flow",
+  "namespace": "",
+  "packageDirectories": [
+    {
+      "default": true,
+      "path": "force-app"
+    }
+  ],
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "67.0"
+}

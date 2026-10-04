@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_accounts_sample_or_trial</fullName>
+    <active>true</active>
+    <description>Stage gate: New accounts, Sample or trial and later stages need Sample status and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) &gt;= 4, OR(ISBLANK(TEXT(Sample_status__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Sample status and Next step date before moving to Sample or trial.</errorMessage>
+</ValidationRule>

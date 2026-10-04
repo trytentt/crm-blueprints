@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reorder_cycle_days__c</fullName>
+    <description>Usual days between orders for this retailer, often tied to a season. Compared with the last order date.</description>
+    <label>Reorder cycle (days)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

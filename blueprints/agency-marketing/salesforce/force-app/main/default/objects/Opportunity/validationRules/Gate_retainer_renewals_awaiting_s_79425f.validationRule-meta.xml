@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_retainer_renewals_awaiting_s_79425f</fullName>
+    <active>true</active>
+    <description>Stage gate: Retainer renewals, Awaiting signature and later stages need Amount and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Retainer_renewals", CASE(StageName, "Upcoming", 1, "Review booked", 2, "Proposal sent (Retainer renewals)", 3, "Negotiation (Retainer renewals)", 4, "Awaiting signature", 5, "Renewed", 6, 0) &gt;= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Close date before moving to Awaiting signature.</errorMessage>
+</ValidationRule>

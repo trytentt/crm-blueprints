@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Work_type__c</fullName>
+    <description>The kind of work. Used to report win rate and margin by type.</description>
+    <label>Work type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New build</fullName>
+                <default>false</default>
+                <label>New build</label>
+            </value>
+            <value>
+                <fullName>Refurbishment</fullName>
+                <default>false</default>
+                <label>Refurbishment</label>
+            </value>
+            <value>
+                <fullName>Fit-out</fullName>
+                <default>false</default>
+                <label>Fit-out</label>
+            </value>
+            <value>
+                <fullName>Maintenance and repair</fullName>
+                <default>false</default>
+                <label>Maintenance and repair</label>
+            </value>
+            <value>
+                <fullName>Specialist trade package</fullName>
+                <default>false</default>
+                <label>Specialist trade package</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

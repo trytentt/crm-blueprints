@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_type__c</fullName>
+    <description>What the organisation is to the practice. Used to report referral sources and manage provider contacts.</description>
+    <label>Company type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Professional referrer</fullName>
+                <default>false</default>
+                <label>Professional referrer</label>
+            </value>
+            <value>
+                <fullName>Employer</fullName>
+                <default>false</default>
+                <label>Employer</label>
+            </value>
+            <value>
+                <fullName>Product provider or platform</fullName>
+                <default>false</default>
+                <label>Product provider or platform</label>
+            </value>
+            <value>
+                <fullName>Outsourced partner</fullName>
+                <default>false</default>
+                <label>Outsourced partner</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

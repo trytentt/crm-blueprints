@@ -1,0 +1,455 @@
+# Build sheet: B2B SaaS, product-led (salesforce)
+
+A software company where people sign up and pay without talking to sales, and a small sales-assist team steps in when product usage shows a team is ready to buy more. Usage lives on a workspace object, a product-qualified lead opens a deal, and expansion runs as its own pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: What makes a workspace a product-qualified lead?**
+  - Recommended default: Start with one usage rule (for example reached the activation milestone and invited three or more teammates) plus company fit of strong or possible. Review the rule monthly against which PQLs actually close. Keep the rule in the product data, not in free text on the record.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do self-serve upgrades by card create deals?**
+  - Recommended default: No. Card payments update the workspace plan and MRR only. A deal exists only when a person works the account, so win rates and sales cycle are not diluted by self-serve volume.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is post-sale adoption tracked on its own object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. The adoption plan has its own owner and dates. The sales pipelines end at closed won or expanded. Self-serve customers are tracked on the workspace alone.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How does product usage reach the CRM?**
+  - Recommended default: A nightly sync from the product database or warehouse writes seats, active users, limit used and last active date onto the workspace, matched on product workspace ID. Sync summaries, not events. Raw events stay in the product.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and enough of them?**
+  - Recommended default: Check before the build. If not, hold usage as custom properties on Company, treat the company as the workspace, and record the loss of one-company-many-workspaces in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which accounts get a human, and which stay self-serve?**
+  - Recommended default: Engage only accounts with segment mid-market or enterprise, or any account that asks for sales. Revisit once sales-assist has capacity data.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Workspace**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Workspace, plural Workspaces, API name `Workspace__c`, record name a Text field.
+  - Purpose: One account inside the product (a team space, tenant or organisation). Holds plan, seat and usage figures synced from the product, so sales sees usage next to the commercial record.
+  - Done when: the object Workspace exists with plural name Workspaces.
+- [ ] **Create object Adoption plan**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Adoption plan, plural Adoption plans, API name `Adoption_Plan__c`, record name a Text field.
+  - Purpose: The work of getting a sales-assisted customer to real use after they pay. Owned by customer success, separate from the sales deal. Self-serve customers do not get one.
+  - Done when: the object Adoption plan exists with plural name Adoption plans.
+- [ ] **Create relationship workspace to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Company__c` on Workspace__c to Account.
+  - Purpose: A company can have several workspaces. Shows all of them next to the company record.
+  - Done when: a workspace record shows the link as 'Company' and a company record shows it as 'Workspaces'.
+- [ ] **Create relationship person to workspace (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to person, one to workspace). Junction object `Person_workspace__c` with two master-detail fields.
+  - Purpose: Links product users to the workspaces they belong to. One person can sit in many workspaces.
+  - Done when: a person record shows the link as 'Workspaces' and a workspace record shows it as 'People'.
+- [ ] **Create relationship deal to workspace (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Workspace__c` on Opportunity to Workspace__c.
+  - Purpose: Ties a sales-assist or expansion deal to the workspace whose usage triggered it.
+  - Done when: a deal record shows the link as 'Workspace' and a workspace record shows it as 'Deals'.
+- [ ] **Create relationship adoption_plan to workspace (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Workspace__c` on Adoption_Plan__c to Workspace__c.
+  - Purpose: Tracks post-sale adoption for each workspace.
+  - Done when: a adoption_plan record shows the link as 'Workspace' and a workspace record shows it as 'Adoption plans'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Sales assist on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Sales_assist`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Sales_assist`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Sales assist exists with 7 stages in the order below.
+- [ ] **Stage 1: Product-qualified lead**
+  - Type: open. Probability: 10%.
+  - Entered when a workspace meets the PQL rule and a sales-assist rep has accepted it.
+  - Stage value `Product-qualified lead`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_sales_assist_pql` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 1, ISBLANK(TEXT(Pql_trigger__c)))`. Error message: Fill in PQL trigger before moving to Product-qualified lead.
+  - Done when: the stage Product-qualified lead is in position 1 and its rule is in place.
+- [ ] **Stage 2: Conversation**
+  - Type: open. Probability: 25%.
+  - Entered when the rep has spoken to a workspace admin or owner.
+  - Stage value `Conversation`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_sales_assist_conversation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Conversation.
+  - Done when: the stage Conversation is in position 2 and its rule is in place.
+- [ ] **Stage 3: Need confirmed**
+  - Type: open. Probability: 45%.
+  - Entered when the buyer has named what they need beyond the current plan and who approves spend.
+  - Stage value `Need confirmed`: closed false, won false, probability 45, forecast category Pipeline. Validation rule `Gate_sales_assist_need_confirmed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 3, OR(ISBLANK(Need_summary__c), ISBLANK(Expected_seats__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Need summary, Expected seats and Next step date before moving to Need confirmed.
+  - Done when: the stage Need confirmed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Proposal**
+  - Type: open. Probability: 65%.
+  - Entered when a quote has been sent for a named plan, seat count and billing term.
+  - Stage value `Proposal (Sales assist)`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_sales_assist_proposal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Target_plan__c)), ISBLANK(Expected_seats__c), ISBLANK(TEXT(Billing_term__c))))`. Error message: Fill in Amount, Target plan, Expected seats and Billing term before moving to Proposal.
+  - Done when: the stage Proposal is in position 4 and its rule is in place.
+- [ ] **Stage 5: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has asked for changes to price, terms or security answers.
+  - Stage value `Negotiation`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_sales_assist_negotiation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Security_review__c))))`. Error message: Fill in Amount, Close date and Security review before moving to Negotiation.
+  - Done when: the stage Negotiation is in position 5 and its rule is in place.
+- [ ] **Stage 6: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the paid plan is live in the product and payment terms are accepted.
+  - Stage value `Closed won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_sales_assist_closed_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Closed won.
+  - Done when: the stage Closed won is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_sales_assist_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sales_assist", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Expansion on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Expansion`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Expansion`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Expansion exists with 6 stages in the order below.
+- [ ] **Stage 1: Expansion signal**
+  - Type: open. Probability: 20%.
+  - Entered when usage passes an expansion threshold, for example seats used above seats paid.
+  - Stage value `Expansion signal`: closed false, won false, probability 20, forecast category Pipeline. Validation rule `Gate_expansion_signal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) >= 1, ISBLANK(TEXT(Expansion_type__c)))`. Error message: Fill in Expansion type before moving to Expansion signal.
+  - Done when: the stage Expansion signal is in position 1 and its rule is in place.
+- [ ] **Stage 2: Outreach**
+  - Type: open. Probability: 35%.
+  - Entered when a rep or success manager has contacted the workspace admin.
+  - Stage value `Outreach`: closed false, won false, probability 35, forecast category Pipeline. Validation rule `Gate_expansion_outreach` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Outreach.
+  - Done when: the stage Outreach is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal**
+  - Type: open. Probability: 60%.
+  - Entered when a quote for the added seats, plan or add-on has been sent.
+  - Stage value `Proposal (Expansion)`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_expansion_proposal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) >= 3, OR(ISBLANK(Amount), ISBLANK(Expected_seats__c), ISBLANK(TEXT(Target_plan__c))))`. Error message: Fill in Amount, Expected seats and Target plan before moving to Proposal.
+  - Done when: the stage Proposal is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has asked for changes to price or terms.
+  - Stage value `Negotiation`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_expansion_negotiation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Negotiation.
+  - Done when: the stage Negotiation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Expanded**
+  - Type: won. Probability: 100%.
+  - Entered when the extra seats, plan or add-on are live and billed.
+  - Stage value `Expanded`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_expansion_expanded` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Expanded.
+  - Done when: the stage Expanded is in position 5 and its rule is in place.
+- [ ] **Stage 6: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer declines the expansion, or has not replied after three follow-ups over 30 days.
+  - Stage value `Declined`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_expansion_declined` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Expansion", ISPICKVAL(StageName, "Declined"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Declined.
+  - Done when: the stage Declined is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Customer_status__c`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Free user, Paying, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Segment__c`.
+  - Purpose: Size band used to decide whether sales-assist should engage or the account stays self-serve.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field ICP fit (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Icp_fit__c`.
+  - Purpose: How closely the company matches the ideal customer profile. One input to the PQL rule.
+  - Options: Strong, Possible, Weak
+  - Done when: Company records show ICP fit and it accepts the right values.
+- [ ] **Create field Acquisition channel (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Acquisition_channel__c`.
+  - Purpose: How the first user at this company found the product. Set once, never overwritten.
+  - Options: Organic search, Paid, Referral, Community, Integration marketplace, Outbound
+  - Done when: Company records show Acquisition channel and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Workspace role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Workspace_role__c`.
+  - Purpose: What this person is inside the product. A user is not always the person who pays.
+  - Options: Workspace owner, Admin, Member, Billing contact, Not a product user
+  - Done when: Person records show Workspace role and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays in a paid purchase. Used to check deals are not single-threaded on one user.
+  - Options: Economic buyer, Champion, Technical evaluator, End user, Blocker
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Create field Marketing consent (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Marketing_consent__c`.
+  - Purpose: Lawful basis for marketing email to this person. Product sign-up alone does not give consent to sales outreach in every region.
+  - Options: Opted in, Legitimate interest, Opted out, Unknown
+  - Done when: Person records show Marketing consent and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the deal was lost or the expansion declined. Required on every lost stage.
+  - Options: Happy to stay self-serve, No budget, No decision made, Chose a competitor, Product gap, Price, Bad timing, Champion left, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field PQL trigger (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Pql_trigger__c`.
+  - Purpose: The product behaviour that made the lead product-qualified. Lets us see which signals convert.
+  - Options: Hit a usage limit, Invited teammates, Reached activation milestone, Viewed pricing repeatedly, Asked to talk to sales, Trial ending while active
+  - Done when: Deal records show PQL trigger and it accepts the right values.
+- [ ] **Create field Expected seats (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Expected_seats__c`.
+  - Purpose: Number of seats the buyer expects to need on the paid plan.
+  - Done when: Deal records show Expected seats and it accepts the right values.
+- [ ] **Create field Target plan (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Target_plan__c`.
+  - Purpose: The paid plan being discussed.
+  - Options: Team, Business, Enterprise
+  - Done when: Deal records show Target plan and it accepts the right values.
+- [ ] **Create field Billing term (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Billing_term__c`.
+  - Purpose: How the buyer will pay. Moving from card to invoice is the usual sales-assist step.
+  - Options: Monthly by card, Annual by card, Annual by invoice, Multi-year by invoice
+  - Done when: Deal records show Billing term and it accepts the right values.
+- [ ] **Create field Security review (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Security_review__c`.
+  - Purpose: Progress of the buyer's security and procurement review.
+  - Options: Not needed, Requested, In progress, Passed
+  - Done when: Deal records show Security review and it accepts the right values.
+- [ ] **Create field Expansion type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Expansion_type__c`.
+  - Purpose: What the expansion deal adds. Used to report where expansion revenue comes from.
+  - Options: More seats, Plan upgrade, Add-on, New team or department
+  - Done when: Deal records show Expansion type and it accepts the right values.
+- [ ] **Create field Need summary (long_text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text Area (Long), API name `Need_summary__c`.
+  - Purpose: What the team is trying to do with the product and what is stopping the free or current plan working.
+  - Done when: Deal records show Need summary and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Workspace
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: The workspace name as it appears in the product.
+  - Done when: Workspace records show Name and it accepts the right values.
+- [ ] **Create field Product workspace ID (text, required)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Text (255), API name `Product_workspace_id__c`, required.
+  - Purpose: The workspace's identifier in the product database. The key used to match synced usage to this record.
+  - Done when: Workspace records show Product workspace ID and it accepts the right values.
+- [ ] **Create field Plan (select)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Picklist, API name `Plan__c`.
+  - Purpose: The plan the workspace is on now.
+  - Options: Free, Team, Business, Enterprise
+  - Done when: Workspace records show Plan and it accepts the right values.
+- [ ] **Create field Lifecycle stage (select)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Picklist, API name `Lifecycle_stage__c`.
+  - Purpose: Where the workspace is in the self-serve journey.
+  - Options: Signed up, Activated, Trialling, Paying, Churned
+  - Done when: Workspace records show Lifecycle stage and it accepts the right values.
+- [ ] **Create field Sign-up date (date)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Date, API name `Signup_date__c`.
+  - Purpose: The day the workspace was created.
+  - Done when: Workspace records show Sign-up date and it accepts the right values.
+- [ ] **Create field Trial end date (date)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Date, API name `Trial_ends_date__c`.
+  - Purpose: The day the current trial ends. Empty if not on a trial.
+  - Done when: Workspace records show Trial end date and it accepts the right values.
+- [ ] **Create field Activated (checkbox)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Checkbox, API name `Activated__c`.
+  - Purpose: The workspace has reached the product's activation milestone, as defined by product.
+  - Done when: Workspace records show Activated and it accepts the right values.
+- [ ] **Create field Seats used (number)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Number (18, 0), API name `Seats_used__c`.
+  - Purpose: Active seats in the product, synced nightly.
+  - Done when: Workspace records show Seats used and it accepts the right values.
+- [ ] **Create field Seats paid (number)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Number (18, 0), API name `Seats_paid__c`.
+  - Purpose: Seats the workspace is paying for. Compared with seats used to find expansion.
+  - Done when: Workspace records show Seats paid and it accepts the right values.
+- [ ] **Create field Active users (30 days) (number)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Number (18, 0), API name `Active_users_30d__c`.
+  - Purpose: Distinct users who used the product in the last 30 days, synced nightly.
+  - Done when: Workspace records show Active users (30 days) and it accepts the right values.
+- [ ] **Create field Plan limit used (percent)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Percent (5, 2), API name `Limit_usage_percent__c`.
+  - Purpose: How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal.
+  - Done when: Workspace records show Plan limit used and it accepts the right values.
+- [ ] **Create field Last active date (date)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Date, API name `Last_active_date__c`.
+  - Purpose: The last day any user was active in the workspace.
+  - Done when: Workspace records show Last active date and it accepts the right values.
+- [ ] **Create field PQL status (select)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Picklist, API name `Pql_status__c`.
+  - Purpose: Whether the workspace meets the product-qualified lead rule. Set by automation, not by hand.
+  - Options: Not qualified, Qualified, Accepted by sales, Rejected by sales
+  - Done when: Workspace records show PQL status and it accepts the right values.
+- [ ] **Create field PQL score (number)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Number (18, 0), API name `Pql_score__c`.
+  - Purpose: Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.
+  - Done when: Workspace records show PQL score and it accepts the right values.
+- [ ] **Create field MRR (currency)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Currency (18, 2), API name `Mrr__c`.
+  - Purpose: Monthly recurring revenue for this workspace at current prices, from billing.
+  - Done when: Workspace records show MRR and it accepts the right values.
+- [ ] **Create field Billing source (select)**
+  - Where: Setup, Object Manager, Workspace, Fields & Relationships, New. Data type Picklist, API name `Billing_source__c`.
+  - Purpose: Whether the workspace pays by card through self-serve billing or by invoice agreed with sales.
+  - Options: None, Card, Invoice
+  - Done when: Workspace records show Billing source and it accepts the right values.
+
+### Adoption plan
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company name and the words adoption plan.
+  - Done when: Adoption plan records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Adoption plan, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the plan stands.
+  - Options: Not started, In progress, Complete, Stalled
+  - Done when: Adoption plan records show Status and it accepts the right values.
+- [ ] **Create field Target activation date (date)**
+  - Where: Setup, Object Manager, Adoption plan, Fields & Relationships, New. Data type Date, API name `Target_activation_date__c`.
+  - Purpose: The date by which the workspace should have reached the activation milestone.
+  - Done when: Adoption plan records show Target activation date and it accepts the right values.
+- [ ] **Create field Success criteria (long_text)**
+  - Where: Setup, Object Manager, Adoption plan, Fields & Relationships, New. Data type Text Area (Long), API name `Success_criteria__c`.
+  - Purpose: What good use looks like for this customer, in numbers the product can measure.
+  - Done when: Adoption plan records show Success criteria and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: The standard Owner field of the object. Nothing to create.
+  - Purpose: The customer success manager running the plan.
+  - Done when: Adoption plan records show Owner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Sync product usage**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: Nightly, and when a workspace is created or its plan changes in the product.
+  - Action: Upsert the workspace by product workspace ID with plan, seats, active users, limit used and last active date, and link the people who are members.
+  - Done when: the automation runs on a test record and the result matches: Upsert the workspace by product workspace ID with plan, seats, active users, limit used and last active date, and link the people who are members.
+- [ ] **Flag product-qualified lead**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A workspace meets the PQL rule and its PQL status is not qualified, accepted or rejected.
+  - Action: Set PQL status to qualified, notify the sales-assist queue, and create a deal in the sales assist pipeline at product-qualified lead once a rep accepts, with the PQL trigger filled.
+  - Done when: the automation runs on a test record and the result matches: Set PQL status to qualified, notify the sales-assist queue, and create a deal in the sales assist pipeline at product-qualified lead once a rep accepts, with the PQL trigger filled.
+- [ ] **Open expansion deal**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: Seats used exceed seats paid, or plan limit used passes 80 percent, on a paying workspace with no open expansion deal.
+  - Action: Create a deal in the expansion pipeline at expansion signal, linked to the workspace, and assign it to the account owner.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the expansion pipeline at expansion signal, linked to the workspace, and assign it to the account owner.
+- [ ] **Start adoption plan**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A sales-assist deal moves to closed won.
+  - Action: Create an adoption plan linked to the workspace, assign it to customer success and set the company to paying.
+  - Done when: the automation runs on a test record and the result matches: Create an adoption plan linked to the workspace, assign it to customer success and set the company to paying.
+- [ ] **Trial ending alert**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A workspace on a trial has a trial end date in 3 days and is activated.
+  - Action: Notify the account owner, or the sales-assist queue if the workspace has no owner.
+  - Done when: the automation runs on a test record and the result matches: Notify the account owner, or the sales-assist queue if the workspace has no owner.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **PQL queue**
+  - Where: Generated as list view `Pql_queue`. Open Workspaces, choose the view, then set the sort (PQL score, highest first.) from the list controls and save.
+  - Object: workspace
+  - Filter: PQL status is qualified.
+  - Sort: PQL score, highest first.
+  - Done when: the view PQL queue is saved and shows the expected records.
+- [ ] **Trials ending soon**
+  - Where: Generated as list view `Trials_ending`. Open Workspaces, choose the view, then set the sort (Trial end date, soonest first.) from the list controls and save.
+  - Object: workspace
+  - Filter: Lifecycle stage is trialling and trial end date is within 7 days.
+  - Sort: Trial end date, soonest first.
+  - Done when: the view Trials ending soon is saved and shows the expected records.
+- [ ] **Expansion candidates**
+  - Where: Open Workspaces, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: workspace
+  - Filter: Lifecycle stage is paying and plan limit used is over 80 percent, or seats used is above seats paid.
+  - Sort: Plan limit used, highest first.
+  - Done when: the view Expansion candidates is saved and shows the expected records.
+- [ ] **My open deals**
+  - Where: Generated as list view `My_open_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Adoption in flight**
+  - Where: Generated as list view `Adoption_in_flight`. Open Adoption plans, choose the view, then set the sort (Target activation date, oldest first.) from the list controls and save.
+  - Object: adoption_plan
+  - Filter: Status is not complete.
+  - Sort: Target activation date, oldest first.
+  - Done when: the view Adoption in flight is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

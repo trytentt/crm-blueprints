@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_business</fullName>
+    <active>true</active>
+    <businessProcess>New_business</businessProcess>
+    <description>New business</description>
+    <label>New business</label>
+    <picklistValues>
+        <picklist>Budget_range__c</picklist>
+        <values>
+            <fullName>Under 5k</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5k to 15k</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>15k to 50k</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Over 50k</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not shared</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Engagement_type__c</picklist>
+        <values>
+            <fullName>Retainer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retainer plus project</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>No budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No decision made</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose another agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Went in-house</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scope mismatch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unhappy with results</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client closed or acquired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Renewal_risk__c</picklist>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Renewal_type__c</picklist>
+        <values>
+            <fullName>Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Upsell</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Re-scope</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cross-sell</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Service_lines__c</picklist>
+        <values>
+            <fullName>Paid media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SEO and content</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Brand and creative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web build</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email and CRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GTM engineering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategy and consulting</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

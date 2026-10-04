@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_tender_estimate_bid_submitted</fullName>
+    <active>true</active>
+    <description>Stage gate: Tender and estimate, Bid submitted and later stages need Amount, Estimated margin and Contract form.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Tender_estimate", CASE(StageName, "Opportunity", 1, "Go or no-go", 2, "Estimating", 3, "Bid submitted", 4, "Clarification", 5, "Preferred bidder", 6, "Awarded", 7, 0) &gt;= 4, OR(ISBLANK(Amount), ISBLANK(Estimated_margin__c), ISBLANK(TEXT(Contract_form__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Estimated margin and Contract form before moving to Bid submitted.</errorMessage>
+</ValidationRule>

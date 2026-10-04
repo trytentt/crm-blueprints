@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_delivery_terminated</fullName>
+    <active>true</active>
+    <description>Lost reason: Delivery, Terminated needs End reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Terminated"), ISBLANK(TEXT(End_reason__c)))</errorConditionFormula>
+    <errorDisplayField>End_reason__c</errorDisplayField>
+    <errorMessage>Fill in End reason before closing this as Terminated.</errorMessage>
+</ValidationRule>

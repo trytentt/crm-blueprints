@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_pql</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Product-qualified lead and later stages need PQL trigger.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 1, ISBLANK(TEXT(Pql_trigger__c)))</errorConditionFormula>
+    <errorDisplayField>Pql_trigger__c</errorDisplayField>
+    <errorMessage>Fill in PQL trigger before moving to Product-qualified lead.</errorMessage>
+</ValidationRule>

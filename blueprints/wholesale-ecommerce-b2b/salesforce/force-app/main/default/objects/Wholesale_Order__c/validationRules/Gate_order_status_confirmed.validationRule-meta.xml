@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_order_status_confirmed</fullName>
+    <active>true</active>
+    <description>Stage gate: Order status, Confirmed and later stages need Ship date and Units.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) &gt;= 2, OR(ISBLANK(Ship_date__c), ISBLANK(Units__c)))</errorConditionFormula>
+    <errorMessage>Fill in Ship date and Units before moving to Confirmed.</errorMessage>
+</ValidationRule>

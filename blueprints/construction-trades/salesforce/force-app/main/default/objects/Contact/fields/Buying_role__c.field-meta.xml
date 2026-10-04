@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_role__c</fullName>
+    <description>The part this person plays in awarding or running the work. Used to check who has been engaged.</description>
+    <label>Buying role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Decision maker</fullName>
+                <default>false</default>
+                <label>Decision maker</label>
+            </value>
+            <value>
+                <fullName>Quantity surveyor</fullName>
+                <default>false</default>
+                <label>Quantity surveyor</label>
+            </value>
+            <value>
+                <fullName>Project manager</fullName>
+                <default>false</default>
+                <label>Project manager</label>
+            </value>
+            <value>
+                <fullName>Architect or designer</fullName>
+                <default>false</default>
+                <label>Architect or designer</label>
+            </value>
+            <value>
+                <fullName>Site manager</fullName>
+                <default>false</default>
+                <label>Site manager</label>
+            </value>
+            <value>
+                <fullName>Procurement</fullName>
+                <default>false</default>
+                <label>Procurement</label>
+            </value>
+            <value>
+                <fullName>Accounts</fullName>
+                <default>false</default>
+                <label>Accounts</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

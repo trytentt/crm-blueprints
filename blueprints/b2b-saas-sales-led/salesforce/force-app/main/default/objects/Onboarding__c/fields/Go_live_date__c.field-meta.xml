@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Go_live_date__c</fullName>
+    <description>The date the customer first uses the product in production.</description>
+    <label>Go-live date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

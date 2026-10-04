@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_reason__c</fullName>
+    <description>Why the project did not complete. Required on the cancelled stage.</description>
+    <label>Cancellation reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client cancelled</fullName>
+                <default>false</default>
+                <label>Client cancelled</label>
+            </value>
+            <value>
+                <fullName>Client funding lost</fullName>
+                <default>false</default>
+                <label>Client funding lost</label>
+            </value>
+            <value>
+                <fullName>Contract dispute</fullName>
+                <default>false</default>
+                <label>Contract dispute</label>
+            </value>
+            <value>
+                <fullName>Client insolvent</fullName>
+                <default>false</default>
+                <label>Client insolvent</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

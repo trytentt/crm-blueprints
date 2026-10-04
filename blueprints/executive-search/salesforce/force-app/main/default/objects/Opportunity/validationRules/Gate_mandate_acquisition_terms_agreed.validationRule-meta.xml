@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_mandate_acquisition_terms_agreed</fullName>
+    <active>true</active>
+    <description>Stage gate: Mandate acquisition, Terms agreed and later stages need Fee percent, Fee structure, Exclusivity confirmed and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) &gt;= 6, OR(ISBLANK(Fee_percent__c), ISBLANK(TEXT(Fee_structure__c)), NOT(Exclusivity_confirmed__c), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Fee percent, Fee structure, Exclusivity confirmed and Close date before moving to Terms agreed.</errorMessage>
+</ValidationRule>

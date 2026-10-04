@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retention_due</fullName>
+    <columns>NAME</columns>
+    <columns>Stage__c</columns>
+    <columns>Retention_release_date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Stage__c</field>
+        <operation>equals</operation>
+        <value>Defects period</value>
+    </filters>
+    <filters>
+        <field>Retention_release_date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>Retention_release_date__c</field>
+        <operation>lessOrEqual</operation>
+        <value>NEXT_N_DAYS:60</value>
+    </filters>
+    <label>Retention due</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

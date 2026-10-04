@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pricing_model__c</fullName>
+    <description>How the customer is charged under this contract.</description>
+    <label>Pricing model</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Per appointment</fullName>
+                <default>false</default>
+                <label>Per appointment</label>
+            </value>
+            <value>
+                <fullName>Per employee per month</fullName>
+                <default>false</default>
+                <label>Per employee per month</label>
+            </value>
+            <value>
+                <fullName>Annual retainer</fullName>
+                <default>false</default>
+                <label>Annual retainer</label>
+            </value>
+            <value>
+                <fullName>Pay as you go</fullName>
+                <default>false</default>
+                <label>Pay as you go</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

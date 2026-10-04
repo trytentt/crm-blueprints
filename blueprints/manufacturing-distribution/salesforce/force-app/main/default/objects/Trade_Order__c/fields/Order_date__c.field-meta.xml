@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_date__c</fullName>
+    <description>Date the customer order was accepted.</description>
+    <label>Order date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

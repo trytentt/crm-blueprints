@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Person_role__c</fullName>
+    <description>The part this person plays for us. Used to find founders to track and co-investors to call.</description>
+    <label>Person role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Founder</fullName>
+                <default>false</default>
+                <label>Founder</label>
+            </value>
+            <value>
+                <fullName>Executive</fullName>
+                <default>false</default>
+                <label>Executive</label>
+            </value>
+            <value>
+                <fullName>Co-investor partner</fullName>
+                <default>false</default>
+                <label>Co-investor partner</label>
+            </value>
+            <value>
+                <fullName>Introducer or scout</fullName>
+                <default>false</default>
+                <label>Introducer or scout</label>
+            </value>
+            <value>
+                <fullName>Limited partner contact</fullName>
+                <default>false</default>
+                <label>Limited partner contact</label>
+            </value>
+            <value>
+                <fullName>Advisor</fullName>
+                <default>false</default>
+                <label>Advisor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

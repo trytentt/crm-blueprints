@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_development</fullName>
+    <active>true</active>
+    <businessProcess>Client_development</businessProcess>
+    <description>Client development</description>
+    <label>Client development</label>
+    <picklistValues>
+        <picklist>Exclusivity__c</picklist>
+        <values>
+            <fullName>Exclusive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Preferred supplier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shared with others</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>No hiring need</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Uses other agencies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hires in-house</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fees too high</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Terms rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Search_model__c</picklist>
+        <values>
+            <fullName>Contingent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retained</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Container</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contract or temp</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

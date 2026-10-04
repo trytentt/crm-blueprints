@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Exhibitor sales path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Stand_type__c</fieldNames>
+        <info>Entered when a company has asked about a stand or been contacted and replied.</info>
+        <picklistValueName>Enquiry</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Stand_size_sqm__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the exhibitor's goals and space needs have been discussed.</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Stand_size_sqm__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a specific stand has been offered with a price and held for a stated number of days.</info>
+        <picklistValueName>Space held</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Payment_terms__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the booking form and terms have been sent for signature.</info>
+        <picklistValueName>Contract sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Stand_size_sqm__c</fieldNames>
+        <fieldNames>Contract_signed_date__c</fieldNames>
+        <fieldNames>Deposit_received__c</fieldNames>
+        <info>Entered when the signed booking form and deposit are received and a fulfilment record is created.</info>
+        <picklistValueName>Confirmed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the company declines, or the held space is released with no booking.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Exhibitor_sales</recordTypeName>
+</PathAssistant>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_contract__c</fullName>
+    <description>Records which service lines each contract includes. Master side 1 of the link.</description>
+    <label>Service contract</label>
+    <referenceTo>Service_Contract__c</referenceTo>
+    <relationshipLabel>Services</relationshipLabel>
+    <relationshipName>Services</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

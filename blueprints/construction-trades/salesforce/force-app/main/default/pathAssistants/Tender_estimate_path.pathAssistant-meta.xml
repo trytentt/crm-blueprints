@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Tender and estimate path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Procurement_route__c</fieldNames>
+        <fieldNames>Work_type__c</fieldNames>
+        <info>Entered when a named client contact has an actual project with a site and a rough scope.</info>
+        <picklistValueName>Opportunity</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Tender_deadline__c</fieldNames>
+        <fieldNames>Go_no_go__c</fieldNames>
+        <info>Entered when the tender documents or brief have been received and the bid decision is being made.</info>
+        <picklistValueName>Go or no-go</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Site_visit_done__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the decision is go and a site visit or drawings review has been done.</info>
+        <picklistValueName>Estimating</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Estimated_margin__c</fieldNames>
+        <fieldNames>Contract_form__c</fieldNames>
+        <info>Entered when the priced bid has been sent to the client.</info>
+        <picklistValueName>Bid submitted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the client has asked for clarifications, a revised price or an interview.</info>
+        <picklistValueName>Clarification</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Retention_percent__c</fieldNames>
+        <fieldNames>Expected_start_date__c</fieldNames>
+        <info>Entered when the client has told us in writing that we are preferred or recommended for award.</info>
+        <picklistValueName>Preferred bidder</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Contract_form__c</fieldNames>
+        <info>Entered when the contract, order or letter of intent is signed and a project record is created.</info>
+        <picklistValueName>Awarded</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the client awards elsewhere, withdraws, or we decide not to bid.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Tender_estimate</recordTypeName>
+</PathAssistant>

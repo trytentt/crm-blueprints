@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Go_no_go__c</fullName>
+    <description>The bid decision. Estimating hours are only spent on a go.</description>
+    <label>Go or no-go</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Go</fullName>
+                <default>false</default>
+                <label>Go</label>
+            </value>
+            <value>
+                <fullName>No-go</fullName>
+                <default>false</default>
+                <label>No-go</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

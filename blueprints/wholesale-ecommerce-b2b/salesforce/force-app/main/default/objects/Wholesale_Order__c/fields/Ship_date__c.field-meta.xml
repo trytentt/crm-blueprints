@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ship_date__c</fullName>
+    <description>Date the order is promised to leave, or left, the warehouse.</description>
+    <label>Ship date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

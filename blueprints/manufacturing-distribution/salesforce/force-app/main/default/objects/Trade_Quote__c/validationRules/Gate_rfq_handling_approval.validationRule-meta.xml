@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_rfq_handling_approval</fullName>
+    <active>true</active>
+    <description>Stage gate: RFQ handling, Approval and later stages need Quote value, Margin and Approval needed.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) &gt;= 4, OR(ISBLANK(Value__c), ISBLANK(Margin_percent__c), NOT(Approval_needed__c)))</errorConditionFormula>
+    <errorMessage>Fill in Quote value, Margin and Approval needed before moving to Approval.</errorMessage>
+</ValidationRule>

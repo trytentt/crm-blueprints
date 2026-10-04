@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_advice_delivery_closed_witho_8a963f</fullName>
+    <active>true</active>
+    <description>Lost reason: Advice delivery, Closed without advice needs Closure reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Closed without advice"), ISBLANK(TEXT(Closure_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Closure_reason__c</errorDisplayField>
+    <errorMessage>Fill in Closure reason before closing this as Closed without advice.</errorMessage>
+</ValidationRule>

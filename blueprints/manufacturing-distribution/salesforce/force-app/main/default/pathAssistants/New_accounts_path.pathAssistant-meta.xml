@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>New accounts path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Opportunity_type__c</fieldNames>
+        <info>Entered when a target company with a buying need is logged and has a named contact.</info>
+        <picklistValueName>Identified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a conversation with a purchasing contact has happened and the products of interest are noted.</info>
+        <picklistValueName>First contact</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Spec_confirmed__c</fieldNames>
+        <fieldNames>Annual_volume_estimate__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the technical contact has confirmed the specification and the expected volumes.</info>
+        <picklistValueName>Needs confirmed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sample_status__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a sample, trial run or spec approval has been requested.</info>
+        <picklistValueName>Sample or trial</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Spec_confirmed__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a priced quote has been sent against a confirmed specification.</info>
+        <picklistValueName>Quote issued</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Credit_approved__c</fieldNames>
+        <info>Entered when the buyer has accepted price and lead time and credit terms are being set up.</info>
+        <picklistValueName>Terms agreed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the first purchase order is received from the account.</info>
+        <picklistValueName>Closed won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the buyer chooses another supplier or goes silent after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>New_accounts</recordTypeName>
+</PathAssistant>

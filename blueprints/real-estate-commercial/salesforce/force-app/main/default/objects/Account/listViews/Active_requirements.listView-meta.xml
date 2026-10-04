@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_requirements</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Relationship_status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Relationship_status__c</field>
+        <operation>equals</operation>
+        <value>Active requirement</value>
+    </filters>
+    <label>Active requirements</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

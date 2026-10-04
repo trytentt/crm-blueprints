@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_type__c</fullName>
+    <description>The kind of retailer. Used for pricing, assortment and reporting.</description>
+    <label>Retailer type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Independent shop</fullName>
+                <default>false</default>
+                <label>Independent shop</label>
+            </value>
+            <value>
+                <fullName>Small chain</fullName>
+                <default>false</default>
+                <label>Small chain</label>
+            </value>
+            <value>
+                <fullName>National chain</fullName>
+                <default>false</default>
+                <label>National chain</label>
+            </value>
+            <value>
+                <fullName>Department store</fullName>
+                <default>false</default>
+                <label>Department store</label>
+            </value>
+            <value>
+                <fullName>Online-only retailer</fullName>
+                <default>false</default>
+                <label>Online-only retailer</label>
+            </value>
+            <value>
+                <fullName>Marketplace seller</fullName>
+                <default>false</default>
+                <label>Marketplace seller</label>
+            </value>
+            <value>
+                <fullName>Distributor</fullName>
+                <default>false</default>
+                <label>Distributor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

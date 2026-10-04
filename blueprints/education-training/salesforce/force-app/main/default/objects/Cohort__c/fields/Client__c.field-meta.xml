@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Names the client for an in-house cohort. Empty for open cohorts.</description>
+    <externalId>false</externalId>
+    <label>Client</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>In-house cohorts</relationshipLabel>
+    <relationshipName>In_house_cohorts</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

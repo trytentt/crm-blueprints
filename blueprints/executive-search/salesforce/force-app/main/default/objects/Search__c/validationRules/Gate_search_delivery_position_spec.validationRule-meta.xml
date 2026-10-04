@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_search_delivery_position_spec</fullName>
+    <active>true</active>
+    <description>Stage gate: Search delivery, Position specification and later stages need Partner and Consultant.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) &gt;= 1, OR(ISBLANK(Partner__c), ISBLANK(Consultant__c)))</errorConditionFormula>
+    <errorMessage>Fill in Partner and Consultant before moving to Position specification.</errorMessage>
+</ValidationRule>

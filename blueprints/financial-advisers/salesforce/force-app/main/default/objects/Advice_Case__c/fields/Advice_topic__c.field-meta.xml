@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advice_topic__c</fullName>
+    <description>The area of advice. Used to route work and report volumes.</description>
+    <label>Advice topic</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retirement</fullName>
+                <default>false</default>
+                <label>Retirement</label>
+            </value>
+            <value>
+                <fullName>Investments</fullName>
+                <default>false</default>
+                <label>Investments</label>
+            </value>
+            <value>
+                <fullName>Protection</fullName>
+                <default>false</default>
+                <label>Protection</label>
+            </value>
+            <value>
+                <fullName>Mortgage</fullName>
+                <default>false</default>
+                <label>Mortgage</label>
+            </value>
+            <value>
+                <fullName>Inheritance</fullName>
+                <default>false</default>
+                <label>Inheritance</label>
+            </value>
+            <value>
+                <fullName>General planning</fullName>
+                <default>false</default>
+                <label>General planning</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

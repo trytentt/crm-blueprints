@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sponsor_sales_negotiating</fullName>
+    <active>true</active>
+    <description>Stage gate: Sponsor sales, Negotiating and later stages need Amount, Payment terms and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) &gt;= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Payment_terms__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Payment terms and Next step date before moving to Negotiating.</errorMessage>
+</ValidationRule>

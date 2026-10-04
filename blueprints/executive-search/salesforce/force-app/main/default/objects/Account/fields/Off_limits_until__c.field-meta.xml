@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Off_limits_until__c</fullName>
+    <description>If the company is off-limits for candidate approaches because of a client agreement, the date that ends the restriction.</description>
+    <label>Off-limits until</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

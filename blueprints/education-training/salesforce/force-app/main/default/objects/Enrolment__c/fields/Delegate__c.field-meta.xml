@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delegate__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Gives each delegate a single history of everything they have attended.</description>
+    <externalId>false</externalId>
+    <label>Delegate</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Enrolments</relationshipLabel>
+    <relationshipName>Enrolments</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

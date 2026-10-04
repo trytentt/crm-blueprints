@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_contract_out</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Contract out and later stages need Amount, Close date and Contract term (months).</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) &gt;= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(Contract_term_months__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Contract term (months) before moving to Contract out.</errorMessage>
+</ValidationRule>

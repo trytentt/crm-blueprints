@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_client</fullName>
+    <active>true</active>
+    <businessProcess>New_client</businessProcess>
+    <description>New client</description>
+    <label>New client</label>
+    <picklistValues>
+        <picklist>Fee_basis_agreed__c</picklist>
+        <values>
+            <fullName>Not discussed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial plus ongoing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hourly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percentage of assets</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Chose another adviser</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fees too high</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No need now</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outside our service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Did not proceed after advice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Referral_source__c</picklist>
+        <values>
+            <fullName>Existing client</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accountant or solicitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employer or workplace</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seminar or event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Service_interest__c</picklist>
+        <values>
+            <fullName>Retirement planning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Protection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mortgages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inheritance planning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Whole-of-life planning</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

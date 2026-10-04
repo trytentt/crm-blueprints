@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_tier__c</fullName>
+    <description>The level of service the household pays for. Sets review frequency and who attends.</description>
+    <label>Service tier</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Premier</fullName>
+                <default>false</default>
+                <label>Premier</label>
+            </value>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Essential</fullName>
+                <default>false</default>
+                <label>Essential</label>
+            </value>
+            <value>
+                <fullName>One-off advice</fullName>
+                <default>false</default>
+                <label>One-off advice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

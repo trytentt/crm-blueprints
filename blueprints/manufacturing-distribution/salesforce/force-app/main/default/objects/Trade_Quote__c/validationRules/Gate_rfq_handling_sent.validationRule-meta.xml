@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_rfq_handling_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: RFQ handling, Sent and later stages need Quote value, Valid until and Lead time (days).</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) &gt;= 5, OR(ISBLANK(Value__c), ISBLANK(Valid_until__c), ISBLANK(Lead_time_days__c)))</errorConditionFormula>
+    <errorMessage>Fill in Quote value, Valid until and Lead time (days) before moving to Sent.</errorMessage>
+</ValidationRule>

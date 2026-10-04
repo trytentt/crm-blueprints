@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Board_seat__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>We hold a board seat or observer seat.</description>
+    <label>Board seat</label>
+    <type>Checkbox</type>
+</CustomField>

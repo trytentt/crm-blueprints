@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Sponsor sales path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Sponsor_objectives__c</fieldNames>
+        <info>Entered when a target company and a named marketing contact have been identified for an event.</info>
+        <picklistValueName>Prospect</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sponsor_objectives__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a discovery call has happened and the sponsor's goals are written down.</info>
+        <picklistValueName>Meeting held</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sponsor_tier__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <info>Entered when a proposal tied to the sponsor's goals, with tier and price, has been sent.</info>
+        <picklistValueName>Proposal sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Payment_terms__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the sponsor has asked for changes to the package, price or terms.</info>
+        <picklistValueName>Negotiating</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Payment_terms__c</fieldNames>
+        <info>Entered when final terms are agreed and the contract has been sent for signature.</info>
+        <picklistValueName>Contract out</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Contract_signed_date__c</fieldNames>
+        <fieldNames>Sponsor_tier__c</fieldNames>
+        <info>Entered when the signed contract is received and a fulfilment record is created.</info>
+        <picklistValueName>Signed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the sponsor says no, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Sponsor_sales</recordTypeName>
+</PathAssistant>

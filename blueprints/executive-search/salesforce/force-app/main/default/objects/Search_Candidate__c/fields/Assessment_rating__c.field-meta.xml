@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_rating__c</fullName>
+    <description>The consultant's rating after the first full interview. Decides whether the candidate reaches the shortlist.</description>
+    <label>Assessment rating</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strong</fullName>
+                <default>false</default>
+                <label>Strong</label>
+            </value>
+            <value>
+                <fullName>Good</fullName>
+                <default>false</default>
+                <label>Good</label>
+            </value>
+            <value>
+                <fullName>Marginal</fullName>
+                <default>false</default>
+                <label>Marginal</label>
+            </value>
+            <value>
+                <fullName>Not suitable</fullName>
+                <default>false</default>
+                <label>Not suitable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delivery_at_risk</fullName>
+    <active>true</active>
+    <description>Stage gate: Delivery, At risk and later stages need Health and Next review date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Onboarding", 1, "Kickoff done", 2, "First deliverables", 3, "Steady state", 4, "At risk", 5, "Wrapping up", 6, "Completed", 7, 0) &gt;= 5, OR(ISBLANK(TEXT(Health__c)), ISBLANK(Next_review_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Health and Next review date before moving to At risk.</errorMessage>
+</ValidationRule>

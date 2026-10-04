@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pql_queue</fullName>
+    <columns>NAME</columns>
+    <columns>Pql_score__c</columns>
+    <columns>Pql_status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Pql_status__c</field>
+        <operation>equals</operation>
+        <value>Qualified</value>
+    </filters>
+    <label>PQL queue</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

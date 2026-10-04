@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_project_delivery_cancelled</fullName>
+    <active>true</active>
+    <description>Lost reason: Project delivery, Cancelled needs Cancellation reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Cancelled"), ISBLANK(TEXT(Cancellation_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Cancellation_reason__c</errorDisplayField>
+    <errorMessage>Fill in Cancellation reason before closing this as Cancelled.</errorMessage>
+</ValidationRule>

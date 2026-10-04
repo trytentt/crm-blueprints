@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_budget_band__c</fullName>
+    <description>The client's annual marketing spend as they tell us. Used to judge fit before a proposal.</description>
+    <label>Marketing budget band</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Under 50k</fullName>
+                <default>false</default>
+                <label>Under 50k</label>
+            </value>
+            <value>
+                <fullName>50k to 250k</fullName>
+                <default>false</default>
+                <label>50k to 250k</label>
+            </value>
+            <value>
+                <fullName>250k to 1m</fullName>
+                <default>false</default>
+                <label>250k to 1m</label>
+            </value>
+            <value>
+                <fullName>Over 1m</fullName>
+                <default>false</default>
+                <label>Over 1m</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_tender_estimate_estimating</fullName>
+    <active>true</active>
+    <description>Stage gate: Tender and estimate, Estimating and later stages need Site visit done and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Tender_estimate", CASE(StageName, "Opportunity", 1, "Go or no-go", 2, "Estimating", 3, "Bid submitted", 4, "Clarification", 5, "Preferred bidder", 6, "Awarded", 7, 0) &gt;= 3, OR(NOT(Site_visit_done__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Site visit done and Next step date before moving to Estimating.</errorMessage>
+</ValidationRule>

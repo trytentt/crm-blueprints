@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_portfolio_outcome_exit_preparation</fullName>
+    <active>true</active>
+    <description>Stage gate: Portfolio outcome, Exit preparation and later stages need Latest valuation.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) &gt;= 3, ISBLANK(Latest_valuation__c))</errorConditionFormula>
+    <errorDisplayField>Latest_valuation__c</errorDisplayField>
+    <errorMessage>Fill in Latest valuation before moving to Exit preparation.</errorMessage>
+</ValidationRule>

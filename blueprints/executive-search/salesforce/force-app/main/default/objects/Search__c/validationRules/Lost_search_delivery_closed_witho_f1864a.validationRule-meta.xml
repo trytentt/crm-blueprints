@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_search_delivery_closed_witho_f1864a</fullName>
+    <active>true</active>
+    <description>Lost reason: Search delivery, Closed without placement needs Close reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Closed without placement"), ISBLANK(TEXT(Close_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Close_reason__c</errorDisplayField>
+    <errorMessage>Fill in Close reason before closing this as Closed without placement.</errorMessage>
+</ValidationRule>

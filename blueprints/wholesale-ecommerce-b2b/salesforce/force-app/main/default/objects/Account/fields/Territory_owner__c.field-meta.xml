@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Territory_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The sales rep who looks after this retailer. Normally the rep of its territory.</description>
+    <label>Account rep</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Companies Account rep</relationshipLabel>
+    <relationshipName>Account_Territory_owner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

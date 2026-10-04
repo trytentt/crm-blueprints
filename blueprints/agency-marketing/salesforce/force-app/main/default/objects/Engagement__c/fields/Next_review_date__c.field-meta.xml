@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_review_date__c</fullName>
+    <description>The date of the next client review meeting. Empty means no review is booked.</description>
+    <label>Next review date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

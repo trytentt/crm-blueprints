@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Needs_summary__c</fullName>
+    <description>The training need found in the needs analysis. Covers who needs training, the gap today and how success will be judged.</description>
+    <label>Needs summary</label>
+    <length>32768</length>
+    <required>false</required>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

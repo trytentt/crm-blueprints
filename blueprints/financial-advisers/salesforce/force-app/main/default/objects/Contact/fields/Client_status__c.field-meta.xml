@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_status__c</fullName>
+    <description>Where this person is with the practice. Drives views and which automations apply.</description>
+    <label>Client status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospect</fullName>
+                <default>false</default>
+                <label>Prospect</label>
+            </value>
+            <value>
+                <fullName>Client</fullName>
+                <default>false</default>
+                <label>Client</label>
+            </value>
+            <value>
+                <fullName>Former client</fullName>
+                <default>false</default>
+                <label>Former client</label>
+            </value>
+            <value>
+                <fullName>Professional contact</fullName>
+                <default>false</default>
+                <label>Professional contact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_exhibitor_sales_qualified</fullName>
+    <active>true</active>
+    <description>Stage gate: Exhibitor sales, Qualified and later stages need Stand size (sqm) and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) &gt;= 2, OR(ISBLANK(Stand_size_sqm__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Stand size (sqm) and Next step date before moving to Qualified.</errorMessage>
+</ValidationRule>

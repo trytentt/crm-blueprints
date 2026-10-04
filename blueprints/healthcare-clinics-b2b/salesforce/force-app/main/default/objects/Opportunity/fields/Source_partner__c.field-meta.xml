@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_partner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Credits the partner that introduced a deal, so partner value can be reported.</description>
+    <externalId>false</externalId>
+    <label>Source partner</label>
+    <referenceTo>Referral_Agreement__c</referenceTo>
+    <relationshipLabel>Deals sourced</relationshipLabel>
+    <relationshipName>Deals_sourced</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

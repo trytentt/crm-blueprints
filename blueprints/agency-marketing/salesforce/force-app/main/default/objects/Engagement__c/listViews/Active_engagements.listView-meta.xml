@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_engagements</fullName>
+    <columns>NAME</columns>
+    <columns>Stage__c</columns>
+    <columns>Health__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Stage__c</field>
+        <operation>equals</operation>
+        <value>Onboarding,Kickoff done,First deliverables,Steady state,At risk,Wrapping up</value>
+    </filters>
+    <label>Active engagements</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

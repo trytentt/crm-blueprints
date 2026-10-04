@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_matter_delivery_closed</fullName>
+    <active>true</active>
+    <description>Stage gate: Matter delivery, Closed and later stages need Target end date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Opening", 1, "Cleared to start", 2, "In progress", 3, "Awaiting client", 4, "Final billing", 5, "Closed", 6, 0) &gt;= 6, ISBLANK(Target_end_date__c))</errorConditionFormula>
+    <errorDisplayField>Target_end_date__c</errorDisplayField>
+    <errorMessage>Fill in Target end date before moving to Closed.</errorMessage>
+</ValidationRule>

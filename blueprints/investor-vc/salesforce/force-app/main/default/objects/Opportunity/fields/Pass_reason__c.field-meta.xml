@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pass_reason__c</fullName>
+    <description>Why we passed on the company. Required on the passed stage. Reported to refine the thesis.</description>
+    <label>Pass reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Outside thesis</fullName>
+                <default>false</default>
+                <label>Outside thesis</label>
+            </value>
+            <value>
+                <fullName>Team concerns</fullName>
+                <default>false</default>
+                <label>Team concerns</label>
+            </value>
+            <value>
+                <fullName>Market too small</fullName>
+                <default>false</default>
+                <label>Market too small</label>
+            </value>
+            <value>
+                <fullName>Not enough traction</fullName>
+                <default>false</default>
+                <label>Not enough traction</label>
+            </value>
+            <value>
+                <fullName>Valuation too high</fullName>
+                <default>false</default>
+                <label>Valuation too high</label>
+            </value>
+            <value>
+                <fullName>Terms not agreed</fullName>
+                <default>false</default>
+                <label>Terms not agreed</label>
+            </value>
+            <value>
+                <fullName>Diligence issue</fullName>
+                <default>false</default>
+                <label>Diligence issue</label>
+            </value>
+            <value>
+                <fullName>Lost the round</fullName>
+                <default>false</default>
+                <label>Lost the round</label>
+            </value>
+            <value>
+                <fullName>Too early or too late</fullName>
+                <default>false</default>
+                <label>Too early or too late</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

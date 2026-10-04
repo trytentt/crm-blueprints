@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_conversation</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Conversation and later stages need Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 2, ISBLANK(Next_step_date__c))</errorConditionFormula>
+    <errorDisplayField>Next_step_date__c</errorDisplayField>
+    <errorMessage>Fill in Next step date before moving to Conversation.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partner_contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Names the business contact who manages the partnership. Never a patient.</description>
+    <externalId>false</externalId>
+    <label>Partner contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Referral agreements</relationshipLabel>
+    <relationshipName>Referral_agreements</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

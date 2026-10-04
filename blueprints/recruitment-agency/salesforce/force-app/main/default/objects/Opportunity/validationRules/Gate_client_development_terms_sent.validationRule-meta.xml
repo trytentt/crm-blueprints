@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_client_development_terms_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Client development, Terms sent and later stages need Search model, Fee percent and Exclusivity.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) &gt;= 4, OR(ISBLANK(TEXT(Search_model__c)), ISBLANK(Fee_percent__c), ISBLANK(TEXT(Exclusivity__c))))</errorConditionFormula>
+    <errorMessage>Fill in Search model, Fee percent and Exclusivity before moving to Terms sent.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_partner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The partner responsible for supporting the company.</description>
+    <label>Lead partner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Portfolio investments Lead partner</relationshipLabel>
+    <relationshipName>Portfolio_Investment_Lead_partner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

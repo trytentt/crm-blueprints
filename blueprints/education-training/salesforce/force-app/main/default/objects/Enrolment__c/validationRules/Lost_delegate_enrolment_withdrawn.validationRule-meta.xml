@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_delegate_enrolment_withdrawn</fullName>
+    <active>true</active>
+    <description>Lost reason: Delegate enrolment, Withdrawn needs Withdrawal reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Withdrawn"), ISBLANK(TEXT(Withdrawal_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Withdrawal_reason__c</errorDisplayField>
+    <errorMessage>Fill in Withdrawal reason before closing this as Withdrawn.</errorMessage>
+</ValidationRule>

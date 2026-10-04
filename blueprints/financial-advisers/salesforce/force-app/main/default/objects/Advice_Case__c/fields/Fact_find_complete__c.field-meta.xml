@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fact_find_complete__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <defaultValue>false</defaultValue>
+    <description>DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have been gathered and checked. The detail is held in the planning system.</description>
+    <label>Fact find complete</label>
+    <securityClassification>Confidential</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

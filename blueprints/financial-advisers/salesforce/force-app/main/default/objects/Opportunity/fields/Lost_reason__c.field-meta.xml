@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the prospect did not become a client. Required on the lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Chose another adviser</fullName>
+                <default>false</default>
+                <label>Chose another adviser</label>
+            </value>
+            <value>
+                <fullName>Fees too high</fullName>
+                <default>false</default>
+                <label>Fees too high</label>
+            </value>
+            <value>
+                <fullName>No need now</fullName>
+                <default>false</default>
+                <label>No need now</label>
+            </value>
+            <value>
+                <fullName>Outside our service</fullName>
+                <default>false</default>
+                <label>Outside our service</label>
+            </value>
+            <value>
+                <fullName>Did not proceed after advice</fullName>
+                <default>false</default>
+                <label>Did not proceed after advice</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

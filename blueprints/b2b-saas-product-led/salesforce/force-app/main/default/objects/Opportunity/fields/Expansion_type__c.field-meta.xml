@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expansion_type__c</fullName>
+    <description>What the expansion deal adds. Used to report where expansion revenue comes from.</description>
+    <label>Expansion type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>More seats</fullName>
+                <default>false</default>
+                <label>More seats</label>
+            </value>
+            <value>
+                <fullName>Plan upgrade</fullName>
+                <default>false</default>
+                <label>Plan upgrade</label>
+            </value>
+            <value>
+                <fullName>Add-on</fullName>
+                <default>false</default>
+                <label>Add-on</label>
+            </value>
+            <value>
+                <fullName>New team or department</fullName>
+                <default>false</default>
+                <label>New team or department</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

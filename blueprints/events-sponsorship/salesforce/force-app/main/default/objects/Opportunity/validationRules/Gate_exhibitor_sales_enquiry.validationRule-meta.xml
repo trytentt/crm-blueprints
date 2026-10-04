@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_exhibitor_sales_enquiry</fullName>
+    <active>true</active>
+    <description>Stage gate: Exhibitor sales, Enquiry and later stages need Stand type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) &gt;= 1, ISBLANK(TEXT(Stand_type__c)))</errorConditionFormula>
+    <errorDisplayField>Stand_type__c</errorDisplayField>
+    <errorMessage>Fill in Stand type before moving to Enquiry.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_type__c</fullName>
+    <description>What the company does with our products. Used to route enquiries and report by channel.</description>
+    <label>Account type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>OEM or manufacturer</fullName>
+                <default>false</default>
+                <label>OEM or manufacturer</label>
+            </value>
+            <value>
+                <fullName>Contractor or installer</fullName>
+                <default>false</default>
+                <label>Contractor or installer</label>
+            </value>
+            <value>
+                <fullName>Reseller or dealer</fullName>
+                <default>false</default>
+                <label>Reseller or dealer</label>
+            </value>
+            <value>
+                <fullName>End user</fullName>
+                <default>false</default>
+                <label>End user</label>
+            </value>
+            <value>
+                <fullName>Public sector</fullName>
+                <default>false</default>
+                <label>Public sector</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

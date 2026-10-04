@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_renewals_expansion_churned</fullName>
+    <active>true</active>
+    <description>Lost reason: Renewals and expansion, Churned needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Renewals_expansion", ISPICKVAL(StageName, "Churned"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Churned.</errorMessage>
+</ValidationRule>

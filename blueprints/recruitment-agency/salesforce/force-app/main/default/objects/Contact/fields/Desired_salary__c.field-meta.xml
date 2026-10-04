@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Desired_salary__c</fullName>
+    <description>For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.</description>
+    <label>Desired salary</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Currency</type>
+</CustomField>

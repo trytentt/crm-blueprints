@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Proposal sent and later stages need Amount, Decision date and Competitive pitch.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Lead", 1, "Discovery", 2, "Brief and scope", 3, "Proposal sent (New business)", 4, "Pitch or review", 5, "Negotiation (New business)", 6, "Closed won", 7, 0) &gt;= 4, OR(ISBLANK(Amount), ISBLANK(Decision_date__c), NOT(Competitive_pitch__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Decision date and Competitive pitch before moving to Proposal sent.</errorMessage>
+</ValidationRule>

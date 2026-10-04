@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Contract renewals path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Renewal_risk__c</fieldNames>
+        <info>Entered when the service contract is 90 days from its renewal date.</info>
+        <picklistValueName>Upcoming</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Renewal_risk__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a service review with the customer has been held.</info>
+        <picklistValueName>Review meeting</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Pricing_model__c</fieldNames>
+        <fieldNames>Contract_term_months__c</fieldNames>
+        <info>Entered when renewal pricing and terms have been sent to the buyer.</info>
+        <picklistValueName>Terms proposed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the final renewal contract has been sent for signature.</info>
+        <picklistValueName>Awaiting signature</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the signed renewal is received and the contract dates are updated.</info>
+        <picklistValueName>Renewed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the customer confirms they will not renew, or the term ends unsigned.</info>
+        <picklistValueName>Not renewed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Contract_renewals</recordTypeName>
+</PathAssistant>

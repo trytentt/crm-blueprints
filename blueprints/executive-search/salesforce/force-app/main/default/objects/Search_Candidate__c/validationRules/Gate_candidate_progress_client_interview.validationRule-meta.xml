@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_candidate_progress_client_interview</fullName>
+    <active>true</active>
+    <description>Stage gate: Candidate progress, Client interview and later stages need Client interview date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) &gt;= 6, ISBLANK(Client_interview_date__c))</errorConditionFormula>
+    <errorDisplayField>Client_interview_date__c</errorDisplayField>
+    <errorMessage>Fill in Client interview date before moving to Client interview.</errorMessage>
+</ValidationRule>

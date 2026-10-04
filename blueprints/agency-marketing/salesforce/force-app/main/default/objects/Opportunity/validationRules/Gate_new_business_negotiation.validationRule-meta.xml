@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_negotiation</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Negotiation and later stages need Amount and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Lead", 1, "Discovery", 2, "Brief and scope", 3, "Proposal sent (New business)", 4, "Pitch or review", 5, "Negotiation (New business)", 6, "Closed won", 7, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Close date before moving to Negotiation.</errorMessage>
+</ValidationRule>

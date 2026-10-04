@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_search_delivery_market_mapping</fullName>
+    <active>true</active>
+    <description>Stage gate: Search delivery, Market mapping and later stages need Engaged date and Target shortlist date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) &gt;= 2, OR(ISBLANK(Engaged_date__c), ISBLANK(Target_shortlist_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Engaged date and Target shortlist date before moving to Market mapping.</errorMessage>
+</ValidationRule>

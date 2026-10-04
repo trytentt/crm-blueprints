@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Attitude_to_risk__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <description>DATA PROTECTION: personal financial data. The risk level agreed with the client from the practice's risk questionnaire. Reconfirmed at each review.</description>
+    <label>Attitude to risk</label>
+    <required>false</required>
+    <securityClassification>Confidential</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cautious</fullName>
+                <default>false</default>
+                <label>Cautious</label>
+            </value>
+            <value>
+                <fullName>Cautious to balanced</fullName>
+                <default>false</default>
+                <label>Cautious to balanced</label>
+            </value>
+            <value>
+                <fullName>Balanced</fullName>
+                <default>false</default>
+                <label>Balanced</label>
+            </value>
+            <value>
+                <fullName>Balanced to adventurous</fullName>
+                <default>false</default>
+                <label>Balanced to adventurous</label>
+            </value>
+            <value>
+                <fullName>Adventurous</fullName>
+                <default>false</default>
+                <label>Adventurous</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

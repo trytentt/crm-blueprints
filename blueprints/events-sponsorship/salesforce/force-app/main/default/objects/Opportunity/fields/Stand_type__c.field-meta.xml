@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stand_type__c</fullName>
+    <description>The kind of stand being sold. Sets price and build requirements.</description>
+    <label>Stand type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Shell scheme</fullName>
+                <default>false</default>
+                <label>Shell scheme</label>
+            </value>
+            <value>
+                <fullName>Space only</fullName>
+                <default>false</default>
+                <label>Space only</label>
+            </value>
+            <value>
+                <fullName>Premium corner</fullName>
+                <default>false</default>
+                <label>Premium corner</label>
+            </value>
+            <value>
+                <fullName>Tabletop</fullName>
+                <default>false</default>
+                <label>Tabletop</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

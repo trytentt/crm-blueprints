@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_review_cycle_meeting_held</fullName>
+    <active>true</active>
+    <description>Stage gate: Review cycle, Meeting held and later stages need Circumstances changed and Risk profile reconfirmed.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) &gt;= 4, OR(NOT(Circumstances_changed__c), NOT(Risk_profile_reconfirmed__c)))</errorConditionFormula>
+    <errorMessage>Fill in Circumstances changed and Risk profile reconfirmed before moving to Meeting held.</errorMessage>
+</ValidationRule>

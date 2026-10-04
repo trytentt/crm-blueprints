@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sponsor_sales_prospect</fullName>
+    <active>true</active>
+    <description>Stage gate: Sponsor sales, Prospect and later stages need Sponsor objectives.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) &gt;= 1, ISBLANK(Sponsor_objectives__c))</errorConditionFormula>
+    <errorDisplayField>Sponsor_objectives__c</errorDisplayField>
+    <errorMessage>Fill in Sponsor objectives before moving to Prospect.</errorMessage>
+</ValidationRule>

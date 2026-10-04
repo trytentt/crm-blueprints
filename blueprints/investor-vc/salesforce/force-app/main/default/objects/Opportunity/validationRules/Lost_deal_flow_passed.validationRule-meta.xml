@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_deal_flow_passed</fullName>
+    <active>true</active>
+    <description>Lost reason: Deal flow, Passed needs Pass reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Deal_flow", ISPICKVAL(StageName, "Passed"), ISBLANK(TEXT(Pass_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Pass_reason__c</errorDisplayField>
+    <errorMessage>Fill in Pass reason before closing this as Passed.</errorMessage>
+</ValidationRule>

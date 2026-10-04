@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Paying_employer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows what an employer has booked in total, for repeat-booking follow-up.</description>
+    <externalId>false</externalId>
+    <label>Paying employer</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Enrolments</relationshipLabel>
+    <relationshipName>Enrolments</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

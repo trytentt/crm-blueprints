@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_letting_requirement_qualified</fullName>
+    <active>true</active>
+    <description>Stage gate: Letting, Requirement qualified and later stages need Size required (sq ft), Target move date and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) &gt;= 2, OR(ISBLANK(Requirement_size_sqft__c), ISBLANK(Target_move_date__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Size required (sq ft), Target move date and Next step date before moving to Requirement qualified.</errorMessage>
+</ValidationRule>

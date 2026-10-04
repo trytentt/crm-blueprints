@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_advice_delivery_accepted</fullName>
+    <active>true</active>
+    <description>Stage gate: Advice delivery, Accepted and later stages need Client decision.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) &gt;= 5, ISBLANK(TEXT(Client_decision__c)))</errorConditionFormula>
+    <errorDisplayField>Client_decision__c</errorDisplayField>
+    <errorMessage>Fill in Client decision before moving to Accepted.</errorMessage>
+</ValidationRule>

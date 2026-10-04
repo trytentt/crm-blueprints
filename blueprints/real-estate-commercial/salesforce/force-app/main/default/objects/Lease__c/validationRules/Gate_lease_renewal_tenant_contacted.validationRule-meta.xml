@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_lease_renewal_tenant_contacted</fullName>
+    <active>true</active>
+    <description>Stage gate: Lease renewal, Tenant contacted and later stages need Lease manager.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) &gt;= 2, ISBLANK(Managing_owner__c))</errorConditionFormula>
+    <errorDisplayField>Managing_owner__c</errorDisplayField>
+    <errorMessage>Fill in Lease manager before moving to Tenant contacted.</errorMessage>
+</ValidationRule>

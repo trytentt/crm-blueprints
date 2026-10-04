@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the retailer did not open an account. Required on the lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Range does not fit the shop</fullName>
+                <default>false</default>
+                <label>Range does not fit the shop</label>
+            </value>
+            <value>
+                <fullName>Opening minimum too high</fullName>
+                <default>false</default>
+                <label>Opening minimum too high</label>
+            </value>
+            <value>
+                <fullName>Margin too low</fullName>
+                <default>false</default>
+                <label>Margin too low</label>
+            </value>
+            <value>
+                <fullName>Stocks a competing brand</fullName>
+                <default>false</default>
+                <label>Stocks a competing brand</label>
+            </value>
+            <value>
+                <fullName>Credit declined</fullName>
+                <default>false</default>
+                <label>Credit declined</label>
+            </value>
+            <value>
+                <fullName>Missed the buying season</fullName>
+                <default>false</default>
+                <label>Missed the buying season</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

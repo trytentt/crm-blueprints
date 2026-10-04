@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscription__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Tracks the work of getting each subscription live.</description>
+    <externalId>false</externalId>
+    <label>Subscription</label>
+    <referenceTo>Subscription__c</referenceTo>
+    <relationshipLabel>Onboardings</relationshipLabel>
+    <relationshipName>Onboardings</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_client_initial_meeting_held</fullName>
+    <active>true</active>
+    <description>Stage gate: New client, Initial meeting held and later stages need Initial meeting held and Expected investable assets.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) &gt;= 3, OR(NOT(Initial_meeting_held__c), ISBLANK(Expected_investable_assets__c)))</errorConditionFormula>
+    <errorMessage>Fill in Initial meeting held and Expected investable assets before moving to Initial meeting held.</errorMessage>
+</ValidationRule>

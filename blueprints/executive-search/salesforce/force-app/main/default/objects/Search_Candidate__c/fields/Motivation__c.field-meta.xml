@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Motivation__c</fullName>
+    <description>How open the candidate is to moving. Used to prioritise outreach.</description>
+    <label>Motivation</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Actively looking</fullName>
+                <default>false</default>
+                <label>Actively looking</label>
+            </value>
+            <value>
+                <fullName>Open to move</fullName>
+                <default>false</default>
+                <label>Open to move</label>
+            </value>
+            <value>
+                <fullName>Would consider for the right role</fullName>
+                <default>false</default>
+                <label>Would consider for the right role</label>
+            </value>
+            <value>
+                <fullName>Not interested</fullName>
+                <default>false</default>
+                <label>Not interested</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

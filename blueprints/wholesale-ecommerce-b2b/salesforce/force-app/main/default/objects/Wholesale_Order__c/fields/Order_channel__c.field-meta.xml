@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_channel__c</fullName>
+    <description>How the order was placed. Used to see how much sells through the portal and how much through reps.</description>
+    <label>Order channel</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wholesale portal</fullName>
+                <default>false</default>
+                <label>Wholesale portal</label>
+            </value>
+            <value>
+                <fullName>Rep</fullName>
+                <default>false</default>
+                <label>Rep</label>
+            </value>
+            <value>
+                <fullName>Trade show</fullName>
+                <default>false</default>
+                <label>Trade show</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>EDI</fullName>
+                <default>false</default>
+                <label>EDI</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

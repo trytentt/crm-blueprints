@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_sales_assist_closed_lost</fullName>
+    <active>true</active>
+    <description>Lost reason: Sales assist, Closed lost needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Closed lost.</errorMessage>
+</ValidationRule>

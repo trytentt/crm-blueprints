@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_deal_flow_screening</fullName>
+    <active>true</active>
+    <description>Stage gate: Deal flow, Screening and later stages need Deal lead and Round type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) &gt;= 2, OR(ISBLANK(Deal_lead__c), ISBLANK(TEXT(Round_type__c))))</errorConditionFormula>
+    <errorMessage>Fill in Deal lead and Round type before moving to Screening.</errorMessage>
+</ValidationRule>

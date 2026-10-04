@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the opportunity was lost. Required on the lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Price</fullName>
+                <default>false</default>
+                <label>Price</label>
+            </value>
+            <value>
+                <fullName>Lead time</fullName>
+                <default>false</default>
+                <label>Lead time</label>
+            </value>
+            <value>
+                <fullName>Stayed with current supplier</fullName>
+                <default>false</default>
+                <label>Stayed with current supplier</label>
+            </value>
+            <value>
+                <fullName>Specification not met</fullName>
+                <default>false</default>
+                <label>Specification not met</label>
+            </value>
+            <value>
+                <fullName>Credit declined</fullName>
+                <default>false</default>
+                <label>Credit declined</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Project cancelled</fullName>
+                <default>false</default>
+                <label>Project cancelled</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

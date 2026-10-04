@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Funding_source__c</fullName>
+    <description>Where the money comes from. Funded routes need extra paperwork before booking.</description>
+    <label>Funding source</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Company budget</fullName>
+                <default>false</default>
+                <label>Company budget</label>
+            </value>
+            <value>
+                <fullName>Apprenticeship levy funds</fullName>
+                <default>false</default>
+                <label>Apprenticeship levy funds</label>
+            </value>
+            <value>
+                <fullName>Grant or public funding</fullName>
+                <default>false</default>
+                <label>Grant or public funding</label>
+            </value>
+            <value>
+                <fullName>Self-funded by delegate</fullName>
+                <default>false</default>
+                <label>Self-funded by delegate</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

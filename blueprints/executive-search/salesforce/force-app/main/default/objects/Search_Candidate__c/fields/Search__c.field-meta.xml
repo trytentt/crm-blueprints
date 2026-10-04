@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lists every individual considered for the search, with their stage.</description>
+    <externalId>false</externalId>
+    <label>Search</label>
+    <referenceTo>Search__c</referenceTo>
+    <relationshipLabel>Candidates</relationshipLabel>
+    <relationshipName>Candidates</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parties_checked__c</fullName>
+    <description>Names of every party searched, including the client, related companies and adverse parties. Names only, no matter detail.</description>
+    <label>Parties checked</label>
+    <length>32768</length>
+    <required>false</required>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

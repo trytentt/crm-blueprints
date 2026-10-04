@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed_start_date__c</fullName>
+    <description>The date the buyer would like the first session to run.</description>
+    <label>Proposed start date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_type__c</fullName>
+    <description>The kind of review. Used to prepare the right agenda.</description>
+    <label>Review type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Annual</fullName>
+                <default>false</default>
+                <label>Annual</label>
+            </value>
+            <value>
+                <fullName>Six-monthly</fullName>
+                <default>false</default>
+                <label>Six-monthly</label>
+            </value>
+            <value>
+                <fullName>Life event</fullName>
+                <default>false</default>
+                <label>Life event</label>
+            </value>
+            <value>
+                <fullName>Ad hoc</fullName>
+                <default>false</default>
+                <label>Ad hoc</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_reason__c</fullName>
+    <description>Why the quote was lost or not quoted. Required on the lost stage.</description>
+    <label>Decline reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Price</fullName>
+                <default>false</default>
+                <label>Price</label>
+            </value>
+            <value>
+                <fullName>Lead time</fullName>
+                <default>false</default>
+                <label>Lead time</label>
+            </value>
+            <value>
+                <fullName>Cannot supply</fullName>
+                <default>false</default>
+                <label>Cannot supply</label>
+            </value>
+            <value>
+                <fullName>Specification not met</fullName>
+                <default>false</default>
+                <label>Specification not met</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Bought elsewhere</fullName>
+                <default>false</default>
+                <label>Bought elsewhere</label>
+            </value>
+            <value>
+                <fullName>Out of scope</fullName>
+                <default>false</default>
+                <label>Out of scope</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

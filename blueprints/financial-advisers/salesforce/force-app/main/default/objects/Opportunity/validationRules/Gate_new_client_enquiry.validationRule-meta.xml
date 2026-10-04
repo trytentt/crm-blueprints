@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_client_enquiry</fullName>
+    <active>true</active>
+    <description>Stage gate: New client, Enquiry and later stages need Referral source.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) &gt;= 1, ISBLANK(TEXT(Referral_source__c)))</errorConditionFormula>
+    <errorDisplayField>Referral_source__c</errorDisplayField>
+    <errorMessage>Fill in Referral source before moving to Enquiry.</errorMessage>
+</ValidationRule>

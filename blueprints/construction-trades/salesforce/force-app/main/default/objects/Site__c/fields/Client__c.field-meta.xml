@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows every site a client owns or manages.</description>
+    <externalId>false</externalId>
+    <label>Client</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Sites</relationshipLabel>
+    <relationshipName>Sites</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

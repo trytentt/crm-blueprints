@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_type__c</fullName>
+    <description>What kind of client or partner this is. Drives pricing approach and reporting.</description>
+    <label>Client type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Main contractor</fullName>
+                <default>false</default>
+                <label>Main contractor</label>
+            </value>
+            <value>
+                <fullName>Developer</fullName>
+                <default>false</default>
+                <label>Developer</label>
+            </value>
+            <value>
+                <fullName>Housing provider</fullName>
+                <default>false</default>
+                <label>Housing provider</label>
+            </value>
+            <value>
+                <fullName>Public body</fullName>
+                <default>false</default>
+                <label>Public body</label>
+            </value>
+            <value>
+                <fullName>Private commercial</fullName>
+                <default>false</default>
+                <label>Private commercial</label>
+            </value>
+            <value>
+                <fullName>Facilities manager</fullName>
+                <default>false</default>
+                <label>Facilities manager</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

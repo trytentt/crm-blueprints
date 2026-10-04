@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_letting_enquiry</fullName>
+    <active>true</active>
+    <description>Stage gate: Letting, Enquiry and later stages need Instruction type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) &gt;= 1, ISBLANK(TEXT(Instruction_type__c)))</errorConditionFormula>
+    <errorDisplayField>Instruction_type__c</errorDisplayField>
+    <errorMessage>Fill in Instruction type before moving to Enquiry.</errorMessage>
+</ValidationRule>

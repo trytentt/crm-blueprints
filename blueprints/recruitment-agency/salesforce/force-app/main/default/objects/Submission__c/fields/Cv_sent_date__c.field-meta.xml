@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cv_sent_date__c</fullName>
+    <description>The day the candidate was formally submitted to the client.</description>
+    <label>CV sent date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

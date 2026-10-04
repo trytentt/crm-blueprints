@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Viewing_held__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>At least one viewing of the space has taken place with a decision maker.</description>
+    <label>Viewing held</label>
+    <type>Checkbox</type>
+</CustomField>

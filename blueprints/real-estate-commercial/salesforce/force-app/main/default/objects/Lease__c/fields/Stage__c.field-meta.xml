@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Where the record is in its pipeline. Restricted to the pipeline's stages.</description>
+    <label>Stage</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Upcoming</fullName>
+                <default>false</default>
+                <label>Upcoming</label>
+            </value>
+            <value>
+                <fullName>Tenant contacted</fullName>
+                <default>false</default>
+                <label>Tenant contacted</label>
+            </value>
+            <value>
+                <fullName>Terms discussed</fullName>
+                <default>false</default>
+                <label>Terms discussed</label>
+            </value>
+            <value>
+                <fullName>Renewal agreed</fullName>
+                <default>false</default>
+                <label>Renewal agreed</label>
+            </value>
+            <value>
+                <fullName>Renewed</fullName>
+                <default>false</default>
+                <label>Renewed</label>
+            </value>
+            <value>
+                <fullName>Not renewed</fullName>
+                <default>false</default>
+                <label>Not renewed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

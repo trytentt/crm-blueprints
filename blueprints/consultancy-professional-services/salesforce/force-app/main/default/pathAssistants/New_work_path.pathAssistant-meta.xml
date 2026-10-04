@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>New work path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Service_area__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a prospective client or referrer has asked us about a piece of work.</info>
+        <picklistValueName>Enquiry</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lead_partner__c</fieldNames>
+        <fieldNames>Scope_summary__c</fieldNames>
+        <info>Entered when a partner has agreed the work is in our expertise, we have capacity, and the prospect has been told fees are charged.</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Conflict_check_result__c</fieldNames>
+        <info>Entered when the parties have been sent to risk or compliance for a conflict check.</info>
+        <picklistValueName>Conflict check</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Conflict_check_result__c</fieldNames>
+        <fieldNames>Billing_model__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <info>Entered when the conflict check is cleared and a scoped proposal with a billing model is being prepared.</info>
+        <picklistValueName>Proposal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the proposal has been sent to the instructing decision maker.</info>
+        <picklistValueName>Proposal sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Billing_model__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the client has accepted the scope and fees in principle and is waiting for the engagement letter.</info>
+        <picklistValueName>Terms agreed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Engagement_letter_status__c</fieldNames>
+        <fieldNames>Conflict_check_result__c</fieldNames>
+        <info>Entered when the engagement letter has been sent for signature.</info>
+        <picklistValueName>Engagement letter out</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Engagement_letter_status__c</fieldNames>
+        <info>Entered when the signed engagement letter is received and the matter record is created.</info>
+        <picklistValueName>Closed won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the prospect declines, we decline the work, or there has been no reply after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>New_work</recordTypeName>
+</PathAssistant>

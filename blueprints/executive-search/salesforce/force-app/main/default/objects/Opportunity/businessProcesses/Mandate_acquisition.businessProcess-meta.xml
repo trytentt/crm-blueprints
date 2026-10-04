@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BusinessProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandate_acquisition</fullName>
+    <description>Mandate acquisition</description>
+    <isActive>true</isActive>
+    <values>
+        <fullName>Target</fullName>
+        <default>true</default>
+    </values>
+    <values>
+        <fullName>Introduction</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Brief</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Proposal sent</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Pitch or finalist</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Terms agreed</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Mandate won</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Mandate lost</fullName>
+        <default>false</default>
+    </values>
+</BusinessProcess>

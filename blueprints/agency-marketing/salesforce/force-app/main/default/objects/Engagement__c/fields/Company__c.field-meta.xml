@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows every retainer and project a client has had with us.</description>
+    <externalId>false</externalId>
+    <label>Company</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Engagements</relationshipLabel>
+    <relationshipName>Engagements</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

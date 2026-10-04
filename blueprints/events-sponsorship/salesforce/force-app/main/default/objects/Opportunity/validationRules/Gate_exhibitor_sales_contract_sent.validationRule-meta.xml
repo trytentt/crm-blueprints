@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_exhibitor_sales_contract_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Exhibitor sales, Contract sent and later stages need Amount, Payment terms and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) &gt;= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Payment_terms__c)), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Payment terms and Close date before moving to Contract sent.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,476 @@
+# Build sheet: Education and training providers, B2B (salesforce)
+
+A training provider that sells programmes to employers (in-house, bespoke or seats on open courses) and enrols individual delegates onto scheduled cohorts. Corporate deals and delegate enrolments run as separate pipelines. Programmes, cohorts and enrolments are their own objects so that delivery never clutters the sales pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is delivery tracked on programme, cohort and enrolment objects rather than as stages on the deal?**
+  - Recommended default: Yes. The corporate deal ends at booked. A cohort and its enrolments carry dates, capacity and completion, owned by the trainer or course administrator rather than the salesperson.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are delegates stored as People records even when the employer pays?**
+  - Recommended default: Yes. One person, one record, matched by work email. Their enrolments show every programme they have attended. A delegate who later becomes a buyer only has their buying role changed.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does every delegate go through the enrolment pipeline, or only open-course bookings?**
+  - Recommended default: Every delegate. For in-house deals the enrolments are created in bulk at the applied stage from the client's list. Light-touch clients can stay at enrolled with payment status not due.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow the three custom objects, and a pipeline on a custom object?**
+  - Recommended default: Check before the build. If not, model cohort and enrolment as a deal pipeline with one deal per delegate and cohort fields on the deal, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM hold attendance, assessment results and certificates?**
+  - Recommended default: No. Keep those in the learning platform. The CRM holds only completion status per enrolment. This keeps learner records, which may include children's or sensitive data, out of the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are open-course bookings and in-house bespoke work sold by the same team?**
+  - Recommended default: Yes for the first build, using the delivery format field. Split into two deal pipelines only if the stages or owners differ in practice.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Programme**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Programme, plural Programmes, API name `Programme__c`, record name a Text field.
+  - Purpose: One course or qualification in the catalogue, with its format, length and list price. A programme is what is sold. A cohort is a dated run of it.
+  - Done when: the object Programme exists with plural name Programmes.
+- [ ] **Create object Cohort**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Cohort, plural Cohorts, API name `Cohort__c`, record name a Text field.
+  - Purpose: One dated run of a programme, either open to any employer or run in-house for one client. Holds the dates, capacity and trainer. Used to decide whether a run is viable and to see free places.
+  - Done when: the object Cohort exists with plural name Cohorts.
+- [ ] **Create object Enrolment**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Enrolment, plural Enrolments, API name `Enrolment__c`, record name a Text field.
+  - Purpose: One delegate's place on one cohort, from first enquiry to confirmed place. It links the delegate (a person), the cohort, the employer paying and, where there is one, the corporate deal.
+  - Done when: the object Enrolment exists with plural name Enrolments.
+- [ ] **Create relationship cohort to programme (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Programme__c` on Cohort__c to Programme__c.
+  - Purpose: Shows every dated run of a programme and its fill rate.
+  - Done when: a cohort record shows the link as 'Programme' and a programme record shows it as 'Cohorts'.
+- [ ] **Create relationship cohort to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Client__c` on Cohort__c to Account.
+  - Purpose: Names the client for an in-house cohort. Empty for open cohorts.
+  - Done when: a cohort record shows the link as 'Client' and a company record shows it as 'In-house cohorts'.
+- [ ] **Create relationship enrolment to cohort (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Cohort__c` on Enrolment__c to Cohort__c.
+  - Purpose: Counts places taken on each cohort.
+  - Done when: a enrolment record shows the link as 'Cohort' and a cohort record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Delegate__c` on Enrolment__c to Contact.
+  - Purpose: Gives each delegate a single history of everything they have attended.
+  - Done when: a enrolment record shows the link as 'Delegate' and a person record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Paying_employer__c` on Enrolment__c to Account.
+  - Purpose: Shows what an employer has booked in total, for repeat-booking follow-up.
+  - Done when: a enrolment record shows the link as 'Paying employer' and a company record shows it as 'Enrolments'.
+- [ ] **Create relationship enrolment to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Corporate_deal__c` on Enrolment__c to Opportunity.
+  - Purpose: Ties delegate places back to the corporate deal that bought them, where there was one.
+  - Done when: a enrolment record shows the link as 'Corporate deal' and a deal record shows it as 'Enrolments'.
+- [ ] **Create relationship deal to programme (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to deal, one to programme). Junction object `Deal_programme__c` with two master-detail fields.
+  - Purpose: Records which programmes a deal covers, to see which sell best.
+  - Done when: a deal record shows the link as 'Programmes' and a programme record shows it as 'Deals'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Corporate training on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Corporate_training`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Corporate_training`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Corporate training exists with 7 stages in the order below.
+- [ ] **Stage 1: Enquiry qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a named contact has a real training need and the provider can meet it.
+  - Stage value `Enquiry qualified`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_corporate_training_enquiry_q_bfe4d4` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 1, OR(ISBLANK(TEXT(Training_need__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Training need and Next step date before moving to Enquiry qualified.
+  - Done when: the stage Enquiry qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Needs analysis**
+  - Type: open. Probability: 25%.
+  - Entered when the first call with the learning lead or budget holder has happened and the gap is written down.
+  - Stage value `Needs analysis`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_corporate_training_needs_analysis` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 2, OR(ISBLANK(Needs_summary__c), ISBLANK(Delegate_count__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Needs summary, Delegate count and Next step date before moving to Needs analysis.
+  - Done when: the stage Needs analysis is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 50%.
+  - Entered when a written proposal with programme, dates, format and price has been sent.
+  - Stage value `Proposal sent`: closed false, won false, probability 50, forecast category Pipeline. Validation rule `Gate_corporate_training_proposal_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 3, OR(ISBLANK(TEXT(Delivery_format__c)), ISBLANK(Amount), ISBLANK(TEXT(Funding_source__c))))`. Error message: Fill in Delivery format, Amount and Funding source before moving to Proposal sent.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Stakeholder review**
+  - Type: open. Probability: 65%.
+  - Entered when the budget holder has confirmed budget and the proposal is being reviewed by others.
+  - Stage value `Stakeholder review`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_corporate_training_stakehold_ddaec5` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 4, OR(NOT(Budget_confirmed__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Budget confirmed and Next step date before moving to Stakeholder review.
+  - Done when: the stage Stakeholder review is in position 4 and its rule is in place.
+- [ ] **Stage 5: Terms agreed**
+  - Type: open. Probability: 85%.
+  - Entered when price, dates and delegate numbers are agreed and a booking form has been sent.
+  - Stage value `Terms agreed`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_corporate_training_terms_agreed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(Proposed_start_date__c), ISBLANK(Delegate_count__c)))`. Error message: Fill in Amount, Proposed start date and Delegate count before moving to Terms agreed.
+  - Done when: the stage Terms agreed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Booked**
+  - Type: won. Probability: 100%.
+  - Entered when the signed booking form or purchase order is received and a cohort or enrolments are created.
+  - Stage value `Booked`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_corporate_training_booked` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate), NOT(Purchase_order_received__c)))`. Error message: Fill in Amount, Close date and Purchase order received before moving to Booked.
+  - Done when: the stage Booked is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_corporate_training_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Corporate_training", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Delegate enrolment on enrolment**
+  - Where: Create the restricted picklist field `Stage__c` on Enrolment: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Delegate enrolment exists with 6 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 10%.
+  - Entered when a delegate or their employer has asked about a specific cohort.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Applied**
+  - Type: open. Probability: 40%.
+  - Entered when a completed booking form or application has been received.
+  - Validation rule `Gate_delegate_enrolment_applied` (Setup, Object Manager, Enrolment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) >= 2, ISBLANK(Application_date__c))`. Error message: Fill in Application date before moving to Applied.
+  - Done when: the stage Applied is in position 2 and its rule is in place.
+- [ ] **Stage 3: Place offered**
+  - Type: open. Probability: 70%.
+  - Entered when eligibility and funding have been checked and a place has been offered in writing.
+  - Validation rule `Gate_delegate_enrolment_place_offered` (Setup, Object Manager, Enrolment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) >= 3, OR(ISBLANK(Price__c), ISBLANK(TEXT(Funding_source__c))))`. Error message: Fill in Price and Funding source before moving to Place offered.
+  - Done when: the stage Place offered is in position 3 and its rule is in place.
+- [ ] **Stage 4: Awaiting payment**
+  - Type: open. Probability: 85%.
+  - Entered when the delegate has accepted the place and an invoice or purchase order request is out.
+  - Validation rule `Gate_delegate_enrolment_awaiting_payment` (Setup, Object Manager, Enrolment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) >= 4, OR(ISBLANK(Price__c), ISBLANK(TEXT(Payment_status__c))))`. Error message: Fill in Price and Payment status before moving to Awaiting payment.
+  - Done when: the stage Awaiting payment is in position 4 and its rule is in place.
+- [ ] **Stage 5: Enrolled**
+  - Type: won. Probability: 100%.
+  - Entered when payment, a purchase order or an approved funding route is confirmed for the place.
+  - Validation rule `Gate_delegate_enrolment_enrolled` (Setup, Object Manager, Enrolment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) >= 5, OR(ISBLANK(Price__c), ISBLANK(TEXT(Payment_status__c))))`. Error message: Fill in Price and Payment status before moving to Enrolled.
+  - Done when: the stage Enrolled is in position 5 and its rule is in place.
+- [ ] **Stage 6: Withdrawn**
+  - Type: lost. Probability: 0%.
+  - Entered when the delegate or employer declines or withdraws before the cohort starts, or the cohort is cancelled.
+  - Validation rule `Lost_delegate_enrolment_withdrawn` (Setup, Object Manager, Enrolment, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Withdrawn"), ISBLANK(TEXT(Withdrawal_reason__c)))`. Error message: Fill in Withdrawal reason before closing this as Withdrawn.
+  - Done when: the stage Withdrawn is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_type__c`.
+  - Purpose: What kind of organisation this is. Drives which views and routing apply.
+  - Options: Employer, Public sector, Training partner or reseller, Funder or levy intermediary
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Segment__c`.
+  - Purpose: Size band used for routing and reporting.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Customer_status__c`.
+  - Purpose: Where the company is in its life with us. Drives views and repeat-booking follow-up.
+  - Options: Prospect, Active customer, Lapsed customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Inbound enquiry, Outbound, Referral, Partner, Event, Returning delegate
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The main part this person plays in a training purchase. A delegate who later buys is changed here. Do not create a second record for the same human.
+  - Options: Budget holder, Learning and development lead, Line manager, Delegate, Procurement, HR contact
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the deal was lost. Required on the lost stage.
+  - Options: No budget, Chose to deliver in house, Chose another provider, Price, Dates did not fit, Content did not fit the need, No decision made, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Training need (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Training_need__c`.
+  - Purpose: The main subject area the buyer wants covered. Used to report demand by topic.
+  - Options: Compliance and mandatory, Leadership and management, Technical skills, Communication and soft skills, Digital skills, Health and safety, Apprenticeship or accredited, Other
+  - Done when: Deal records show Training need and it accepts the right values.
+- [ ] **Create field Delivery format (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Delivery_format__c`.
+  - Purpose: How the training will be delivered. Decides pricing and the type of cohort created.
+  - Options: In-house at the client, Seats on open course, Virtual live, Blended, Self-paced licence
+  - Done when: Deal records show Delivery format and it accepts the right values.
+- [ ] **Create field Delegate count (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Delegate_count__c`.
+  - Purpose: How many people the buyer expects to train. Sets price and cohort size.
+  - Done when: Deal records show Delegate count and it accepts the right values.
+- [ ] **Create field Funding source (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Funding_source__c`.
+  - Purpose: Where the money comes from. Funded routes need extra paperwork before booking.
+  - Options: Company budget, Apprenticeship levy funds, Grant or public funding, Self-funded by delegate
+  - Done when: Deal records show Funding source and it accepts the right values.
+- [ ] **Create field Needs summary (long_text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text Area (Long), API name `Needs_summary__c`.
+  - Purpose: The training need found in the needs analysis. Covers who needs training, the gap today and how success will be judged.
+  - Done when: Deal records show Needs summary and it accepts the right values.
+- [ ] **Create field Budget confirmed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Budget_confirmed__c`.
+  - Purpose: The budget holder has said money exists for this training.
+  - Done when: Deal records show Budget confirmed and it accepts the right values.
+- [ ] **Create field Proposed start date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Proposed_start_date__c`.
+  - Purpose: The date the buyer would like the first session to run.
+  - Done when: Deal records show Proposed start date and it accepts the right values.
+- [ ] **Create field Purchase order received (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Purchase_order_received__c`.
+  - Purpose: The client's purchase order or signed booking form is on file.
+  - Done when: Deal records show Purchase order received and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Programme
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: The programme title as it appears in the catalogue.
+  - Done when: Programme records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Whether the programme can be sold.
+  - Options: In development, Live, Retired
+  - Done when: Programme records show Status and it accepts the right values.
+- [ ] **Create field Category (select)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Picklist, API name `Category__c`.
+  - Purpose: Subject area, matching the deal training need so demand and supply can be compared.
+  - Options: Compliance and mandatory, Leadership and management, Technical skills, Communication and soft skills, Digital skills, Health and safety, Apprenticeship or accredited, Other
+  - Done when: Programme records show Category and it accepts the right values.
+- [ ] **Create field Delivery format (select)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Picklist, API name `Delivery_format__c`.
+  - Purpose: The usual way the programme is run.
+  - Options: In person, Virtual live, Blended, Self-paced
+  - Done when: Programme records show Delivery format and it accepts the right values.
+- [ ] **Create field Duration (days) (number)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Number (18, 0), API name `Duration_days__c`.
+  - Purpose: Total contact days. Used to quote and to schedule trainers.
+  - Done when: Programme records show Duration (days) and it accepts the right values.
+- [ ] **Create field Accredited (checkbox)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Checkbox, API name `Accredited__c`.
+  - Purpose: The programme leads to an external certificate or qualification.
+  - Done when: Programme records show Accredited and it accepts the right values.
+- [ ] **Create field List price per delegate (currency)**
+  - Where: Setup, Object Manager, Programme, Fields & Relationships, New. Data type Currency (18, 2), API name `List_price__c`.
+  - Purpose: Standard price for one delegate before any discount.
+  - Done when: Programme records show List price per delegate and it accepts the right values.
+
+### Cohort
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Programme and start month, for example Team leader programme, March.
+  - Done when: Cohort records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the cohort stands. Drives the sales view of cohorts that still have places.
+  - Options: Planned, Open for enrolment, Full, Confirmed to run, Running, Completed, Cancelled
+  - Done when: Cohort records show Status and it accepts the right values.
+- [ ] **Create field Cohort type (select)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Picklist, API name `Cohort_type__c`.
+  - Purpose: Whether any employer can book a place or the run is for one client only.
+  - Options: Open to any employer, In-house for one client
+  - Done when: Cohort records show Cohort type and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: First day of the cohort.
+  - Done when: Cohort records show Start date and it accepts the right values.
+- [ ] **Create field End date (date)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Date, API name `End_date__c`.
+  - Purpose: Last day of the cohort.
+  - Done when: Cohort records show End date and it accepts the right values.
+- [ ] **Create field Capacity (number)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Number (18, 0), API name `Capacity__c`.
+  - Purpose: Maximum number of delegates.
+  - Done when: Cohort records show Capacity and it accepts the right values.
+- [ ] **Create field Minimum to run (number)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Number (18, 0), API name `Minimum_to_run__c`.
+  - Purpose: The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.
+  - Done when: Cohort records show Minimum to run and it accepts the right values.
+- [ ] **Create field Confirmed places (number)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Number (18, 0), API name `Confirmed_places__c`.
+  - Purpose: Count of enrolments at the enrolled stage. Maintained by an automation, not typed.
+  - Done when: Cohort records show Confirmed places and it accepts the right values.
+- [ ] **Create field Trainer (user)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Trainer__c`.
+  - Purpose: The team member leading the cohort.
+  - Done when: Cohort records show Trainer and it accepts the right values.
+- [ ] **Create field Location (text)**
+  - Where: Setup, Object Manager, Cohort, Fields & Relationships, New. Data type Text (255), API name `Location__c`.
+  - Purpose: Venue or platform used, so logistics and room bookings can be checked.
+  - Done when: Cohort records show Location and it accepts the right values.
+
+### Enrolment
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Delegate name and cohort name, for example the delegate and Team leader programme, March.
+  - Done when: Enrolment records show Name and it accepts the right values.
+- [ ] **Create field Application date (date)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Date, API name `Application_date__c`.
+  - Purpose: The day the booking form or application was received.
+  - Done when: Enrolment records show Application date and it accepts the right values.
+- [ ] **Create field Price (currency)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Currency (18, 2), API name `Price__c`.
+  - Purpose: Price agreed for this place after any discount.
+  - Done when: Enrolment records show Price and it accepts the right values.
+- [ ] **Create field Payment status (select)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Picklist, API name `Payment_status__c`.
+  - Purpose: Whether this place is paid for or covered by a purchase order. A place is not confirmed until it is set.
+  - Options: Not due, Purchase order received, Invoiced, Paid, Refunded, Waived
+  - Done when: Enrolment records show Payment status and it accepts the right values.
+- [ ] **Create field Funding source (select)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Picklist, API name `Funding_source__c`.
+  - Purpose: Where the money for this place comes from.
+  - Options: Company budget, Apprenticeship levy funds, Grant or public funding, Self-funded by delegate
+  - Done when: Enrolment records show Funding source and it accepts the right values.
+- [ ] **Create field Completion status (select)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Picklist, API name `Completion_status__c`.
+  - Purpose: Outcome for the delegate after the cohort starts. Used for completion rates and certificates.
+  - Options: Not started, In progress, Completed, Did not complete, Did not attend
+  - Done when: Enrolment records show Completion status and it accepts the right values.
+- [ ] **Create field Withdrawal reason (select)**
+  - Where: Setup, Object Manager, Enrolment, Fields & Relationships, New. Data type Picklist, API name `Withdrawal_reason__c`.
+  - Purpose: Why the place did not go ahead. Required on the withdrawn stage.
+  - Options: Declined the offer, Dates did not fit, Employer cancelled, Funding fell through, Cohort cancelled, Chose another provider, No response, Other
+  - Done when: Enrolment records show Withdrawal reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create cohort on booking**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A corporate training deal with delivery format in-house moves to booked.
+  - Action: Create a cohort of type in-house linked to the client and the programme, copy the proposed start date and delegate count, and assign it to the course administrator.
+  - Done when: the automation runs on a test record and the result matches: Create a cohort of type in-house linked to the client and the programme, copy the proposed start date and delegate count, and assign it to the course administrator.
+- [ ] **Update confirmed places**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An enrolment moves to enrolled or withdrawn.
+  - Action: Recalculate the cohort's confirmed places from enrolments at the enrolled stage. Set the cohort to full when it reaches capacity.
+  - Done when: the automation runs on a test record and the result matches: Recalculate the cohort's confirmed places from enrolments at the enrolled stage. Set the cohort to full when it reaches capacity.
+- [ ] **Review cohort viability**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open cohort is 21 days from its start date and confirmed places are below the minimum to run.
+  - Action: Notify the head of delivery and the owning salesperson to decide between pushing sales and cancelling.
+  - Done when: the automation runs on a test record and the result matches: Notify the head of delivery and the owning salesperson to decide between pushing sales and cancelling.
+- [ ] **Rebooking follow-up**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A cohort is marked completed.
+  - Action: Create a task for the account owner of each paying employer to ask about a next cohort within 14 days, and set the company's customer status to active customer.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account owner of each paying employer to ask about a next cohort within 14 days, and set the company's customer status to active customer.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Generated as list view `My_open_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Cohorts with places**
+  - Where: Generated as list view `Cohorts_with_places`. Open Cohorts, choose the view, then set the sort (Start date, soonest first.) from the list controls and save.
+  - Object: cohort
+  - Filter: Status is open for enrolment and start date is in the future.
+  - Sort: Start date, soonest first.
+  - Done when: the view Cohorts with places is saved and shows the expected records.
+- [ ] **Cohorts at risk**
+  - Where: Open Cohorts, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: cohort
+  - Filter: Status is open for enrolment and start date is within 28 days and confirmed places are below the minimum.
+  - Sort: Start date, soonest first.
+  - Done when: the view Cohorts at risk is saved and shows the expected records.
+- [ ] **Enrolments awaiting payment**
+  - Where: Generated as list view `Awaiting_payment`. Open Enrolments, choose the view, then set the sort (Application date, oldest first.) from the list controls and save.
+  - Object: enrolment
+  - Filter: Stage is awaiting payment.
+  - Sort: Application date, oldest first.
+  - Done when: the view Enrolments awaiting payment is saved and shows the expected records.
+- [ ] **Lapsed customers**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Customer status is lapsed.
+  - Sort: Name, A to Z.
+  - Done when: the view Lapsed customers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

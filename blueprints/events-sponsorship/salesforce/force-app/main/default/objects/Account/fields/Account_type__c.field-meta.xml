@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_type__c</fullName>
+    <description>What kind of organisation this is. Used to target the right packages.</description>
+    <label>Account type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Brand or sponsor</fullName>
+                <default>false</default>
+                <label>Brand or sponsor</label>
+            </value>
+            <value>
+                <fullName>Solution provider</fullName>
+                <default>false</default>
+                <label>Solution provider</label>
+            </value>
+            <value>
+                <fullName>Agency</fullName>
+                <default>false</default>
+                <label>Agency</label>
+            </value>
+            <value>
+                <fullName>Association</fullName>
+                <default>false</default>
+                <label>Association</label>
+            </value>
+            <value>
+                <fullName>Media partner</fullName>
+                <default>false</default>
+                <label>Media partner</label>
+            </value>
+            <value>
+                <fullName>Venue or supplier</fullName>
+                <default>false</default>
+                <label>Venue or supplier</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

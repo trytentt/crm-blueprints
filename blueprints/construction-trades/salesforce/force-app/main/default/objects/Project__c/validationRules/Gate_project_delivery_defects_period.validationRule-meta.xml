@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_project_delivery_defects_period</fullName>
+    <active>true</active>
+    <description>Stage gate: Project delivery, Defects period and later stages need Actual completion, Retention held and Retention release date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Pre-start", 1, "Mobilising", 2, "On site", 3, "Snagging", 4, "Defects period", 5, "Closed out", 6, 0) &gt;= 5, OR(ISBLANK(Actual_completion_date__c), ISBLANK(Retention_held__c), ISBLANK(Retention_release_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Actual completion, Retention held and Retention release date before moving to Defects period.</errorMessage>
+</ValidationRule>

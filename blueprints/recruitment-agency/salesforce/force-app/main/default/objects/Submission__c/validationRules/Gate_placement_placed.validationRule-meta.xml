@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_placement_placed</fullName>
+    <active>true</active>
+    <description>Stage gate: Placement, Placed and later stages need Start date and Fee amount.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) &gt;= 7, OR(ISBLANK(Start_date__c), ISBLANK(Fee_amount__c)))</errorConditionFormula>
+    <errorMessage>Fill in Start date and Fee amount before moving to Placed.</errorMessage>
+</ValidationRule>

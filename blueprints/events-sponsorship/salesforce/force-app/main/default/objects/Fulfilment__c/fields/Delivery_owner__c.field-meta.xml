@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delivery_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member responsible for delivering the booking.</description>
+    <label>Delivery owner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Fulfilments Delivery owner</relationshipLabel>
+    <relationshipName>Fulfilment_Delivery_owner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

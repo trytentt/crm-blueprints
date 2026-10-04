@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_mandate_acquisition_pitch_or_617cd9</fullName>
+    <active>true</active>
+    <description>Stage gate: Mandate acquisition, Pitch or finalist and later stages need Competing firms and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) &gt;= 5, OR(ISBLANK(TEXT(Competing_firms__c)), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Competing firms and Close date before moving to Pitch or finalist.</errorMessage>
+</ValidationRule>

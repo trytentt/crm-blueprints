@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Aml_check_status__c</fullName>
+    <description>Status of client identity and source-of-funds checks required by money laundering rules for this matter type.</description>
+    <label>AML check status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not required</fullName>
+                <default>false</default>
+                <label>Not required</label>
+            </value>
+            <value>
+                <fullName>Outstanding</fullName>
+                <default>false</default>
+                <label>Outstanding</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+            <value>
+                <fullName>Enhanced due diligence</fullName>
+                <default>false</default>
+                <label>Enhanced due diligence</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

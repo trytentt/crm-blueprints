@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Annual_spend_band__c</fullName>
+    <description>Spend with us over the last 12 months. Used to review the account tier.</description>
+    <label>Annual spend band</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Under 10k</fullName>
+                <default>false</default>
+                <label>Under 10k</label>
+            </value>
+            <value>
+                <fullName>10k to 50k</fullName>
+                <default>false</default>
+                <label>10k to 50k</label>
+            </value>
+            <value>
+                <fullName>50k to 250k</fullName>
+                <default>false</default>
+                <label>50k to 250k</label>
+            </value>
+            <value>
+                <fullName>Over 250k</fullName>
+                <default>false</default>
+                <label>Over 250k</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

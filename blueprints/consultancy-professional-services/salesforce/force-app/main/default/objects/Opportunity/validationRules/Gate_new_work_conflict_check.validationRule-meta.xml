@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_work_conflict_check</fullName>
+    <active>true</active>
+    <description>Stage gate: New work, Conflict check and later stages need Conflict check result.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_work", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Conflict check", 3, "Proposal", 4, "Proposal sent", 5, "Terms agreed", 6, "Engagement letter out", 7, "Closed won", 8, 0) &gt;= 3, ISBLANK(TEXT(Conflict_check_result__c)))</errorConditionFormula>
+    <errorDisplayField>Conflict_check_result__c</errorDisplayField>
+    <errorMessage>Fill in Conflict check result before moving to Conflict check.</errorMessage>
+</ValidationRule>

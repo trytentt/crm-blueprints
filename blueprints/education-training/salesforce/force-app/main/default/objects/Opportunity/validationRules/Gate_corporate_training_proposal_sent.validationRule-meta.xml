@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_corporate_training_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Corporate training, Proposal sent and later stages need Delivery format, Amount and Funding source.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) &gt;= 3, OR(ISBLANK(TEXT(Delivery_format__c)), ISBLANK(Amount), ISBLANK(TEXT(Funding_source__c))))</errorConditionFormula>
+    <errorMessage>Fill in Delivery format, Amount and Funding source before moving to Proposal sent.</errorMessage>
+</ValidationRule>

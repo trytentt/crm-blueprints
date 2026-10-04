@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_review_cycle_due</fullName>
+    <active>true</active>
+    <description>Stage gate: Review cycle, Due and later stages need Review type and Due date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) &gt;= 1, OR(ISBLANK(TEXT(Review_type__c)), ISBLANK(Due_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Review type and Due date before moving to Due.</errorMessage>
+</ValidationRule>

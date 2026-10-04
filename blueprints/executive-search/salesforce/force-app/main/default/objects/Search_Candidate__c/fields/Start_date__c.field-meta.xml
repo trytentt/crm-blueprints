@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_date__c</fullName>
+    <description>The day the candidate starts. Triggers the final fee instalment where the fee is tied to placement.</description>
+    <label>Start date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

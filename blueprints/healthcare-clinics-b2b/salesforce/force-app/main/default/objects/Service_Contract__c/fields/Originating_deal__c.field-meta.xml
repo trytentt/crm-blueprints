@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Originating_deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Ties a contract to the deal that won it and to later renewal deals.</description>
+    <externalId>false</externalId>
+    <label>Originating deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Service contracts</relationshipLabel>
+    <relationshipName>Service_contracts</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

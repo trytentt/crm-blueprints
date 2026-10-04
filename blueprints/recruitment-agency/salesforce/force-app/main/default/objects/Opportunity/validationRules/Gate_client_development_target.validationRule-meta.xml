@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_client_development_target</fullName>
+    <active>true</active>
+    <description>Stage gate: Client development, Target and later stages need Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) &gt;= 1, ISBLANK(Next_step_date__c))</errorConditionFormula>
+    <errorDisplayField>Next_step_date__c</errorDisplayField>
+    <errorMessage>Fill in Next step date before moving to Target.</errorMessage>
+</ValidationRule>

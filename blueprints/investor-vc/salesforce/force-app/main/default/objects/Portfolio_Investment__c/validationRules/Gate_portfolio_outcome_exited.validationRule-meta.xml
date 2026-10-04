@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_portfolio_outcome_exited</fullName>
+    <active>true</active>
+    <description>Stage gate: Portfolio outcome, Exited and later stages need Exit route.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) &gt;= 5, ISBLANK(TEXT(Exit_route__c)))</errorConditionFormula>
+    <errorDisplayField>Exit_route__c</errorDisplayField>
+    <errorMessage>Fill in Exit route before moving to Exited.</errorMessage>
+</ValidationRule>

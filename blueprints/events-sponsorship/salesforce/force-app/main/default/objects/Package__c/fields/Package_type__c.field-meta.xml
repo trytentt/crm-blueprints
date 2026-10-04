@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Package_type__c</fullName>
+    <description>What kind of inventory this is.</description>
+    <label>Package type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sponsor tier</fullName>
+                <default>false</default>
+                <label>Sponsor tier</label>
+            </value>
+            <value>
+                <fullName>Stand space</fullName>
+                <default>false</default>
+                <label>Stand space</label>
+            </value>
+            <value>
+                <fullName>Add-on</fullName>
+                <default>false</default>
+                <label>Add-on</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

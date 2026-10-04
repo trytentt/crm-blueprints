@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Won_deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Links the first advice case to the deal that created it.</description>
+    <externalId>false</externalId>
+    <label>Won deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Advice cases</relationshipLabel>
+    <relationshipName>Advice_cases</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

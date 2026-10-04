@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Where the record is in its pipeline. Restricted to the pipeline's stages.</description>
+    <label>Stage</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Onboarding</fullName>
+                <default>false</default>
+                <label>Onboarding</label>
+            </value>
+            <value>
+                <fullName>Kickoff done</fullName>
+                <default>false</default>
+                <label>Kickoff done</label>
+            </value>
+            <value>
+                <fullName>First deliverables</fullName>
+                <default>false</default>
+                <label>First deliverables</label>
+            </value>
+            <value>
+                <fullName>Steady state</fullName>
+                <default>false</default>
+                <label>Steady state</label>
+            </value>
+            <value>
+                <fullName>At risk</fullName>
+                <default>false</default>
+                <label>At risk</label>
+            </value>
+            <value>
+                <fullName>Wrapping up</fullName>
+                <default>false</default>
+                <label>Wrapping up</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Terminated</fullName>
+                <default>false</default>
+                <label>Terminated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

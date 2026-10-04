@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Records which other funds invested alongside us, so we can see who we back with.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Portfolio investment to company link</label>
+    <nameField>
+        <displayFormat>PCI-{00000}</displayFormat>
+        <label>Portfolio investment to company link num</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Portfolio investment to company links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

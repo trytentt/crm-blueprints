@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_family__c</fullName>
+    <description>The main product group quoted. Used to see win rate and lead time by range.</description>
+    <label>Product family</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Standard range</fullName>
+                <default>false</default>
+                <label>Standard range</label>
+            </value>
+            <value>
+                <fullName>Made to order</fullName>
+                <default>false</default>
+                <label>Made to order</label>
+            </value>
+            <value>
+                <fullName>Spares and parts</fullName>
+                <default>false</default>
+                <label>Spares and parts</label>
+            </value>
+            <value>
+                <fullName>Bulk supply</fullName>
+                <default>false</default>
+                <label>Bulk supply</label>
+            </value>
+            <value>
+                <fullName>Service</fullName>
+                <default>false</default>
+                <label>Service</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

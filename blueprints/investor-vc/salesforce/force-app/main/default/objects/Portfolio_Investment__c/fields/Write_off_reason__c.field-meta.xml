@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Write_off_reason__c</fullName>
+    <description>Why the investment was written off. Required on the written-off stage.</description>
+    <label>Write-off reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ran out of cash</fullName>
+                <default>false</default>
+                <label>Ran out of cash</label>
+            </value>
+            <value>
+                <fullName>Product failed</fullName>
+                <default>false</default>
+                <label>Product failed</label>
+            </value>
+            <value>
+                <fullName>Team split</fullName>
+                <default>false</default>
+                <label>Team split</label>
+            </value>
+            <value>
+                <fullName>Market changed</fullName>
+                <default>false</default>
+                <label>Market changed</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

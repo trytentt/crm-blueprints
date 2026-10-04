@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sector__c</fullName>
+    <description>The client's sector. Used to report where work comes from and to find relevant experience.</description>
+    <label>Sector</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Financial services</fullName>
+                <default>false</default>
+                <label>Financial services</label>
+            </value>
+            <value>
+                <fullName>Technology</fullName>
+                <default>false</default>
+                <label>Technology</label>
+            </value>
+            <value>
+                <fullName>Real estate</fullName>
+                <default>false</default>
+                <label>Real estate</label>
+            </value>
+            <value>
+                <fullName>Health and life sciences</fullName>
+                <default>false</default>
+                <label>Health and life sciences</label>
+            </value>
+            <value>
+                <fullName>Energy and infrastructure</fullName>
+                <default>false</default>
+                <label>Energy and infrastructure</label>
+            </value>
+            <value>
+                <fullName>Public sector</fullName>
+                <default>false</default>
+                <label>Public sector</label>
+            </value>
+            <value>
+                <fullName>Private individual or family</fullName>
+                <default>false</default>
+                <label>Private individual or family</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

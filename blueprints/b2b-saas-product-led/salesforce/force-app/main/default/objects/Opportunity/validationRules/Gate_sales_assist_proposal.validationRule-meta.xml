@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_proposal</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Proposal and later stages need Amount, Target plan, Expected seats and Billing term.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Target_plan__c)), ISBLANK(Expected_seats__c), ISBLANK(TEXT(Billing_term__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Target plan, Expected seats and Billing term before moving to Proposal.</errorMessage>
+</ValidationRule>

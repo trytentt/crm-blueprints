@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_solution_fit</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Solution fit and later stages need Pain summary and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) &gt;= 3, OR(ISBLANK(Pain_summary__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Pain summary and Next step date before moving to Solution fit.</errorMessage>
+</ValidationRule>

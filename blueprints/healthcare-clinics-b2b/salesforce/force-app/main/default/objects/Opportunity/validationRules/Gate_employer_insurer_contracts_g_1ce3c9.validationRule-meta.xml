@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_employer_insurer_contracts_g_1ce3c9</fullName>
+    <active>true</active>
+    <description>Stage gate: Employer and insurer contracts, Governance review and later stages need Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) &gt;= 4, ISBLANK(Next_step_date__c))</errorConditionFormula>
+    <errorDisplayField>Next_step_date__c</errorDisplayField>
+    <errorMessage>Fill in Next step date before moving to Governance review.</errorMessage>
+</ValidationRule>

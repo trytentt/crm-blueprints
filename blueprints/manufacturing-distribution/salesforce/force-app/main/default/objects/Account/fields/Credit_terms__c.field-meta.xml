@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_terms__c</fullName>
+    <description>Payment terms agreed with finance. Checked before a quote is sent to a new account.</description>
+    <label>Credit terms</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pro forma</fullName>
+                <default>false</default>
+                <label>Pro forma</label>
+            </value>
+            <value>
+                <fullName>Net 30</fullName>
+                <default>false</default>
+                <label>Net 30</label>
+            </value>
+            <value>
+                <fullName>Net 60</fullName>
+                <default>false</default>
+                <label>Net 60</label>
+            </value>
+            <value>
+                <fullName>Credit hold</fullName>
+                <default>false</default>
+                <label>Credit hold</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

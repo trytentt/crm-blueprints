@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_reason__c</fullName>
+    <description>Why the partnership did not go ahead. Required on the declined stage.</description>
+    <label>Decline reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Governance check failed</fullName>
+                <default>false</default>
+                <label>Governance check failed</label>
+            </value>
+            <value>
+                <fullName>Not a fit</fullName>
+                <default>false</default>
+                <label>Not a fit</label>
+            </value>
+            <value>
+                <fullName>Conflict of interest</fullName>
+                <default>false</default>
+                <label>Conflict of interest</label>
+            </value>
+            <value>
+                <fullName>Partner declined</fullName>
+                <default>false</default>
+                <label>Partner declined</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

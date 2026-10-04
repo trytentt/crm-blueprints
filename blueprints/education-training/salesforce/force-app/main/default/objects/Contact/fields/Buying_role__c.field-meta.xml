@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_role__c</fullName>
+    <description>The main part this person plays in a training purchase. A delegate who later buys is changed here. Do not create a second record for the same human.</description>
+    <label>Buying role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Budget holder</fullName>
+                <default>false</default>
+                <label>Budget holder</label>
+            </value>
+            <value>
+                <fullName>Learning and development lead</fullName>
+                <default>false</default>
+                <label>Learning and development lead</label>
+            </value>
+            <value>
+                <fullName>Line manager</fullName>
+                <default>false</default>
+                <label>Line manager</label>
+            </value>
+            <value>
+                <fullName>Delegate</fullName>
+                <default>false</default>
+                <label>Delegate</label>
+            </value>
+            <value>
+                <fullName>Procurement</fullName>
+                <default>false</default>
+                <label>Procurement</label>
+            </value>
+            <value>
+                <fullName>HR contact</fullName>
+                <default>false</default>
+                <label>HR contact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

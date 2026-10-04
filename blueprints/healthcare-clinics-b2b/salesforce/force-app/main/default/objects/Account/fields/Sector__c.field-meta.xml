@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sector__c</fullName>
+    <description>The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.</description>
+    <label>Sector</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Manufacturing</fullName>
+                <default>false</default>
+                <label>Manufacturing</label>
+            </value>
+            <value>
+                <fullName>Logistics and transport</fullName>
+                <default>false</default>
+                <label>Logistics and transport</label>
+            </value>
+            <value>
+                <fullName>Construction</fullName>
+                <default>false</default>
+                <label>Construction</label>
+            </value>
+            <value>
+                <fullName>Public sector</fullName>
+                <default>false</default>
+                <label>Public sector</label>
+            </value>
+            <value>
+                <fullName>Professional services</fullName>
+                <default>false</default>
+                <label>Professional services</label>
+            </value>
+            <value>
+                <fullName>Retail and hospitality</fullName>
+                <default>false</default>
+                <label>Retail and hospitality</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

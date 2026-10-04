@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_completion_date__c</fullName>
+    <description>The date practical completion was certified.</description>
+    <label>Actual completion</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

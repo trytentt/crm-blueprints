@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <description>Subject area, matching the deal training need so demand and supply can be compared.</description>
+    <label>Category</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Compliance and mandatory</fullName>
+                <default>false</default>
+                <label>Compliance and mandatory</label>
+            </value>
+            <value>
+                <fullName>Leadership and management</fullName>
+                <default>false</default>
+                <label>Leadership and management</label>
+            </value>
+            <value>
+                <fullName>Technical skills</fullName>
+                <default>false</default>
+                <label>Technical skills</label>
+            </value>
+            <value>
+                <fullName>Communication and soft skills</fullName>
+                <default>false</default>
+                <label>Communication and soft skills</label>
+            </value>
+            <value>
+                <fullName>Digital skills</fullName>
+                <default>false</default>
+                <label>Digital skills</label>
+            </value>
+            <value>
+                <fullName>Health and safety</fullName>
+                <default>false</default>
+                <label>Health and safety</label>
+            </value>
+            <value>
+                <fullName>Apprenticeship or accredited</fullName>
+                <default>false</default>
+                <label>Apprenticeship or accredited</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

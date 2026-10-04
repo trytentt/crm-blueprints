@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_source__c</fullName>
+    <description>How the deal reached us. Reported to see which channels produce investments.</description>
+    <label>Deal source</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Founder inbound</fullName>
+                <default>false</default>
+                <label>Founder inbound</label>
+            </value>
+            <value>
+                <fullName>Warm introduction</fullName>
+                <default>false</default>
+                <label>Warm introduction</label>
+            </value>
+            <value>
+                <fullName>Co-investor</fullName>
+                <default>false</default>
+                <label>Co-investor</label>
+            </value>
+            <value>
+                <fullName>Accelerator or studio</fullName>
+                <default>false</default>
+                <label>Accelerator or studio</label>
+            </value>
+            <value>
+                <fullName>Our outbound</fullName>
+                <default>false</default>
+                <label>Our outbound</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Portfolio founder referral</fullName>
+                <default>false</default>
+                <label>Portfolio founder referral</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

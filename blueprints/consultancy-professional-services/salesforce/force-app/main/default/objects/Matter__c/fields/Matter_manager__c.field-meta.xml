@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Matter_manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member who runs the matter day to day.</description>
+    <label>Matter manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Matters Matter manager</relationshipLabel>
+    <relationshipName>Matter_Matter_manager</relationshipName>
+    <type>Lookup</type>
+</CustomField>

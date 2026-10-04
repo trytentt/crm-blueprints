@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sector_experience__c</fullName>
+    <description>For candidates, the sectors they have worked in. Used to find candidates for a role.</description>
+    <label>Sector experience</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Technology</fullName>
+                <default>false</default>
+                <label>Technology</label>
+            </value>
+            <value>
+                <fullName>Financial services</fullName>
+                <default>false</default>
+                <label>Financial services</label>
+            </value>
+            <value>
+                <fullName>Engineering and manufacturing</fullName>
+                <default>false</default>
+                <label>Engineering and manufacturing</label>
+            </value>
+            <value>
+                <fullName>Healthcare</fullName>
+                <default>false</default>
+                <label>Healthcare</label>
+            </value>
+            <value>
+                <fullName>Construction</fullName>
+                <default>false</default>
+                <label>Construction</label>
+            </value>
+            <value>
+                <fullName>Retail and consumer</fullName>
+                <default>false</default>
+                <label>Retail and consumer</label>
+            </value>
+            <value>
+                <fullName>Public sector</fullName>
+                <default>false</default>
+                <label>Public sector</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

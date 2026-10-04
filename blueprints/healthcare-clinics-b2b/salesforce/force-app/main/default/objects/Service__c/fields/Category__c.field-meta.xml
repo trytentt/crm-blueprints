@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <description>Group of the service, for reporting revenue by line.</description>
+    <label>Category</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Assessments</fullName>
+                <default>false</default>
+                <label>Assessments</label>
+            </value>
+            <value>
+                <fullName>Treatment programmes</fullName>
+                <default>false</default>
+                <label>Treatment programmes</label>
+            </value>
+            <value>
+                <fullName>Diagnostics</fullName>
+                <default>false</default>
+                <label>Diagnostics</label>
+            </value>
+            <value>
+                <fullName>Screening and surveillance</fullName>
+                <default>false</default>
+                <label>Screening and surveillance</label>
+            </value>
+            <value>
+                <fullName>Vaccination</fullName>
+                <default>false</default>
+                <label>Vaccination</label>
+            </value>
+            <value>
+                <fullName>Wellbeing</fullName>
+                <default>false</default>
+                <label>Wellbeing</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

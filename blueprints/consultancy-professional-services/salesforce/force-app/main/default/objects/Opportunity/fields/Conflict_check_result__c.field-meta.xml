@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conflict_check_result__c</fullName>
+    <description>Latest result of the conflict check for this deal, copied from the conflict check record. Gates the proposal stage.</description>
+    <label>Conflict check result</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not run</fullName>
+                <default>false</default>
+                <label>Not run</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Cleared</fullName>
+                <default>false</default>
+                <label>Cleared</label>
+            </value>
+            <value>
+                <fullName>Cleared with waiver</fullName>
+                <default>false</default>
+                <label>Cleared with waiver</label>
+            </value>
+            <value>
+                <fullName>Conflicted</fullName>
+                <default>false</default>
+                <label>Conflicted</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

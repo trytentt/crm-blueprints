@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_interest__c</fullName>
+    <description>Which service lines the buyer wants quoted. Used to report demand by service.</description>
+    <label>Service interest</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Workplace assessments</fullName>
+                <default>false</default>
+                <label>Workplace assessments</label>
+            </value>
+            <value>
+                <fullName>Workplace physiotherapy</fullName>
+                <default>false</default>
+                <label>Workplace physiotherapy</label>
+            </value>
+            <value>
+                <fullName>Diagnostics</fullName>
+                <default>false</default>
+                <label>Diagnostics</label>
+            </value>
+            <value>
+                <fullName>Screening and surveillance</fullName>
+                <default>false</default>
+                <label>Screening and surveillance</label>
+            </value>
+            <value>
+                <fullName>Vaccination programmes</fullName>
+                <default>false</default>
+                <label>Vaccination programmes</label>
+            </value>
+            <value>
+                <fullName>Wellbeing support programmes</fullName>
+                <default>false</default>
+                <label>Wellbeing support programmes</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Employment_status__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <description>DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.</description>
+    <label>Employment status</label>
+    <required>false</required>
+    <securityClassification>Confidential</securityClassification>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Employed</fullName>
+                <default>false</default>
+                <label>Employed</label>
+            </value>
+            <value>
+                <fullName>Self-employed</fullName>
+                <default>false</default>
+                <label>Self-employed</label>
+            </value>
+            <value>
+                <fullName>Company director</fullName>
+                <default>false</default>
+                <label>Company director</label>
+            </value>
+            <value>
+                <fullName>Retired</fullName>
+                <default>false</default>
+                <label>Retired</label>
+            </value>
+            <value>
+                <fullName>Not working</fullName>
+                <default>false</default>
+                <label>Not working</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

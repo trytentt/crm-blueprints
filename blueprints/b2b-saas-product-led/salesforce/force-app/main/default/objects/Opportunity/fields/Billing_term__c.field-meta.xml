@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_term__c</fullName>
+    <description>How the buyer will pay. Moving from card to invoice is the usual sales-assist step.</description>
+    <label>Billing term</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Monthly by card</fullName>
+                <default>false</default>
+                <label>Monthly by card</label>
+            </value>
+            <value>
+                <fullName>Annual by card</fullName>
+                <default>false</default>
+                <label>Annual by card</label>
+            </value>
+            <value>
+                <fullName>Annual by invoice</fullName>
+                <default>false</default>
+                <label>Annual by invoice</label>
+            </value>
+            <value>
+                <fullName>Multi-year by invoice</fullName>
+                <default>false</default>
+                <label>Multi-year by invoice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

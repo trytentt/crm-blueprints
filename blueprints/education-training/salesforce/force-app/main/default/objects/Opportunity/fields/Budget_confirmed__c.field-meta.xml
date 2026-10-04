@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Budget_confirmed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The budget holder has said money exists for this training.</description>
+    <label>Budget confirmed</label>
+    <type>Checkbox</type>
+</CustomField>

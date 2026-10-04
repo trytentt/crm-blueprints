@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Procurement_route__c</fullName>
+    <description>How the work is being bought. Tender routes need a deadline and go or no-go before estimating.</description>
+    <label>Procurement route</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open tender</fullName>
+                <default>false</default>
+                <label>Open tender</label>
+            </value>
+            <value>
+                <fullName>Selective or invited tender</fullName>
+                <default>false</default>
+                <label>Selective or invited tender</label>
+            </value>
+            <value>
+                <fullName>Negotiated quote</fullName>
+                <default>false</default>
+                <label>Negotiated quote</label>
+            </value>
+            <value>
+                <fullName>Framework call-off</fullName>
+                <default>false</default>
+                <label>Framework call-off</label>
+            </value>
+            <value>
+                <fullName>Repeat client</fullName>
+                <default>false</default>
+                <label>Repeat client</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

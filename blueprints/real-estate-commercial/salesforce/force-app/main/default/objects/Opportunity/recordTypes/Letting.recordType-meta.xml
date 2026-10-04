@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Letting</fullName>
+    <active>true</active>
+    <businessProcess>Letting</businessProcess>
+    <description>Letting</description>
+    <label>Letting</label>
+    <picklistValues>
+        <picklist>Heads_of_terms_status__c</picklist>
+        <values>
+            <fullName>Not started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Agreed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Instruction_type__c</picklist>
+        <values>
+            <fullName>Acting for landlord</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Acting for tenant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Joint agency</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Took other space</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Terms not agreed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referencing failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Space unsuitable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Budget changed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requirement withdrawn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Landlord withdrew</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Referencing_status__c</picklist>
+        <values>
+            <fullName>Not started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Passed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

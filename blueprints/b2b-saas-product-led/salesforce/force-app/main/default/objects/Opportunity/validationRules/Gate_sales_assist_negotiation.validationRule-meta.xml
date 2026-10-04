@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_negotiation</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Negotiation and later stages need Amount, Close date and Security review.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Security_review__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Security review before moving to Negotiation.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Retailer acquisition path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a retailer that fits the brand is logged with a named buyer.</info>
+        <picklistValueName>Identified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has replied or a meeting is booked.</info>
+        <picklistValueName>Contacted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Line_sheet_sent__c</fieldNames>
+        <fieldNames>Buying_season__c</fieldNames>
+        <info>Entered when the line sheet and terms have been sent to the buyer.</info>
+        <picklistValueName>Line sheet sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Samples_status__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has seen the range, through samples, a showroom visit or a buying meeting.</info>
+        <picklistValueName>Range review</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>First_order_expected__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has named the products they want and is discussing minimums and terms.</info>
+        <picklistValueName>Terms discussion</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Terms_agreed__c</fieldNames>
+        <fieldNames>Account_application_received__c</fieldNames>
+        <info>Entered when terms are agreed in writing and the account application has been returned.</info>
+        <picklistValueName>Account setup</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the first order is placed and paid or approved on credit.</info>
+        <picklistValueName>Account opened</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the retailer declines to stock the brand or does not reply after three follow-ups over 45 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Retailer_acquisition</recordTypeName>
+</PathAssistant>

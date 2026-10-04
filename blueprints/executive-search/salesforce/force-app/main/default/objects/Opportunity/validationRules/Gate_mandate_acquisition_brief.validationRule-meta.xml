@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_mandate_acquisition_brief</fullName>
+    <active>true</active>
+    <description>Stage gate: Mandate acquisition, Brief and later stages need Role title, Expected total compensation and Competing firms.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) &gt;= 3, OR(ISBLANK(Role_title__c), ISBLANK(Expected_total_compensation__c), ISBLANK(TEXT(Competing_firms__c))))</errorConditionFormula>
+    <errorMessage>Fill in Role title, Expected total compensation and Competing firms before moving to Brief.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_proposal</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Proposal and later stages need Budget confirmed, Amount and Contract term (months).</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) &gt;= 5, OR(NOT(Budget_confirmed__c), ISBLANK(Amount), ISBLANK(Contract_term_months__c)))</errorConditionFormula>
+    <errorMessage>Fill in Budget confirmed, Amount and Contract term (months) before moving to Proposal.</errorMessage>
+</ValidationRule>

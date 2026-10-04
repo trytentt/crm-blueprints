@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Diligence_complete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Commercial, financial, legal and reference checks are finished with no blocking findings.</description>
+    <label>Diligence complete</label>
+    <type>Checkbox</type>
+</CustomField>

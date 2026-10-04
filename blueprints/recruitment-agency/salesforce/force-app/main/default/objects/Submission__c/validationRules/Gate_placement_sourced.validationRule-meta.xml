@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_placement_sourced</fullName>
+    <active>true</active>
+    <description>Stage gate: Placement, Sourced and later stages need Source.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) &gt;= 1, ISBLANK(TEXT(Source__c)))</errorConditionFormula>
+    <errorDisplayField>Source__c</errorDisplayField>
+    <errorMessage>Fill in Source before moving to Sourced.</errorMessage>
+</ValidationRule>

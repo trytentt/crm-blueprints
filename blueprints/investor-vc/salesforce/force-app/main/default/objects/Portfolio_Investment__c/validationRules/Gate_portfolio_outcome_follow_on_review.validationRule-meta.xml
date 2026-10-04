@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_portfolio_outcome_follow_on_review</fullName>
+    <active>true</active>
+    <description>Stage gate: Portfolio outcome, Follow-on review and later stages need Follow-on reserve and Health.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) &gt;= 2, OR(ISBLANK(Follow_on_reserve__c), ISBLANK(TEXT(Health__c))))</errorConditionFormula>
+    <errorMessage>Fill in Follow-on reserve and Health before moving to Follow-on review.</errorMessage>
+</ValidationRule>

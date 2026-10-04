@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Covenant_strength__c</fullName>
+    <description>Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.</description>
+    <label>Covenant strength</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strong</fullName>
+                <default>false</default>
+                <label>Strong</label>
+            </value>
+            <value>
+                <fullName>Satisfactory</fullName>
+                <default>false</default>
+                <label>Satisfactory</label>
+            </value>
+            <value>
+                <fullName>Weak</fullName>
+                <default>false</default>
+                <label>Weak</label>
+            </value>
+            <value>
+                <fullName>Not checked</fullName>
+                <default>false</default>
+                <label>Not checked</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

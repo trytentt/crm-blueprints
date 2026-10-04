@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_workspace_id__c</fullName>
+    <description>The workspace's identifier in the product database. The key used to match synced usage to this record.</description>
+    <externalId>false</externalId>
+    <label>Product workspace ID</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

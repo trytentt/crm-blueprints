@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delivery_wrapping_up</fullName>
+    <active>true</active>
+    <description>Stage gate: Delivery, Wrapping up and later stages need End date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Onboarding", 1, "Kickoff done", 2, "First deliverables", 3, "Steady state", 4, "At risk", 5, "Wrapping up", 6, "Completed", 7, 0) &gt;= 6, ISBLANK(End_date__c))</errorConditionFormula>
+    <errorDisplayField>End_date__c</errorDisplayField>
+    <errorMessage>Fill in End date before moving to Wrapping up.</errorMessage>
+</ValidationRule>

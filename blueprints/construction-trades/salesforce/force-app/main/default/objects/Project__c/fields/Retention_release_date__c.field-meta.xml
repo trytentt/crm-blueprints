@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retention_release_date__c</fullName>
+    <description>When retention falls due. A reminder fires before it.</description>
+    <label>Retention release date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

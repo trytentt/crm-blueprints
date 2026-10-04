@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lists the inventory for each edition and its sell-through.</description>
+    <externalId>false</externalId>
+    <label>Event</label>
+    <referenceTo>Event__c</referenceTo>
+    <relationshipLabel>Packages</relationshipLabel>
+    <relationshipName>Packages</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_client_client_won</fullName>
+    <active>true</active>
+    <description>Stage gate: New client, Client won and later stages need Client agreement signed and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) &gt;= 6, OR(NOT(Engagement_signed__c), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Client agreement signed and Close date before moving to Client won.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_matter_delivery_withdrawn</fullName>
+    <active>true</active>
+    <description>Lost reason: Matter delivery, Withdrawn needs Close reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Withdrawn"), ISBLANK(TEXT(Close_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Close_reason__c</errorDisplayField>
+    <errorMessage>Fill in Close reason before closing this as Withdrawn.</errorMessage>
+</ValidationRule>

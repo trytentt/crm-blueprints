@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_referral_partners_agreement_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Referral partners, Agreement sent and later stages need Governance checked.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) &gt;= 4, NOT(Governance_checked__c))</errorConditionFormula>
+    <errorDisplayField>Governance_checked__c</errorDisplayField>
+    <errorMessage>Fill in Governance checked before moving to Agreement sent.</errorMessage>
+</ValidationRule>

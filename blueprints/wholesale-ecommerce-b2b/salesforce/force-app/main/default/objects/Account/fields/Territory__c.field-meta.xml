@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Territory__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Puts each retailer in one territory so ownership and targets are clear.</description>
+    <externalId>false</externalId>
+    <label>Territory</label>
+    <referenceTo>Sales_Territory__c</referenceTo>
+    <relationshipLabel>Retailers</relationshipLabel>
+    <relationshipName>Retailers</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

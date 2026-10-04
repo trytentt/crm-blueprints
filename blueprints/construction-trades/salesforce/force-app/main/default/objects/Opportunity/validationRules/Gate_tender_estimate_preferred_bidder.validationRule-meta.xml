@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_tender_estimate_preferred_bidder</fullName>
+    <active>true</active>
+    <description>Stage gate: Tender and estimate, Preferred bidder and later stages need Amount, Retention and Expected start date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Tender_estimate", CASE(StageName, "Opportunity", 1, "Go or no-go", 2, "Estimating", 3, "Bid submitted", 4, "Clarification", 5, "Preferred bidder", 6, "Awarded", 7, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(Retention_percent__c), ISBLANK(Expected_start_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Retention and Expected start date before moving to Preferred bidder.</errorMessage>
+</ValidationRule>

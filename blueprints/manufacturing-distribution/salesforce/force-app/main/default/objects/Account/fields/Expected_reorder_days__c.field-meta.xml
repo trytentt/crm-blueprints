@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_reorder_days__c</fullName>
+    <description>Typical days between orders for this account. The reorder-due view compares it with the last order date.</description>
+    <label>Expected reorder interval (days)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

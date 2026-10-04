@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer_acquisition</fullName>
+    <active>true</active>
+    <businessProcess>Retailer_acquisition</businessProcess>
+    <description>Retailer acquisition</description>
+    <label>Retailer acquisition</label>
+    <picklistValues>
+        <picklist>Buying_season__c</picklist>
+        <values>
+            <fullName>Spring/summer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Autumn/winter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Christmas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Year-round</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Range does not fit the shop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opening minimum too high</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Margin too low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stocks a competing brand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missed the buying season</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Samples_status__c</picklist>
+        <values>
+            <fullName>Not needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reviewed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

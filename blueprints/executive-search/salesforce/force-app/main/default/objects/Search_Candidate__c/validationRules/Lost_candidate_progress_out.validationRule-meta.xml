@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_candidate_progress_out</fullName>
+    <active>true</active>
+    <description>Lost reason: Candidate progress, Out needs Out reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Out"), ISBLANK(TEXT(Out_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Out_reason__c</errorDisplayField>
+    <errorMessage>Fill in Out reason before closing this as Out.</errorMessage>
+</ValidationRule>

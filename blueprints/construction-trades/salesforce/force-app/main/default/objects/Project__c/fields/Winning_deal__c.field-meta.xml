@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Winning_deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Ties the project to the bid that won it, so estimated and final margin can be compared.</description>
+    <externalId>false</externalId>
+    <label>Winning deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Project</relationshipLabel>
+    <relationshipName>Project</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

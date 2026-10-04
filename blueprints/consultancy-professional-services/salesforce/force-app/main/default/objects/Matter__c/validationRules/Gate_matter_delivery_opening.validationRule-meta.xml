@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_matter_delivery_opening</fullName>
+    <active>true</active>
+    <description>Stage gate: Matter delivery, Opening and later stages need Responsible partner and Matter manager.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Opening", 1, "Cleared to start", 2, "In progress", 3, "Awaiting client", 4, "Final billing", 5, "Closed", 6, 0) &gt;= 1, OR(ISBLANK(Responsible_partner__c), ISBLANK(Matter_manager__c)))</errorConditionFormula>
+    <errorMessage>Fill in Responsible partner and Matter manager before moving to Opening.</errorMessage>
+</ValidationRule>

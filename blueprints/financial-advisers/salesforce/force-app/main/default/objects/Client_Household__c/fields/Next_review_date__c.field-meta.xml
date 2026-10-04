@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_review_date__c</fullName>
+    <description>Date the next review is due. Set from the last review date and frequency. Drives the review cycle.</description>
+    <label>Next review date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_brief_and_scope</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Brief and scope and later stages need Brief received, Service lines and Engagement type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Lead", 1, "Discovery", 2, "Brief and scope", 3, "Proposal sent (New business)", 4, "Pitch or review", 5, "Negotiation (New business)", 6, "Closed won", 7, 0) &gt;= 3, OR(NOT(Brief_received__c), ISBLANK(Service_lines__c), ISBLANK(TEXT(Engagement_type__c))))</errorConditionFormula>
+    <errorMessage>Fill in Brief received, Service lines and Engagement type before moving to Brief and scope.</errorMessage>
+</ValidationRule>

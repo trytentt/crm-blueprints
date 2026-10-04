@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Promised_date__c</fullName>
+    <description>Delivery date promised to the customer. Late orders are reported on.</description>
+    <label>Promised date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_role__c</fullName>
+    <description>The part this person plays in instructing the firm. Used to check we know who signs and who pays.</description>
+    <label>Buying role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Instructing decision maker</fullName>
+                <default>false</default>
+                <label>Instructing decision maker</label>
+            </value>
+            <value>
+                <fullName>Sponsor</fullName>
+                <default>false</default>
+                <label>Sponsor</label>
+            </value>
+            <value>
+                <fullName>Finance contact</fullName>
+                <default>false</default>
+                <label>Finance contact</label>
+            </value>
+            <value>
+                <fullName>In-house legal</fullName>
+                <default>false</default>
+                <label>In-house legal</label>
+            </value>
+            <value>
+                <fullName>Day-to-day contact</fullName>
+                <default>false</default>
+                <label>Day-to-day contact</label>
+            </value>
+            <value>
+                <fullName>Referrer</fullName>
+                <default>false</default>
+                <label>Referrer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

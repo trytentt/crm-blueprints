@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consultant__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The recruiter responsible for the role.</description>
+    <label>Consultant</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Roles Consultant</relationshipLabel>
+    <relationshipName>Role_Consultant</relationshipName>
+    <type>Lookup</type>
+</CustomField>

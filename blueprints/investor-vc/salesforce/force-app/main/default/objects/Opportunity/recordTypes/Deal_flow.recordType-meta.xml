@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_flow</fullName>
+    <active>true</active>
+    <businessProcess>Deal_flow</businessProcess>
+    <description>Deal flow</description>
+    <label>Deal flow</label>
+    <picklistValues>
+        <picklist>Conviction__c</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not set</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Deal_source__c</picklist>
+        <values>
+            <fullName>Founder inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warm introduction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Co-investor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accelerator or studio</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Our outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio founder referral</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Our_role__c</picklist>
+        <values>
+            <fullName>Lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Co-lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undecided</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Pass_reason__c</picklist>
+        <values>
+            <fullName>Outside thesis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Team concerns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Market too small</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not enough traction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valuation too high</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Terms not agreed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diligence issue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lost the round</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Too early or too late</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Round_type__c</picklist>
+        <values>
+            <fullName>Pre-seed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Series A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Series B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bridge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Term_sheet_status__c</picklist>
+        <values>
+            <fullName>Not started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Negotiating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

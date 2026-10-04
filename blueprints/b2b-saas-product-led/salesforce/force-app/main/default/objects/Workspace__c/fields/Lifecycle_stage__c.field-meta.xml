@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lifecycle_stage__c</fullName>
+    <description>Where the workspace is in the self-serve journey.</description>
+    <label>Lifecycle stage</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Signed up</fullName>
+                <default>false</default>
+                <label>Signed up</label>
+            </value>
+            <value>
+                <fullName>Activated</fullName>
+                <default>false</default>
+                <label>Activated</label>
+            </value>
+            <value>
+                <fullName>Trialling</fullName>
+                <default>false</default>
+                <label>Trialling</label>
+            </value>
+            <value>
+                <fullName>Paying</fullName>
+                <default>false</default>
+                <label>Paying</label>
+            </value>
+            <value>
+                <fullName>Churned</fullName>
+                <default>false</default>
+                <label>Churned</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

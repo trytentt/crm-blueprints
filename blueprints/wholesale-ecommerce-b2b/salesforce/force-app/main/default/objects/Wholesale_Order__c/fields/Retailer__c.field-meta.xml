@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retailer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows the full order history for each retailer.</description>
+    <externalId>false</externalId>
+    <label>Retailer</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Wholesale orders</relationshipLabel>
+    <relationshipName>Wholesale_orders</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

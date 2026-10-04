@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_corporate_training_stakehold_ddaec5</fullName>
+    <active>true</active>
+    <description>Stage gate: Corporate training, Stakeholder review and later stages need Budget confirmed and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) &gt;= 4, OR(NOT(Budget_confirmed__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Budget confirmed and Next step date before moving to Stakeholder review.</errorMessage>
+</ValidationRule>

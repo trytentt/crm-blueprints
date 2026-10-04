@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Retainer renewals path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Renewal_type__c</fieldNames>
+        <info>Entered when a retainer engagement is 90 days from its end date.</info>
+        <picklistValueName>Upcoming</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Renewal_risk__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a results review with the client decision maker is in the diary.</info>
+        <picklistValueName>Review booked</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <info>Entered when a renewal proposal with the next term's scope and fee has been sent.</info>
+        <picklistValueName>Proposal sent (Retainer renewals)</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the client has asked for changes to scope, fee or term.</info>
+        <picklistValueName>Negotiation (Retainer renewals)</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the renewal agreement has been sent for signature.</info>
+        <picklistValueName>Awaiting signature</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the signed renewal is received and the engagement dates and fee are updated.</info>
+        <picklistValueName>Renewed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the client confirms they will not renew, or the term ends unsigned.</info>
+        <picklistValueName>Not renewed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Retainer_renewals</recordTypeName>
+</PathAssistant>

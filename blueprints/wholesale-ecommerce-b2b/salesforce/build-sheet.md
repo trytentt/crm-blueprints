@@ -1,0 +1,458 @@
+# Build sheet: Wholesale and ecommerce brand, B2B (salesforce)
+
+A product brand that sells wholesale to independent and chain retailers. Sales reps own territories and win retailer accounts through an acquisition pipeline. Each wholesale order is its own record with its own status pipeline, and reorders are tracked so lapsing retailers are chased.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is order fulfilment tracked on its own object rather than as stages on the sales deal?**
+  - Recommended default: Yes. A wholesale order repeats every season and is run by customer service and the warehouse. The deal ends when the account opens. Each order, first or repeat, is a wholesale order record.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Where do orders originate, and does the CRM hold them?**
+  - Recommended default: The ecommerce or wholesale portal is the source of truth. Sync order headers into the CRM and keep line items in the portal. The CRM holds value, dates, status and channel only.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are reorders tracked as deals?**
+  - Recommended default: No. A reorder is a wholesale order record with type reorder. Create a deal only for expansion, such as a new range or a new store group.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is territory a record or just a picklist on the company?**
+  - Recommended default: A record, because territories change rep and carry a target. If the plan has no custom objects, use a select field and keep targets in a spreadsheet.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Territory and Wholesale order?**
+  - Recommended default: Check before the build. If not, keep orders in the portal and put last order date, order count and reorder cycle on the company, with territory as a select field.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are orders from wholesale marketplaces handled in the same CRM?**
+  - Recommended default: Log the retailer as a company with source marketplace. Keep orders in the marketplace and do not sync them unless reps need them.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Territory**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Territory, plural Territories, API name `Sales_Territory__c`, record name a Text field.
+  - Purpose: A sales area, such as a region or a channel, with one responsible rep and a target. Retailer accounts belong to one territory so ownership and reporting are clear.
+  - Done when: the object Territory exists with plural name Territories.
+- [ ] **Create object Wholesale order**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Wholesale order, plural Wholesale orders, API name `Wholesale_Order__c`, record name a Text field.
+  - Purpose: One order placed by a retailer, first order or reorder, from placement to delivery and payment. This is the fulfilment side and stays separate from the account-acquisition deal.
+  - Done when: the object Wholesale order exists with plural name Wholesale orders.
+- [ ] **Create relationship company to territory (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Territory__c` on Account to Sales_Territory__c.
+  - Purpose: Puts each retailer in one territory so ownership and targets are clear.
+  - Done when: a company record shows the link as 'Territory' and a territory record shows it as 'Retailers'.
+- [ ] **Create relationship wholesale_order to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Retailer__c` on Wholesale_Order__c to Account.
+  - Purpose: Shows the full order history for each retailer.
+  - Done when: a wholesale_order record shows the link as 'Retailer' and a company record shows it as 'Wholesale orders'.
+- [ ] **Create relationship wholesale_order to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Placed_by__c` on Wholesale_Order__c to Contact.
+  - Purpose: Records which buyer placed the order.
+  - Done when: a wholesale_order record shows the link as 'Placed by' and a person record shows it as 'Orders placed'.
+- [ ] **Create relationship wholesale_order to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Acquisition_deal__c` on Wholesale_Order__c to Opportunity.
+  - Purpose: Links a first order to the deal that opened the account. Reorders have no deal.
+  - Done when: a wholesale_order record shows the link as 'Acquisition deal' and a deal record shows it as 'Orders'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Retailer acquisition on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Retailer_acquisition`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Retailer_acquisition`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Retailer acquisition exists with 8 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 5%.
+  - Entered when a retailer that fits the brand is logged with a named buyer.
+  - Stage value `Identified`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_identified` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 1, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Identified.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Contacted**
+  - Type: open. Probability: 10%.
+  - Entered when the buyer has replied or a meeting is booked.
+  - Stage value `Contacted`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_contacted` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Contacted.
+  - Done when: the stage Contacted is in position 2 and its rule is in place.
+- [ ] **Stage 3: Line sheet sent**
+  - Type: open. Probability: 25%.
+  - Entered when the line sheet and terms have been sent to the buyer.
+  - Stage value `Line sheet sent`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_line_sh_fba182` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 3, OR(NOT(Line_sheet_sent__c), ISBLANK(TEXT(Buying_season__c))))`. Error message: Fill in Line sheet sent and Buying season before moving to Line sheet sent.
+  - Done when: the stage Line sheet sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Range review**
+  - Type: open. Probability: 40%.
+  - Entered when the buyer has seen the range, through samples, a showroom visit or a buying meeting.
+  - Stage value `Range review`: closed false, won false, probability 40, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_range_review` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 4, OR(ISBLANK(TEXT(Samples_status__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Samples status and Next step date before moving to Range review.
+  - Done when: the stage Range review is in position 4 and its rule is in place.
+- [ ] **Stage 5: Terms discussion**
+  - Type: open. Probability: 60%.
+  - Entered when the buyer has named the products they want and is discussing minimums and terms.
+  - Stage value `Terms discussion`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_terms_d_6f4e4e` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 5, OR(ISBLANK(First_order_expected__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Expected first order value and Next step date before moving to Terms discussion.
+  - Done when: the stage Terms discussion is in position 5 and its rule is in place.
+- [ ] **Stage 6: Account setup**
+  - Type: open. Probability: 80%.
+  - Entered when terms are agreed in writing and the account application has been returned.
+  - Stage value `Account setup`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_retailer_acquisition_account_setup` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 6, OR(NOT(Terms_agreed__c), NOT(Account_application_received__c)))`. Error message: Fill in Terms agreed and Account application received before moving to Account setup.
+  - Done when: the stage Account setup is in position 6 and its rule is in place.
+- [ ] **Stage 7: Account opened**
+  - Type: won. Probability: 100%.
+  - Entered when the first order is placed and paid or approved on credit.
+  - Stage value `Account opened`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_retailer_acquisition_closed_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) >= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Account opened.
+  - Done when: the stage Account opened is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the retailer declines to stock the brand or does not reply after three follow-ups over 45 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_retailer_acquisition_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Retailer_acquisition", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Order status on wholesale_order**
+  - Where: Create the restricted picklist field `Stage__c` on Wholesale order: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Order status exists with 6 stages in the order below.
+- [ ] **Stage 1: Placed**
+  - Type: open. Probability: 40%.
+  - Entered when the order is received from the retailer through any channel.
+  - Validation rule `Gate_order_status_placed` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) >= 1, OR(ISBLANK(TEXT(Order_type__c)), ISBLANK(TEXT(Order_channel__c)), ISBLANK(Order_value__c)))`. Error message: Fill in Order type, Order channel and Order value before moving to Placed.
+  - Done when: the stage Placed is in position 1 and its rule is in place.
+- [ ] **Stage 2: Confirmed**
+  - Type: open. Probability: 60%.
+  - Entered when stock is allocated, credit is checked and the order is confirmed to the retailer.
+  - Validation rule `Gate_order_status_confirmed` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) >= 2, OR(ISBLANK(Ship_date__c), ISBLANK(Units__c)))`. Error message: Fill in Ship date and Units before moving to Confirmed.
+  - Done when: the stage Confirmed is in position 2 and its rule is in place.
+- [ ] **Stage 3: Picking**
+  - Type: open. Probability: 75%.
+  - Entered when the warehouse has the order for picking and packing.
+  - Validation rule `Gate_order_status_picking` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) >= 3, ISBLANK(Ship_date__c))`. Error message: Fill in Ship date before moving to Picking.
+  - Done when: the stage Picking is in position 3 and its rule is in place.
+- [ ] **Stage 4: Shipped**
+  - Type: open. Probability: 90%.
+  - Entered when the order has left the warehouse with a tracking reference.
+  - Validation rule `Gate_order_status_shipped` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) >= 4, ISBLANK(Ship_date__c))`. Error message: Fill in Ship date before moving to Shipped.
+  - Done when: the stage Shipped is in position 4 and its rule is in place.
+- [ ] **Stage 5: Delivered and paid**
+  - Type: won. Probability: 100%.
+  - Entered when the retailer has received the order and the invoice is paid or inside its terms.
+  - Validation rule `Gate_order_status_delivered` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) >= 5, ISBLANK(TEXT(Payment_status__c)))`. Error message: Fill in Payment status before moving to Delivered and paid.
+  - Done when: the stage Delivered and paid is in position 5 and its rule is in place.
+- [ ] **Stage 6: Cancelled**
+  - Type: lost. Probability: 0%.
+  - Entered when the order is cancelled before delivery by the retailer or by us.
+  - Validation rule `Lost_order_status_cancelled` (Setup, Object Manager, Wholesale order, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Cancelled"), ISBLANK(TEXT(Cancel_reason__c)))`. Error message: Fill in Cancel reason before closing this as Cancelled.
+  - Done when: the stage Cancelled is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Retailer type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Retailer_type__c`.
+  - Purpose: The kind of retailer. Used for pricing, assortment and reporting.
+  - Options: Independent shop, Small chain, National chain, Department store, Online-only retailer, Marketplace seller, Distributor
+  - Done when: Company records show Retailer type and it accepts the right values.
+- [ ] **Create field Account status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_status__c`.
+  - Purpose: Where the retailer is in its life with us. Drives views and reorder chasing.
+  - Options: Prospect, Onboarding, Active, At risk, Lapsed
+  - Done when: Company records show Account status and it accepts the right values.
+- [ ] **Create field Pricing tier (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Pricing_tier__c`.
+  - Purpose: Wholesale price band the retailer buys on. Set by order volume and agreed terms.
+  - Options: Standard, Preferred, Key account
+  - Done when: Company records show Pricing tier and it accepts the right values.
+- [ ] **Create field Payment terms (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Payment_terms__c`.
+  - Purpose: Payment terms agreed with the retailer. New accounts usually start on payment with order.
+  - Options: Pay on order, Net 30, Net 60, Credit hold
+  - Done when: Company records show Payment terms and it accepts the right values.
+- [ ] **Create field Credit limit (currency)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Currency (18, 2), API name `Credit_limit__c`.
+  - Purpose: Maximum unpaid balance allowed, set by finance after a credit check.
+  - Done when: Company records show Credit limit and it accepts the right values.
+- [ ] **Create field Store count (number)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Number (18, 0), API name `Store_count__c`.
+  - Purpose: Number of physical shops. Used to size the opportunity and plan assortments.
+  - Done when: Company records show Store count and it accepts the right values.
+- [ ] **Create field First order date (date)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Date, API name `First_order_date__c`.
+  - Purpose: Date of the account's first order. Set by automation.
+  - Done when: Company records show First order date and it accepts the right values.
+- [ ] **Create field Last order date (date)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Date, API name `Last_order_date__c`.
+  - Purpose: Date of the most recent order. Set by automation. Used to spot lapsing accounts.
+  - Done when: Company records show Last order date and it accepts the right values.
+- [ ] **Create field Reorder cycle (days) (number)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Number (18, 0), API name `Reorder_cycle_days__c`.
+  - Purpose: Usual days between orders for this retailer, often tied to a season. Compared with the last order date.
+  - Done when: Company records show Reorder cycle (days) and it accepts the right values.
+- [ ] **Create field Orders to date (number)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Number (18, 0), API name `Lifetime_orders__c`.
+  - Purpose: Count of orders placed. A count of one means the retailer has not yet reordered.
+  - Done when: Company records show Orders to date and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the retailer first came to us. Set once and never overwritten.
+  - Options: Trade show, Inbound enquiry, Rep outreach, Showroom, Wholesale marketplace, Referral
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Create field Account rep (user)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Territory_owner__c`.
+  - Purpose: The sales rep who looks after this retailer. Normally the rep of its territory.
+  - Done when: Company records show Account rep and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays at the retailer. Used to find the buyer to approach and who to invoice.
+  - Options: Buyer, Owner or director, Merchandiser, Accounts payable, Store manager
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the retailer did not open an account. Required on the lost stage.
+  - Options: Range does not fit the shop, Opening minimum too high, Margin too low, Stocks a competing brand, Credit declined, Missed the buying season, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Line sheet sent (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Line_sheet_sent__c`.
+  - Purpose: The current line sheet or catalogue has been sent to the buyer.
+  - Done when: Deal records show Line sheet sent and it accepts the right values.
+- [ ] **Create field Samples status (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Samples_status__c`.
+  - Purpose: Progress of any samples or showroom visit the buyer asked for.
+  - Options: Not needed, Requested, Sent, Reviewed
+  - Done when: Deal records show Samples status and it accepts the right values.
+- [ ] **Create field Buying season (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Buying_season__c`.
+  - Purpose: The collection or season the retailer is buying for. Wholesale orders are seasonal, so forecasts are reported by season.
+  - Options: Spring/summer, Autumn/winter, Christmas, Year-round
+  - Done when: Deal records show Buying season and it accepts the right values.
+- [ ] **Create field Terms agreed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Terms_agreed__c`.
+  - Purpose: Opening minimum, payment terms and returns policy are agreed in writing.
+  - Done when: Deal records show Terms agreed and it accepts the right values.
+- [ ] **Create field Account application received (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Account_application_received__c`.
+  - Purpose: The retailer has returned the account form with trade references or tax details.
+  - Done when: Deal records show Account application received and it accepts the right values.
+- [ ] **Create field Expected first order value (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `First_order_expected__c`.
+  - Purpose: The retailer's expected opening order value. Used to forecast.
+  - Done when: Deal records show Expected first order value and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Territory
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Territory name, for example North West or Independent gifts.
+  - Done when: Territory records show Name and it accepts the right values.
+- [ ] **Create field Rep (user)**
+  - Where: Setup, Object Manager, Territory, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Rep__c`.
+  - Purpose: The sales rep responsible for retailers in this territory.
+  - Done when: Territory records show Rep and it accepts the right values.
+- [ ] **Create field Territory type (select)**
+  - Where: Setup, Object Manager, Territory, Fields & Relationships, New. Data type Picklist, API name `Territory_type__c`.
+  - Purpose: Whether the territory is cut by place or by channel.
+  - Options: Geographic, Channel, National accounts
+  - Done when: Territory records show Territory type and it accepts the right values.
+- [ ] **Create field Annual target (currency)**
+  - Where: Setup, Object Manager, Territory, Fields & Relationships, New. Data type Currency (18, 2), API name `Annual_target__c`.
+  - Purpose: Wholesale revenue target for the territory for the year.
+  - Done when: Territory records show Annual target and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Territory, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Whether the territory has a rep and is being worked.
+  - Options: Covered, Vacant, Paused
+  - Done when: Territory records show Status and it accepts the right values.
+
+### Wholesale order
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Retailer name and the order reference.
+  - Done when: Wholesale order records show Name and it accepts the right values.
+- [ ] **Create field Order type (select)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Picklist, API name `Order_type__c`.
+  - Purpose: Whether this is the retailer's first order or a reorder. Used to report the reorder rate.
+  - Options: First order, Reorder, Pre-order, Sample order
+  - Done when: Wholesale order records show Order type and it accepts the right values.
+- [ ] **Create field Order channel (select)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Picklist, API name `Order_channel__c`.
+  - Purpose: How the order was placed. Used to see how much sells through the portal and how much through reps.
+  - Options: Wholesale portal, Rep, Trade show, Email, EDI
+  - Done when: Wholesale order records show Order channel and it accepts the right values.
+- [ ] **Create field Order date (date)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Date, API name `Order_date__c`.
+  - Purpose: Date the order was placed.
+  - Done when: Wholesale order records show Order date and it accepts the right values.
+- [ ] **Create field Ship date (date)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Date, API name `Ship_date__c`.
+  - Purpose: Date the order is promised to leave, or left, the warehouse.
+  - Done when: Wholesale order records show Ship date and it accepts the right values.
+- [ ] **Create field Order value (currency)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Currency (18, 2), API name `Order_value__c`.
+  - Purpose: Total wholesale value excluding tax.
+  - Done when: Wholesale order records show Order value and it accepts the right values.
+- [ ] **Create field Units (number)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Number (18, 0), API name `Units__c`.
+  - Purpose: Total units ordered. Compared with the opening minimum.
+  - Done when: Wholesale order records show Units and it accepts the right values.
+- [ ] **Create field Payment status (select)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Picklist, API name `Payment_status__c`.
+  - Purpose: Where payment stands for the order.
+  - Options: Unpaid, Part paid, Paid, Overdue
+  - Done when: Wholesale order records show Payment status and it accepts the right values.
+- [ ] **Create field Cancel reason (select)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Picklist, API name `Cancel_reason__c`.
+  - Purpose: Why the order was cancelled. Required on the cancelled stage.
+  - Options: Stock unavailable, Retailer cancelled, Credit hold, Payment failed, Duplicate order, Other
+  - Done when: Wholesale order records show Cancel reason and it accepts the right values.
+- [ ] **Create field Season (select)**
+  - Where: Setup, Object Manager, Wholesale order, Fields & Relationships, New. Data type Picklist, API name `Season__c`.
+  - Purpose: The collection the order is for. Used for seasonal reorder analysis.
+  - Options: Spring/summer, Autumn/winter, Christmas, Year-round
+  - Done when: Wholesale order records show Season and it accepts the right values.
+- [ ] **Create field Order owner (user)**
+  - Where: The standard Owner field of the object. Nothing to create.
+  - Purpose: The team member (rep or customer service) responsible for the order.
+  - Done when: Wholesale order records show Order owner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Update retailer on order**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A wholesale order is created.
+  - Action: Set the company's last order date, add one to its order count, set first order date if empty, and set its account status to active.
+  - Done when: the automation runs on a test record and the result matches: Set the company's last order date, add one to its order count, set first order date if empty, and set its account status to active.
+- [ ] **Close deal on first order**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A first order linked to an account-acquisition deal moves to confirmed.
+  - Action: Move the deal to account opened and set the company account status to onboarding.
+  - Done when: the automation runs on a test record and the result matches: Move the deal to account opened and set the company account status to onboarding.
+- [ ] **Reorder nudge**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: Days since the last order exceed the retailer's reorder cycle and the account is active.
+  - Action: Create a task for the account rep to contact the buyer and set the account status to at risk.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account rep to contact the buyer and set the account status to at risk.
+- [ ] **Second order check**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A retailer's first order was delivered 45 days ago and its order count is 1.
+  - Action: Create a task for the account rep to ask for feedback and a reorder.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account rep to ask for feedback and a reorder.
+- [ ] **Mark lapsed**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A retailer has no order for twice its reorder cycle.
+  - Action: Set the account status to lapsed and notify the territory rep.
+  - Done when: the automation runs on a test record and the result matches: Set the account status to lapsed and notify the territory rep.
+- [ ] **Vacant territory alert**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A territory status changes to vacant.
+  - Action: Notify the sales manager and reassign its open deals to the manager.
+  - Done when: the automation runs on a test record and the result matches: Notify the sales manager and reassign its open deals to the manager.
+
+## 6. Views
+
+- [ ] **My retailers**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Account rep is me and account status is active, onboarding or at risk.
+  - Sort: Last order date, oldest first.
+  - Done when: the view My retailers is saved and shows the expected records.
+- [ ] **Reorders overdue**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Account status is active or at risk and last order date is older than the reorder cycle.
+  - Sort: Last order date, oldest first.
+  - Done when: the view Reorders overdue is saved and shows the expected records.
+- [ ] **One-order retailers**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Orders to date is 1 and first order date is more than 45 days ago.
+  - Sort: First order date, oldest first.
+  - Done when: the view One-order retailers is saved and shows the expected records.
+- [ ] **Open orders**
+  - Where: Open Wholesale orders, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: wholesale_order
+  - Filter: Status is not delivered or cancelled.
+  - Sort: Ship date, soonest first.
+  - Done when: the view Open orders is saved and shows the expected records.
+- [ ] **Territory overview**
+  - Where: Generated as list view `Territory_overview`. Open Territories, choose the view, then set the sort (Name, A to Z.) from the list controls and save.
+  - Object: territory
+  - Filter: Status is covered or vacant.
+  - Sort: Name, A to Z.
+  - Done when: the view Territory overview is saved and shows the expected records.
+- [ ] **My retailer pipeline**
+  - Where: Generated as list view `Retailer_pipeline`. Open Deals, choose the view, then set the sort (Next step date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Next step date, soonest first.
+  - Done when: the view My retailer pipeline is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

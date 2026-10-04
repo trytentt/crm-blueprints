@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Seniority__c</fullName>
+    <description>For candidates and contacts, their level. Used to map the market and brief the right partner.</description>
+    <label>Seniority</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Board or chair</fullName>
+                <default>false</default>
+                <label>Board or chair</label>
+            </value>
+            <value>
+                <fullName>C-suite</fullName>
+                <default>false</default>
+                <label>C-suite</label>
+            </value>
+            <value>
+                <fullName>VP or director</fullName>
+                <default>false</default>
+                <label>VP or director</label>
+            </value>
+            <value>
+                <fullName>Head of function</fullName>
+                <default>false</default>
+                <label>Head of function</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_contract_renewals_review_meeting</fullName>
+    <active>true</active>
+    <description>Stage gate: Contract renewals, Review meeting and later stages need Renewal risk and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) &gt;= 2, OR(ISBLANK(TEXT(Renewal_risk__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Renewal risk and Next step date before moving to Review meeting.</errorMessage>
+</ValidationRule>

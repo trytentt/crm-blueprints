@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the tender or quote was lost. Required on the lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Price</fullName>
+                <default>false</default>
+                <label>Price</label>
+            </value>
+            <value>
+                <fullName>Programme or start date</fullName>
+                <default>false</default>
+                <label>Programme or start date</label>
+            </value>
+            <value>
+                <fullName>Chose another contractor</fullName>
+                <default>false</default>
+                <label>Chose another contractor</label>
+            </value>
+            <value>
+                <fullName>We lacked capacity</fullName>
+                <default>false</default>
+                <label>We lacked capacity</label>
+            </value>
+            <value>
+                <fullName>Client cancelled the project</fullName>
+                <default>false</default>
+                <label>Client cancelled the project</label>
+            </value>
+            <value>
+                <fullName>Not shortlisted</fullName>
+                <default>false</default>
+                <label>Not shortlisted</label>
+            </value>
+            <value>
+                <fullName>Never awarded</fullName>
+                <default>false</default>
+                <label>Never awarded</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

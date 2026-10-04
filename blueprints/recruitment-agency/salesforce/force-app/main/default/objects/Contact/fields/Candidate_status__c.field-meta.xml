@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Candidate_status__c</fullName>
+    <description>For candidates, whether we can currently put them forward.</description>
+    <label>Candidate status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active, looking</fullName>
+                <default>false</default>
+                <label>Active, looking</label>
+            </value>
+            <value>
+                <fullName>Passive, open to approach</fullName>
+                <default>false</default>
+                <label>Passive, open to approach</label>
+            </value>
+            <value>
+                <fullName>Placed recently</fullName>
+                <default>false</default>
+                <label>Placed recently</label>
+            </value>
+            <value>
+                <fullName>Not looking</fullName>
+                <default>false</default>
+                <label>Not looking</label>
+            </value>
+            <value>
+                <fullName>Do not contact</fullName>
+                <default>false</default>
+                <label>Do not contact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

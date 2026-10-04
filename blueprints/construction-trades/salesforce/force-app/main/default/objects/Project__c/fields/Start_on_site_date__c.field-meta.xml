@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_on_site_date__c</fullName>
+    <description>The day work starts on site.</description>
+    <label>Start on site</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

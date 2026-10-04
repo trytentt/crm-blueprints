@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_referral_partners_identified</fullName>
+    <active>true</active>
+    <description>Stage gate: Referral partners, Identified and later stages need Agreement type.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) &gt;= 1, ISBLANK(TEXT(Agreement_type__c)))</errorConditionFormula>
+    <errorDisplayField>Agreement_type__c</errorDisplayField>
+    <errorMessage>Fill in Agreement type before moving to Identified.</errorMessage>
+</ValidationRule>

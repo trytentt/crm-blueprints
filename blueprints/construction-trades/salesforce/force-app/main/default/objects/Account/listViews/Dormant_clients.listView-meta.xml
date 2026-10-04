@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dormant_clients</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Relationship_status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Relationship_status__c</field>
+        <operation>equals</operation>
+        <value>Dormant</value>
+    </filters>
+    <label>Dormant clients</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

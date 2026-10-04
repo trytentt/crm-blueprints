@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_search_delivery_shortlist</fullName>
+    <active>true</active>
+    <description>Stage gate: Search delivery, Shortlist and later stages need Target placement date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) &gt;= 4, ISBLANK(Target_placement_date__c))</errorConditionFormula>
+    <errorDisplayField>Target_placement_date__c</errorDisplayField>
+    <errorMessage>Fill in Target placement date before moving to Shortlist.</errorMessage>
+</ValidationRule>

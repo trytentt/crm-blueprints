@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Client development path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a company with a likely hiring need is chosen for outreach and a hiring contact is identified.</info>
+        <picklistValueName>Target</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a hiring manager has spoken to us about a current or planned hire.</info>
+        <picklistValueName>Conversation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Search_model__c</fieldNames>
+        <fieldNames>Fee_percent__c</fieldNames>
+        <info>Entered when the client has asked for our fees and terms of business.</info>
+        <picklistValueName>Terms discussed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Search_model__c</fieldNames>
+        <fieldNames>Fee_percent__c</fieldNames>
+        <fieldNames>Exclusivity__c</fieldNames>
+        <info>Entered when the terms of business have been sent to someone with authority to sign.</info>
+        <picklistValueName>Terms sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Search_model__c</fieldNames>
+        <fieldNames>Fee_percent__c</fieldNames>
+        <info>Entered when the signed terms of business are received and the company terms status is set to signed.</info>
+        <picklistValueName>Terms signed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the client declines terms, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Not won</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Client_development</recordTypeName>
+</PathAssistant>

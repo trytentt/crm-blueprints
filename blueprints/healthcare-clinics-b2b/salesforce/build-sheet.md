@@ -1,0 +1,524 @@
+# Build sheet: Healthcare clinics, B2B (salesforce)
+
+A private clinic or health-services provider that sells to businesses only. Customers are employers, insurers and intermediaries who buy services for their people, and referral partners who send work. The CRM holds NO patient or health data of any kind. It records organisations, business contacts, contracts and aggregate counts only. Patient records stay in the clinical system.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Does the CRM store any patient, health or clinical information?**
+  - Recommended default: No, never. The CRM is for organisations, business contacts, contracts and aggregate counts. A patient is not a Person record, and no field, note, form, email sync or call recording may carry health information. Health data is special category data under UK GDPR and stays in the clinical system, which is also where consent and retention rules are enforced.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is delivery tracked on a service contract object rather than as stages on the deal?**
+  - Recommended default: Yes. The sales deal ends at closed won. The service contract carries term, pricing basis, data processing agreement and renewal date, and is owned by the account manager.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are referral partners tracked in their own pipeline rather than as deals?**
+  - Recommended default: Yes. A partnership has no sale value and a governance check no deal has, so it gets its own object and pipeline. Deals link back to the source partner for attribution.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do any referral partnerships involve payment?**
+  - Recommended default: Default to none. Any fixed fee or revenue share is reviewed by legal and the clinical lead before the agreement is sent, because fees for healthcare referrals can be restricted.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Who can see the CRM, and is email or call sync allowed?**
+  - Recommended default: Give access only to commercial staff. Do not connect clinical mailboxes or recorded patient calls. Turn off call transcription and email body capture on shared inboxes, and set free-text fields with a warning not to enter personal health details.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects and a pipeline on a custom object?**
+  - Recommended default: Check before the build. If not, hold the referral partners as a deal pipeline and the service contract as company fields, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Service**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Service, plural Services, API name `Service__c`, record name a Text field.
+  - Purpose: One service line the clinic sells to organisations, for example a type of assessment, programme or screening. A catalogue entry with price and delivery mode. Holds no patient or health data.
+  - Done when: the object Service exists with plural name Services.
+- [ ] **Create object Service contract**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Service contract, plural Service contracts, API name `Service_Contract__c`, record name a Text field.
+  - Purpose: The agreement under which the clinic provides services to one employer or insurer, with its term, pricing basis and renewal date. Created when a deal is won. Holds only commercial terms and aggregate headcount, never information about any patient.
+  - Done when: the object Service contract exists with plural name Service contracts.
+- [ ] **Create object Referral agreement**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Referral agreement, plural Referral agreements, API name `Referral_Agreement__c`, record name a Text field.
+  - Purpose: The working arrangement with one referral partner, such as a broker, insurer panel or another provider. Tracks governance checks and the agreement. Volumes are aggregate counts only. Never record who was referred or why.
+  - Done when: the object Referral agreement exists with plural name Referral agreements.
+- [ ] **Create relationship service_contract to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Customer__c` on Service_Contract__c to Account.
+  - Purpose: Shows every contract a customer has had.
+  - Done when: a service_contract record shows the link as 'Customer' and a company record shows it as 'Service contracts'.
+- [ ] **Create relationship service_contract to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Originating_deal__c` on Service_Contract__c to Opportunity.
+  - Purpose: Ties a contract to the deal that won it and to later renewal deals.
+  - Done when: a service_contract record shows the link as 'Originating deal' and a deal record shows it as 'Service contracts'.
+- [ ] **Create relationship service_contract to service (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to service_contract, one to service). Junction object `Service_contract_service__c` with two master-detail fields.
+  - Purpose: Records which service lines each contract includes.
+  - Done when: a service_contract record shows the link as 'Services' and a service record shows it as 'Service contracts'.
+- [ ] **Create relationship deal to service (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to deal, one to service). Junction object `Deal_service__c` with two master-detail fields.
+  - Purpose: Shows which services were quoted on a deal, to see what sells.
+  - Done when: a deal record shows the link as 'Services quoted' and a service record shows it as 'Deals'.
+- [ ] **Create relationship referral_agreement to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Partner_organisation__c` on Referral_Agreement__c to Account.
+  - Purpose: Links each agreement to the organisation that is the partner.
+  - Done when: a referral_agreement record shows the link as 'Partner organisation' and a company record shows it as 'Referral agreements'.
+- [ ] **Create relationship referral_agreement to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Partner_contact__c` on Referral_Agreement__c to Contact.
+  - Purpose: Names the business contact who manages the partnership. Never a patient.
+  - Done when: a referral_agreement record shows the link as 'Partner contact' and a person record shows it as 'Referral agreements'.
+- [ ] **Create relationship deal to referral_agreement (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Source_partner__c` on Opportunity to Referral_Agreement__c.
+  - Purpose: Credits the partner that introduced a deal, so partner value can be reported.
+  - Done when: a deal record shows the link as 'Source partner' and a referral_agreement record shows it as 'Deals sourced'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Employer and insurer contracts on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Employer_insurer_contracts`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Employer_insurer_contracts`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Employer and insurer contracts exists with 8 stages in the order below.
+- [ ] **Stage 1: Qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a named buyer at an employer or insurer has a stated need and enough people to be worth a contract.
+  - Stage value `Qualified`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_q_d21868` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 1, OR(ISBLANK(Service_interest__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Service interest and Next step date before moving to Qualified.
+  - Done when: the stage Qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Discovery**
+  - Type: open. Probability: 25%.
+  - Entered when the first needs call has happened and sites, headcount and services are written down.
+  - Stage value `Discovery`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_d_1f631f` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 2, OR(ISBLANK(Covered_headcount__c), ISBLANK(Sites_covered__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Covered headcount, Sites covered and Next step date before moving to Discovery.
+  - Done when: the stage Discovery is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal**
+  - Type: open. Probability: 45%.
+  - Entered when a priced proposal with services and pricing model has been sent.
+  - Stage value `Proposal`: closed false, won false, probability 45, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_proposal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 3, OR(ISBLANK(Amount), ISBLANK(TEXT(Pricing_model__c)), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Amount, Pricing model and Contract term (months) before moving to Proposal.
+  - Done when: the stage Proposal is in position 3 and its rule is in place.
+- [ ] **Stage 4: Governance review**
+  - Type: open. Probability: 65%.
+  - Entered when the buyer has started their data protection, clinical governance or procurement review.
+  - Stage value `Governance review`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_g_1ce3c9` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 4, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Governance review.
+  - Done when: the stage Governance review is in position 4 and its rule is in place.
+- [ ] **Stage 5: Pilot**
+  - Type: open. Probability: 75%.
+  - Entered when a pilot has been agreed in writing and has a start date.
+  - Stage value `Pilot`: closed false, won false, probability 75, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_pilot` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 5, OR(NOT(Pilot_agreed__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Pilot agreed and Next step date before moving to Pilot.
+  - Done when: the stage Pilot is in position 5 and its rule is in place.
+- [ ] **Stage 6: Contract out**
+  - Type: open. Probability: 90%.
+  - Entered when the governance review is passed and the contract has been sent for signature.
+  - Stage value `Contract out`: closed false, won false, probability 90, forecast category Pipeline. Validation rule `Gate_employer_insurer_contracts_c_e9db3c` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate), NOT(Governance_review_passed__c)))`. Error message: Fill in Amount, Close date and Governance review passed before moving to Contract out.
+  - Done when: the stage Contract out is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed contract is received and a service contract record is created.
+  - Stage value `Closed won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_employer_insurer_contracts_c_c8865e` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", CASE(StageName, "Qualified", 1, "Discovery", 2, "Proposal", 3, "Governance review", 4, "Pilot", 5, "Contract out", 6, "Closed won", 7, 0) >= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate), NOT(Governance_review_passed__c)))`. Error message: Fill in Amount, Close date and Governance review passed before moving to Closed won.
+  - Done when: the stage Closed won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_employer_insurer_contracts_c_090e19` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Employer_insurer_contracts", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Contract renewals on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Contract_renewals`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Contract_renewals`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Contract renewals exists with 6 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 60%.
+  - Entered when the service contract is 90 days from its renewal date.
+  - Stage value `Upcoming`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_contract_renewals_upcoming` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) >= 1, ISBLANK(TEXT(Renewal_risk__c)))`. Error message: Fill in Renewal risk before moving to Upcoming.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Review meeting**
+  - Type: open. Probability: 70%.
+  - Entered when a service review with the customer has been held.
+  - Stage value `Review meeting`: closed false, won false, probability 70, forecast category Pipeline. Validation rule `Gate_contract_renewals_review_meeting` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) >= 2, OR(ISBLANK(TEXT(Renewal_risk__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Renewal risk and Next step date before moving to Review meeting.
+  - Done when: the stage Review meeting is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms proposed**
+  - Type: open. Probability: 80%.
+  - Entered when renewal pricing and terms have been sent to the buyer.
+  - Stage value `Terms proposed`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_contract_renewals_terms_proposed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) >= 3, OR(ISBLANK(Amount), ISBLANK(TEXT(Pricing_model__c)), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Amount, Pricing model and Contract term (months) before moving to Terms proposed.
+  - Done when: the stage Terms proposed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Awaiting signature**
+  - Type: open. Probability: 95%.
+  - Entered when the final renewal contract has been sent for signature.
+  - Stage value `Awaiting signature`: closed false, won false, probability 95, forecast category Pipeline. Validation rule `Gate_contract_renewals_awaiting_s_3280c0` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Awaiting signature.
+  - Done when: the stage Awaiting signature is in position 4 and its rule is in place.
+- [ ] **Stage 5: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed renewal is received and the contract dates are updated.
+  - Stage value `Renewed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_contract_renewals_renewed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", CASE(StageName, "Upcoming", 1, "Review meeting", 2, "Terms proposed", 3, "Awaiting signature", 4, "Renewed", 5, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Renewed.
+  - Done when: the stage Renewed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not renewed**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer confirms they will not renew, or the term ends unsigned.
+  - Stage value `Not renewed`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_contract_renewals_not_renewed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Contract_renewals", ISPICKVAL(StageName, "Not renewed"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Not renewed.
+  - Done when: the stage Not renewed is in position 6 and its rule is in place.
+- [ ] **Create pipeline Referral partners on referral_agreement**
+  - Where: Create the restricted picklist field `Stage__c` on Referral agreement: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Referral partners exists with 6 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 10%.
+  - Entered when a likely partner and a named business contact have been identified.
+  - Validation rule `Gate_referral_partners_identified` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) >= 1, ISBLANK(TEXT(Agreement_type__c)))`. Error message: Fill in Agreement type before moving to Identified.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Intro meeting**
+  - Type: open. Probability: 30%.
+  - Entered when a first meeting with the partner has happened and both sides want to continue.
+  - Validation rule `Gate_referral_partners_intro_meeting` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) >= 2, ISBLANK(TEXT(Fee_basis__c)))`. Error message: Fill in Fee basis before moving to Intro meeting.
+  - Done when: the stage Intro meeting is in position 2 and its rule is in place.
+- [ ] **Stage 3: Governance check**
+  - Type: open. Probability: 55%.
+  - Entered when information governance and clinical governance checks on the partner have started.
+  - Validation rule `Gate_referral_partners_governance_check` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) >= 3, ISBLANK(TEXT(Fee_basis__c)))`. Error message: Fill in Fee basis before moving to Governance check.
+  - Done when: the stage Governance check is in position 3 and its rule is in place.
+- [ ] **Stage 4: Agreement sent**
+  - Type: open. Probability: 80%.
+  - Entered when governance checks are complete and the agreement has been sent for signature.
+  - Validation rule `Gate_referral_partners_agreement_sent` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) >= 4, NOT(Governance_checked__c))`. Error message: Fill in Governance checked before moving to Agreement sent.
+  - Done when: the stage Agreement sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Active**
+  - Type: won. Probability: 100%.
+  - Entered when the agreement is signed by both sides.
+  - Validation rule `Gate_referral_partners_active` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) >= 5, OR(ISBLANK(Signed_date__c), ISBLANK(Review_date__c), NOT(Governance_checked__c)))`. Error message: Fill in Signed date, Review date and Governance checked before moving to Active.
+  - Done when: the stage Active is in position 5 and its rule is in place.
+- [ ] **Stage 6: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when either side decides not to proceed, or a governance check fails.
+  - Validation rule `Lost_referral_partners_declined` (Setup, Object Manager, Referral agreement, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Declined"), ISBLANK(TEXT(Decline_reason__c)))`. Error message: Fill in Decline reason before closing this as Declined.
+  - Done when: the stage Declined is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_type__c`.
+  - Purpose: What kind of organisation this is. Decides which pipeline it belongs in.
+  - Options: Employer, Insurer, Broker or intermediary, Case management provider, Other healthcare provider, Other
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Headcount band (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Headcount_band__c`.
+  - Purpose: Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.
+  - Options: Under 50, 50 to 249, 250 to 999, 1,000 or more
+  - Done when: Company records show Headcount band and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Sector__c`.
+  - Purpose: The industry the employer works in. Drives which services are relevant, such as surveillance for manufacturing.
+  - Options: Manufacturing, Logistics and transport, Construction, Public sector, Professional services, Retail and hospitality, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Customer_status__c`.
+  - Purpose: Where the organisation is in its life with us.
+  - Options: Prospect, Active customer, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the organisation first came to us. Set once, never overwritten.
+  - Options: Referral partner, Inbound enquiry, Outbound, Event, Existing customer
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays in a purchase. These are business contacts only. A patient is never stored as a person here.
+  - Options: HR lead, Benefits manager, Health and safety lead, Finance lead, Procurement, Broker contact, Claims contact
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the deal was lost. Required on every lost stage.
+  - Options: No budget, Kept current provider, Price, We could not cover their sites or services, Governance or data protection review failed, No decision made, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Service interest (multi_select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Service_interest__c`.
+  - Purpose: Which service lines the buyer wants quoted. Used to report demand by service.
+  - Options: Workplace assessments, Workplace physiotherapy, Diagnostics, Screening and surveillance, Vaccination programmes, Wellbeing support programmes
+  - Done when: Deal records show Service interest and it accepts the right values.
+- [ ] **Create field Covered headcount (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Covered_headcount__c`.
+  - Purpose: Number of employees the contract would cover, as stated by the employer. A count only.
+  - Done when: Deal records show Covered headcount and it accepts the right values.
+- [ ] **Create field Sites covered (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Sites_covered__c`.
+  - Purpose: Number of employer sites the clinic would serve. Sets travel and on-site cost.
+  - Done when: Deal records show Sites covered and it accepts the right values.
+- [ ] **Create field Pricing model (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Pricing_model__c`.
+  - Purpose: How the buyer will be charged.
+  - Options: Per appointment, Per employee per month, Annual retainer, Pay as you go
+  - Done when: Deal records show Pricing model and it accepts the right values.
+- [ ] **Create field Governance review passed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Governance_review_passed__c`.
+  - Purpose: The buyer's data protection and clinical governance review is complete and a data processing agreement is agreed.
+  - Done when: Deal records show Governance review passed and it accepts the right values.
+- [ ] **Create field Pilot agreed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Pilot_agreed__c`.
+  - Purpose: A time-limited trial with a defined scope has been agreed in writing.
+  - Done when: Deal records show Pilot agreed and it accepts the right values.
+- [ ] **Create field Contract term (months) (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Contract_term_months__c`.
+  - Purpose: Length of the proposed contract in months.
+  - Done when: Deal records show Contract term (months) and it accepts the right values.
+- [ ] **Create field Renewal risk (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Renewal_risk__c`.
+  - Purpose: Account manager's view of how likely a renewal deal is to close.
+  - Options: Low, Medium, High
+  - Done when: Deal records show Renewal risk and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Service
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: The service line as sold, for example a type of workplace assessment.
+  - Done when: Service records show Name and it accepts the right values.
+- [ ] **Create field Category (select)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Picklist, API name `Category__c`.
+  - Purpose: Group of the service, for reporting revenue by line.
+  - Options: Assessments, Treatment programmes, Diagnostics, Screening and surveillance, Vaccination, Wellbeing
+  - Done when: Service records show Category and it accepts the right values.
+- [ ] **Create field Delivery mode (select)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Picklist, API name `Delivery_mode__c`.
+  - Purpose: Where the service is provided. Affects cost and which sites a contract can cover.
+  - Options: At the clinic, On site at the client, Remote
+  - Done when: Service records show Delivery mode and it accepts the right values.
+- [ ] **Create field List price (currency)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Currency (18, 2), API name `List_price__c`.
+  - Purpose: Standard price per pricing unit before discount.
+  - Done when: Service records show List price and it accepts the right values.
+- [ ] **Create field Pricing unit (select)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Picklist, API name `Pricing_unit__c`.
+  - Purpose: What the list price is charged against.
+  - Options: Per appointment, Per employee, Per session, Per day
+  - Done when: Service records show Pricing unit and it accepts the right values.
+- [ ] **Create field Active (checkbox)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Checkbox, API name `Active__c`.
+  - Purpose: The service can currently be sold.
+  - Done when: Service records show Active and it accepts the right values.
+- [ ] **Create field Regulated activity (checkbox)**
+  - Where: Setup, Object Manager, Service, Fields & Relationships, New. Data type Checkbox, API name `Regulated__c`.
+  - Purpose: The service needs regulator registration or a named clinician lead before it is sold.
+  - Done when: Service records show Regulated activity and it accepts the right values.
+
+### Service contract
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Organisation name and the word contract. Never include a person's name.
+  - Done when: Service contract records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the contract is in its life.
+  - Options: Pending start, Active, In renewal, Ended
+  - Done when: Service contract records show Status and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: First day of the current term.
+  - Done when: Service contract records show Start date and it accepts the right values.
+- [ ] **Create field Renewal date (date)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Date, API name `Renewal_date__c`.
+  - Purpose: Last day of the current term. A renewal deal opens 90 days before it.
+  - Done when: Service contract records show Renewal date and it accepts the right values.
+- [ ] **Create field Pricing model (select)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Picklist, API name `Pricing_model__c`.
+  - Purpose: How the customer is charged under this contract.
+  - Options: Per appointment, Per employee per month, Annual retainer, Pay as you go
+  - Done when: Service contract records show Pricing model and it accepts the right values.
+- [ ] **Create field Annual value (currency)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Currency (18, 2), API name `Annual_value__c`.
+  - Purpose: Expected yearly revenue from this contract at current prices.
+  - Done when: Service contract records show Annual value and it accepts the right values.
+- [ ] **Create field Covered headcount (number)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Number (18, 0), API name `Covered_headcount__c`.
+  - Purpose: Number of employees in scope, as told to us by the employer. A count only, never a list of people.
+  - Done when: Service contract records show Covered headcount and it accepts the right values.
+- [ ] **Create field Data processing agreement signed (checkbox)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Checkbox, API name `Dpa_signed__c`.
+  - Purpose: A data processing agreement is in place before any service starts. Required for every contract.
+  - Done when: Service contract records show Data processing agreement signed and it accepts the right values.
+- [ ] **Create field Review cadence (select)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Picklist, API name `Review_cadence__c`.
+  - Purpose: How often the account manager holds a service review with the customer.
+  - Options: Monthly, Quarterly, Annually
+  - Done when: Service contract records show Review cadence and it accepts the right values.
+- [ ] **Create field Account manager (user)**
+  - Where: Setup, Object Manager, Service contract, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Account_manager__c`.
+  - Purpose: The team member responsible for the customer after the sale.
+  - Done when: Service contract records show Account manager and it accepts the right values.
+
+### Referral agreement
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Partner organisation name and the word agreement.
+  - Done when: Referral agreement records show Name and it accepts the right values.
+- [ ] **Create field Agreement type (select)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Picklist, API name `Agreement_type__c`.
+  - Purpose: Which way work flows and how the partner is listed.
+  - Options: Partner refers to us, We refer to partner, Preferred provider listing, Broker introduction
+  - Done when: Referral agreement records show Agreement type and it accepts the right values.
+- [ ] **Create field Fee basis (select)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Picklist, API name `Fee_basis__c`.
+  - Purpose: Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.
+  - Options: None, Fixed fee, Revenue share
+  - Done when: Referral agreement records show Fee basis and it accepts the right values.
+- [ ] **Create field Governance checked (checkbox)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Checkbox, API name `Governance_checked__c`.
+  - Purpose: Information governance and clinical governance checks on the partner are complete.
+  - Done when: Referral agreement records show Governance checked and it accepts the right values.
+- [ ] **Create field Signed date (date)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Date, API name `Signed_date__c`.
+  - Purpose: The day the agreement was signed by both sides.
+  - Done when: Referral agreement records show Signed date and it accepts the right values.
+- [ ] **Create field Review date (date)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Date, API name `Review_date__c`.
+  - Purpose: When the arrangement is next reviewed.
+  - Done when: Referral agreement records show Review date and it accepts the right values.
+- [ ] **Create field Referrals last quarter (number)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Number (18, 0), API name `Referrals_last_quarter__c`.
+  - Purpose: Aggregate number of referrals in the last quarter. A count only. Never record who was referred.
+  - Done when: Referral agreement records show Referrals last quarter and it accepts the right values.
+- [ ] **Create field Decline reason (select)**
+  - Where: Setup, Object Manager, Referral agreement, Fields & Relationships, New. Data type Picklist, API name `Decline_reason__c`.
+  - Purpose: Why the partnership did not go ahead. Required on the declined stage.
+  - Options: Governance check failed, Not a fit, Conflict of interest, Partner declined, No response, Other
+  - Done when: Referral agreement records show Decline reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create service contract on win**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the employer and insurer contracts pipeline moves to closed won.
+  - Action: Create a service contract with the deal's amount, term and services, link it to the deal and the company, set status to pending start and the customer status to active customer.
+  - Done when: the automation runs on a test record and the result matches: Create a service contract with the deal's amount, term and services, link it to the deal and the company, set status to pending start and the customer status to active customer.
+- [ ] **Block start without data processing agreement**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A service contract is set to active and the data processing agreement signed box is empty.
+  - Action: Set the status back to pending start and notify the account manager and the data protection lead.
+  - Done when: the automation runs on a test record and the result matches: Set the status back to pending start and notify the account manager and the data protection lead.
+- [ ] **Open renewal deal**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A service contract's renewal date is 90 days away and its status is active.
+  - Action: Create a deal in the contract renewals pipeline at upcoming, linked to the contract, and set the contract status to in renewal.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the contract renewals pipeline at upcoming, linked to the contract, and set the contract status to in renewal.
+- [ ] **Partner review reminder**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An active referral agreement has a review date within 30 days.
+  - Action: Create a task for the partnerships owner to hold the review and update the quarterly referral count.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the partnerships owner to hold the review and update the quarterly referral count.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Generated as list view `My_open_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Deals in governance review**
+  - Where: Generated as list view `Deals_in_governance`. Open Deals, choose the view, then set the sort (Next step date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is governance review or pilot.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Deals in governance review is saved and shows the expected records.
+- [ ] **Renewals in the next 90 days**
+  - Where: Generated as list view `Renewals_next_90_days`. Open Service contracts, choose the view, then set the sort (Renewal date, soonest first.) from the list controls and save.
+  - Object: service_contract
+  - Filter: Status is active or in renewal and renewal date is within 90 days.
+  - Sort: Renewal date, soonest first.
+  - Done when: the view Renewals in the next 90 days is saved and shows the expected records.
+- [ ] **Partners due review**
+  - Where: Generated as list view `Partners_due_review`. Open Referral agreements, choose the view, then set the sort (Review date, soonest first.) from the list controls and save.
+  - Object: referral_agreement
+  - Filter: Stage is active and review date is within 60 days.
+  - Sort: Review date, soonest first.
+  - Done when: the view Partners due review is saved and shows the expected records.
+- [ ] **Brokers and insurers**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Account type is insurer or broker.
+  - Sort: Name, A to Z.
+  - Done when: the view Brokers and insurers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_portfolio_outcome_written_off</fullName>
+    <active>true</active>
+    <description>Lost reason: Portfolio outcome, Written off needs Write-off reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Written off"), ISBLANK(TEXT(Write_off_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Write_off_reason__c</errorDisplayField>
+    <errorMessage>Fill in Write-off reason before closing this as Written off.</errorMessage>
+</ValidationRule>

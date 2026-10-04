@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Records which packages and add-ons a deal includes.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Deal to package link</label>
+    <nameField>
+        <displayFormat>DP-{00000}</displayFormat>
+        <label>Deal to package link number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Deal to package links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

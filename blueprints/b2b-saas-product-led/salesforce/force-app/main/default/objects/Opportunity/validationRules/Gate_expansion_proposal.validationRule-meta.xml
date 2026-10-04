@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_expansion_proposal</fullName>
+    <active>true</active>
+    <description>Stage gate: Expansion, Proposal and later stages need Amount, Expected seats and Target plan.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Expansion", CASE(StageName, "Expansion signal", 1, "Outreach", 2, "Proposal (Expansion)", 3, "Negotiation", 4, "Expanded", 5, 0) &gt;= 3, OR(ISBLANK(Amount), ISBLANK(Expected_seats__c), ISBLANK(TEXT(Target_plan__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Expected seats and Target plan before moving to Proposal.</errorMessage>
+</ValidationRule>

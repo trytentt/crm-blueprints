@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_active_date__c</fullName>
+    <description>The last day any user was active in the workspace.</description>
+    <label>Last active date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

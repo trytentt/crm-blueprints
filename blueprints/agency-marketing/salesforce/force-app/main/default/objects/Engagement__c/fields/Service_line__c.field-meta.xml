@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_line__c</fullName>
+    <description>The main service delivered. One value so revenue and margin can be reported by service.</description>
+    <label>Service line</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Paid media</fullName>
+                <default>false</default>
+                <label>Paid media</label>
+            </value>
+            <value>
+                <fullName>SEO and content</fullName>
+                <default>false</default>
+                <label>SEO and content</label>
+            </value>
+            <value>
+                <fullName>Social</fullName>
+                <default>false</default>
+                <label>Social</label>
+            </value>
+            <value>
+                <fullName>Brand and creative</fullName>
+                <default>false</default>
+                <label>Brand and creative</label>
+            </value>
+            <value>
+                <fullName>Web build</fullName>
+                <default>false</default>
+                <label>Web build</label>
+            </value>
+            <value>
+                <fullName>Email and CRM</fullName>
+                <default>false</default>
+                <label>Email and CRM</label>
+            </value>
+            <value>
+                <fullName>GTM engineering</fullName>
+                <default>false</default>
+                <label>GTM engineering</label>
+            </value>
+            <value>
+                <fullName>Strategy and consulting</fullName>
+                <default>false</default>
+                <label>Strategy and consulting</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

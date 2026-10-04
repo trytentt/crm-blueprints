@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_referral_partners_declined</fullName>
+    <active>true</active>
+    <description>Lost reason: Referral partners, Declined needs Decline reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Declined"), ISBLANK(TEXT(Decline_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Decline_reason__c</errorDisplayField>
+    <errorMessage>Fill in Decline reason before closing this as Declined.</errorMessage>
+</ValidationRule>

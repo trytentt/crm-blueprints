@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Responsible_partner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The partner accountable for the matter.</description>
+    <label>Responsible partner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Matters Responsible partner</relationshipLabel>
+    <relationshipName>Matter_Responsible_partner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

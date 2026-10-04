@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Headcount_band__c</fullName>
+    <description>Size of the organisation by number of employees. Used for pricing and routing. This is a company figure, not health data.</description>
+    <label>Headcount band</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Under 50</fullName>
+                <default>false</default>
+                <label>Under 50</label>
+            </value>
+            <value>
+                <fullName>50 to 249</fullName>
+                <default>false</default>
+                <label>50 to 249</label>
+            </value>
+            <value>
+                <fullName>250 to 999</fullName>
+                <default>false</default>
+                <label>250 to 999</label>
+            </value>
+            <value>
+                <fullName>1,000 or more</fullName>
+                <default>false</default>
+                <label>1,000 or more</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

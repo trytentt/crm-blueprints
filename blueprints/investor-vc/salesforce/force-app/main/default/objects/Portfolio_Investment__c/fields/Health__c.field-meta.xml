@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Health__c</fullName>
+    <description>The partner's view of how the company is doing. Reviewed monthly.</description>
+    <label>Health</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Thriving</fullName>
+                <default>false</default>
+                <label>Thriving</label>
+            </value>
+            <value>
+                <fullName>On track</fullName>
+                <default>false</default>
+                <label>On track</label>
+            </value>
+            <value>
+                <fullName>Needs support</fullName>
+                <default>false</default>
+                <label>Needs support</label>
+            </value>
+            <value>
+                <fullName>At risk</fullName>
+                <default>false</default>
+                <label>At risk</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

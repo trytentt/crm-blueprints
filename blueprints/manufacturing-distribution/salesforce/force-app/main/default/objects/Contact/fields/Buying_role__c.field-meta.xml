@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_role__c</fullName>
+    <description>The part this person plays in a purchase. Used to check a deal or quote has the right people attached.</description>
+    <label>Buying role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Purchasing or procurement</fullName>
+                <default>false</default>
+                <label>Purchasing or procurement</label>
+            </value>
+            <value>
+                <fullName>Engineer or specifier</fullName>
+                <default>false</default>
+                <label>Engineer or specifier</label>
+            </value>
+            <value>
+                <fullName>Economic buyer</fullName>
+                <default>false</default>
+                <label>Economic buyer</label>
+            </value>
+            <value>
+                <fullName>End user or site contact</fullName>
+                <default>false</default>
+                <label>End user or site contact</label>
+            </value>
+            <value>
+                <fullName>Accounts payable</fullName>
+                <default>false</default>
+                <label>Accounts payable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

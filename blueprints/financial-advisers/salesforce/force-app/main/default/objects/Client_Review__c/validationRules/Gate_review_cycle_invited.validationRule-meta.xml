@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_review_cycle_invited</fullName>
+    <active>true</active>
+    <description>Stage gate: Review cycle, Invited and later stages need Adviser.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) &gt;= 2, ISBLANK(Adviser__c))</errorConditionFormula>
+    <errorDisplayField>Adviser__c</errorDisplayField>
+    <errorMessage>Fill in Adviser before moving to Invited.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_fee_collection_invoiced</fullName>
+    <active>true</active>
+    <description>Stage gate: Fee collection, Invoiced and later stages need Invoice reference.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) &gt;= 3, ISBLANK(Invoice_reference__c))</errorConditionFormula>
+    <errorDisplayField>Invoice_reference__c</errorDisplayField>
+    <errorMessage>Fill in Invoice reference before moving to Invoiced.</errorMessage>
+</ValidationRule>

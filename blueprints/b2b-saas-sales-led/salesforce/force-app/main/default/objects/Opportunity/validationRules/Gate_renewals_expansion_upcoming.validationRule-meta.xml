@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_renewals_expansion_upcoming</fullName>
+    <active>true</active>
+    <description>Stage gate: Renewals and expansion, Upcoming and later stages need Renewal type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) &gt;= 1, ISBLANK(TEXT(Renewal_type__c)))</errorConditionFormula>
+    <errorDisplayField>Renewal_type__c</errorDisplayField>
+    <errorMessage>Fill in Renewal type before moving to Upcoming.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_retailer_acquisition_account_setup</fullName>
+    <active>true</active>
+    <description>Stage gate: Retailer acquisition, Account setup and later stages need Terms agreed and Account application received.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Retailer_acquisition", CASE(StageName, "Identified", 1, "Contacted", 2, "Line sheet sent", 3, "Range review", 4, "Terms discussion", 5, "Account setup", 6, "Account opened", 7, 0) &gt;= 6, OR(NOT(Terms_agreed__c), NOT(Account_application_received__c)))</errorConditionFormula>
+    <errorMessage>Fill in Terms agreed and Account application received before moving to Account setup.</errorMessage>
+</ValidationRule>

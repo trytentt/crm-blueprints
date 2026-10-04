@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adviser__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The adviser accountable for the recommendation.</description>
+    <label>Adviser</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Advice cases Adviser</relationshipLabel>
+    <relationshipName>Advice_Case_Adviser</relationshipName>
+    <type>Lookup</type>
+</CustomField>

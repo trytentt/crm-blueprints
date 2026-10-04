@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exit_route__c</fullName>
+    <description>How the investment was realised. Required on the exited stage.</description>
+    <label>Exit route</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Acquisition</fullName>
+                <default>false</default>
+                <label>Acquisition</label>
+            </value>
+            <value>
+                <fullName>IPO</fullName>
+                <default>false</default>
+                <label>IPO</label>
+            </value>
+            <value>
+                <fullName>Secondary sale</fullName>
+                <default>false</default>
+                <label>Secondary sale</label>
+            </value>
+            <value>
+                <fullName>Buyback</fullName>
+                <default>false</default>
+                <label>Buyback</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_lead__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member accountable for the event.</description>
+    <label>Event lead</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Events Event lead</relationshipLabel>
+    <relationshipName>Event_Event_lead</relationshipName>
+    <type>Lookup</type>
+</CustomField>

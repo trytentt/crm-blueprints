@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BusinessProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_assist</fullName>
+    <description>Sales assist</description>
+    <isActive>true</isActive>
+    <values>
+        <fullName>Product-qualified lead</fullName>
+        <default>true</default>
+    </values>
+    <values>
+        <fullName>Conversation</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Need confirmed</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Proposal (Sales assist)</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Negotiation</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Closed won</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Closed lost</fullName>
+        <default>false</default>
+    </values>
+</BusinessProcess>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_placement_date__c</fullName>
+    <description>The date the client wants the new executive to start.</description>
+    <label>Target placement date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

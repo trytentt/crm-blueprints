@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Success_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The customer success manager responsible for this customer.</description>
+    <label>Success owner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Subscriptions Success owner</relationshipLabel>
+    <relationshipName>Subscription_Success_owner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

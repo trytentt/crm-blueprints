@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delivered_date__c</fullName>
+    <description>Date the goods reached the customer. Compared with the promised date for on-time delivery.</description>
+    <label>Delivered date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

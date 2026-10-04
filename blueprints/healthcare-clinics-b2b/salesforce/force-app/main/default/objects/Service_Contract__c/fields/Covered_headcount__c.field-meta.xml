@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Covered_headcount__c</fullName>
+    <description>Number of employees in scope, as told to us by the employer. A count only, never a list of people.</description>
+    <label>Covered headcount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

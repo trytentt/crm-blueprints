@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_type__c</fullName>
+    <description>Whether the order is a first order, a repeat order or a call-off against a standing agreement.</description>
+    <label>Order type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>First order</fullName>
+                <default>false</default>
+                <label>First order</label>
+            </value>
+            <value>
+                <fullName>Repeat order</fullName>
+                <default>false</default>
+                <label>Repeat order</label>
+            </value>
+            <value>
+                <fullName>Call-off</fullName>
+                <default>false</default>
+                <label>Call-off</label>
+            </value>
+            <value>
+                <fullName>Sample order</fullName>
+                <default>false</default>
+                <label>Sample order</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

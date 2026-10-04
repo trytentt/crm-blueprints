@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_work_terms_agreed</fullName>
+    <active>true</active>
+    <description>Stage gate: New work, Terms agreed and later stages need Amount, Billing model and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_work", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Conflict check", 3, "Proposal", 4, "Proposal sent", 5, "Terms agreed", 6, "Engagement letter out", 7, "Closed won", 8, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(TEXT(Billing_model__c)), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Billing model and Close date before moving to Terms agreed.</errorMessage>
+</ValidationRule>

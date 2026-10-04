@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Mandate acquisition path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a senior hire or a likely leadership change is identified at a company, with a named sponsor.</info>
+        <picklistValueName>Target</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Role_title__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a partner has met the sponsor and discussed a specific role.</info>
+        <picklistValueName>Introduction</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Role_title__c</fieldNames>
+        <fieldNames>Expected_total_compensation__c</fieldNames>
+        <fieldNames>Competing_firms__c</fieldNames>
+        <info>Entered when the client has shared a role brief and agreed to see a proposal.</info>
+        <picklistValueName>Brief</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Fee_percent__c</fieldNames>
+        <fieldNames>Fee_structure__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <info>Entered when a written proposal with approach, timetable and fee has been sent to the sponsor.</info>
+        <picklistValueName>Proposal sent</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Competing_firms__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the client has invited us to present to a wider group or named us a finalist.</info>
+        <picklistValueName>Pitch or finalist</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Fee_percent__c</fieldNames>
+        <fieldNames>Fee_structure__c</fieldNames>
+        <fieldNames>Exclusivity_confirmed__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the client has verbally chosen us and fee, structure and exclusivity are agreed.</info>
+        <picklistValueName>Terms agreed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Fee_structure__c</fieldNames>
+        <info>Entered when the signed search agreement is received and the search record is created.</info>
+        <picklistValueName>Mandate won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the client chooses another route or firm, or cancels the role, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Mandate lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Mandate_acquisition</recordTypeName>
+</PathAssistant>

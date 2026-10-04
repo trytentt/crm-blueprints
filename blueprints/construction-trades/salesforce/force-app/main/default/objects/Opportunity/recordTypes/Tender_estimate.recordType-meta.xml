@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tender_estimate</fullName>
+    <active>true</active>
+    <businessProcess>Tender_estimate</businessProcess>
+    <description>Tender and estimate</description>
+    <label>Tender and estimate</label>
+    <picklistValues>
+        <picklist>Contract_form__c</picklist>
+        <values>
+            <fullName>Standard form of building contract</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subcontract order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchase order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bespoke terms</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Go_no_go__c</picklist>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Go</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-go</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Programme or start date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose another contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>We lacked capacity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client cancelled the project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not shortlisted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Never awarded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Procurement_route__c</picklist>
+        <values>
+            <fullName>Open tender</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Selective or invited tender</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Negotiated quote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Framework call-off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Repeat client</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Work_type__c</picklist>
+        <values>
+            <fullName>New build</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refurbishment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fit-out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maintenance and repair</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Specialist trade package</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

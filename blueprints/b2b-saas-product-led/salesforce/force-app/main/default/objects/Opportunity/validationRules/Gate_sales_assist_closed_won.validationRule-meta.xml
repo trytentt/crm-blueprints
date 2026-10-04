@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_closed_won</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Closed won and later stages need Amount and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Close date before moving to Closed won.</errorMessage>
+</ValidationRule>

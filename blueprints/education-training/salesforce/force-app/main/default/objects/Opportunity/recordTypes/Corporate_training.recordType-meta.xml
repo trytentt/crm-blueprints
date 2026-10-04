@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Corporate_training</fullName>
+    <active>true</active>
+    <businessProcess>Corporate_training</businessProcess>
+    <description>Corporate training</description>
+    <label>Corporate training</label>
+    <picklistValues>
+        <picklist>Delivery_format__c</picklist>
+        <values>
+            <fullName>In-house at the client</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seats on open course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virtual live</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self-paced licence</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Funding_source__c</picklist>
+        <values>
+            <fullName>Company budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apprenticeship levy funds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grant or public funding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self-funded by delegate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>No budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose to deliver in house</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose another provider</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dates did not fit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content did not fit the need</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No decision made</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Training_need__c</picklist>
+        <values>
+            <fullName>Compliance and mandatory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Leadership and management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technical skills</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication and soft skills</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital skills</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health and safety</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apprenticeship or accredited</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

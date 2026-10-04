@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_end_date__c</fullName>
+    <description>The date the work is expected to be complete.</description>
+    <label>Target end date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

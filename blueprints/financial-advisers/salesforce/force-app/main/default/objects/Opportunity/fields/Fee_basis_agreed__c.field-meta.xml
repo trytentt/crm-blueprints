@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fee_basis_agreed__c</fullName>
+    <description>How the practice will be paid. Must be agreed before advice work starts.</description>
+    <label>Fee basis agreed</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not discussed</fullName>
+                <default>false</default>
+                <label>Not discussed</label>
+            </value>
+            <value>
+                <fullName>Initial plus ongoing</fullName>
+                <default>false</default>
+                <label>Initial plus ongoing</label>
+            </value>
+            <value>
+                <fullName>Fixed fee</fullName>
+                <default>false</default>
+                <label>Fixed fee</label>
+            </value>
+            <value>
+                <fullName>Hourly</fullName>
+                <default>false</default>
+                <label>Hourly</label>
+            </value>
+            <value>
+                <fullName>Percentage of assets</fullName>
+                <default>false</default>
+                <label>Percentage of assets</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

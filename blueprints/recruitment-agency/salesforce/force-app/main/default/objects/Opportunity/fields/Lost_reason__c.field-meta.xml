@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_reason__c</fullName>
+    <description>Why the client deal was lost. Required on every lost stage.</description>
+    <label>Lost reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No hiring need</fullName>
+                <default>false</default>
+                <label>No hiring need</label>
+            </value>
+            <value>
+                <fullName>Uses other agencies</fullName>
+                <default>false</default>
+                <label>Uses other agencies</label>
+            </value>
+            <value>
+                <fullName>Hires in-house</fullName>
+                <default>false</default>
+                <label>Hires in-house</label>
+            </value>
+            <value>
+                <fullName>Fees too high</fullName>
+                <default>false</default>
+                <label>Fees too high</label>
+            </value>
+            <value>
+                <fullName>Terms rejected</fullName>
+                <default>false</default>
+                <label>Terms rejected</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

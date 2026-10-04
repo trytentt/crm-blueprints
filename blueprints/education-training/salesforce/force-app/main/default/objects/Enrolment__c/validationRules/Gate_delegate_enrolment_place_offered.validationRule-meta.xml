@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delegate_enrolment_place_offered</fullName>
+    <active>true</active>
+    <description>Stage gate: Delegate enrolment, Place offered and later stages need Price and Funding source.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) &gt;= 3, OR(ISBLANK(Price__c), ISBLANK(TEXT(Funding_source__c))))</errorConditionFormula>
+    <errorMessage>Fill in Price and Funding source before moving to Place offered.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>A company can have several workspaces. Shows all of them next to the company record.</description>
+    <externalId>false</externalId>
+    <label>Company</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Workspaces</relationshipLabel>
+    <relationshipName>Workspaces</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

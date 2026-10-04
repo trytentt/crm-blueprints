@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_assist</fullName>
+    <active>true</active>
+    <businessProcess>Sales_assist</businessProcess>
+    <description>Sales assist</description>
+    <label>Sales assist</label>
+    <picklistValues>
+        <picklist>Billing_term__c</picklist>
+        <values>
+            <fullName>Monthly by card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annual by card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annual by invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multi-year by invoice</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Expansion_type__c</picklist>
+        <values>
+            <fullName>More seats</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plan upgrade</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Add-on</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New team or department</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Happy to stay self-serve</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No decision made</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose a competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product gap</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bad timing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Champion left</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Pql_trigger__c</picklist>
+        <values>
+            <fullName>Hit a usage limit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invited teammates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reached activation milestone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Viewed pricing repeatedly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asked to talk to sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial ending while active</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Security_review__c</picklist>
+        <values>
+            <fullName>Not needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Passed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_plan__c</picklist>
+        <values>
+            <fullName>Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enterprise</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

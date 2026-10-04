@@ -1,0 +1,475 @@
+# Build sheet: Manufacturing and distribution, B2B (salesforce)
+
+A manufacturer or distributor that sells to trade customers by quote. New accounts are won through an opportunity pipeline. Every price request is tracked as a quote with its own pipeline, and orders are tracked on their own object so repeat business can be seen and chased.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are quotes tracked as their own object rather than as deals?**
+  - Recommended default: Yes. Distributors quote many times a week for existing accounts, and most of those are not new opportunities. A quote object with its own pipeline keeps the deal pipeline for new accounts.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are orders and their delivery tracked on a separate object from deals and quotes?**
+  - Recommended default: Yes. Orders have a different owner and dates and repeat every few weeks, so they get their own object. The ERP stays the system of record for stock and invoices.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does an ERP or accounting system already hold orders, prices and credit terms?**
+  - Recommended default: Yes, assume so. Sync orders into the CRM by integration rather than typing them. Keep only the order fields needed for reorder chasing and account reviews.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: What sets an account tier, and who reviews it?**
+  - Recommended default: Tier follows annual spend band, reviewed each quarter by the sales manager. Key accounts get a named owner and a scheduled review call.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Quote and Order?**
+  - Recommended default: Check before the build. If not, record quotes as deals in a second pipeline and keep orders in the ERP, with last order date and expected reorder interval on the company.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do quotes and orders need line items in the CRM?**
+  - Recommended default: No for the first build. Keep totals only. Line items live in the ERP or quoting tool.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Quote**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Quote, plural Quotes, API name `Trade_Quote__c`, record name a Text field.
+  - Purpose: One request for quote (RFQ) and the quote sent in reply: what was asked for, the price, the lead time and the outcome. Sales handling, so it sits apart from the order that follows.
+  - Done when: the object Quote exists with plural name Quotes.
+- [ ] **Create object Order**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Order, plural Orders, API name `Trade_Order__c`, record name a Text field.
+  - Purpose: One customer purchase order accepted by the business. Tracks acknowledgement, dispatch and payment. This is the delivery side. It stays separate from the quote and the deal.
+  - Done when: the object Order exists with plural name Orders.
+- [ ] **Create relationship quote to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Company__c` on Trade_Quote__c to Account.
+  - Purpose: Shows every price request and quote for a customer.
+  - Done when: a quote record shows the link as 'Company' and a company record shows it as 'Quotes'.
+- [ ] **Create relationship quote to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Requested_by__c` on Trade_Quote__c to Contact.
+  - Purpose: Records who at the customer asked for the quote.
+  - Done when: a quote record shows the link as 'Requested by' and a person record shows it as 'Quotes requested'.
+- [ ] **Create relationship quote to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Opportunity__c` on Trade_Quote__c to Opportunity.
+  - Purpose: Ties quotes to the new-account opportunity they belong to. Repeat quotes for existing accounts have no deal.
+  - Done when: a quote record shows the link as 'Opportunity' and a deal record shows it as 'Quotes'.
+- [ ] **Create relationship order to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Company__c` on Trade_Order__c to Account.
+  - Purpose: Gives the full order history for an account.
+  - Done when: a order record shows the link as 'Company' and a company record shows it as 'Orders'.
+- [ ] **Create relationship order to quote (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Accepted_quote__c` on Trade_Order__c to Trade_Quote__c.
+  - Purpose: Links an order to the quote it came from, so quote-to-order conversion can be measured.
+  - Done when: a order record shows the link as 'Accepted quote' and a quote record shows it as 'Orders'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New accounts on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `New_accounts`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `New_accounts`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline New accounts exists with 8 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 5%.
+  - Entered when a target company with a buying need is logged and has a named contact.
+  - Stage value `Identified`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_new_accounts_identified` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 1, ISBLANK(TEXT(Opportunity_type__c)))`. Error message: Fill in Opportunity type before moving to Identified.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: First contact**
+  - Type: open. Probability: 10%.
+  - Entered when a conversation with a purchasing contact has happened and the products of interest are noted.
+  - Stage value `First contact`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_new_accounts_first_contact` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to First contact.
+  - Done when: the stage First contact is in position 2 and its rule is in place.
+- [ ] **Stage 3: Needs confirmed**
+  - Type: open. Probability: 25%.
+  - Entered when the technical contact has confirmed the specification and the expected volumes.
+  - Stage value `Needs confirmed`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_new_accounts_needs_confirmed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 3, OR(NOT(Spec_confirmed__c), ISBLANK(Annual_volume_estimate__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Specification confirmed, Annual volume estimate and Next step date before moving to Needs confirmed.
+  - Done when: the stage Needs confirmed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Sample or trial**
+  - Type: open. Probability: 40%.
+  - Entered when a sample, trial run or spec approval has been requested.
+  - Stage value `Sample or trial`: closed false, won false, probability 40, forecast category Pipeline. Validation rule `Gate_new_accounts_sample_or_trial` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 4, OR(ISBLANK(TEXT(Sample_status__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Sample status and Next step date before moving to Sample or trial.
+  - Done when: the stage Sample or trial is in position 4 and its rule is in place.
+- [ ] **Stage 5: Quote issued**
+  - Type: open. Probability: 55%.
+  - Entered when a priced quote has been sent against a confirmed specification.
+  - Stage value `Quote issued`: closed false, won false, probability 55, forecast category Pipeline. Validation rule `Gate_new_accounts_quote_issued` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 5, OR(ISBLANK(Amount), NOT(Spec_confirmed__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Amount, Specification confirmed and Next step date before moving to Quote issued.
+  - Done when: the stage Quote issued is in position 5 and its rule is in place.
+- [ ] **Stage 6: Terms agreed**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has accepted price and lead time and credit terms are being set up.
+  - Stage value `Terms agreed`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_new_accounts_terms_agreed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate), NOT(Credit_approved__c)))`. Error message: Fill in Amount, Close date and Credit approved before moving to Terms agreed.
+  - Done when: the stage Terms agreed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the first purchase order is received from the account.
+  - Stage value `Closed won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_new_accounts_closed_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) >= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Closed won.
+  - Done when: the stage Closed won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer chooses another supplier or goes silent after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_new_accounts_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_accounts", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline RFQ handling on quote**
+  - Where: Create the restricted picklist field `Stage__c` on Quote: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline RFQ handling exists with 8 stages in the order below.
+- [ ] **Stage 1: Received**
+  - Type: open. Probability: 20%.
+  - Entered when an RFQ is logged with the customer, the source and the date received.
+  - Validation rule `Gate_rfq_handling_received` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 1, OR(ISBLANK(Received_date__c), ISBLANK(TEXT(Source__c))))`. Error message: Fill in Received date and RFQ source before moving to Received.
+  - Done when: the stage Received is in position 1 and its rule is in place.
+- [ ] **Stage 2: Qualified**
+  - Type: open. Probability: 30%.
+  - Entered when the team has decided to quote, the product family is set and a due date is agreed.
+  - Validation rule `Gate_rfq_handling_qualified` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 2, OR(ISBLANK(TEXT(Product_family__c)), ISBLANK(Due_date__c)))`. Error message: Fill in Product family and Quote due date before moving to Qualified.
+  - Done when: the stage Qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Pricing**
+  - Type: open. Probability: 40%.
+  - Entered when stock or capacity is checked and a lead time is set.
+  - Validation rule `Gate_rfq_handling_pricing` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 3, OR(NOT(Stock_checked__c), ISBLANK(Lead_time_days__c)))`. Error message: Fill in Stock checked and Lead time (days) before moving to Pricing.
+  - Done when: the stage Pricing is in position 3 and its rule is in place.
+- [ ] **Stage 4: Approval**
+  - Type: open. Probability: 45%.
+  - Entered when the price is built and breaks a margin or credit rule that needs manager sign-off.
+  - Validation rule `Gate_rfq_handling_approval` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 4, OR(ISBLANK(Value__c), ISBLANK(Margin_percent__c), NOT(Approval_needed__c)))`. Error message: Fill in Quote value, Margin and Approval needed before moving to Approval.
+  - Done when: the stage Approval is in position 4 and its rule is in place.
+- [ ] **Stage 5: Sent**
+  - Type: open. Probability: 50%.
+  - Entered when the quote has been sent to the buyer with a validity date.
+  - Validation rule `Gate_rfq_handling_sent` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 5, OR(ISBLANK(Value__c), ISBLANK(Valid_until__c), ISBLANK(Lead_time_days__c)))`. Error message: Fill in Quote value, Valid until and Lead time (days) before moving to Sent.
+  - Done when: the stage Sent is in position 5 and its rule is in place.
+- [ ] **Stage 6: Follow-up**
+  - Type: open. Probability: 60%.
+  - Entered when the first chase has been made and the buyer has given a decision date.
+  - Validation rule `Gate_rfq_handling_follow_up` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 6, OR(ISBLANK(Value__c), ISBLANK(Valid_until__c)))`. Error message: Fill in Quote value and Valid until before moving to Follow-up.
+  - Done when: the stage Follow-up is in position 6 and its rule is in place.
+- [ ] **Stage 7: Accepted**
+  - Type: won. Probability: 100%.
+  - Entered when the buyer sends a purchase order or written acceptance against the quote.
+  - Validation rule `Gate_rfq_handling_accepted` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Received", 1, "Qualified", 2, "Pricing", 3, "Approval", 4, "Sent", 5, "Follow-up", 6, "Accepted", 7, 0) >= 7, ISBLANK(Value__c))`. Error message: Fill in Quote value before moving to Accepted.
+  - Done when: the stage Accepted is in position 7 and its rule is in place.
+- [ ] **Stage 8: Declined**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer rejects the quote, the validity date passes unanswered, or the business decides not to quote.
+  - Validation rule `Lost_rfq_handling_declined` (Setup, Object Manager, Quote, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Declined"), ISBLANK(TEXT(Decline_reason__c)))`. Error message: Fill in Decline reason before closing this as Declined.
+  - Done when: the stage Declined is in position 8 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Account tier (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_tier__c`.
+  - Purpose: Service tier set by annual spend and strategic value. Drives pricing, call frequency and who owns the account.
+  - Options: Key account, Core, Standard, Occasional
+  - Done when: Company records show Account tier and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_type__c`.
+  - Purpose: What the company does with our products. Used to route enquiries and report by channel.
+  - Options: OEM or manufacturer, Contractor or installer, Reseller or dealer, End user, Public sector
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Industry sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Industry_sector__c`.
+  - Purpose: The customer's main market. Used for reporting and targeted campaigns.
+  - Options: Construction, Automotive, Food and drink, Engineering, Energy and utilities, Healthcare, Other
+  - Done when: Company records show Industry sector and it accepts the right values.
+- [ ] **Create field Account status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_status__c`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active, Dormant, Lapsed
+  - Done when: Company records show Account status and it accepts the right values.
+- [ ] **Create field Credit terms (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Credit_terms__c`.
+  - Purpose: Payment terms agreed with finance. Checked before a quote is sent to a new account.
+  - Options: Pro forma, Net 30, Net 60, Credit hold
+  - Done when: Company records show Credit terms and it accepts the right values.
+- [ ] **Create field Last order date (date)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Date, API name `Last_order_date__c`.
+  - Purpose: Date of the most recent accepted order. Set by automation and used to spot accounts that have stopped ordering.
+  - Done when: Company records show Last order date and it accepts the right values.
+- [ ] **Create field Expected reorder interval (days) (number)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Number (18, 0), API name `Expected_reorder_days__c`.
+  - Purpose: Typical days between orders for this account. The reorder-due view compares it with the last order date.
+  - Done when: Company records show Expected reorder interval (days) and it accepts the right values.
+- [ ] **Create field Annual spend band (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Annual_spend_band__c`.
+  - Purpose: Spend with us over the last 12 months. Used to review the account tier.
+  - Options: Under 10k, 10k to 50k, 50k to 250k, Over 250k
+  - Done when: Company records show Annual spend band and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays in a purchase. Used to check a deal or quote has the right people attached.
+  - Options: Purchasing or procurement, Engineer or specifier, Economic buyer, End user or site contact, Accounts payable
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the opportunity was lost. Required on the lost stage.
+  - Options: Price, Lead time, Stayed with current supplier, Specification not met, Credit declined, No response, Project cancelled, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Opportunity type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Opportunity_type__c`.
+  - Purpose: Whether this is a new account, a new product line for an existing account or a one-off project.
+  - Options: New account, New product line, One-off project, Tender
+  - Done when: Deal records show Opportunity type and it accepts the right values.
+- [ ] **Create field Annual volume estimate (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Annual_volume_estimate__c`.
+  - Purpose: Expected yearly spend if the account is won. Used to set the account tier.
+  - Done when: Deal records show Annual volume estimate and it accepts the right values.
+- [ ] **Create field Sample status (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Sample_status__c`.
+  - Purpose: Progress of any sample, trial run or spec approval the buyer needs before ordering.
+  - Options: Not needed, Requested, Sent, Approved, Rejected
+  - Done when: Deal records show Sample status and it accepts the right values.
+- [ ] **Create field Specification confirmed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Spec_confirmed__c`.
+  - Purpose: The buyer's technical contact has confirmed the specification we are quoting against.
+  - Done when: Deal records show Specification confirmed and it accepts the right values.
+- [ ] **Create field Credit approved (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Credit_approved__c`.
+  - Purpose: Finance has approved credit terms for this account.
+  - Done when: Deal records show Credit approved and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Quote
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company and a short description of the request, for example the product family.
+  - Done when: Quote records show Name and it accepts the right values.
+- [ ] **Create field RFQ source (select)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Picklist, API name `Source__c`.
+  - Purpose: How the request reached us. Used to see which channels create work.
+  - Options: Email, Phone, Web form, Customer portal, Rep visit, Tender portal
+  - Done when: Quote records show RFQ source and it accepts the right values.
+- [ ] **Create field Product family (select)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Picklist, API name `Product_family__c`.
+  - Purpose: The main product group quoted. Used to see win rate and lead time by range.
+  - Options: Standard range, Made to order, Spares and parts, Bulk supply, Service
+  - Done when: Quote records show Product family and it accepts the right values.
+- [ ] **Create field Received date (date)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Date, API name `Received_date__c`.
+  - Purpose: The day the RFQ arrived. Measures speed to quote.
+  - Done when: Quote records show Received date and it accepts the right values.
+- [ ] **Create field Quote due date (date)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Date, API name `Due_date__c`.
+  - Purpose: The date the buyer asked for the quote. Late quotes are reported on.
+  - Done when: Quote records show Quote due date and it accepts the right values.
+- [ ] **Create field Quote value (currency)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Currency (18, 2), API name `Value__c`.
+  - Purpose: Total quoted price excluding tax.
+  - Done when: Quote records show Quote value and it accepts the right values.
+- [ ] **Create field Margin (percent)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Percent (5, 2), API name `Margin_percent__c`.
+  - Purpose: Expected gross margin on the quote. Over a set discount threshold it needs approval.
+  - Done when: Quote records show Margin and it accepts the right values.
+- [ ] **Create field Lead time (days) (number)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Number (18, 0), API name `Lead_time_days__c`.
+  - Purpose: Quoted days from order to delivery to the customer.
+  - Done when: Quote records show Lead time (days) and it accepts the right values.
+- [ ] **Create field Valid until (date)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Date, API name `Valid_until__c`.
+  - Purpose: Last day the quoted price holds.
+  - Done when: Quote records show Valid until and it accepts the right values.
+- [ ] **Create field Approval needed (checkbox)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Checkbox, API name `Approval_needed__c`.
+  - Purpose: The quote breaks a margin or credit rule and a manager must approve before it is sent.
+  - Done when: Quote records show Approval needed and it accepts the right values.
+- [ ] **Create field Stock checked (checkbox)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Checkbox, API name `Stock_checked__c`.
+  - Purpose: Stock or production capacity has been checked for the quoted lead time.
+  - Done when: Quote records show Stock checked and it accepts the right values.
+- [ ] **Create field Decline reason (select)**
+  - Where: Setup, Object Manager, Quote, Fields & Relationships, New. Data type Picklist, API name `Decline_reason__c`.
+  - Purpose: Why the quote was lost or not quoted. Required on the lost stage.
+  - Options: Price, Lead time, Cannot supply, Specification not met, No response, Bought elsewhere, Out of scope
+  - Done when: Quote records show Decline reason and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: The standard Owner field of the object. Nothing to create.
+  - Purpose: The team member who prepares and chases the quote.
+  - Done when: Quote records show Owner and it accepts the right values.
+
+### Order
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company and the customer's purchase order number.
+  - Done when: Order records show Name and it accepts the right values.
+- [ ] **Create field Order type (select)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Picklist, API name `Order_type__c`.
+  - Purpose: Whether the order is a first order, a repeat order or a call-off against a standing agreement.
+  - Options: First order, Repeat order, Call-off, Sample order
+  - Done when: Order records show Order type and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the order stands.
+  - Options: Received, Acknowledged, In production or picking, Dispatched, Delivered, Invoiced, Cancelled
+  - Done when: Order records show Status and it accepts the right values.
+- [ ] **Create field Order date (date)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Date, API name `Order_date__c`.
+  - Purpose: Date the customer order was accepted.
+  - Done when: Order records show Order date and it accepts the right values.
+- [ ] **Create field Promised date (date)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Date, API name `Promised_date__c`.
+  - Purpose: Delivery date promised to the customer. Late orders are reported on.
+  - Done when: Order records show Promised date and it accepts the right values.
+- [ ] **Create field Delivered date (date)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Date, API name `Delivered_date__c`.
+  - Purpose: Date the goods reached the customer. Compared with the promised date for on-time delivery.
+  - Done when: Order records show Delivered date and it accepts the right values.
+- [ ] **Create field Order value (currency)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Currency (18, 2), API name `Order_value__c`.
+  - Purpose: Total order value excluding tax.
+  - Done when: Order records show Order value and it accepts the right values.
+- [ ] **Create field Customer PO number (text)**
+  - Where: Setup, Object Manager, Order, Fields & Relationships, New. Data type Text (255), API name `Customer_po__c`.
+  - Purpose: The customer's purchase order reference, used on invoices and to match queries.
+  - Done when: Order records show Customer PO number and it accepts the right values.
+- [ ] **Create field Account manager (user)**
+  - Where: The standard Owner field of the object. Nothing to create.
+  - Purpose: The team member responsible for the order and the customer relationship.
+  - Done when: Order records show Account manager and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Update company on order**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An order is created or its status moves to received.
+  - Action: Set the company's last order date and account status to active, and set the order type to first order if the company had no earlier order.
+  - Done when: the automation runs on a test record and the result matches: Set the company's last order date and account status to active, and set the order type to first order if the company had no earlier order.
+- [ ] **Flag late quotes**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A quote is open and its due date is today or in the past.
+  - Action: Notify the quote owner and add the quote to the overdue quotes view.
+  - Done when: the automation runs on a test record and the result matches: Notify the quote owner and add the quote to the overdue quotes view.
+- [ ] **Chase sent quotes**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A quote has been in sent for 5 working days.
+  - Action: Create a task for the owner to chase the buyer and move the quote to follow-up when done.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the owner to chase the buyer and move the quote to follow-up when done.
+- [ ] **Reorder due**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: Days since the company's last order date exceed its expected reorder interval and the account is active.
+  - Action: Create a task for the account owner to call the buyer and set the account status to dormant after 2 intervals.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the account owner to call the buyer and set the account status to dormant after 2 intervals.
+- [ ] **Route quote for approval**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A quote moves to approval.
+  - Action: Notify the sales manager, who either approves it or sends it back to pricing.
+  - Done when: the automation runs on a test record and the result matches: Notify the sales manager, who either approves it or sends it back to pricing.
+- [ ] **Quarterly tier review**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: Each quarter, for every active account.
+  - Action: Compare the account's annual spend band with its tier and list mismatches for the sales manager.
+  - Done when: the automation runs on a test record and the result matches: Compare the account's annual spend band with its tier and list mismatches for the sales manager.
+
+## 6. Views
+
+- [ ] **Open quotes**
+  - Where: Open Quotes, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: quote
+  - Filter: Quote is not accepted or declined and owner is me.
+  - Sort: Due date, soonest first.
+  - Done when: the view Open quotes is saved and shows the expected records.
+- [ ] **Overdue quotes**
+  - Where: Open Quotes, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: quote
+  - Filter: Quote is open and due date is in the past.
+  - Sort: Due date, oldest first.
+  - Done when: the view Overdue quotes is saved and shows the expected records.
+- [ ] **Reorders due**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Account status is active and last order date is older than the expected reorder interval.
+  - Sort: Last order date, oldest first.
+  - Done when: the view Reorders due is saved and shows the expected records.
+- [ ] **Key and core accounts**
+  - Where: Generated as list view `Key_accounts`. Open Companies, choose the view, then set the sort (Last order date, oldest first.) from the list controls and save.
+  - Object: company
+  - Filter: Account tier is key account or core.
+  - Sort: Last order date, oldest first.
+  - Done when: the view Key and core accounts is saved and shows the expected records.
+- [ ] **Orders in flight**
+  - Where: Generated as list view `Orders_in_flight`. Open Orders, choose the view, then set the sort (Promised date, soonest first.) from the list controls and save.
+  - Object: order
+  - Filter: Status is not delivered, invoiced or cancelled.
+  - Sort: Promised date, soonest first.
+  - Done when: the view Orders in flight is saved and shows the expected records.
+- [ ] **My open opportunities**
+  - Where: Generated as list view `My_open_opportunities`. Open Deals, choose the view, then set the sort (Next step date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Next step date, soonest first.
+  - Done when: the view My open opportunities is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

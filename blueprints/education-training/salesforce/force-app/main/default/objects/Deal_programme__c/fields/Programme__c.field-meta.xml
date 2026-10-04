@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Programme__c</fullName>
+    <description>Records which programmes a deal covers, to see which sell best. Master side 2 of the link.</description>
+    <label>Programme</label>
+    <referenceTo>Programme__c</referenceTo>
+    <relationshipLabel>Deals</relationshipLabel>
+    <relationshipName>Deals</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

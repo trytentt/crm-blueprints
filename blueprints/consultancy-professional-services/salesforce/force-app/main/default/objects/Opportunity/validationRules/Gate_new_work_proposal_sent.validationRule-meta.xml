@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_work_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: New work, Proposal sent and later stages need Amount, Close date and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_work", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Conflict check", 3, "Proposal", 4, "Proposal sent", 5, "Terms agreed", 6, "Engagement letter out", 7, "Closed won", 8, 0) &gt;= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Next step date before moving to Proposal sent.</errorMessage>
+</ValidationRule>

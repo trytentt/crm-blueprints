@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_signed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The client agreement and terms of business are signed and held in the document system.</description>
+    <label>Client agreement signed</label>
+    <type>Checkbox</type>
+</CustomField>

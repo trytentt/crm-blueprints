@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_type__c</fullName>
+    <description>What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.</description>
+    <label>Organisation type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Startup</fullName>
+                <default>false</default>
+                <label>Startup</label>
+            </value>
+            <value>
+                <fullName>Co-investor or other fund</fullName>
+                <default>false</default>
+                <label>Co-investor or other fund</label>
+            </value>
+            <value>
+                <fullName>Limited partner</fullName>
+                <default>false</default>
+                <label>Limited partner</label>
+            </value>
+            <value>
+                <fullName>Accelerator or studio</fullName>
+                <default>false</default>
+                <label>Accelerator or studio</label>
+            </value>
+            <value>
+                <fullName>Corporate or strategic</fullName>
+                <default>false</default>
+                <label>Corporate or strategic</label>
+            </value>
+            <value>
+                <fullName>Advisor or service provider</fullName>
+                <default>false</default>
+                <label>Advisor or service provider</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_placement_screened</fullName>
+    <active>true</active>
+    <description>Stage gate: Placement, Screened and later stages need Salary expected.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) &gt;= 2, ISBLANK(Salary_expected__c))</errorConditionFormula>
+    <errorDisplayField>Salary_expected__c</errorDisplayField>
+    <errorMessage>Fill in Salary expected before moving to Screened.</errorMessage>
+</ValidationRule>

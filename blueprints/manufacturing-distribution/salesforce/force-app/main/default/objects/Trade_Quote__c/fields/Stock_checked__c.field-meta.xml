@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stock_checked__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Stock or production capacity has been checked for the quoted lead time.</description>
+    <label>Stock checked</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_status__c</fullName>
+    <description>Where the placement invoice stands. Invoicing itself happens in the finance system.</description>
+    <label>Invoice status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not due</fullName>
+                <default>false</default>
+                <label>Not due</label>
+            </value>
+            <value>
+                <fullName>To invoice</fullName>
+                <default>false</default>
+                <label>To invoice</label>
+            </value>
+            <value>
+                <fullName>Invoiced</fullName>
+                <default>false</default>
+                <label>Invoiced</label>
+            </value>
+            <value>
+                <fullName>Paid</fullName>
+                <default>false</default>
+                <label>Paid</label>
+            </value>
+            <value>
+                <fullName>Rebated</fullName>
+                <default>false</default>
+                <label>Rebated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

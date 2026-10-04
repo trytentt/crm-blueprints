@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_fee_collection_due</fullName>
+    <active>true</active>
+    <description>Stage gate: Fee collection, Due and later stages need Due date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) &gt;= 2, ISBLANK(Due_date__c))</errorConditionFormula>
+    <errorDisplayField>Due_date__c</errorDisplayField>
+    <errorMessage>Fill in Due date before moving to Due.</errorMessage>
+</ValidationRule>

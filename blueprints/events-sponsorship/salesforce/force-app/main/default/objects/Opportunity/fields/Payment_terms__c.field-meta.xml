@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_terms__c</fullName>
+    <description>When the balance is due. Finance uses it to chase.</description>
+    <label>Payment terms</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>On signature</fullName>
+                <default>false</default>
+                <label>On signature</label>
+            </value>
+            <value>
+                <fullName>Deposit then balance</fullName>
+                <default>false</default>
+                <label>Deposit then balance</label>
+            </value>
+            <value>
+                <fullName>Instalments</fullName>
+                <default>false</default>
+                <label>Instalments</label>
+            </value>
+            <value>
+                <fullName>Invoice, 30 days</fullName>
+                <default>false</default>
+                <label>Invoice, 30 days</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

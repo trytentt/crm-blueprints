@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_corporate_training_booked</fullName>
+    <active>true</active>
+    <description>Stage gate: Corporate training, Booked and later stages need Amount, Close date and Purchase order received.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate), NOT(Purchase_order_received__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Purchase order received before moving to Booked.</errorMessage>
+</ValidationRule>

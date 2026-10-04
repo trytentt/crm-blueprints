@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exhibitor_sales</fullName>
+    <active>true</active>
+    <businessProcess>Exhibitor_sales</businessProcess>
+    <description>Exhibitor sales</description>
+    <label>Exhibitor sales</label>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>No budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Audience not right</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose another event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Category exclusivity taken</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal priority change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_terms__c</picklist>
+        <values>
+            <fullName>On signature</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deposit then balance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instalments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invoice, 30 days</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sponsor_objectives__c</picklist>
+        <values>
+            <fullName>Lead generation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Brand awareness</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thought leadership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product launch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hiring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer hospitality</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sponsor_tier__c</picklist>
+        <values>
+            <fullName>Headline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silver</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bronze</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bespoke</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stand_type__c</picklist>
+        <values>
+            <fullName>Shell scheme</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Space only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premium corner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tabletop</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Withdrawal_reason__c</fullName>
+    <description>Why the place did not go ahead. Required on the withdrawn stage.</description>
+    <label>Withdrawal reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Declined the offer</fullName>
+                <default>false</default>
+                <label>Declined the offer</label>
+            </value>
+            <value>
+                <fullName>Dates did not fit</fullName>
+                <default>false</default>
+                <label>Dates did not fit</label>
+            </value>
+            <value>
+                <fullName>Employer cancelled</fullName>
+                <default>false</default>
+                <label>Employer cancelled</label>
+            </value>
+            <value>
+                <fullName>Funding fell through</fullName>
+                <default>false</default>
+                <label>Funding fell through</label>
+            </value>
+            <value>
+                <fullName>Cohort cancelled</fullName>
+                <default>false</default>
+                <label>Cohort cancelled</label>
+            </value>
+            <value>
+                <fullName>Chose another provider</fullName>
+                <default>false</default>
+                <label>Chose another provider</label>
+            </value>
+            <value>
+                <fullName>No response</fullName>
+                <default>false</default>
+                <label>No response</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

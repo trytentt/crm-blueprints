@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_order_status_placed</fullName>
+    <active>true</active>
+    <description>Stage gate: Order status, Placed and later stages need Order type, Order channel and Order value.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) &gt;= 1, OR(ISBLANK(TEXT(Order_type__c)), ISBLANK(TEXT(Order_channel__c)), ISBLANK(Order_value__c)))</errorConditionFormula>
+    <errorMessage>Fill in Order type, Order channel and Order value before moving to Placed.</errorMessage>
+</ValidationRule>

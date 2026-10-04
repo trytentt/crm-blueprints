@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_renewals_expansion_renewed</fullName>
+    <active>true</active>
+    <description>Stage gate: Renewals and expansion, Renewed and later stages need Amount and Close date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) &gt;= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Close date before moving to Renewed.</errorMessage>
+</ValidationRule>

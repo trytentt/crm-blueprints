@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_form__c</fullName>
+    <description>The type of contract the work will be done under. Affects retention and payment terms.</description>
+    <label>Contract form</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Standard form of building contract</fullName>
+                <default>false</default>
+                <label>Standard form of building contract</label>
+            </value>
+            <value>
+                <fullName>Subcontract order</fullName>
+                <default>false</default>
+                <label>Subcontract order</label>
+            </value>
+            <value>
+                <fullName>Purchase order</fullName>
+                <default>false</default>
+                <label>Purchase order</label>
+            </value>
+            <value>
+                <fullName>Bespoke terms</fullName>
+                <default>false</default>
+                <label>Bespoke terms</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

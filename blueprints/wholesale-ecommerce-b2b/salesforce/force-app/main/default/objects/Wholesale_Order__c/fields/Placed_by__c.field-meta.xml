@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Placed_by__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Records which buyer placed the order.</description>
+    <externalId>false</externalId>
+    <label>Placed by</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Orders placed</relationshipLabel>
+    <relationshipName>Orders_placed</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

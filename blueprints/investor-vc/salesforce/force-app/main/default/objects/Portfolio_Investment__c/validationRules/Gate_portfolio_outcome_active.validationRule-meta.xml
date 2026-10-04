@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_portfolio_outcome_active</fullName>
+    <active>true</active>
+    <description>Stage gate: Portfolio outcome, Active and later stages need Amount invested, Ownership and Lead partner.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) &gt;= 1, OR(ISBLANK(Amount_invested__c), ISBLANK(Ownership_percent__c), ISBLANK(Lead_partner__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount invested, Ownership and Lead partner before moving to Active.</errorMessage>
+</ValidationRule>

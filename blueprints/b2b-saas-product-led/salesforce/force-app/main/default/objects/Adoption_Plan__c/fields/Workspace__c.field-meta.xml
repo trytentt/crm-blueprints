@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workspace__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Tracks post-sale adoption for each workspace.</description>
+    <externalId>false</externalId>
+    <label>Workspace</label>
+    <referenceTo>Workspace__c</referenceTo>
+    <relationshipLabel>Adoption plans</relationshipLabel>
+    <relationshipName>Adoption_plans</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

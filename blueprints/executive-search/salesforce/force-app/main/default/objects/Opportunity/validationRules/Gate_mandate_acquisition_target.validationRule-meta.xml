@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_mandate_acquisition_target</fullName>
+    <active>true</active>
+    <description>Stage gate: Mandate acquisition, Target and later stages need Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) &gt;= 1, ISBLANK(Next_step_date__c))</errorConditionFormula>
+    <errorDisplayField>Next_step_date__c</errorDisplayField>
+    <errorMessage>Fill in Next step date before moving to Target.</errorMessage>
+</ValidationRule>

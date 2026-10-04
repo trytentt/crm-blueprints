@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outcome__c</fullName>
+    <description>What the review concluded. Reported to see how many reviews lead to new advice.</description>
+    <label>Outcome</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No change</fullName>
+                <default>false</default>
+                <label>No change</label>
+            </value>
+            <value>
+                <fullName>Minor changes</fullName>
+                <default>false</default>
+                <label>Minor changes</label>
+            </value>
+            <value>
+                <fullName>New advice needed</fullName>
+                <default>false</default>
+                <label>New advice needed</label>
+            </value>
+            <value>
+                <fullName>Service level change</fullName>
+                <default>false</default>
+                <label>Service level change</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

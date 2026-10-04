@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cleared_by__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The risk partner or compliance officer who signed off the result.</description>
+    <label>Cleared by</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Conflict checks Cleared by</relationshipLabel>
+    <relationshipName>Conflict_Check_Cleared_by</relationshipName>
+    <type>Lookup</type>
+</CustomField>

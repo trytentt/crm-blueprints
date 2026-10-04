@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Break_date__c</fullName>
+    <description>Earliest date the tenant or landlord may end the lease early, if there is a break clause.</description>
+    <label>Break date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

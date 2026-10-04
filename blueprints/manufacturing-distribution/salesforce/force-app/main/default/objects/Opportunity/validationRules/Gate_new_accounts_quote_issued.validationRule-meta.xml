@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_accounts_quote_issued</fullName>
+    <active>true</active>
+    <description>Stage gate: New accounts, Quote issued and later stages need Amount, Specification confirmed and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_accounts", CASE(StageName, "Identified", 1, "First contact", 2, "Needs confirmed", 3, "Sample or trial", 4, "Quote issued", 5, "Terms agreed", 6, "Closed won", 7, 0) &gt;= 5, OR(ISBLANK(Amount), NOT(Spec_confirmed__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Specification confirmed and Next step date before moving to Quote issued.</errorMessage>
+</ValidationRule>

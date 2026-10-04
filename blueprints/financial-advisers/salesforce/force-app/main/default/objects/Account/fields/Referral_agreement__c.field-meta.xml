@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_agreement__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>A written referral agreement is in place with this organisation.</description>
+    <label>Referral agreement</label>
+    <type>Checkbox</type>
+</CustomField>

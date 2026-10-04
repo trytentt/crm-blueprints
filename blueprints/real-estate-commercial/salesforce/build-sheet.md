@@ -1,0 +1,466 @@
+# Build sheet: Commercial real estate, leasing (salesforce)
+
+A commercial property agent or landlord that lets offices, retail and industrial space. Properties and their units are records. Companies play landlord and tenant roles. Lettings run through a lease pipeline, and each signed lease becomes a lease record that tracks rent, breaks and expiry.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the signed lease tracked on its own object rather than as the end of the letting deal?**
+  - Recommended default: Yes. A lease lives for years, has its own dates and is managed by a different person than the one who agreed the letting. The deal ends at completed and the lease record carries on.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does each unit or floor need its own record?**
+  - Recommended default: No for the first build. Keep unit as text on the lease and available area on the property. Add a unit object when the portfolio has many small units and availability reporting by unit matters.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are landlord and tenant roles recorded?**
+  - Recommended default: A multi-select on company, because one company can be both. The role on a specific lease or property comes from the relationship, landlord on a property and tenant on a lease.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the firm also run investment sales or acquisitions?**
+  - Recommended default: Not in this build. Add a second deal pipeline for sales if the client describes one.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Property and Lease?**
+  - Recommended default: Check before the build. If not, hold the building on the company record, use a deal pipeline for renewals with lease dates as deal properties, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM hold client money, rent collection or service charge detail?**
+  - Recommended default: No. Rent collection stays in property management software. The CRM holds passing rent and dates only.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Property**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Property, plural Properties, API name `Property__c`, record name a Text field.
+  - Purpose: A building or estate that is let or managed. Holds its address, type, size and availability so enquiries and lettings can be matched to space.
+  - Done when: the object Property exists with plural name Properties.
+- [ ] **Create object Lease**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Lease, plural Leases, API name `Lease__c`, record name a Text field.
+  - Purpose: One signed lease of space in a property: tenant, rent, term, break and expiry dates. Created when a letting completes. This is the management side, separate from the letting deal.
+  - Done when: the object Lease exists with plural name Leases.
+- [ ] **Create relationship deal to property (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Property__c` on Opportunity to Property__c.
+  - Purpose: Shows every letting enquiry and deal for a building.
+  - Done when: a deal record shows the link as 'Property' and a property record shows it as 'Deals'.
+- [ ] **Create relationship property to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Landlord__c` on Property__c to Account.
+  - Purpose: Shows which landlord owns each property.
+  - Done when: a property record shows the link as 'Landlord' and a company record shows it as 'Properties owned'.
+- [ ] **Create relationship lease to property (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Property__c` on Lease__c to Property__c.
+  - Purpose: Shows every lease, current and past, in a building.
+  - Done when: a lease record shows the link as 'Property' and a property record shows it as 'Leases'.
+- [ ] **Create relationship lease to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Tenant__c` on Lease__c to Account.
+  - Purpose: Shows the tenant's leases and so their footprint with us.
+  - Done when: a lease record shows the link as 'Tenant' and a company record shows it as 'Leases as tenant'.
+- [ ] **Create relationship lease to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Letting_deal__c` on Lease__c to Opportunity.
+  - Purpose: Links a lease to the deal that created it, for fee reporting.
+  - Done when: a lease record shows the link as 'Letting deal' and a deal record shows it as 'Leases'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Letting on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Letting`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Letting`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Letting exists with 9 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 5%.
+  - Entered when an occupier or landlord enquiry is logged against a contact.
+  - Stage value `Enquiry`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_letting_enquiry` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 1, ISBLANK(TEXT(Instruction_type__c)))`. Error message: Fill in Instruction type before moving to Enquiry.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Requirement qualified**
+  - Type: open. Probability: 15%.
+  - Entered when size, budget, location and move date have been confirmed with a decision maker.
+  - Stage value `Requirement qualified`: closed false, won false, probability 15, forecast category Pipeline. Validation rule `Gate_letting_requirement_qualified` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 2, OR(ISBLANK(Requirement_size_sqft__c), ISBLANK(Target_move_date__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Size required (sq ft), Target move date and Next step date before moving to Requirement qualified.
+  - Done when: the stage Requirement qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Viewing**
+  - Type: open. Probability: 30%.
+  - Entered when a viewing is booked for specific space.
+  - Stage value `Viewing`: closed false, won false, probability 30, forecast category Pipeline. Validation rule `Gate_letting_viewing` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 3, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Viewing.
+  - Done when: the stage Viewing is in position 3 and its rule is in place.
+- [ ] **Stage 4: Offer**
+  - Type: open. Probability: 50%.
+  - Entered when the occupier has viewed the space and made a first offer on rent and term.
+  - Stage value `Offer`: closed false, won false, probability 50, forecast category Pipeline. Validation rule `Gate_letting_offer` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 4, OR(NOT(Viewing_held__c), ISBLANK(Headline_rent__c)))`. Error message: Fill in Viewing held and Headline rent (per year) before moving to Offer.
+  - Done when: the stage Offer is in position 4 and its rule is in place.
+- [ ] **Stage 5: Heads of terms**
+  - Type: open. Probability: 65%.
+  - Entered when landlord and tenant have agreed the main terms and heads of terms are issued, subject to contract.
+  - Stage value `Heads of terms`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_letting_heads_of_terms` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 5, OR(ISBLANK(TEXT(Heads_of_terms_status__c)), ISBLANK(Headline_rent__c)))`. Error message: Fill in Heads of terms status and Headline rent (per year) before moving to Heads of terms.
+  - Done when: the stage Heads of terms is in position 5 and its rule is in place.
+- [ ] **Stage 6: Referencing**
+  - Type: open. Probability: 75%.
+  - Entered when heads of terms are signed back and tenant reference checks are under way.
+  - Stage value `Referencing`: closed false, won false, probability 75, forecast category Pipeline. Validation rule `Gate_letting_referencing` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 6, ISBLANK(TEXT(Referencing_status__c)))`. Error message: Fill in Referencing status before moving to Referencing.
+  - Done when: the stage Referencing is in position 6 and its rule is in place.
+- [ ] **Stage 7: Legals**
+  - Type: open. Probability: 85%.
+  - Entered when referencing has passed and both sides have instructed solicitors.
+  - Stage value `Legals`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_letting_legals` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 7, OR(ISBLANK(TEXT(Referencing_status__c)), NOT(Solicitors_instructed__c), ISBLANK(CloseDate)))`. Error message: Fill in Referencing status, Solicitors instructed and Close date before moving to Legals.
+  - Done when: the stage Legals is in position 7 and its rule is in place.
+- [ ] **Stage 8: Completed**
+  - Type: won. Probability: 100%.
+  - Entered when the lease is signed by both sides and the lease record is created.
+  - Stage value `Completed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_letting_completed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", CASE(StageName, "Enquiry", 1, "Requirement qualified", 2, "Viewing", 3, "Offer", 4, "Heads of terms", 5, "Referencing", 6, "Legals", 7, "Completed", 8, 0) >= 8, OR(ISBLANK(Headline_rent__c), ISBLANK(CloseDate)))`. Error message: Fill in Headline rent (per year) and Close date before moving to Completed.
+  - Done when: the stage Completed is in position 8 and its rule is in place.
+- [ ] **Stage 9: Lost**
+  - Type: lost. Probability: 0%.
+  - Entered when either side withdraws, the space is let elsewhere, or there is no reply after three follow-ups over 30 days.
+  - Stage value `Lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_letting_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Letting", ISPICKVAL(StageName, "Lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Lost.
+  - Done when: the stage Lost is in position 9 and its rule is in place.
+- [ ] **Create pipeline Lease renewal on lease**
+  - Where: Create the restricted picklist field `Stage__c` on Lease: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Lease renewal exists with 6 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 40%.
+  - Entered when the lease is within 12 months of its expiry or break date.
+  - Validation rule `Gate_lease_renewal_upcoming` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) >= 1, ISBLANK(Expiry_date__c))`. Error message: Fill in Expiry date before moving to Upcoming.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Tenant contacted**
+  - Type: open. Probability: 50%.
+  - Entered when the tenant's intentions have been asked for and noted.
+  - Validation rule `Gate_lease_renewal_tenant_contacted` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) >= 2, ISBLANK(Managing_owner__c))`. Error message: Fill in Lease manager before moving to Tenant contacted.
+  - Done when: the stage Tenant contacted is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms discussed**
+  - Type: open. Probability: 70%.
+  - Entered when the landlord and tenant are negotiating new rent and term.
+  - Validation rule `Gate_lease_renewal_terms_discussed` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) >= 3, OR(ISBLANK(Annual_rent__c), NOT(Security_of_tenure__c)))`. Error message: Fill in Annual rent and Inside security of tenure before moving to Terms discussed.
+  - Done when: the stage Terms discussed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Renewal agreed**
+  - Type: open. Probability: 90%.
+  - Entered when heads of terms for the renewal are agreed and solicitors are instructed.
+  - Validation rule `Gate_lease_renewal_renewal_agreed` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) >= 4, OR(ISBLANK(Annual_rent__c), ISBLANK(Expiry_date__c)))`. Error message: Fill in Annual rent and Expiry date before moving to Renewal agreed.
+  - Done when: the stage Renewal agreed is in position 4 and its rule is in place.
+- [ ] **Stage 5: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the renewal lease or variation is signed and the dates on the record are updated.
+  - Validation rule `Gate_lease_renewal_renewed` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) >= 5, OR(ISBLANK(Annual_rent__c), ISBLANK(Expiry_date__c)))`. Error message: Fill in Annual rent and Expiry date before moving to Renewed.
+  - Done when: the stage Renewed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not renewed**
+  - Type: lost. Probability: 0%.
+  - Entered when the tenant leaves or the lease ends without renewal.
+  - Validation rule `Lost_lease_renewal_not_renewed` (Setup, Object Manager, Lease, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Not renewed"), ISBLANK(TEXT(Outcome_reason__c)))`. Error message: Fill in Outcome reason before closing this as Not renewed.
+  - Done when: the stage Not renewed is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Company roles (multi_select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Company_roles__c`.
+  - Purpose: The roles this company plays in our business. One company can be landlord, tenant and investor at once.
+  - Options: Landlord, Tenant, Occupier looking for space, Investor, Managing agent, Solicitor, Surveyor or consultant
+  - Done when: Company records show Company roles and it accepts the right values.
+- [ ] **Create field Occupier sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Occupier_sector__c`.
+  - Purpose: The tenant's line of business. Used to match prospects to space and report by sector.
+  - Options: Professional services, Technology, Retail, Hospitality, Logistics, Light industrial, Healthcare, Public sector, Other
+  - Done when: Company records show Occupier sector and it accepts the right values.
+- [ ] **Create field Relationship status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Relationship_status__c`.
+  - Purpose: Where the company stands with us.
+  - Options: Prospect, Active requirement, Current tenant, Former tenant, Partner
+  - Done when: Company records show Relationship status and it accepts the right values.
+- [ ] **Create field Covenant strength (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Covenant_strength__c`.
+  - Purpose: Our view of the tenant's ability to pay rent, from referencing. Landlords ask for it before agreeing terms.
+  - Options: Strong, Satisfactory, Weak, Not checked
+  - Done when: Company records show Covenant strength and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Contact role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Contact_role__c`.
+  - Purpose: The part this person plays in a letting. Used to send the right documents to the right person.
+  - Options: Decision maker, Property or facilities manager, Tenant's agent, Landlord contact, Solicitor, Finance contact
+  - Done when: Person records show Contact role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the letting did not complete. Required on the lost stage.
+  - Options: Took other space, Terms not agreed, Referencing failed, Space unsuitable, Budget changed, Requirement withdrawn, Landlord withdrew, No response
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Instruction type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Instruction_type__c`.
+  - Purpose: Whom we act for on this deal. Sets the fee basis and conflicts check.
+  - Options: Acting for landlord, Acting for tenant, Joint agency
+  - Done when: Deal records show Instruction type and it accepts the right values.
+- [ ] **Create field Size required (sq ft) (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Requirement_size_sqft__c`.
+  - Purpose: Floor area the occupier wants. Used to match against available units.
+  - Done when: Deal records show Size required (sq ft) and it accepts the right values.
+- [ ] **Create field Target move date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Target_move_date__c`.
+  - Purpose: When the occupier needs to be in. Drives urgency and the lease start date.
+  - Done when: Deal records show Target move date and it accepts the right values.
+- [ ] **Create field Viewing held (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Viewing_held__c`.
+  - Purpose: At least one viewing of the space has taken place with a decision maker.
+  - Done when: Deal records show Viewing held and it accepts the right values.
+- [ ] **Create field Heads of terms status (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Heads_of_terms_status__c`.
+  - Purpose: Progress of the written summary of agreed commercial terms, which is not binding until the lease is signed.
+  - Options: Not started, Drafted, Issued, Agreed
+  - Done when: Deal records show Heads of terms status and it accepts the right values.
+- [ ] **Create field Referencing status (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Referencing_status__c`.
+  - Purpose: Progress of the tenant covenant and reference checks.
+  - Options: Not started, In progress, Passed, Failed
+  - Done when: Deal records show Referencing status and it accepts the right values.
+- [ ] **Create field Solicitors instructed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Solicitors_instructed__c`.
+  - Purpose: Both sides have instructed solicitors to draft and agree the lease.
+  - Done when: Deal records show Solicitors instructed and it accepts the right values.
+- [ ] **Create field Headline rent (per year) (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Headline_rent__c`.
+  - Purpose: Annual rent offered or agreed, before incentives.
+  - Done when: Deal records show Headline rent (per year) and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Property
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Building name or street address used day to day.
+  - Done when: Property records show Name and it accepts the right values.
+- [ ] **Create field Address (text)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Text (255), API name `Address__c`.
+  - Purpose: Full address including postcode.
+  - Done when: Property records show Address and it accepts the right values.
+- [ ] **Create field Property type (select)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Picklist, API name `Property_type__c`.
+  - Purpose: Use class of the building. Used to match enquiries and report availability.
+  - Options: Office, Retail, Industrial, Mixed use, Serviced or flexible, Land
+  - Done when: Property records show Property type and it accepts the right values.
+- [ ] **Create field Total area (sq ft) (number)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Number (18, 0), API name `Total_area_sqft__c`.
+  - Purpose: Total lettable floor area of the property.
+  - Done when: Property records show Total area (sq ft) and it accepts the right values.
+- [ ] **Create field Available area (sq ft) (number)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Number (18, 0), API name `Available_area_sqft__c`.
+  - Purpose: Floor area currently available to let. Updated when a lease completes or ends.
+  - Done when: Property records show Available area (sq ft) and it accepts the right values.
+- [ ] **Create field Availability (select)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Picklist, API name `Availability_status__c`.
+  - Purpose: Whether there is space to let now. Drives the availability view and enquiry matching.
+  - Options: Fully let, Part available, Fully available, Under offer, Off market
+  - Done when: Property records show Availability and it accepts the right values.
+- [ ] **Create field Asking rent (per sq ft) (currency)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Currency (18, 2), API name `Asking_rent_psf__c`.
+  - Purpose: Quoted annual rent per square foot for available space.
+  - Done when: Property records show Asking rent (per sq ft) and it accepts the right values.
+- [ ] **Create field Energy rating (select)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Picklist, API name `Energy_rating__c`.
+  - Purpose: Energy performance rating band shown on the certificate. Needed before marketing.
+  - Options: A, B, C, D, E, F, G, Not rated
+  - Done when: Property records show Energy rating and it accepts the right values.
+- [ ] **Create field Market area (select)**
+  - Where: Setup, Object Manager, Property, Fields & Relationships, New. Data type Picklist, API name `Market_area__c`.
+  - Purpose: Submarket the property sits in. Edit the options to the agent's patch. Used to match requirements.
+  - Options: Central, North, South, East, West, Out of town
+  - Done when: Property records show Market area and it accepts the right values.
+
+### Lease
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Tenant, property and unit, for example Tenant name, Building name, 2nd floor.
+  - Done when: Lease records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the lease stands.
+  - Options: Agreed, Active, In review, Holding over, Ended
+  - Done when: Lease records show Status and it accepts the right values.
+- [ ] **Create field Unit (text)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Text (255), API name `Unit__c`.
+  - Purpose: Floor, suite or unit let under this lease.
+  - Done when: Lease records show Unit and it accepts the right values.
+- [ ] **Create field Area (sq ft) (number)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Number (18, 0), API name `Area_sqft__c`.
+  - Purpose: Floor area let.
+  - Done when: Lease records show Area (sq ft) and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: First day of the term.
+  - Done when: Lease records show Start date and it accepts the right values.
+- [ ] **Create field Expiry date (date)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Date, API name `Expiry_date__c`.
+  - Purpose: Contractual end date. A renewal opens before it.
+  - Done when: Lease records show Expiry date and it accepts the right values.
+- [ ] **Create field Break date (date)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Date, API name `Break_date__c`.
+  - Purpose: Earliest date the tenant or landlord may end the lease early, if there is a break clause.
+  - Done when: Lease records show Break date and it accepts the right values.
+- [ ] **Create field Next rent review (date)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Date, API name `Next_rent_review__c`.
+  - Purpose: Date the rent is next reviewed.
+  - Done when: Lease records show Next rent review and it accepts the right values.
+- [ ] **Create field Annual rent (currency)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Currency (18, 2), API name `Annual_rent__c`.
+  - Purpose: Passing rent per year.
+  - Done when: Lease records show Annual rent and it accepts the right values.
+- [ ] **Create field Rent-free months (number)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Number (18, 0), API name `Rent_free_months__c`.
+  - Purpose: Months of rent-free incentive granted at the start.
+  - Done when: Lease records show Rent-free months and it accepts the right values.
+- [ ] **Create field Inside security of tenure (checkbox)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Checkbox, API name `Security_of_tenure__c`.
+  - Purpose: The lease has statutory renewal rights. This changes how renewal is handled. Confirm with the solicitor.
+  - Done when: Lease records show Inside security of tenure and it accepts the right values.
+- [ ] **Create field Outcome reason (select)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Picklist, API name `Outcome_reason__c`.
+  - Purpose: Why a lease was not renewed. Required on the lost renewal stage.
+  - Options: Tenant relocated, Downsized, Business closed, Rent too high, Landlord redevelopment, Space unsuitable
+  - Done when: Lease records show Outcome reason and it accepts the right values.
+- [ ] **Create field Lease manager (user)**
+  - Where: Setup, Object Manager, Lease, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Managing_owner__c`.
+  - Purpose: The team member who manages this lease and its renewal.
+  - Done when: Lease records show Lease manager and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create lease on completion**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the letting pipeline moves to completed.
+  - Action: Create a lease from the deal's rent and dates, link it to the property and the tenant, set the company's relationship status to current tenant and reduce the property's available area.
+  - Done when: the automation runs on a test record and the result matches: Create a lease from the deal's rent and dates, link it to the property and the tenant, set the company's relationship status to current tenant and reduce the property's available area.
+- [ ] **Open renewal**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A lease is 12 months from its expiry or break date and its status is active.
+  - Action: Move the lease to upcoming in the renewal pipeline and notify the lease manager.
+  - Done when: the automation runs on a test record and the result matches: Move the lease to upcoming in the renewal pipeline and notify the lease manager.
+- [ ] **Rent review reminder**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A lease's next rent review is 6 months away.
+  - Action: Create a task for the lease manager to prepare the rent review.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lease manager to prepare the rent review.
+- [ ] **Flag stalled lettings**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open letting deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled lettings view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled lettings view.
+- [ ] **Match requirement to space**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal reaches requirement qualified.
+  - Action: Create a task to list properties with available area and market area that fit the requirement.
+  - Done when: the automation runs on a test record and the result matches: Create a task to list properties with available area and market area that fit the requirement.
+- [ ] **Free the space**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A lease moves to not renewed.
+  - Action: Set its status to ended and create a task to update the property's availability.
+  - Done when: the automation runs on a test record and the result matches: Set its status to ended and create a task to update the property's availability.
+
+## 6. Views
+
+- [ ] **Available space**
+  - Where: Generated as list view `Available_space`. Open Properties, choose the view, then set the sort (Available area, largest first.) from the list controls and save.
+  - Object: property
+  - Filter: Availability is part available or fully available.
+  - Sort: Available area, largest first.
+  - Done when: the view Available space is saved and shows the expected records.
+- [ ] **Open lettings**
+  - Where: Generated as list view `Open_lettings`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view Open lettings is saved and shows the expected records.
+- [ ] **Stalled lettings**
+  - Where: Generated as list view `Stalled_lettings`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled lettings is saved and shows the expected records.
+- [ ] **Expiries and breaks in 18 months**
+  - Where: Open Leases, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: lease
+  - Filter: Status is active and expiry date or break date is within 18 months.
+  - Sort: Expiry date, soonest first.
+  - Done when: the view Expiries and breaks in 18 months is saved and shows the expected records.
+- [ ] **Rent reviews due**
+  - Where: Generated as list view `Rent_reviews_due`. Open Leases, choose the view, then set the sort (Next rent review, soonest first.) from the list controls and save.
+  - Object: lease
+  - Filter: Status is active and next rent review is within 6 months.
+  - Sort: Next rent review, soonest first.
+  - Done when: the view Rent reviews due is saved and shows the expected records.
+- [ ] **Active requirements**
+  - Where: Generated as list view `Active_requirements`. Open Companies, choose the view, then set the sort (Name, A to Z.) from the list controls and save.
+  - Object: company
+  - Filter: Relationship status is active requirement.
+  - Sort: Name, A to Z.
+  - Done when: the view Active requirements is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

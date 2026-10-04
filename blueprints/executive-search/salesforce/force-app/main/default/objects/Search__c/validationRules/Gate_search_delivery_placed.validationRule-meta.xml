@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_search_delivery_placed</fullName>
+    <active>true</active>
+    <description>Stage gate: Search delivery, Placed and later stages need Total fee.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) &gt;= 7, ISBLANK(Total_fee__c))</errorConditionFormula>
+    <errorDisplayField>Total_fee__c</errorDisplayField>
+    <errorMessage>Fill in Total fee before moving to Placed.</errorMessage>
+</ValidationRule>

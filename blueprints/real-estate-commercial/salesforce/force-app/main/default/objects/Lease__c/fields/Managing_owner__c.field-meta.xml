@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Managing_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member who manages this lease and its renewal.</description>
+    <label>Lease manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Leases Lease manager</relationshipLabel>
+    <relationshipName>Lease_Managing_owner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

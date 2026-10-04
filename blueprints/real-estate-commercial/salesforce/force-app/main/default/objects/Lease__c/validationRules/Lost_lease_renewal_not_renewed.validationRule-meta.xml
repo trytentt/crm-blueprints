@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_lease_renewal_not_renewed</fullName>
+    <active>true</active>
+    <description>Lost reason: Lease renewal, Not renewed needs Outcome reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Not renewed"), ISBLANK(TEXT(Outcome_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Outcome_reason__c</errorDisplayField>
+    <errorMessage>Fill in Outcome reason before closing this as Not renewed.</errorMessage>
+</ValidationRule>

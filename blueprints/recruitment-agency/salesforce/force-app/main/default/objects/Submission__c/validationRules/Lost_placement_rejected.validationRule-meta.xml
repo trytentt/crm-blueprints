@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_placement_rejected</fullName>
+    <active>true</active>
+    <description>Lost reason: Placement, Rejected needs Rejection reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Rejected"), ISBLANK(TEXT(Rejection_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Rejection_reason__c</errorDisplayField>
+    <errorMessage>Fill in Rejection reason before closing this as Rejected.</errorMessage>
+</ValidationRule>

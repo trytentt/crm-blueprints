@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_order_status_cancelled</fullName>
+    <active>true</active>
+    <description>Lost reason: Order status, Cancelled needs Cancel reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Cancelled"), ISBLANK(TEXT(Cancel_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Cancel_reason__c</errorDisplayField>
+    <errorMessage>Fill in Cancel reason before closing this as Cancelled.</errorMessage>
+</ValidationRule>

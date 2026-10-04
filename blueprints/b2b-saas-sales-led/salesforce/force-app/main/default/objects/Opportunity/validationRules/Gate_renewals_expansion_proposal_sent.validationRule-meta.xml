@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_renewals_expansion_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Renewals and expansion, Proposal sent and later stages need Amount and Contract term (months).</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) &gt;= 3, OR(ISBLANK(Amount), ISBLANK(Contract_term_months__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount and Contract term (months) before moving to Proposal sent.</errorMessage>
+</ValidationRule>

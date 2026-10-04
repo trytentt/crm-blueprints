@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pricing_tier__c</fullName>
+    <description>Wholesale price band the retailer buys on. Set by order volume and agreed terms.</description>
+    <label>Pricing tier</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Preferred</fullName>
+                <default>false</default>
+                <label>Preferred</label>
+            </value>
+            <value>
+                <fullName>Key account</fullName>
+                <default>false</default>
+                <label>Key account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

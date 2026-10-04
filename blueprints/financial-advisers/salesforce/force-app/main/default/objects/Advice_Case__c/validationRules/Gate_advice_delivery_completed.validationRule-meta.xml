@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_advice_delivery_completed</fullName>
+    <active>true</active>
+    <description>Stage gate: Advice delivery, Completed and later stages need Applications submitted and Completion date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) &gt;= 6, OR(NOT(Applications_submitted__c), ISBLANK(Completion_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Applications submitted and Completion date before moving to Completed.</errorMessage>
+</ValidationRule>

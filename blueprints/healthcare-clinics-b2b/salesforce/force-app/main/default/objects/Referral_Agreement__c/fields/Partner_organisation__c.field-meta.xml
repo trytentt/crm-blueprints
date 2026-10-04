@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partner_organisation__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Links each agreement to the organisation that is the partner.</description>
+    <externalId>false</externalId>
+    <label>Partner organisation</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Referral agreements</relationshipLabel>
+    <relationshipName>Referral_agreements</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

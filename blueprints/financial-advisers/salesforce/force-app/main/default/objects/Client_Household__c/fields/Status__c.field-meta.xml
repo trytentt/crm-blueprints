@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Where the household is with the practice.</description>
+    <label>Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospect</fullName>
+                <default>false</default>
+                <label>Prospect</label>
+            </value>
+            <value>
+                <fullName>Onboarding</fullName>
+                <default>false</default>
+                <label>Onboarding</label>
+            </value>
+            <value>
+                <fullName>Ongoing client</fullName>
+                <default>false</default>
+                <label>Ongoing client</label>
+            </value>
+            <value>
+                <fullName>One-off client</fullName>
+                <default>false</default>
+                <label>One-off client</label>
+            </value>
+            <value>
+                <fullName>Former client</fullName>
+                <default>false</default>
+                <label>Former client</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

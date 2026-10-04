@@ -1,0 +1,469 @@
+# Build sheet: Events and sponsorship (salesforce)
+
+An event organiser that earns revenue from sponsors and exhibitors. Sponsor and exhibitor sales run as two deal pipelines, each tied to an event. Packages and stand space are the inventory. Each won deal gets a fulfilment record so that what was promised is delivered and the renewal is prepared.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is delivery tracked on a fulfilment object rather than as stages on the deal?**
+  - Recommended default: Yes. Both deal pipelines end at signed or confirmed. A fulfilment record carries assets, passes, stand number and the wrap-up, owned by operations, so the promises made in sales are not lost.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are sponsor and exhibitor sales two pipelines on Deal or two objects?**
+  - Recommended default: Two pipelines on Deal. They have different stages and buyers, but finance wants one revenue report per event. A company that does both has two deals.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is each edition of a recurring event its own event record?**
+  - Recommended default: Yes. One event record per edition, so targets, inventory and renewal rate are per year. A parent series object is added only if several events share sponsors.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How does a returning sponsor or exhibitor for the next edition get tracked?**
+  - Recommended default: As a new deal on the next event's record with prior participant ticked. It starts at the first open stage, and the wrap-up renewal intent decides who is contacted first.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow the three custom objects?**
+  - Recommended default: Check before the build. If not, hold event as a company-level text field on the deal, package as a deal product list, and fulfilment as a task checklist on the deal. Record the gap in client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are any packages sold with category exclusivity?**
+  - Recommended default: Mark them exclusive on the package. Before a proposal is sent the salesperson checks no competitor holds that category. The CRM does not enforce this automatically.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Event**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Event, plural Events, API name `Event__c`, record name a Text field.
+  - Purpose: One edition of an event, with its dates, venue and revenue targets. Every sponsor and exhibitor deal links to an event, so sales can be reported per edition and compared year on year.
+  - Done when: the object Event exists with plural name Events.
+- [ ] **Create object Package**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Package, plural Packages, API name `Package__c`, record name a Text field.
+  - Purpose: One thing the organiser sells for an event, such as a sponsorship tier, a block of stand space or an add-on. Holds price and quantity so availability and sell-through can be seen.
+  - Done when: the object Package exists with plural name Packages.
+- [ ] **Create object Fulfilment**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Fulfilment, plural Fulfilments, API name `Fulfilment__c`, record name a Text field.
+  - Purpose: The work of delivering what one sponsor or exhibitor bought, such as logo, speaking slot, stand allocation and passes. Owned by the partnerships or operations team, separate from the sales deal.
+  - Done when: the object Fulfilment exists with plural name Fulfilments.
+- [ ] **Create relationship deal to event (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Event__c` on Opportunity to Event__c.
+  - Purpose: Shows all sponsor and exhibitor deals for an edition.
+  - Done when: a deal record shows the link as 'Event' and a event record shows it as 'Deals'.
+- [ ] **Create relationship deal to package (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to deal, one to package). Junction object `Deal_package__c` with two master-detail fields.
+  - Purpose: Records which packages and add-ons a deal includes.
+  - Done when: a deal record shows the link as 'Packages' and a package record shows it as 'Deals'.
+- [ ] **Create relationship package to event (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Event__c` on Package__c to Event__c.
+  - Purpose: Lists the inventory for each edition and its sell-through.
+  - Done when: a package record shows the link as 'Event' and a event record shows it as 'Packages'.
+- [ ] **Create relationship fulfilment to deal (one_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Deal__c` on Fulfilment__c to Opportunity.
+  - Purpose: Ties delivery to the signed deal so promises made in sales are visible to the delivery team.
+  - Done when: a fulfilment record shows the link as 'Deal' and a deal record shows it as 'Fulfilment'.
+- [ ] **Create relationship fulfilment to event (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Event__c` on Fulfilment__c to Event__c.
+  - Purpose: Gives the event lead one list of everything to deliver.
+  - Done when: a fulfilment record shows the link as 'Event' and a event record shows it as 'Fulfilments'.
+- [ ] **Create relationship fulfilment to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Partner__c` on Fulfilment__c to Account.
+  - Purpose: Shows a company's delivery history across editions.
+  - Done when: a fulfilment record shows the link as 'Partner' and a company record shows it as 'Fulfilments'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Sponsor sales on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Sponsor_sales`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Sponsor_sales`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Sponsor sales exists with 7 stages in the order below.
+- [ ] **Stage 1: Prospect**
+  - Type: open. Probability: 5%.
+  - Entered when a target company and a named marketing contact have been identified for an event.
+  - Stage value `Prospect`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_sponsor_sales_prospect` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 1, ISBLANK(Sponsor_objectives__c))`. Error message: Fill in Sponsor objectives before moving to Prospect.
+  - Done when: the stage Prospect is in position 1 and its rule is in place.
+- [ ] **Stage 2: Meeting held**
+  - Type: open. Probability: 20%.
+  - Entered when a discovery call has happened and the sponsor's goals are written down.
+  - Stage value `Meeting held`: closed false, won false, probability 20, forecast category Pipeline. Validation rule `Gate_sponsor_sales_meeting_held` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 2, OR(ISBLANK(Sponsor_objectives__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Sponsor objectives and Next step date before moving to Meeting held.
+  - Done when: the stage Meeting held is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 40%.
+  - Entered when a proposal tied to the sponsor's goals, with tier and price, has been sent.
+  - Stage value `Proposal sent`: closed false, won false, probability 40, forecast category Pipeline. Validation rule `Gate_sponsor_sales_proposal_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 3, OR(ISBLANK(TEXT(Sponsor_tier__c)), ISBLANK(Amount)))`. Error message: Fill in Sponsor tier and Amount before moving to Proposal sent.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiating**
+  - Type: open. Probability: 65%.
+  - Entered when the sponsor has asked for changes to the package, price or terms.
+  - Stage value `Negotiating`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_sponsor_sales_negotiating` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Payment_terms__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Amount, Payment terms and Next step date before moving to Negotiating.
+  - Done when: the stage Negotiating is in position 4 and its rule is in place.
+- [ ] **Stage 5: Contract out**
+  - Type: open. Probability: 85%.
+  - Entered when final terms are agreed and the contract has been sent for signature.
+  - Stage value `Contract out`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_sponsor_sales_contract_out` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Payment_terms__c))))`. Error message: Fill in Amount, Close date and Payment terms before moving to Contract out.
+  - Done when: the stage Contract out is in position 5 and its rule is in place.
+- [ ] **Stage 6: Signed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed contract is received and a fulfilment record is created.
+  - Stage value `Signed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_sponsor_sales_signed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(Contract_signed_date__c), ISBLANK(TEXT(Sponsor_tier__c))))`. Error message: Fill in Amount, Contract signed date and Sponsor tier before moving to Signed.
+  - Done when: the stage Signed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the sponsor says no, or has not replied after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_sponsor_sales_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Sponsor_sales", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Exhibitor sales on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Exhibitor_sales`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Exhibitor_sales`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Exhibitor sales exists with 6 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 10%.
+  - Entered when a company has asked about a stand or been contacted and replied.
+  - Stage value `Enquiry`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_exhibitor_sales_enquiry` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) >= 1, ISBLANK(TEXT(Stand_type__c)))`. Error message: Fill in Stand type before moving to Enquiry.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Qualified**
+  - Type: open. Probability: 30%.
+  - Entered when the exhibitor's goals and space needs have been discussed.
+  - Stage value `Qualified`: closed false, won false, probability 30, forecast category Pipeline. Validation rule `Gate_exhibitor_sales_qualified` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) >= 2, OR(ISBLANK(Stand_size_sqm__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Stand size (sqm) and Next step date before moving to Qualified.
+  - Done when: the stage Qualified is in position 2 and its rule is in place.
+- [ ] **Stage 3: Space held**
+  - Type: open. Probability: 55%.
+  - Entered when a specific stand has been offered with a price and held for a stated number of days.
+  - Stage value `Space held`: closed false, won false, probability 55, forecast category Pipeline. Validation rule `Gate_exhibitor_sales_space_held` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) >= 3, OR(ISBLANK(Stand_size_sqm__c), ISBLANK(Amount), ISBLANK(Next_step_date__c)))`. Error message: Fill in Stand size (sqm), Amount and Next step date before moving to Space held.
+  - Done when: the stage Space held is in position 3 and its rule is in place.
+- [ ] **Stage 4: Contract sent**
+  - Type: open. Probability: 80%.
+  - Entered when the booking form and terms have been sent for signature.
+  - Stage value `Contract sent`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_exhibitor_sales_contract_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(TEXT(Payment_terms__c)), ISBLANK(CloseDate)))`. Error message: Fill in Amount, Payment terms and Close date before moving to Contract sent.
+  - Done when: the stage Contract sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Confirmed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed booking form and deposit are received and a fulfilment record is created.
+  - Stage value `Confirmed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_exhibitor_sales_confirmed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Space held", 3, "Contract sent", 4, "Confirmed", 5, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(Stand_size_sqm__c), ISBLANK(Contract_signed_date__c), NOT(Deposit_received__c)))`. Error message: Fill in Amount, Stand size (sqm), Contract signed date and Deposit received before moving to Confirmed.
+  - Done when: the stage Confirmed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the company declines, or the held space is released with no booking.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_exhibitor_sales_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Exhibitor_sales", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Account type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Account_type__c`.
+  - Purpose: What kind of organisation this is. Used to target the right packages.
+  - Options: Brand or sponsor, Solution provider, Agency, Association, Media partner, Venue or supplier
+  - Done when: Company records show Account type and it accepts the right values.
+- [ ] **Create field Participation status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Participation_status__c`.
+  - Purpose: Whether and when the company has taken part. Drives renewal and win-back lists.
+  - Options: Target, Current this edition, Past participant, Lapsed
+  - Done when: Company records show Participation status and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Outbound, Inbound enquiry, Previous edition, Referral, Attendee conversion, Agency
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays in a sponsorship or stand purchase. Used to check the right people are engaged.
+  - Options: Marketing lead, Sales lead, Event manager, Contract signatory, Day-to-day stand contact, Procurement
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the deal was lost. Required on every lost stage.
+  - Options: No budget, Audience not right, Price, Chose another event, Category exclusivity taken, Internal priority change, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Sponsor tier (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Sponsor_tier__c`.
+  - Purpose: The sponsorship level being sold. Used to report revenue and sell-through per tier.
+  - Options: Headline, Gold, Silver, Bronze, Bespoke
+  - Done when: Deal records show Sponsor tier and it accepts the right values.
+- [ ] **Create field Sponsor objectives (multi_select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Sponsor_objectives__c`.
+  - Purpose: What the sponsor wants from the event. The proposal and the wrap-up report are built around these.
+  - Options: Lead generation, Brand awareness, Thought leadership, Product launch, Hiring, Customer hospitality
+  - Done when: Deal records show Sponsor objectives and it accepts the right values.
+- [ ] **Create field Stand size (sqm) (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Stand_size_sqm__c`.
+  - Purpose: Floor area requested or booked for an exhibitor.
+  - Done when: Deal records show Stand size (sqm) and it accepts the right values.
+- [ ] **Create field Stand type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Stand_type__c`.
+  - Purpose: The kind of stand being sold. Sets price and build requirements.
+  - Options: Shell scheme, Space only, Premium corner, Tabletop
+  - Done when: Deal records show Stand type and it accepts the right values.
+- [ ] **Create field Prior participant (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Prior_participant__c`.
+  - Purpose: The company sponsored or exhibited at an earlier edition. Used to report renewal rate.
+  - Done when: Deal records show Prior participant and it accepts the right values.
+- [ ] **Create field Deposit received (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Deposit_received__c`.
+  - Purpose: The booking deposit has been paid. Space is not confirmed without it.
+  - Done when: Deal records show Deposit received and it accepts the right values.
+- [ ] **Create field Payment terms (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Payment_terms__c`.
+  - Purpose: When the balance is due. Finance uses it to chase.
+  - Options: On signature, Deposit then balance, Instalments, Invoice, 30 days
+  - Done when: Deal records show Payment terms and it accepts the right values.
+- [ ] **Create field Contract signed date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Contract_signed_date__c`.
+  - Purpose: The day the signed contract or booking form was received.
+  - Done when: Deal records show Contract signed date and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Event
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Event name and year, for example Annual summit 2027.
+  - Done when: Event records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the event is in its cycle. Drives which sales and fulfilment views apply.
+  - Options: Planning, On sale, Sold out, Live, Completed, Cancelled
+  - Done when: Event records show Status and it accepts the right values.
+- [ ] **Create field Event type (select)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Picklist, API name `Event_type__c`.
+  - Purpose: The format of the event, for reporting across the portfolio.
+  - Options: Conference, Trade show, Summit, Awards, Hybrid
+  - Done when: Event records show Event type and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: First day of the event.
+  - Done when: Event records show Start date and it accepts the right values.
+- [ ] **Create field End date (date)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Date, API name `End_date__c`.
+  - Purpose: Last day of the event.
+  - Done when: Event records show End date and it accepts the right values.
+- [ ] **Create field Venue (text)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Text (255), API name `Venue__c`.
+  - Purpose: Venue name and city. Used for stand plans and logistics.
+  - Done when: Event records show Venue and it accepts the right values.
+- [ ] **Create field Expected attendees (number)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Number (18, 0), API name `Expected_attendees__c`.
+  - Purpose: Forecast attendance, used in sponsor and exhibitor proposals.
+  - Done when: Event records show Expected attendees and it accepts the right values.
+- [ ] **Create field Sponsorship target (currency)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Currency (18, 2), API name `Sponsorship_target__c`.
+  - Purpose: Revenue target for sponsorship. Compared with signed deals.
+  - Done when: Event records show Sponsorship target and it accepts the right values.
+- [ ] **Create field Exhibition target (currency)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Currency (18, 2), API name `Exhibition_target__c`.
+  - Purpose: Revenue target for stand sales. Compared with signed deals.
+  - Done when: Event records show Exhibition target and it accepts the right values.
+- [ ] **Create field Total stand space (sqm) (number)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Number (18, 0), API name `Total_stand_sqm__c`.
+  - Purpose: Sellable floor area. Used to show how much space is left.
+  - Done when: Event records show Total stand space (sqm) and it accepts the right values.
+- [ ] **Create field Event lead (user)**
+  - Where: Setup, Object Manager, Event, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Event_lead__c`.
+  - Purpose: The team member accountable for the event.
+  - Done when: Event records show Event lead and it accepts the right values.
+
+### Package
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: The package as sold, for example gold sponsor or 9 sqm shell scheme.
+  - Done when: Package records show Name and it accepts the right values.
+- [ ] **Create field Package type (select)**
+  - Where: Setup, Object Manager, Package, Fields & Relationships, New. Data type Picklist, API name `Package_type__c`.
+  - Purpose: What kind of inventory this is.
+  - Options: Sponsor tier, Stand space, Add-on
+  - Done when: Package records show Package type and it accepts the right values.
+- [ ] **Create field Price (currency)**
+  - Where: Setup, Object Manager, Package, Fields & Relationships, New. Data type Currency (18, 2), API name `Price__c`.
+  - Purpose: Price excluding VAT.
+  - Done when: Package records show Price and it accepts the right values.
+- [ ] **Create field Quantity available (number)**
+  - Where: Setup, Object Manager, Package, Fields & Relationships, New. Data type Number (18, 0), API name `Quantity_available__c`.
+  - Purpose: How many of this package exist in total.
+  - Done when: Package records show Quantity available and it accepts the right values.
+- [ ] **Create field Quantity sold (number)**
+  - Where: Setup, Object Manager, Package, Fields & Relationships, New. Data type Number (18, 0), API name `Quantity_sold__c`.
+  - Purpose: How many are sold. Maintained by an automation from won deals.
+  - Done when: Package records show Quantity sold and it accepts the right values.
+- [ ] **Create field Category exclusive (checkbox)**
+  - Where: Setup, Object Manager, Package, Fields & Relationships, New. Data type Checkbox, API name `Exclusive__c`.
+  - Purpose: Only one company per category can buy this. Checked before a proposal is sent.
+  - Done when: Package records show Category exclusive and it accepts the right values.
+
+### Fulfilment
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company name and event, for example the sponsor and Annual summit 2027.
+  - Done when: Fulfilment records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where delivery of the booking stands.
+  - Options: Not started, Assets requested, In progress, Ready for event, Delivered, Wrap-up sent
+  - Done when: Fulfilment records show Status and it accepts the right values.
+- [ ] **Create field Assets due date (date)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Date, API name `Assets_due_date__c`.
+  - Purpose: The day logos, artwork and copy must be received to hit print and web deadlines.
+  - Done when: Fulfilment records show Assets due date and it accepts the right values.
+- [ ] **Create field Assets received (checkbox)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Checkbox, API name `Assets_received__c`.
+  - Purpose: Logo, copy and artwork have been received from the partner.
+  - Done when: Fulfilment records show Assets received and it accepts the right values.
+- [ ] **Create field Passes allocated (number)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Number (18, 0), API name `Passes_allocated__c`.
+  - Purpose: Number of delegate or exhibitor passes issued with this booking.
+  - Done when: Fulfilment records show Passes allocated and it accepts the right values.
+- [ ] **Create field Stand number (text)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Text (255), API name `Stand_number__c`.
+  - Purpose: Stand location on the floor plan. Empty for sponsor-only bookings.
+  - Done when: Fulfilment records show Stand number and it accepts the right values.
+- [ ] **Create field Delivery owner (user)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Delivery_owner__c`.
+  - Purpose: The team member responsible for delivering the booking.
+  - Done when: Fulfilment records show Delivery owner and it accepts the right values.
+- [ ] **Create field Renewal intent (select)**
+  - Where: Setup, Object Manager, Fulfilment, Fields & Relationships, New. Data type Picklist, API name `Renewal_intent__c`.
+  - Purpose: The partner's stated wish for the next edition, captured at the wrap-up meeting.
+  - Options: Will renew, Undecided, Won't renew, Unknown
+  - Done when: Fulfilment records show Renewal intent and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create fulfilment on win**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A sponsor deal moves to signed, or an exhibitor deal moves to confirmed.
+  - Action: Create a fulfilment record linked to the deal, event and company, set status to not started, and assign it to the operations team with the sponsor objectives copied into the notes.
+  - Done when: the automation runs on a test record and the result matches: Create a fulfilment record linked to the deal, event and company, set status to not started, and assign it to the operations team with the sponsor objectives copied into the notes.
+- [ ] **Update package sales**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal is won or reopened.
+  - Action: Recalculate quantity sold on each linked package from won deals and flag any package that is sold out.
+  - Done when: the automation runs on a test record and the result matches: Recalculate quantity sold on each linked package from won deals and flag any package that is sold out.
+- [ ] **Request assets**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A fulfilment is 60 days before its assets due date and assets received is empty.
+  - Action: Email the partner contact an asset request and set the fulfilment status to assets requested.
+  - Done when: the automation runs on a test record and the result matches: Email the partner contact an asset request and set the fulfilment status to assets requested.
+- [ ] **Start next edition renewals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An event is marked completed.
+  - Action: For each fulfilment with renewal intent will renew or undecided, create a deal on the next edition's event with prior participant ticked, and set the company status to past participant.
+  - Done when: the automation runs on a test record and the result matches: For each fulfilment with renewal intent will renew or undecided, create a deal on the next edition's event with prior participant ticked, and set the company status to past participant.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Generated as list view `My_open_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Held space**
+  - Where: Open Deals, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: deal
+  - Filter: Stage is space held in the exhibitor sales pipeline.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Held space is saved and shows the expected records.
+- [ ] **Package availability**
+  - Where: Open Packages, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: package
+  - Filter: Quantity sold is below quantity available.
+  - Sort: Package type, then price, highest first.
+  - Done when: the view Package availability is saved and shows the expected records.
+- [ ] **Assets overdue**
+  - Where: Generated as list view `Fulfilment_overdue`. Open Fulfilments, choose the view, then set the sort (Assets due date, oldest first.) from the list controls and save.
+  - Object: fulfilment
+  - Filter: Assets received is empty and assets due date is in the past.
+  - Sort: Assets due date, oldest first.
+  - Done when: the view Assets overdue is saved and shows the expected records.
+- [ ] **Lapsed partners**
+  - Where: Open Companies, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: company
+  - Filter: Participation status is lapsed or past.
+  - Sort: Name, A to Z.
+  - Done when: the view Lapsed partners is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

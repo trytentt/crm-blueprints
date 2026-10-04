@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Site__c</fullName>
+    <description>Names who to call for access or on-site issues. Master side 1 of the link.</description>
+    <label>Site</label>
+    <referenceTo>Site__c</referenceTo>
+    <relationshipLabel>Site contacts</relationshipLabel>
+    <relationshipName>Site_contacts</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member running the job day to day.</description>
+    <label>Project manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Projects Project manager</relationshipLabel>
+    <relationshipName>Project_Project_manager</relationshipName>
+    <type>Lookup</type>
+</CustomField>

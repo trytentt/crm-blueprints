@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_corporate_training_terms_agreed</fullName>
+    <active>true</active>
+    <description>Stage gate: Corporate training, Terms agreed and later stages need Amount, Proposed start date and Delegate count.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) &gt;= 5, OR(ISBLANK(Amount), ISBLANK(Proposed_start_date__c), ISBLANK(Delegate_count__c)))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Proposed start date and Delegate count before moving to Terms agreed.</errorMessage>
+</ValidationRule>

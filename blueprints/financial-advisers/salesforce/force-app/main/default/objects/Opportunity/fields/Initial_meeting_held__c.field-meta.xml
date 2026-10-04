@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Initial_meeting_held__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The free initial meeting has taken place and the services and fees were explained.</description>
+    <label>Initial meeting held</label>
+    <type>Checkbox</type>
+</CustomField>

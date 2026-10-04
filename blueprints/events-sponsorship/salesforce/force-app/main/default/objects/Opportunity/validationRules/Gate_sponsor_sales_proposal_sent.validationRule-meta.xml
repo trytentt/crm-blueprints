@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sponsor_sales_proposal_sent</fullName>
+    <active>true</active>
+    <description>Stage gate: Sponsor sales, Proposal sent and later stages need Sponsor tier and Amount.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) &gt;= 3, OR(ISBLANK(TEXT(Sponsor_tier__c)), ISBLANK(Amount)))</errorConditionFormula>
+    <errorMessage>Fill in Sponsor tier and Amount before moving to Proposal sent.</errorMessage>
+</ValidationRule>

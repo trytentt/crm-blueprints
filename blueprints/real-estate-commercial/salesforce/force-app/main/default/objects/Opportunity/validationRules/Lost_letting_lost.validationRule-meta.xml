@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_letting_lost</fullName>
+    <active>true</active>
+    <description>Lost reason: Letting, Lost needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Letting", ISPICKVAL(StageName, "Lost"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Lost.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_advice_delivery_report_drafted</fullName>
+    <active>true</active>
+    <description>Stage gate: Advice delivery, Report drafted and later stages need Compliance check.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) &gt;= 3, ISBLANK(TEXT(Compliance_check__c)))</errorConditionFormula>
+    <errorDisplayField>Compliance_check__c</errorDisplayField>
+    <errorMessage>Fill in Compliance check before moving to Report drafted.</errorMessage>
+</ValidationRule>

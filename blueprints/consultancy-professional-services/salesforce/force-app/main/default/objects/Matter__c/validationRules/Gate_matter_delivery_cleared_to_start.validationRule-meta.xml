@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_matter_delivery_cleared_to_start</fullName>
+    <active>true</active>
+    <description>Stage gate: Matter delivery, Cleared to start and later stages need Engagement letter signed date and AML check status.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Opening", 1, "Cleared to start", 2, "In progress", 3, "Awaiting client", 4, "Final billing", 5, "Closed", 6, 0) &gt;= 2, OR(ISBLANK(Engagement_letter_signed_date__c), ISBLANK(TEXT(Aml_check_status__c))))</errorConditionFormula>
+    <errorMessage>Fill in Engagement letter signed date and AML check status before moving to Cleared to start.</errorMessage>
+</ValidationRule>

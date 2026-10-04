@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Season__c</fullName>
+    <description>The collection the order is for. Used for seasonal reorder analysis.</description>
+    <label>Season</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Spring/summer</fullName>
+                <default>false</default>
+                <label>Spring/summer</label>
+            </value>
+            <value>
+                <fullName>Autumn/winter</fullName>
+                <default>false</default>
+                <label>Autumn/winter</label>
+            </value>
+            <value>
+                <fullName>Christmas</fullName>
+                <default>false</default>
+                <label>Christmas</label>
+            </value>
+            <value>
+                <fullName>Year-round</fullName>
+                <default>false</default>
+                <label>Year-round</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

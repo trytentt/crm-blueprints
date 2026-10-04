@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_mandate_acquisition_mandate_lost</fullName>
+    <active>true</active>
+    <description>Lost reason: Mandate acquisition, Mandate lost needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", ISPICKVAL(StageName, "Mandate lost"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Mandate lost.</errorMessage>
+</ValidationRule>

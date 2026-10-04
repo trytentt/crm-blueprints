@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pql_score__c</fullName>
+    <description>Score from 0 to 100 combining usage and company fit. The rule is a decision, so the number is a guide.</description>
+    <label>PQL score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

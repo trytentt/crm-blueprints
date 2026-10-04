@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>New business path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a discovery call is booked with a person who has a buying role.</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the first discovery call has happened and the pain is written down.</info>
+        <picklistValueName>Discovery</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Pain_summary__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has seen a tailored demo and agreed the product fits the pain.</info>
+        <picklistValueName>Solution fit</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Decision_process__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a trial or technical review is agreed, with named evaluators and dates.</info>
+        <picklistValueName>Technical validation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Budget_confirmed__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Contract_term_months__c</fieldNames>
+        <info>Entered when the economic buyer has confirmed budget and asked for pricing.</info>
+        <picklistValueName>Proposal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Security_review__c</fieldNames>
+        <info>Entered when the buyer has reviewed the proposal and is discussing terms.</info>
+        <picklistValueName>Negotiation (New business)</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Contract_term_months__c</fieldNames>
+        <info>Entered when final terms are agreed and the contract has been sent for signature.</info>
+        <picklistValueName>Contract out</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the signed contract is received and the subscription record is created.</info>
+        <picklistValueName>Closed won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the buyer says no, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>New_business</recordTypeName>
+</PathAssistant>

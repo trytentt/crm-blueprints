@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_reason__c</fullName>
+    <description>Why the engagement ended early or was not renewed. Required on the terminated stage.</description>
+    <label>End reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Budget cut</fullName>
+                <default>false</default>
+                <label>Budget cut</label>
+            </value>
+            <value>
+                <fullName>Went in-house</fullName>
+                <default>false</default>
+                <label>Went in-house</label>
+            </value>
+            <value>
+                <fullName>Moved to another agency</fullName>
+                <default>false</default>
+                <label>Moved to another agency</label>
+            </value>
+            <value>
+                <fullName>Unhappy with results</fullName>
+                <default>false</default>
+                <label>Unhappy with results</label>
+            </value>
+            <value>
+                <fullName>Relationship</fullName>
+                <default>false</default>
+                <label>Relationship</label>
+            </value>
+            <value>
+                <fullName>Client closed or acquired</fullName>
+                <default>false</default>
+                <label>Client closed or acquired</label>
+            </value>
+            <value>
+                <fullName>We ended it</fullName>
+                <default>false</default>
+                <label>We ended it</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

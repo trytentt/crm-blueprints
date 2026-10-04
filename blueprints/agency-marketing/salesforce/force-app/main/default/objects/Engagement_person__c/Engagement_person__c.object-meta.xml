@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Links the client people who approve work and receive reports to the engagement.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Engagement to person link</label>
+    <nameField>
+        <displayFormat>EP-{00000}</displayFormat>
+        <label>Engagement to person link number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Engagement to person links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

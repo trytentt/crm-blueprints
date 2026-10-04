@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Missed_reason__c</fullName>
+    <description>Why the review did not happen. Required on the not-completed stage.</description>
+    <label>Missed reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client declined</fullName>
+                <default>false</default>
+                <label>Client declined</label>
+            </value>
+            <value>
+                <fullName>Client unresponsive</fullName>
+                <default>false</default>
+                <label>Client unresponsive</label>
+            </value>
+            <value>
+                <fullName>Moved to another adviser</fullName>
+                <default>false</default>
+                <label>Moved to another adviser</label>
+            </value>
+            <value>
+                <fullName>Left the practice</fullName>
+                <default>false</default>
+                <label>Left the practice</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

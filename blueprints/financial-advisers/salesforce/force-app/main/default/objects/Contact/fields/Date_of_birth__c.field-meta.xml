@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_of_birth__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <description>DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to advisers and administrators only.</description>
+    <label>Date of birth</label>
+    <required>false</required>
+    <securityClassification>Confidential</securityClassification>
+    <type>Date</type>
+</CustomField>

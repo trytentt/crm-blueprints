@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buying_role__c</fullName>
+    <description>The part this person plays in a sponsorship or stand purchase. Used to check the right people are engaged.</description>
+    <label>Buying role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Marketing lead</fullName>
+                <default>false</default>
+                <label>Marketing lead</label>
+            </value>
+            <value>
+                <fullName>Sales lead</fullName>
+                <default>false</default>
+                <label>Sales lead</label>
+            </value>
+            <value>
+                <fullName>Event manager</fullName>
+                <default>false</default>
+                <label>Event manager</label>
+            </value>
+            <value>
+                <fullName>Contract signatory</fullName>
+                <default>false</default>
+                <label>Contract signatory</label>
+            </value>
+            <value>
+                <fullName>Day-to-day stand contact</fullName>
+                <default>false</default>
+                <label>Day-to-day stand contact</label>
+            </value>
+            <value>
+                <fullName>Procurement</fullName>
+                <default>false</default>
+                <label>Procurement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

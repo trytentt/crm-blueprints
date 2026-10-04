@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The team member responsible for the customer after the sale.</description>
+    <label>Account manager</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Service contracts Account manager</relationshipLabel>
+    <relationshipName>Service_Contract_Account_manager</relationshipName>
+    <type>Lookup</type>
+</CustomField>

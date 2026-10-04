@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_order_received__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The client's purchase order or signed booking form is on file.</description>
+    <label>Purchase order received</label>
+    <type>Checkbox</type>
+</CustomField>

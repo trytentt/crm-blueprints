@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_investable_assets__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <description>DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on. Used to forecast fees.</description>
+    <label>Expected investable assets</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Confidential</securityClassification>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_technical_validation</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Technical validation and later stages need Decision process and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) &gt;= 4, OR(ISBLANK(Decision_process__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Decision process and Next step date before moving to Technical validation.</errorMessage>
+</ValidationRule>

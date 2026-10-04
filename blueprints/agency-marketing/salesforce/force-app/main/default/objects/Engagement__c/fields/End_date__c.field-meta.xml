@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_date__c</fullName>
+    <description>Last day of the current term. A renewal deal opens 90 days before it for retainers.</description>
+    <label>End date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

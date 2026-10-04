@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confidential__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Restricts who can see the matter record. Set for sensitive matters, with an ethical wall where needed.</description>
+    <label>Confidential</label>
+    <type>Checkbox</type>
+</CustomField>

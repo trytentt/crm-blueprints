@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_project_delivery_closed_out</fullName>
+    <active>true</active>
+    <description>Stage gate: Project delivery, Closed out and later stages need Final margin.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Pre-start", 1, "Mobilising", 2, "On site", 3, "Snagging", 4, "Defects period", 5, "Closed out", 6, 0) &gt;= 6, ISBLANK(Final_margin__c))</errorConditionFormula>
+    <errorDisplayField>Final_margin__c</errorDisplayField>
+    <errorMessage>Fill in Final margin before moving to Closed out.</errorMessage>
+</ValidationRule>

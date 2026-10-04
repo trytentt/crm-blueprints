@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Solicitors_instructed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Both sides have instructed solicitors to draft and agree the lease.</description>
+    <label>Solicitors instructed</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assets_due_date__c</fullName>
+    <description>The day logos, artwork and copy must be received to hit print and web deadlines.</description>
+    <label>Assets due date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

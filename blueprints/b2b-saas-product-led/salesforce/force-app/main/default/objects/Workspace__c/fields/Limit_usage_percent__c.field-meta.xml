@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Limit_usage_percent__c</fullName>
+    <description>How much of the tightest plan limit the workspace has used. Over 80 is an expansion signal.</description>
+    <label>Plan limit used</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Percent</type>
+</CustomField>

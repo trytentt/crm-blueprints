@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_candidate_progress_placed</fullName>
+    <active>true</active>
+    <description>Stage gate: Candidate progress, Placed and later stages need Offered compensation, Start date and References complete.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) &gt;= 8, OR(ISBLANK(Offered_compensation__c), ISBLANK(Start_date__c), NOT(References_complete__c)))</errorConditionFormula>
+    <errorMessage>Fill in Offered compensation, Start date and References complete before moving to Placed.</errorMessage>
+</ValidationRule>

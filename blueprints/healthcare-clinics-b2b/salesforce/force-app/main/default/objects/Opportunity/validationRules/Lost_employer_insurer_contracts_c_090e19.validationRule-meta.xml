@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_employer_insurer_contracts_c_090e19</fullName>
+    <active>true</active>
+    <description>Lost reason: Employer and insurer contracts, Closed lost needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Employer_insurer_contracts", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Closed lost.</errorMessage>
+</ValidationRule>

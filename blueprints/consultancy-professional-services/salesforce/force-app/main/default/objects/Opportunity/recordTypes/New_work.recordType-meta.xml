@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_work</fullName>
+    <active>true</active>
+    <businessProcess>New_work</businessProcess>
+    <description>New work</description>
+    <label>New work</label>
+    <picklistValues>
+        <picklist>Billing_model__c</picklist>
+        <values>
+            <fullName>Hourly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capped fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retainer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Success fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hybrid</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Conflict_check_result__c</picklist>
+        <values>
+            <fullName>Not run</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cleared</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cleared with waiver</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conflicted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Engagement_letter_status__c</picklist>
+        <values>
+            <fullName>Not drafted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drafted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lost_reason__c</picklist>
+        <values>
+            <fullName>Conflict of interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>We had no capacity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fees too high</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chose another firm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work not going ahead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outside our expertise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined on risk or compliance grounds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No decision made</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Service_area__c</picklist>
+        <values>
+            <fullName>Advisory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transactions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disputes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Audit and assurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory and compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

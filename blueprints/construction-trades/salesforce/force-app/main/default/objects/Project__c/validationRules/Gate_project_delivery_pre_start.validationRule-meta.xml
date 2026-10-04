@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_project_delivery_pre_start</fullName>
+    <active>true</active>
+    <description>Stage gate: Project delivery, Pre-start and later stages need Contract value.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Pre-start", 1, "Mobilising", 2, "On site", 3, "Snagging", 4, "Defects period", 5, "Closed out", 6, 0) &gt;= 1, ISBLANK(Contract_value__c))</errorConditionFormula>
+    <errorDisplayField>Contract_value__c</errorDisplayField>
+    <errorMessage>Fill in Contract value before moving to Pre-start.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_type__c</fullName>
+    <description>What kind of organisation this is. Decides which pipeline it belongs in.</description>
+    <label>Account type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Employer</fullName>
+                <default>false</default>
+                <label>Employer</label>
+            </value>
+            <value>
+                <fullName>Insurer</fullName>
+                <default>false</default>
+                <label>Insurer</label>
+            </value>
+            <value>
+                <fullName>Broker or intermediary</fullName>
+                <default>false</default>
+                <label>Broker or intermediary</label>
+            </value>
+            <value>
+                <fullName>Case management provider</fullName>
+                <default>false</default>
+                <label>Case management provider</label>
+            </value>
+            <value>
+                <fullName>Other healthcare provider</fullName>
+                <default>false</default>
+                <label>Other healthcare provider</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

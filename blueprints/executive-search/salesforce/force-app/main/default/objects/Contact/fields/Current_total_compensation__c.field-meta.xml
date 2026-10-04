@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_total_compensation__c</fullName>
+    <complianceGroup>PII;GDPR</complianceGroup>
+    <description>Candidate's current annual total pay as they told us. Sensitive personal data. Visible to the search team only.</description>
+    <label>Current total compensation</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Restricted</securityClassification>
+    <type>Currency</type>
+</CustomField>

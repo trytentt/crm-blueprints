@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_terms__c</fullName>
+    <description>Payment terms agreed with the retailer. New accounts usually start on payment with order.</description>
+    <label>Payment terms</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pay on order</fullName>
+                <default>false</default>
+                <label>Pay on order</label>
+            </value>
+            <value>
+                <fullName>Net 30</fullName>
+                <default>false</default>
+                <label>Net 30</label>
+            </value>
+            <value>
+                <fullName>Net 60</fullName>
+                <default>false</default>
+                <label>Net 60</label>
+            </value>
+            <value>
+                <fullName>Credit hold</fullName>
+                <default>false</default>
+                <label>Credit hold</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

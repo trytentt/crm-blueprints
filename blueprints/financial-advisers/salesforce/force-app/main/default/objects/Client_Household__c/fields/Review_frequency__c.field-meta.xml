@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_frequency__c</fullName>
+    <description>How often the household is reviewed under its service agreement.</description>
+    <label>Review frequency</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Annual</fullName>
+                <default>false</default>
+                <label>Annual</label>
+            </value>
+            <value>
+                <fullName>Six-monthly</fullName>
+                <default>false</default>
+                <label>Six-monthly</label>
+            </value>
+            <value>
+                <fullName>Quarterly</fullName>
+                <default>false</default>
+                <label>Quarterly</label>
+            </value>
+            <value>
+                <fullName>As needed</fullName>
+                <default>false</default>
+                <label>As needed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

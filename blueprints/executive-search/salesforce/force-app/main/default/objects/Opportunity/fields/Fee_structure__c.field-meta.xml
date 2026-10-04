@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fee_structure__c</fullName>
+    <description>How the retained fee is split into instalments. Agreed in the proposal.</description>
+    <label>Fee structure</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Thirds on engagement, shortlist and placement</fullName>
+                <default>false</default>
+                <label>Thirds on engagement, shortlist and placement</label>
+            </value>
+            <value>
+                <fullName>Thirds on a monthly schedule</fullName>
+                <default>false</default>
+                <label>Thirds on a monthly schedule</label>
+            </value>
+            <value>
+                <fullName>Half on engagement, half on placement</fullName>
+                <default>false</default>
+                <label>Half on engagement, half on placement</label>
+            </value>
+            <value>
+                <fullName>Fixed fee</fullName>
+                <default>false</default>
+                <label>Fixed fee</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

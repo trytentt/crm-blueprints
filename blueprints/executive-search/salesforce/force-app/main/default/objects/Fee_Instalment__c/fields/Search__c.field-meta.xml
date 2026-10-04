@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lists the fee schedule for the search.</description>
+    <externalId>false</externalId>
+    <label>Search</label>
+    <referenceTo>Search__c</referenceTo>
+    <relationshipLabel>Fee instalments</relationshipLabel>
+    <relationshipName>Fee_instalments</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

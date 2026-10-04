@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sponsor_objectives__c</fullName>
+    <description>What the sponsor wants from the event. The proposal and the wrap-up report are built around these.</description>
+    <label>Sponsor objectives</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Lead generation</fullName>
+                <default>false</default>
+                <label>Lead generation</label>
+            </value>
+            <value>
+                <fullName>Brand awareness</fullName>
+                <default>false</default>
+                <label>Brand awareness</label>
+            </value>
+            <value>
+                <fullName>Thought leadership</fullName>
+                <default>false</default>
+                <label>Thought leadership</label>
+            </value>
+            <value>
+                <fullName>Product launch</fullName>
+                <default>false</default>
+                <label>Product launch</label>
+            </value>
+            <value>
+                <fullName>Hiring</fullName>
+                <default>false</default>
+                <label>Hiring</label>
+            </value>
+            <value>
+                <fullName>Customer hospitality</fullName>
+                <default>false</default>
+                <label>Customer hospitality</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

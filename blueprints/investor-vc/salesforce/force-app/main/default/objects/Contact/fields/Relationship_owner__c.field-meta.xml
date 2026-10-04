@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relationship_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The partner or associate who holds the relationship with this person.</description>
+    <label>Relationship owner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>People Relationship owner</relationshipLabel>
+    <relationshipName>Contact_Relationship_owner</relationshipName>
+    <type>Lookup</type>
+</CustomField>

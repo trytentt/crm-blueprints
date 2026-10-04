@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Expansion path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Expansion_type__c</fieldNames>
+        <info>Entered when usage passes an expansion threshold, for example seats used above seats paid.</info>
+        <picklistValueName>Expansion signal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a rep or success manager has contacted the workspace admin.</info>
+        <picklistValueName>Outreach</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Expected_seats__c</fieldNames>
+        <fieldNames>Target_plan__c</fieldNames>
+        <info>Entered when a quote for the added seats, plan or add-on has been sent.</info>
+        <picklistValueName>Proposal (Expansion)</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the buyer has asked for changes to price or terms.</info>
+        <picklistValueName>Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the extra seats, plan or add-on are live and billed.</info>
+        <picklistValueName>Expanded</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the customer declines the expansion, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Declined</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Expansion</recordTypeName>
+</PathAssistant>

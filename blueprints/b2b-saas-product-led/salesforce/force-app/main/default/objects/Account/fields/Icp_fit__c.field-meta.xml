@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Icp_fit__c</fullName>
+    <description>How closely the company matches the ideal customer profile. One input to the PQL rule.</description>
+    <label>ICP fit</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strong</fullName>
+                <default>false</default>
+                <label>Strong</label>
+            </value>
+            <value>
+                <fullName>Possible</fullName>
+                <default>false</default>
+                <label>Possible</label>
+            </value>
+            <value>
+                <fullName>Weak</fullName>
+                <default>false</default>
+                <label>Weak</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

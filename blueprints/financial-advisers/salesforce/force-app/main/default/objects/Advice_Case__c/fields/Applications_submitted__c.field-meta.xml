@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Applications_submitted__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Applications to the product providers or platforms have been sent.</description>
+    <label>Applications submitted</label>
+    <type>Checkbox</type>
+</CustomField>

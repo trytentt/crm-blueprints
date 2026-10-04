@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minimum_to_run__c</fullName>
+    <description>The fewest confirmed delegates at which the cohort still runs. Below this it is reviewed for cancellation.</description>
+    <label>Minimum to run</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+</CustomField>

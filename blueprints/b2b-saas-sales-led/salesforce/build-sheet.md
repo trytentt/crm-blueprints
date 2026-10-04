@@ -1,0 +1,418 @@
+# Build sheet: B2B SaaS, sales-led (salesforce)
+
+A software company that sells annual contracts through a sales team. New business and renewals run as separate deal pipelines. Each signed contract becomes a subscription, and onboarding is tracked on its own object so delivery never clutters the sales pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are renewals and expansions tracked as deals on the same Deal object as new business?**
+  - Recommended default: Yes. A second pipeline on Deal keeps one revenue report. The deal links to its subscription so the history stays together.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is onboarding tracked on its own object rather than as stages on the sales pipeline?**
+  - Recommended default: Yes. Delivery has a different owner and different dates, so onboarding gets its own object and the sales pipeline ends at closed won.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects?**
+  - Recommended default: Check before the build. If it does not, model Subscription and Onboarding as a deal pipeline plus custom properties and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do multi-year contracts need a separate record per year?**
+  - Recommended default: No. One subscription per contract, with term and ARR on it. Add a record per year only if finance needs year-by-year revenue in the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the company sell more than one product that customers buy separately?**
+  - Recommended default: No for the first build. Use the plan field. Add a product object if reporting needs it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Subscription**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Subscription, plural Subscriptions, API name `Subscription__c`, record name a Text field.
+  - Purpose: One customer contract for one plan: its term, annual recurring revenue and renewal date. Created when a new-business deal is won. Renewal and expansion deals point back to it.
+  - Done when: the object Subscription exists with plural name Subscriptions.
+- [ ] **Create object Onboarding**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Onboarding, plural Onboardings, API name `Onboarding__c`, record name a Text field.
+  - Purpose: The work of getting a new subscription live. Owned by customer success, separate from the sales deal.
+  - Done when: the object Onboarding exists with plural name Onboardings.
+- [ ] **Create relationship subscription to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Company__c` on Subscription__c to Account.
+  - Purpose: Shows every contract a customer has had.
+  - Done when: a subscription record shows the link as 'Company' and a company record shows it as 'Subscriptions'.
+- [ ] **Create relationship deal to subscription (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Subscription__c` on Opportunity to Subscription__c.
+  - Purpose: Ties the deal that created a subscription, and every later renewal or expansion deal, to it.
+  - Done when: a deal record shows the link as 'Subscription' and a subscription record shows it as 'Deals'.
+- [ ] **Create relationship onboarding to subscription (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Subscription__c` on Onboarding__c to Subscription__c.
+  - Purpose: Tracks the work of getting each subscription live.
+  - Done when: a onboarding record shows the link as 'Subscription' and a subscription record shows it as 'Onboardings'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New business on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `New_business`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `New_business`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline New business exists with 9 stages in the order below.
+- [ ] **Stage 1: Qualified**
+  - Type: open. Probability: 10%.
+  - Entered when a discovery call is booked with a person who has a buying role.
+  - Stage value `Qualified`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_new_business_qualified` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 1, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Qualified.
+  - Done when: the stage Qualified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Discovery**
+  - Type: open. Probability: 20%.
+  - Entered when the first discovery call has happened and the pain is written down.
+  - Stage value `Discovery`: closed false, won false, probability 20, forecast category Pipeline. Validation rule `Gate_new_business_discovery` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Discovery.
+  - Done when: the stage Discovery is in position 2 and its rule is in place.
+- [ ] **Stage 3: Solution fit**
+  - Type: open. Probability: 35%.
+  - Entered when the buyer has seen a tailored demo and agreed the product fits the pain.
+  - Stage value `Solution fit`: closed false, won false, probability 35, forecast category Pipeline. Validation rule `Gate_new_business_solution_fit` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 3, OR(ISBLANK(Pain_summary__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Pain summary and Next step date before moving to Solution fit.
+  - Done when: the stage Solution fit is in position 3 and its rule is in place.
+- [ ] **Stage 4: Technical validation**
+  - Type: open. Probability: 50%.
+  - Entered when a trial or technical review is agreed, with named evaluators and dates.
+  - Stage value `Technical validation`: closed false, won false, probability 50, forecast category Pipeline. Validation rule `Gate_new_business_technical_validation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 4, OR(ISBLANK(Decision_process__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Decision process and Next step date before moving to Technical validation.
+  - Done when: the stage Technical validation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Proposal**
+  - Type: open. Probability: 65%.
+  - Entered when the economic buyer has confirmed budget and asked for pricing.
+  - Stage value `Proposal`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_new_business_proposal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 5, OR(NOT(Budget_confirmed__c), ISBLANK(Amount), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Budget confirmed, Amount and Contract term (months) before moving to Proposal.
+  - Done when: the stage Proposal is in position 5 and its rule is in place.
+- [ ] **Stage 6: Negotiation**
+  - Type: open. Probability: 80%.
+  - Entered when the buyer has reviewed the proposal and is discussing terms.
+  - Stage value `Negotiation (New business)`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_new_business_negotiation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Security_review__c))))`. Error message: Fill in Amount, Close date and Security review before moving to Negotiation.
+  - Done when: the stage Negotiation is in position 6 and its rule is in place.
+- [ ] **Stage 7: Contract out**
+  - Type: open. Probability: 90%.
+  - Entered when final terms are agreed and the contract has been sent for signature.
+  - Stage value `Contract out`: closed false, won false, probability 90, forecast category Pipeline. Validation rule `Gate_new_business_contract_out` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Amount, Close date and Contract term (months) before moving to Contract out.
+  - Done when: the stage Contract out is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed contract is received and the subscription record is created.
+  - Stage value `Closed won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_new_business_closed_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Qualified", 1, "Discovery", 2, "Solution fit", 3, "Technical validation", 4, "Proposal", 5, "Negotiation (New business)", 6, "Contract out", 7, "Closed won", 8, 0) >= 8, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Closed won.
+  - Done when: the stage Closed won is in position 8 and its rule is in place.
+- [ ] **Stage 9: Closed lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the buyer says no, or has not replied after three follow-ups over 30 days.
+  - Stage value `Closed lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_new_business_closed_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_business", ISPICKVAL(StageName, "Closed lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Closed lost.
+  - Done when: the stage Closed lost is in position 9 and its rule is in place.
+- [ ] **Create pipeline Renewals and expansion on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Renewals_expansion`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Renewals_expansion`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Renewals and expansion exists with 7 stages in the order below.
+- [ ] **Stage 1: Upcoming**
+  - Type: open. Probability: 60%.
+  - Entered when the subscription is 90 days from its renewal date.
+  - Stage value `Upcoming`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_renewals_expansion_upcoming` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 1, ISBLANK(TEXT(Renewal_type__c)))`. Error message: Fill in Renewal type before moving to Upcoming.
+  - Done when: the stage Upcoming is in position 1 and its rule is in place.
+- [ ] **Stage 2: Outreach**
+  - Type: open. Probability: 65%.
+  - Entered when the success owner has contacted the champion about the renewal.
+  - Stage value `Outreach`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_renewals_expansion_outreach` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 2, OR(ISBLANK(TEXT(Renewal_risk__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Renewal risk and Next step date before moving to Outreach.
+  - Done when: the stage Outreach is in position 2 and its rule is in place.
+- [ ] **Stage 3: Proposal sent**
+  - Type: open. Probability: 75%.
+  - Entered when a renewal quote has been sent to the buyer.
+  - Stage value `Proposal sent`: closed false, won false, probability 75, forecast category Pipeline. Validation rule `Gate_renewals_expansion_proposal_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 3, OR(ISBLANK(Amount), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Amount and Contract term (months) before moving to Proposal sent.
+  - Done when: the stage Proposal sent is in position 3 and its rule is in place.
+- [ ] **Stage 4: Negotiation**
+  - Type: open. Probability: 85%.
+  - Entered when the buyer has asked for changes to price or terms.
+  - Stage value `Negotiation (Renewals and expansion)`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_renewals_expansion_negotiation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 4, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Negotiation.
+  - Done when: the stage Negotiation is in position 4 and its rule is in place.
+- [ ] **Stage 5: Awaiting signature**
+  - Type: open. Probability: 95%.
+  - Entered when the final renewal contract has been sent for signature.
+  - Stage value `Awaiting signature`: closed false, won false, probability 95, forecast category Pipeline. Validation rule `Gate_renewals_expansion_awaiting_f9f70d` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(Contract_term_months__c)))`. Error message: Fill in Amount, Close date and Contract term (months) before moving to Awaiting signature.
+  - Done when: the stage Awaiting signature is in position 5 and its rule is in place.
+- [ ] **Stage 6: Renewed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed renewal is received and the subscription dates are updated.
+  - Stage value `Renewed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_renewals_expansion_renewed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", CASE(StageName, "Upcoming", 1, "Outreach", 2, "Proposal sent", 3, "Negotiation (Renewals and expansion)", 4, "Awaiting signature", 5, "Renewed", 6, 0) >= 6, OR(ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Amount and Close date before moving to Renewed.
+  - Done when: the stage Renewed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Churned**
+  - Type: lost. Probability: 0%.
+  - Entered when the customer confirms they will not renew, or the term ends unsigned.
+  - Stage value `Churned`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_renewals_expansion_churned` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Renewals_expansion", ISPICKVAL(StageName, "Churned"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Churned.
+  - Done when: the stage Churned is in position 7 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Customer status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Customer_status__c`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Customer, Former customer
+  - Done when: Company records show Customer status and it accepts the right values.
+- [ ] **Create field Segment (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Segment__c`.
+  - Purpose: Size band used for routing, pricing and reporting.
+  - Options: SMB, Mid-market, Enterprise
+  - Done when: Company records show Segment and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Inbound, Outbound, Partner, Event, Referral
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Buying role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Buying_role__c`.
+  - Purpose: The part this person plays in the buying decision. Used to check deals are multi-threaded.
+  - Options: Economic buyer, Champion, Technical evaluator, End user, Blocker
+  - Done when: Person records show Buying role and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the deal was lost or the customer churned. Required on every lost stage.
+  - Options: No budget, No decision made, Chose a competitor, Product gap, Price, Bad timing, Champion left, Company acquired, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Competitor (text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text (255), API name `Competitor__c`.
+  - Purpose: The main alternative the buyer is considering, in their words.
+  - Done when: Deal records show Competitor and it accepts the right values.
+- [ ] **Create field Pain summary (long_text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text Area (Long), API name `Pain_summary__c`.
+  - Purpose: The problem the buyer wants solved and what it costs them today.
+  - Done when: Deal records show Pain summary and it accepts the right values.
+- [ ] **Create field Budget confirmed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Budget_confirmed__c`.
+  - Purpose: The economic buyer has said a budget exists for this purchase.
+  - Done when: Deal records show Budget confirmed and it accepts the right values.
+- [ ] **Create field Decision process (long_text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text Area (Long), API name `Decision_process__c`.
+  - Purpose: Who signs, who else must approve, and the steps and dates to get there.
+  - Done when: Deal records show Decision process and it accepts the right values.
+- [ ] **Create field Security review (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Security_review__c`.
+  - Purpose: Progress of the buyer's security and procurement review.
+  - Options: Not needed, Requested, In progress, Passed
+  - Done when: Deal records show Security review and it accepts the right values.
+- [ ] **Create field Contract term (months) (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Contract_term_months__c`.
+  - Purpose: Length of the contract in months.
+  - Done when: Deal records show Contract term (months) and it accepts the right values.
+- [ ] **Create field Renewal type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Renewal_type__c`.
+  - Purpose: Whether a renewals-pipeline deal is a straight renewal or adds revenue.
+  - Options: Renewal, Upsell, Cross-sell
+  - Done when: Deal records show Renewal type and it accepts the right values.
+- [ ] **Create field Renewal risk (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Renewal_risk__c`.
+  - Purpose: Customer success view of how likely the renewal is to close.
+  - Options: Low, Medium, High
+  - Done when: Deal records show Renewal risk and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Subscription
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company name and plan, for example Acme Business annual.
+  - Done when: Subscription records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the subscription is in its life.
+  - Options: Pending start, Active, In renewal, Churned
+  - Done when: Subscription records show Status and it accepts the right values.
+- [ ] **Create field Plan (select)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Picklist, API name `Plan__c`.
+  - Purpose: The plan the customer is on.
+  - Options: Team, Business, Enterprise
+  - Done when: Subscription records show Plan and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: First day of the current term.
+  - Done when: Subscription records show Start date and it accepts the right values.
+- [ ] **Create field Renewal date (date)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Date, API name `Renewal_date__c`.
+  - Purpose: Last day of the current term. A renewal deal opens 90 days before it.
+  - Done when: Subscription records show Renewal date and it accepts the right values.
+- [ ] **Create field Term (months) (number)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Number (18, 0), API name `Term_months__c`.
+  - Purpose: Length of the current term in months.
+  - Done when: Subscription records show Term (months) and it accepts the right values.
+- [ ] **Create field ARR (currency)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Currency (18, 2), API name `Arr__c`.
+  - Purpose: Annual recurring revenue for this subscription at current prices.
+  - Done when: Subscription records show ARR and it accepts the right values.
+- [ ] **Create field Seats (number)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Number (18, 0), API name `Seats__c`.
+  - Purpose: Number of licensed seats, where the plan is priced per seat.
+  - Done when: Subscription records show Seats and it accepts the right values.
+- [ ] **Create field Billing frequency (select)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Picklist, API name `Billing_frequency__c`.
+  - Purpose: How often the customer is invoiced.
+  - Options: Annual, Quarterly, Monthly
+  - Done when: Subscription records show Billing frequency and it accepts the right values.
+- [ ] **Create field Auto-renews (checkbox)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Checkbox, API name `Auto_renews__c`.
+  - Purpose: The contract renews by itself unless the customer gives notice.
+  - Done when: Subscription records show Auto-renews and it accepts the right values.
+- [ ] **Create field Success owner (user)**
+  - Where: Setup, Object Manager, Subscription, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Success_owner__c`.
+  - Purpose: The customer success manager responsible for this customer.
+  - Done when: Subscription records show Success owner and it accepts the right values.
+
+### Onboarding
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company name and the word onboarding.
+  - Done when: Onboarding records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Onboarding, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where onboarding stands.
+  - Options: Not started, Kickoff booked, In progress, Live, Stalled
+  - Done when: Onboarding records show Status and it accepts the right values.
+- [ ] **Create field Kickoff date (date)**
+  - Where: Setup, Object Manager, Onboarding, Fields & Relationships, New. Data type Date, API name `Kickoff_date__c`.
+  - Purpose: The date of the kickoff call.
+  - Done when: Onboarding records show Kickoff date and it accepts the right values.
+- [ ] **Create field Go-live date (date)**
+  - Where: Setup, Object Manager, Onboarding, Fields & Relationships, New. Data type Date, API name `Go_live_date__c`.
+  - Purpose: The date the customer first uses the product in production.
+  - Done when: Onboarding records show Go-live date and it accepts the right values.
+- [ ] **Create field Owner (user)**
+  - Where: The standard Owner field of the object. Nothing to create.
+  - Purpose: The team member running onboarding.
+  - Done when: Onboarding records show Owner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create subscription on closed won**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the new business pipeline moves to closed won.
+  - Action: Create a subscription from the deal's amount, term and close date, link it to the deal and the company, and set the company's customer status to customer.
+  - Done when: the automation runs on a test record and the result matches: Create a subscription from the deal's amount, term and close date, link it to the deal and the company, and set the company's customer status to customer.
+- [ ] **Start onboarding**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A subscription is created with status pending start.
+  - Action: Create an onboarding record linked to the subscription and assign it to customer success.
+  - Done when: the automation runs on a test record and the result matches: Create an onboarding record linked to the subscription and assign it to customer success.
+- [ ] **Open renewal deal**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A subscription's renewal date is 90 days away and its status is active.
+  - Action: Create a deal in the renewals and expansion pipeline at upcoming, linked to the subscription, and set the subscription status to in renewal.
+  - Done when: the automation runs on a test record and the result matches: Create a deal in the renewals and expansion pipeline at upcoming, linked to the subscription, and set the subscription status to in renewal.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+- [ ] **Mark churn**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the renewals and expansion pipeline moves to churned.
+  - Action: Set the subscription status to churned and the company's customer status to former customer.
+  - Done when: the automation runs on a test record and the result matches: Set the subscription status to churned and the company's customer status to former customer.
+
+## 6. Views
+
+- [ ] **My open deals**
+  - Where: Generated as list view `My_open_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Renewals in the next 90 days**
+  - Where: Generated as list view `Renewals_next_90_days`. Open Subscriptions, choose the view, then set the sort (Renewal date, soonest first.) from the list controls and save.
+  - Object: subscription
+  - Filter: Status is active or in renewal and renewal date is within 90 days.
+  - Sort: Renewal date, soonest first.
+  - Done when: the view Renewals in the next 90 days is saved and shows the expected records.
+- [ ] **Onboarding in flight**
+  - Where: Generated as list view `Onboarding_in_flight`. Open Onboardings, choose the view, then set the sort (Kickoff date, oldest first.) from the list controls and save.
+  - Object: onboarding
+  - Filter: Status is not live.
+  - Sort: Kickoff date, oldest first.
+  - Done when: the view Onboarding in flight is saved and shows the expected records.
+- [ ] **Customers**
+  - Where: Generated as list view `Customers`. Open Companies, choose the view, then set the sort (Name, A to Z.) from the list controls and save.
+  - Object: company
+  - Filter: Customer status is customer.
+  - Sort: Name, A to Z.
+  - Done when: the view Customers is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

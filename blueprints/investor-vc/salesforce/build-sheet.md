@@ -1,0 +1,472 @@
+# Build sheet: Investor, VC and angel deal flow (salesforce)
+
+A venture or angel investor that sources startups, runs a deal-flow pipeline from first look to investment, then manages the investments as a portfolio. Startups and investors are companies, founders and partners are people, and co-investors are linked to each investment.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the investment tracked on its own object rather than as the end of the deal flow?**
+  - Recommended default: Yes. The deal flow ends at invested. The portfolio investment then lives for years, with its own owner, health check, follow-on decisions and exit, so it gets its own object and pipeline.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are co-investors recorded?**
+  - Recommended default: As companies with type co-investor, linked many-to-many to deals and investments. Their partners are people. This lets the team see who they back with and who leads rounds.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the CRM also track fundraising from limited partners?**
+  - Recommended default: Not in this build. LPs are companies and people with type limited partner. Add a fundraising pipeline on Deal when the client describes one.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How much financial and valuation data sits in the CRM?**
+  - Recommended default: Headline numbers only: amount invested, ownership and latest carrying value. Cap tables, fund accounting and detailed reporting stay in the fund administrator's system.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Do some deals need restricted visibility, for example inside information or conflicts?**
+  - Recommended default: Check the plan's record permissions before the build. If restricted records are not available, keep names out of deal titles for sensitive deals and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow a custom object for Portfolio investment?**
+  - Recommended default: Check before the build. If not, use a second deal pipeline for the portfolio, with ownership and valuation as deal properties, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are passed companies revisited later?**
+  - Recommended default: Yes. Record a pass reason and set a revisit date in the next step date, so a company passed as too early comes back at the next round.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Portfolio investment**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Portfolio investment, plural Portfolio investments, API name `Portfolio_Investment__c`, record name a Text field.
+  - Purpose: One investment the firm has made in a company: amount, ownership, entry round, status and exit. Created when a deal closes. This is the post-investment side, separate from the deal flow.
+  - Done when: the object Portfolio investment exists with plural name Portfolio investments.
+- [ ] **Create relationship portfolio_investment to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Company__c` on Portfolio_Investment__c to Account.
+  - Purpose: Shows each investment we hold in a company across rounds.
+  - Done when: a portfolio_investment record shows the link as 'Company' and a company record shows it as 'Our investments'.
+- [ ] **Create relationship portfolio_investment to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Source_deal__c` on Portfolio_Investment__c to Opportunity.
+  - Purpose: Links an investment to the deal that created it.
+  - Done when: a portfolio_investment record shows the link as 'Source deal' and a deal record shows it as 'Investments'.
+- [ ] **Create relationship portfolio_investment to company (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to portfolio_investment, one to company). Junction object `Portfolio_co_investors__c` with two master-detail fields.
+  - Purpose: Records which other funds invested alongside us, so we can see who we back with.
+  - Done when: a portfolio_investment record shows the link as 'Co-investors' and a company record shows it as 'Co-invested in'.
+- [ ] **Create relationship deal to company (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to deal, one to company). Junction object `Deal_co_investors__c` with two master-detail fields.
+  - Purpose: Records the other investors in a round we are looking at, including who leads.
+  - Done when: a deal record shows the link as 'Co-investors on the round' and a company record shows it as 'Rounds considered'.
+- [ ] **Create relationship deal to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Introduced_by__c` on Opportunity to Contact.
+  - Purpose: Records who sent us the deal, so introducers can be thanked and measured.
+  - Done when: a deal record shows the link as 'Introduced by' and a person record shows it as 'Deals introduced'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Deal flow on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Deal_flow`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Deal_flow`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Deal flow exists with 10 stages in the order below.
+- [ ] **Stage 1: Sourced**
+  - Type: open. Probability: 2%.
+  - Entered when a startup is logged with a source and a founder contact.
+  - Stage value `Sourced`: closed false, won false, probability 2, forecast category Pipeline. Validation rule `Gate_deal_flow_sourced` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 1, ISBLANK(TEXT(Deal_source__c)))`. Error message: Fill in Deal source before moving to Sourced.
+  - Done when: the stage Sourced is in position 1 and its rule is in place.
+- [ ] **Stage 2: Screening**
+  - Type: open. Probability: 5%.
+  - Entered when a team member has read the materials and picked the deal up for review.
+  - Stage value `Screening`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_deal_flow_screening` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 2, OR(ISBLANK(Deal_lead__c), ISBLANK(TEXT(Round_type__c))))`. Error message: Fill in Deal lead and Round type before moving to Screening.
+  - Done when: the stage Screening is in position 2 and its rule is in place.
+- [ ] **Stage 3: First meeting**
+  - Type: open. Probability: 10%.
+  - Entered when a founder meeting is booked after the deal passes screening.
+  - Stage value `First meeting`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_deal_flow_first_meeting` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 3, OR(NOT(Thesis_fit_confirmed__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Thesis fit confirmed and Next step date before moving to First meeting.
+  - Done when: the stage First meeting is in position 3 and its rule is in place.
+- [ ] **Stage 4: Deep dive**
+  - Type: open. Probability: 20%.
+  - Entered when the first meeting has happened and the deal lead has more calls and data requests planned.
+  - Stage value `Deep dive`: closed false, won false, probability 20, forecast category Pipeline. Validation rule `Gate_deal_flow_deep_dive` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 4, OR(ISBLANK(TEXT(Conviction__c)), ISBLANK(Round_size__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Conviction, Round size and Next step date before moving to Deep dive.
+  - Done when: the stage Deep dive is in position 4 and its rule is in place.
+- [ ] **Stage 5: Partner meeting**
+  - Type: open. Probability: 35%.
+  - Entered when the deal lead has presented to the partners and they agreed to a term sheet or diligence.
+  - Stage value `Partner meeting`: closed false, won false, probability 35, forecast category Pipeline. Validation rule `Gate_deal_flow_partner_meeting` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 5, OR(ISBLANK(TEXT(Our_role__c)), ISBLANK(Pre_money_valuation__c), ISBLANK(TEXT(Conviction__c))))`. Error message: Fill in Our role, Pre-money valuation and Conviction before moving to Partner meeting.
+  - Done when: the stage Partner meeting is in position 5 and its rule is in place.
+- [ ] **Stage 6: Term sheet**
+  - Type: open. Probability: 55%.
+  - Entered when a term sheet has been issued to the startup.
+  - Stage value `Term sheet`: closed false, won false, probability 55, forecast category Pipeline. Validation rule `Gate_deal_flow_term_sheet` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 6, OR(ISBLANK(TEXT(Term_sheet_status__c)), ISBLANK(Amount), ISBLANK(Pre_money_valuation__c)))`. Error message: Fill in Term sheet status, Amount and Pre-money valuation before moving to Term sheet.
+  - Done when: the stage Term sheet is in position 6 and its rule is in place.
+- [ ] **Stage 7: Due diligence**
+  - Type: open. Probability: 70%.
+  - Entered when the term sheet is signed and legal, financial and reference checks are running.
+  - Stage value `Due diligence`: closed false, won false, probability 70, forecast category Pipeline. Validation rule `Gate_deal_flow_due_diligence` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 7, OR(ISBLANK(TEXT(Term_sheet_status__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Term sheet status and Next step date before moving to Due diligence.
+  - Done when: the stage Due diligence is in position 7 and its rule is in place.
+- [ ] **Stage 8: Investment committee**
+  - Type: open. Probability: 85%.
+  - Entered when diligence is finished and the investment memo has gone to the committee.
+  - Stage value `Investment committee`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_deal_flow_investment_committee` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 8, OR(NOT(Diligence_complete__c), ISBLANK(Amount)))`. Error message: Fill in Diligence complete and Amount before moving to Investment committee.
+  - Done when: the stage Investment committee is in position 8 and its rule is in place.
+- [ ] **Stage 9: Invested**
+  - Type: won. Probability: 100%.
+  - Entered when the investment is approved, documents are signed and funds are sent.
+  - Stage value `Invested`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_deal_flow_invested` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) >= 9, OR(NOT(Ic_approved__c), ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Investment committee approved, Amount and Close date before moving to Invested.
+  - Done when: the stage Invested is in position 9 and its rule is in place.
+- [ ] **Stage 10: Passed**
+  - Type: lost. Probability: 0%.
+  - Entered when we decide not to invest or the startup closes its round without us.
+  - Stage value `Passed`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_deal_flow_passed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Deal_flow", ISPICKVAL(StageName, "Passed"), ISBLANK(TEXT(Pass_reason__c)))`. Error message: Fill in Pass reason before closing this as Passed.
+  - Done when: the stage Passed is in position 10 and its rule is in place.
+- [ ] **Create pipeline Portfolio outcome on portfolio_investment**
+  - Where: Create the restricted picklist field `Stage__c` on Portfolio investment: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Portfolio outcome exists with 6 stages in the order below.
+- [ ] **Stage 1: Active**
+  - Type: open. Probability: 30%.
+  - Entered when the investment is made and recorded.
+  - Validation rule `Gate_portfolio_outcome_active` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) >= 1, OR(ISBLANK(Amount_invested__c), ISBLANK(Ownership_percent__c), ISBLANK(Lead_partner__c)))`. Error message: Fill in Amount invested, Ownership and Lead partner before moving to Active.
+  - Done when: the stage Active is in position 1 and its rule is in place.
+- [ ] **Stage 2: Follow-on review**
+  - Type: open. Probability: 40%.
+  - Entered when the company is raising again or has asked for more capital.
+  - Validation rule `Gate_portfolio_outcome_follow_on_review` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) >= 2, OR(ISBLANK(Follow_on_reserve__c), ISBLANK(TEXT(Health__c))))`. Error message: Fill in Follow-on reserve and Health before moving to Follow-on review.
+  - Done when: the stage Follow-on review is in position 2 and its rule is in place.
+- [ ] **Stage 3: Exit preparation**
+  - Type: open. Probability: 60%.
+  - Entered when the partners agree to start planning a sale or listing.
+  - Validation rule `Gate_portfolio_outcome_exit_preparation` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) >= 3, ISBLANK(Latest_valuation__c))`. Error message: Fill in Latest valuation before moving to Exit preparation.
+  - Done when: the stage Exit preparation is in position 3 and its rule is in place.
+- [ ] **Stage 4: Exit process**
+  - Type: open. Probability: 80%.
+  - Entered when an acquirer or listing process is under way with a signed letter of intent or mandate.
+  - Validation rule `Gate_portfolio_outcome_exit_process` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) >= 4, OR(ISBLANK(Latest_valuation__c), ISBLANK(Lead_partner__c)))`. Error message: Fill in Latest valuation and Lead partner before moving to Exit process.
+  - Done when: the stage Exit process is in position 4 and its rule is in place.
+- [ ] **Stage 5: Exited**
+  - Type: won. Probability: 100%.
+  - Entered when proceeds from the sale or listing have been received.
+  - Validation rule `Gate_portfolio_outcome_exited` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Active", 1, "Follow-on review", 2, "Exit preparation", 3, "Exit process", 4, "Exited", 5, 0) >= 5, ISBLANK(TEXT(Exit_route__c)))`. Error message: Fill in Exit route before moving to Exited.
+  - Done when: the stage Exited is in position 5 and its rule is in place.
+- [ ] **Stage 6: Written off**
+  - Type: lost. Probability: 0%.
+  - Entered when the company has closed or the holding is written down to nil.
+  - Validation rule `Lost_portfolio_outcome_written_off` (Setup, Object Manager, Portfolio investment, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Written off"), ISBLANK(TEXT(Write_off_reason__c)))`. Error message: Fill in Write-off reason before closing this as Written off.
+  - Done when: the stage Written off is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Organisation type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Org_type__c`.
+  - Purpose: What the organisation is to us. Startups are evaluated, co-investors are linked to investments, and the rest are relationships.
+  - Options: Startup, Co-investor or other fund, Limited partner, Accelerator or studio, Corporate or strategic, Advisor or service provider
+  - Done when: Company records show Organisation type and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Sector__c`.
+  - Purpose: The startup's main market. Used to see thesis fit and portfolio spread. Edit the options to the investment thesis.
+  - Options: Software, Fintech, Health, Climate, Consumer, Deep tech, Marketplace, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Funding stage (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Funding_stage__c`.
+  - Purpose: The startup's current funding stage. Used to check fit with the fund's cheque size and focus.
+  - Options: Pre-seed, Seed, Series A, Series B, Later stage
+  - Done when: Company records show Funding stage and it accepts the right values.
+- [ ] **Create field Thesis fit (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Thesis_fit__c`.
+  - Purpose: Our view of how well the company fits the investment thesis. Set at screening.
+  - Options: Strong, Possible, Weak, Not assessed
+  - Done when: Company records show Thesis fit and it accepts the right values.
+- [ ] **Create field Relationship strength (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Relationship_strength__c`.
+  - Purpose: How well we know the organisation. Used to rank co-investors and introducers.
+  - Options: Close, Warm, Cold
+  - Done when: Company records show Relationship strength and it accepts the right values.
+- [ ] **Create field Country (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Hq_country__c`.
+  - Purpose: Where the company is based. Used to check geography rules and report by region.
+  - Options: Home market, Rest of Europe, North America, Rest of world
+  - Done when: Company records show Country and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Person role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Person_role__c`.
+  - Purpose: The part this person plays for us. Used to find founders to track and co-investors to call.
+  - Options: Founder, Executive, Co-investor partner, Introducer or scout, Limited partner contact, Advisor
+  - Done when: Person records show Person role and it accepts the right values.
+- [ ] **Create field Relationship strength (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Intro_strength__c`.
+  - Purpose: How well the team knows this person. Used to find the best route in to a founder.
+  - Options: Close, Warm, Cold
+  - Done when: Person records show Relationship strength and it accepts the right values.
+- [ ] **Create field Relationship owner (user)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Relationship_owner__c`.
+  - Purpose: The partner or associate who holds the relationship with this person.
+  - Done when: Person records show Relationship owner and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Pass reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Pass_reason__c`.
+  - Purpose: Why we passed on the company. Required on the passed stage. Reported to refine the thesis.
+  - Options: Outside thesis, Team concerns, Market too small, Not enough traction, Valuation too high, Terms not agreed, Diligence issue, Lost the round, Too early or too late
+  - Done when: Deal records show Pass reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Deal source (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Deal_source__c`.
+  - Purpose: How the deal reached us. Reported to see which channels produce investments.
+  - Options: Founder inbound, Warm introduction, Co-investor, Accelerator or studio, Our outbound, Event, Portfolio founder referral
+  - Done when: Deal records show Deal source and it accepts the right values.
+- [ ] **Create field Round type (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Round_type__c`.
+  - Purpose: The type of round the startup is raising.
+  - Options: Pre-seed, Seed, Series A, Series B, Bridge, Other
+  - Done when: Deal records show Round type and it accepts the right values.
+- [ ] **Create field Round size (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Round_size__c`.
+  - Purpose: Total amount the startup is raising in this round.
+  - Done when: Deal records show Round size and it accepts the right values.
+- [ ] **Create field Pre-money valuation (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Pre_money_valuation__c`.
+  - Purpose: Valuation before the round, as proposed or agreed.
+  - Done when: Deal records show Pre-money valuation and it accepts the right values.
+- [ ] **Create field Our role (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Our_role__c`.
+  - Purpose: Whether we lead the round, follow another lead or take part as a small investor.
+  - Options: Lead, Co-lead, Follow, Undecided
+  - Done when: Deal records show Our role and it accepts the right values.
+- [ ] **Create field Conviction (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Conviction__c`.
+  - Purpose: The deal lead's confidence in the deal after the latest stage. Updated at each stage.
+  - Options: High, Medium, Low, Not set
+  - Done when: Deal records show Conviction and it accepts the right values.
+- [ ] **Create field Deal lead (user)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Deal_lead__c`.
+  - Purpose: The partner or associate who owns the deal and presents it at partner meetings.
+  - Done when: Deal records show Deal lead and it accepts the right values.
+- [ ] **Create field Thesis fit confirmed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Thesis_fit_confirmed__c`.
+  - Purpose: The deal lead has checked the company against stage, sector, geography and cheque size.
+  - Done when: Deal records show Thesis fit confirmed and it accepts the right values.
+- [ ] **Create field Diligence complete (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Diligence_complete__c`.
+  - Purpose: Commercial, financial, legal and reference checks are finished with no blocking findings.
+  - Done when: Deal records show Diligence complete and it accepts the right values.
+- [ ] **Create field Investment committee approved (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Ic_approved__c`.
+  - Purpose: The investment committee has approved the investment on the stated terms.
+  - Done when: Deal records show Investment committee approved and it accepts the right values.
+- [ ] **Create field Term sheet status (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Term_sheet_status__c`.
+  - Purpose: Progress of the term sheet, which sets valuation, amount and investor rights.
+  - Options: Not started, Drafted, Issued, Negotiating, Signed
+  - Done when: Deal records show Term sheet status and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Portfolio investment
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Company name and the round, for example the company's name and seed.
+  - Done when: Portfolio investment records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the investment stands.
+  - Options: Active, Follow-on review, Exit in progress, Exited, Written off
+  - Done when: Portfolio investment records show Status and it accepts the right values.
+- [ ] **Create field Fund (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Fund__c`.
+  - Purpose: The fund or vehicle that made the investment. Edit the options to the client's funds at build.
+  - Options: Fund one, Fund two, Angel syndicate, Direct or personal
+  - Done when: Portfolio investment records show Fund and it accepts the right values.
+- [ ] **Create field Entry round (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Entry_round__c`.
+  - Purpose: The round in which we first invested.
+  - Options: Pre-seed, Seed, Series A, Series B, Later stage
+  - Done when: Portfolio investment records show Entry round and it accepts the right values.
+- [ ] **Create field Investment date (date)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Date, API name `Investment_date__c`.
+  - Purpose: Date the money was sent.
+  - Done when: Portfolio investment records show Investment date and it accepts the right values.
+- [ ] **Create field Amount invested (currency)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Currency (18, 2), API name `Amount_invested__c`.
+  - Purpose: Total invested across all rounds.
+  - Done when: Portfolio investment records show Amount invested and it accepts the right values.
+- [ ] **Create field Ownership (percent)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Percent (5, 2), API name `Ownership_percent__c`.
+  - Purpose: Current fully diluted ownership. Updated after each round.
+  - Done when: Portfolio investment records show Ownership and it accepts the right values.
+- [ ] **Create field Latest valuation (currency)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Currency (18, 2), API name `Latest_valuation__c`.
+  - Purpose: Our latest carrying value of the holding, per the most recent valuation.
+  - Done when: Portfolio investment records show Latest valuation and it accepts the right values.
+- [ ] **Create field Follow-on reserve (currency)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Currency (18, 2), API name `Follow_on_reserve__c`.
+  - Purpose: Money held back for follow-on investment in this company.
+  - Done when: Portfolio investment records show Follow-on reserve and it accepts the right values.
+- [ ] **Create field Board seat (checkbox)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Checkbox, API name `Board_seat__c`.
+  - Purpose: We hold a board seat or observer seat.
+  - Done when: Portfolio investment records show Board seat and it accepts the right values.
+- [ ] **Create field Health (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Health__c`.
+  - Purpose: The partner's view of how the company is doing. Reviewed monthly.
+  - Options: Thriving, On track, Needs support, At risk
+  - Done when: Portfolio investment records show Health and it accepts the right values.
+- [ ] **Create field Next update due (date)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Date, API name `Next_update_due__c`.
+  - Purpose: When the next investor update or catch-up is due from the founders.
+  - Done when: Portfolio investment records show Next update due and it accepts the right values.
+- [ ] **Create field Exit route (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Exit_route__c`.
+  - Purpose: How the investment was realised. Required on the exited stage.
+  - Options: Acquisition, IPO, Secondary sale, Buyback
+  - Done when: Portfolio investment records show Exit route and it accepts the right values.
+- [ ] **Create field Write-off reason (select)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Picklist, API name `Write_off_reason__c`.
+  - Purpose: Why the investment was written off. Required on the written-off stage.
+  - Options: Ran out of cash, Product failed, Team split, Market changed, Other
+  - Done when: Portfolio investment records show Write-off reason and it accepts the right values.
+- [ ] **Create field Lead partner (user)**
+  - Where: Setup, Object Manager, Portfolio investment, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Lead_partner__c`.
+  - Purpose: The partner responsible for supporting the company.
+  - Done when: Portfolio investment records show Lead partner and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create investment on invested**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the deal flow pipeline moves to invested.
+  - Action: Create a portfolio investment from the deal's amount, valuation and close date, link it to the company and the deal, copy the round co-investors, and set the company's organisation type to startup.
+  - Done when: the automation runs on a test record and the result matches: Create a portfolio investment from the deal's amount, valuation and close date, link it to the company and the deal, copy the round co-investors, and set the company's organisation type to startup.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal lead and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal lead and add the deal to the stalled deals view.
+- [ ] **Revisit passed companies**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal moves to passed with a pass reason of timing or traction and its next step date arrives.
+  - Action: Create a task for the deal lead to check progress and reopen the company at sourced if it now fits.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the deal lead to check progress and reopen the company at sourced if it now fits.
+- [ ] **Investor update reminder**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A portfolio investment's next update due date is 7 days away.
+  - Action: Create a task for the lead partner to request the update from the founders.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lead partner to request the update from the founders.
+- [ ] **Follow-on alert**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A portfolio company's funding stage changes or its health changes to needs support.
+  - Action: Move the investment to follow-on review and notify the lead partner.
+  - Done when: the automation runs on a test record and the result matches: Move the investment to follow-on review and notify the lead partner.
+- [ ] **Thank the introducer**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal with an introducer moves to term sheet or invested.
+  - Action: Create a task for the deal lead to thank the introducer.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the deal lead to thank the introducer.
+
+## 6. Views
+
+- [ ] **Active deal flow**
+  - Where: Open Deals, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: deal
+  - Filter: Stage is open and deal lead is me.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Active deal flow is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+- [ ] **Passed, to revisit**
+  - Where: Open Deals, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: deal
+  - Filter: Stage is passed and pass reason is timing or traction.
+  - Sort: Next step date, soonest first.
+  - Done when: the view Passed, to revisit is saved and shows the expected records.
+- [ ] **Portfolio health**
+  - Where: Generated as list view `Portfolio_health`. Open Portfolio investments, choose the view, then set the sort (Health, at risk first.) from the list controls and save.
+  - Object: portfolio_investment
+  - Filter: Status is active or follow-on review.
+  - Sort: Health, at risk first.
+  - Done when: the view Portfolio health is saved and shows the expected records.
+- [ ] **Investor updates due**
+  - Where: Generated as list view `Updates_due`. Open Portfolio investments, choose the view, then set the sort (Next update due, soonest first.) from the list controls and save.
+  - Object: portfolio_investment
+  - Filter: Status is active and next update due is within 14 days.
+  - Sort: Next update due, soonest first.
+  - Done when: the view Investor updates due is saved and shows the expected records.
+- [ ] **Co-investors**
+  - Where: Generated as list view `Co_investors`. Open Companies, choose the view, then set the sort (Relationship strength, close first.) from the list controls and save.
+  - Object: company
+  - Filter: Organisation type is co-investor or other fund.
+  - Sort: Relationship strength, close first.
+  - Done when: the view Co-investors is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_placement_interviewing</fullName>
+    <active>true</active>
+    <description>Stage gate: Placement, Interviewing and later stages need Interview date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) &gt;= 4, ISBLANK(Interview_date__c))</errorConditionFormula>
+    <errorDisplayField>Interview_date__c</errorDisplayField>
+    <errorMessage>Fill in Interview date before moving to Interviewing.</errorMessage>
+</ValidationRule>

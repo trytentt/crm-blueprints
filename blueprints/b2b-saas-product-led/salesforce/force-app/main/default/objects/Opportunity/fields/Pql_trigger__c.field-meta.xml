@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pql_trigger__c</fullName>
+    <description>The product behaviour that made the lead product-qualified. Lets us see which signals convert.</description>
+    <label>PQL trigger</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Hit a usage limit</fullName>
+                <default>false</default>
+                <label>Hit a usage limit</label>
+            </value>
+            <value>
+                <fullName>Invited teammates</fullName>
+                <default>false</default>
+                <label>Invited teammates</label>
+            </value>
+            <value>
+                <fullName>Reached activation milestone</fullName>
+                <default>false</default>
+                <label>Reached activation milestone</label>
+            </value>
+            <value>
+                <fullName>Viewed pricing repeatedly</fullName>
+                <default>false</default>
+                <label>Viewed pricing repeatedly</label>
+            </value>
+            <value>
+                <fullName>Asked to talk to sales</fullName>
+                <default>false</default>
+                <label>Asked to talk to sales</label>
+            </value>
+            <value>
+                <fullName>Trial ending while active</fullName>
+                <default>false</default>
+                <label>Trial ending while active</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prior_participant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The company sponsored or exhibited at an earlier edition. Used to report renewal rate.</description>
+    <label>Prior participant</label>
+    <type>Checkbox</type>
+</CustomField>

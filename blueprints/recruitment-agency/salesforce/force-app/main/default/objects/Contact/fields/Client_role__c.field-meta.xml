@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_role__c</fullName>
+    <description>For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.</description>
+    <label>Client role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Hiring manager</fullName>
+                <default>false</default>
+                <label>Hiring manager</label>
+            </value>
+            <value>
+                <fullName>HR or talent lead</fullName>
+                <default>false</default>
+                <label>HR or talent lead</label>
+            </value>
+            <value>
+                <fullName>Budget holder</fullName>
+                <default>false</default>
+                <label>Budget holder</label>
+            </value>
+            <value>
+                <fullName>Procurement</fullName>
+                <default>false</default>
+                <label>Procurement</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

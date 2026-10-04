@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Budget_range__c</fullName>
+    <description>The monthly or project budget the client has indicated for this work.</description>
+    <label>Budget range</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Under 5k</fullName>
+                <default>false</default>
+                <label>Under 5k</label>
+            </value>
+            <value>
+                <fullName>5k to 15k</fullName>
+                <default>false</default>
+                <label>5k to 15k</label>
+            </value>
+            <value>
+                <fullName>15k to 50k</fullName>
+                <default>false</default>
+                <label>15k to 50k</label>
+            </value>
+            <value>
+                <fullName>Over 50k</fullName>
+                <default>false</default>
+                <label>Over 50k</label>
+            </value>
+            <value>
+                <fullName>Not shared</fullName>
+                <default>false</default>
+                <label>Not shared</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

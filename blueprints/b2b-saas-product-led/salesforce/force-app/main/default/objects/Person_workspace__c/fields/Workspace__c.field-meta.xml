@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workspace__c</fullName>
+    <description>Links product users to the workspaces they belong to. One person can sit in many workspaces. Master side 2 of the link.</description>
+    <label>Workspace</label>
+    <referenceTo>Workspace__c</referenceTo>
+    <relationshipLabel>People</relationshipLabel>
+    <relationshipName>People</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

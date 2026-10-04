@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_referral_partners_governance_check</fullName>
+    <active>true</active>
+    <description>Stage gate: Referral partners, Governance check and later stages need Fee basis.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Identified", 1, "Intro meeting", 2, "Governance check", 3, "Agreement sent", 4, "Active", 5, 0) &gt;= 3, ISBLANK(TEXT(Fee_basis__c)))</errorConditionFormula>
+    <errorDisplayField>Fee_basis__c</errorDisplayField>
+    <errorMessage>Fill in Fee basis before moving to Governance check.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_source__c</fullName>
+    <description>How the prospect found the practice. Most business is by introduction, so this is reported monthly.</description>
+    <label>Referral source</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Existing client</fullName>
+                <default>false</default>
+                <label>Existing client</label>
+            </value>
+            <value>
+                <fullName>Accountant or solicitor</fullName>
+                <default>false</default>
+                <label>Accountant or solicitor</label>
+            </value>
+            <value>
+                <fullName>Employer or workplace</fullName>
+                <default>false</default>
+                <label>Employer or workplace</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+            <value>
+                <fullName>Seminar or event</fullName>
+                <default>false</default>
+                <label>Seminar or event</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

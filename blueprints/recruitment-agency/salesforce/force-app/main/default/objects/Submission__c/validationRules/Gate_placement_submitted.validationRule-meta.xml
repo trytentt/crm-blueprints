@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_placement_submitted</fullName>
+    <active>true</active>
+    <description>Stage gate: Placement, Submitted and later stages need CV sent date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) &gt;= 3, ISBLANK(Cv_sent_date__c))</errorConditionFormula>
+    <errorDisplayField>Cv_sent_date__c</errorDisplayField>
+    <errorMessage>Fill in CV sent date before moving to Submitted.</errorMessage>
+</ValidationRule>

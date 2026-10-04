@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confidential_search__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>The incumbent does not know the role is open. Restricts who sees the deal and how it is named.</description>
+    <label>Confidential search</label>
+    <type>Checkbox</type>
+</CustomField>

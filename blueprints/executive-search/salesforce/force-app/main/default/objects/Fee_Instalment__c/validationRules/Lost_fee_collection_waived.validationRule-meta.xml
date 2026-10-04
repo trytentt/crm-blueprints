@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_fee_collection_waived</fullName>
+    <active>true</active>
+    <description>Lost reason: Fee collection, Waived needs Waiver reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Waived"), ISBLANK(TEXT(Waiver_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Waiver_reason__c</errorDisplayField>
+    <errorMessage>Fill in Waiver reason before closing this as Waived.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,516 @@
+# Build sheet: Recruitment agency (salesforce)
+
+A recruitment agency that wins clients on contingent or retained terms, takes roles from them, and places candidates. Clients and candidates are both People, told apart by a type field. Business development runs on deals, roles are their own object, and each candidate put forward on a role moves through the placement pipeline.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Are candidates their own object, or People with a type?**
+  - Recommended default: People with a type. A candidate can become a client contact, or a referrer, and should stay one record. The person type field separates them. Views and permissions filter by it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Is the work of filling a role tracked on its own objects rather than as deal stages?**
+  - Recommended default: Yes. The deal is the client relationship and its terms. Roles and submissions carry the delivery, so one client deal supports many roles and many candidates without duplicate deals.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Where is placement revenue recorded?**
+  - Recommended default: On the submission that reaches placed, with fee amount and invoice status. Do not create a deal per placement. Forecast from role fee estimate multiplied by the placement pipeline probability.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are contingent and retained work run in the same pipeline?**
+  - Recommended default: Yes for the first build. Search model is a select on the deal and role. If retained work needs staged fees, use the executive search blueprint for those desks.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How long is candidate data kept, and on what lawful basis?**
+  - Recommended default: Set a retention period with the agency's data protection lead, for example review after 24 months of no contact. Record the privacy basis at entry and a data review date. Candidates can ask for deletion, so keep a documented process outside the CRM.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects, and a pipeline on one?**
+  - Recommended default: Check before the build. If not, model each submission as a deal in a placement pipeline and each role as a custom property group on the client deal, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which candidate data must not be stored in the CRM?**
+  - Recommended default: No protected-characteristic or diversity data, health data, criminal-record detail or copies of identity documents. Store the status of checks only. Hold documents in the applicant tracking or document system with restricted access.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Role**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Role, plural Roles, API name `Role__c`, record name a Text field.
+  - Purpose: One vacancy a client has asked us to fill, with its terms, fee basis and status. This is the job order. Candidates are submitted against it. A client company has many roles over time.
+  - Done when: the object Role exists with plural name Roles.
+- [ ] **Create object Submission**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Submission, plural Submissions, API name `Submission__c`, record name a Text field.
+  - Purpose: One candidate considered for one role. It moves through the placement pipeline from sourced to placed or rejected, and holds the fee earned if the candidate starts.
+  - Done when: the object Submission exists with plural name Submissions.
+- [ ] **Create relationship role to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Client__c` on Role__c to Account.
+  - Purpose: Shows every role a client has given us.
+  - Done when: a role record shows the link as 'Client' and a company record shows it as 'Roles'.
+- [ ] **Create relationship role to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Hiring_manager__c` on Role__c to Contact.
+  - Purpose: Links a role to the client contact who owns the hire.
+  - Done when: a role record shows the link as 'Hiring manager' and a person record shows it as 'Roles'.
+- [ ] **Create relationship role to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Client_deal__c` on Role__c to Opportunity.
+  - Purpose: Ties each role to the client deal whose terms it runs under.
+  - Done when: a role record shows the link as 'Client deal' and a deal record shows it as 'Roles'.
+- [ ] **Create relationship submission to role (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Role__c` on Submission__c to Role__c.
+  - Purpose: Lists every candidate considered for the role.
+  - Done when: a submission record shows the link as 'Role' and a role record shows it as 'Submissions'.
+- [ ] **Create relationship submission to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Candidate__c` on Submission__c to Contact.
+  - Purpose: Shows every role a candidate has been considered for. The candidate is a Person with type candidate.
+  - Done when: a submission record shows the link as 'Candidate' and a person record shows it as 'Submissions'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Client development on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Client_development`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Client_development`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Client development exists with 6 stages in the order below.
+- [ ] **Stage 1: Target**
+  - Type: open. Probability: 5%.
+  - Entered when a company with a likely hiring need is chosen for outreach and a hiring contact is identified.
+  - Stage value `Target`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_client_development_target` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) >= 1, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Target.
+  - Done when: the stage Target is in position 1 and its rule is in place.
+- [ ] **Stage 2: Conversation**
+  - Type: open. Probability: 15%.
+  - Entered when a hiring manager has spoken to us about a current or planned hire.
+  - Stage value `Conversation`: closed false, won false, probability 15, forecast category Pipeline. Validation rule `Gate_client_development_conversation` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) >= 2, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Conversation.
+  - Done when: the stage Conversation is in position 2 and its rule is in place.
+- [ ] **Stage 3: Terms discussed**
+  - Type: open. Probability: 40%.
+  - Entered when the client has asked for our fees and terms of business.
+  - Stage value `Terms discussed`: closed false, won false, probability 40, forecast category Pipeline. Validation rule `Gate_client_development_terms_discussed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) >= 3, OR(ISBLANK(TEXT(Search_model__c)), ISBLANK(Fee_percent__c)))`. Error message: Fill in Search model and Fee percent before moving to Terms discussed.
+  - Done when: the stage Terms discussed is in position 3 and its rule is in place.
+- [ ] **Stage 4: Terms sent**
+  - Type: open. Probability: 60%.
+  - Entered when the terms of business have been sent to someone with authority to sign.
+  - Stage value `Terms sent`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_client_development_terms_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) >= 4, OR(ISBLANK(TEXT(Search_model__c)), ISBLANK(Fee_percent__c), ISBLANK(TEXT(Exclusivity__c))))`. Error message: Fill in Search model, Fee percent and Exclusivity before moving to Terms sent.
+  - Done when: the stage Terms sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Terms signed**
+  - Type: won. Probability: 100%.
+  - Entered when the signed terms of business are received and the company terms status is set to signed.
+  - Stage value `Terms signed`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_client_development_terms_signed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", CASE(StageName, "Target", 1, "Conversation", 2, "Terms discussed", 3, "Terms sent", 4, "Terms signed", 5, 0) >= 5, OR(ISBLANK(TEXT(Search_model__c)), ISBLANK(Fee_percent__c)))`. Error message: Fill in Search model and Fee percent before moving to Terms signed.
+  - Done when: the stage Terms signed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not won**
+  - Type: lost. Probability: 0%.
+  - Entered when the client declines terms, or has not replied after three follow-ups over 30 days.
+  - Stage value `Not won`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_client_development_not_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Client_development", ISPICKVAL(StageName, "Not won"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Not won.
+  - Done when: the stage Not won is in position 6 and its rule is in place.
+- [ ] **Create pipeline Placement on submission**
+  - Where: Create the restricted picklist field `Stage__c` on Submission: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Placement exists with 8 stages in the order below.
+- [ ] **Stage 1: Sourced**
+  - Type: open. Probability: 10%.
+  - Entered when a candidate has been matched to the role and the consultant has recorded how they were found.
+  - Validation rule `Gate_placement_sourced` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 1, ISBLANK(TEXT(Source__c)))`. Error message: Fill in Source before moving to Sourced.
+  - Done when: the stage Sourced is in position 1 and its rule is in place.
+- [ ] **Stage 2: Screened**
+  - Type: open. Probability: 25%.
+  - Entered when the consultant has spoken to the candidate and confirmed interest, salary expectation and availability.
+  - Validation rule `Gate_placement_screened` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 2, ISBLANK(Salary_expected__c))`. Error message: Fill in Salary expected before moving to Screened.
+  - Done when: the stage Screened is in position 2 and its rule is in place.
+- [ ] **Stage 3: Submitted**
+  - Type: open. Probability: 40%.
+  - Entered when the candidate has been formally sent to the client with their agreement.
+  - Validation rule `Gate_placement_submitted` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 3, ISBLANK(Cv_sent_date__c))`. Error message: Fill in CV sent date before moving to Submitted.
+  - Done when: the stage Submitted is in position 3 and its rule is in place.
+- [ ] **Stage 4: Interviewing**
+  - Type: open. Probability: 60%.
+  - Entered when the client has booked a first interview with the candidate.
+  - Validation rule `Gate_placement_interviewing` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 4, ISBLANK(Interview_date__c))`. Error message: Fill in Interview date before moving to Interviewing.
+  - Done when: the stage Interviewing is in position 4 and its rule is in place.
+- [ ] **Stage 5: Offer**
+  - Type: open. Probability: 80%.
+  - Entered when the client has said they want to make an offer.
+  - Validation rule `Gate_placement_offer` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 5, ISBLANK(Agreed_salary__c))`. Error message: Fill in Agreed salary before moving to Offer.
+  - Done when: the stage Offer is in position 5 and its rule is in place.
+- [ ] **Stage 6: Offer accepted**
+  - Type: open. Probability: 90%.
+  - Entered when the candidate has accepted in writing and a start date is agreed.
+  - Validation rule `Gate_placement_offer_accepted` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 6, OR(ISBLANK(Agreed_salary__c), ISBLANK(Start_date__c), NOT(Checks_complete__c)))`. Error message: Fill in Agreed salary, Start date and Checks complete before moving to Offer accepted.
+  - Done when: the stage Offer accepted is in position 6 and its rule is in place.
+- [ ] **Stage 7: Placed**
+  - Type: won. Probability: 100%.
+  - Entered when the candidate has started and the fee amount is recorded.
+  - Validation rule `Gate_placement_placed` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Sourced", 1, "Screened", 2, "Submitted", 3, "Interviewing", 4, "Offer", 5, "Offer accepted", 6, "Placed", 7, 0) >= 7, OR(ISBLANK(Start_date__c), ISBLANK(Fee_amount__c)))`. Error message: Fill in Start date and Fee amount before moving to Placed.
+  - Done when: the stage Placed is in position 7 and its rule is in place.
+- [ ] **Stage 8: Rejected**
+  - Type: lost. Probability: 0%.
+  - Entered when the client or the candidate ends the process, or the role is filled by someone else.
+  - Validation rule `Lost_placement_rejected` (Setup, Object Manager, Submission, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Rejected"), ISBLANK(TEXT(Rejection_reason__c)))`. Error message: Fill in Rejection reason before closing this as Rejected.
+  - Done when: the stage Rejected is in position 8 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Client status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Client_status__c`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active client, Dormant client, Do not work with
+  - Done when: Company records show Client status and it accepts the right values.
+- [ ] **Create field Terms status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Terms_status__c`.
+  - Purpose: Whether signed terms of business exist. We should not submit candidates to a client without terms.
+  - Options: No terms, Sent, Signed, Expired
+  - Done when: Company records show Terms status and it accepts the right values.
+- [ ] **Create field Default fee percent (percent)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Percent (5, 2), API name `Default_fee_percent__c`.
+  - Purpose: The fee, as a percentage of first-year salary, agreed in the client's terms of business.
+  - Done when: Company records show Default fee percent and it accepts the right values.
+- [ ] **Create field Rebate period (days) (number)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Number (18, 0), API name `Rebate_period_days__c`.
+  - Purpose: Days after start during which the fee is partly or fully refundable if the placement leaves.
+  - Done when: Company records show Rebate period (days) and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Sector__c`.
+  - Purpose: The client's sector. Used to match consultants and to report where placements come from.
+  - Options: Technology, Financial services, Engineering and manufacturing, Healthcare, Construction, Retail and consumer, Public sector, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Outbound, Referral, Inbound, Candidate-led, Event
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Person type (multi_select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Person_type__c`.
+  - Purpose: What this person is to us. One human has one record, so someone who is a candidate and later a hiring manager carries both types.
+  - Options: Client contact, Candidate, Referee, Referrer, Other
+  - Done when: Person records show Person type and it accepts the right values.
+- [ ] **Create field Client role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Client_role__c`.
+  - Purpose: For client contacts, the part this person plays in hiring. Used to check we know who decides and who signs terms.
+  - Options: Hiring manager, HR or talent lead, Budget holder, Procurement, Other
+  - Done when: Person records show Client role and it accepts the right values.
+- [ ] **Create field Candidate status (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Candidate_status__c`.
+  - Purpose: For candidates, whether we can currently put them forward.
+  - Options: Active, looking, Passive, open to approach, Placed recently, Not looking, Do not contact
+  - Done when: Person records show Candidate status and it accepts the right values.
+- [ ] **Create field Availability (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Availability__c`.
+  - Purpose: For candidates, how soon they could start. Used to filter submissions by what the client needs.
+  - Options: Immediate, One month, Three months, Over three months
+  - Done when: Person records show Availability and it accepts the right values.
+- [ ] **Create field Right to work (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Right_to_work__c`.
+  - Purpose: Whether we have seen evidence the candidate can work in the role's country. Record the status only, never copies of documents.
+  - Options: Not checked, Confirmed, Needs sponsorship, Not eligible
+  - Done when: Person records show Right to work and it accepts the right values.
+- [ ] **Create field Desired salary (currency)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Currency (18, 2), API name `Desired_salary__c`.
+  - Purpose: For candidates, the annual salary they want, as they told us. Personal data, used only for matching to roles.
+  - Done when: Person records show Desired salary and it accepts the right values.
+- [ ] **Create field Sector experience (multi_select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Sector_experience__c`.
+  - Purpose: For candidates, the sectors they have worked in. Used to find candidates for a role.
+  - Options: Technology, Financial services, Engineering and manufacturing, Healthcare, Construction, Retail and consumer, Public sector, Other
+  - Done when: Person records show Sector experience and it accepts the right values.
+- [ ] **Create field Privacy basis (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Privacy_basis__c`.
+  - Purpose: The lawful basis for holding and contacting this person, recorded when they are added.
+  - Options: Consent, Legitimate interest, Contract, Unknown
+  - Done when: Person records show Privacy basis and it accepts the right values.
+- [ ] **Create field Data review date (date)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Date, API name `Data_review_date__c`.
+  - Purpose: The date this record must be reviewed or deleted under the agency's retention policy.
+  - Done when: Person records show Data review date and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the client deal was lost. Required on every lost stage.
+  - Options: No hiring need, Uses other agencies, Hires in-house, Fees too high, Terms rejected, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Search model (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Search_model__c`.
+  - Purpose: How the client will engage us. Contingent is paid on a hire. Retained is paid in stages.
+  - Options: Contingent, Retained, Container, Contract or temp
+  - Done when: Deal records show Search model and it accepts the right values.
+- [ ] **Create field Fee percent (percent)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Percent (5, 2), API name `Fee_percent__c`.
+  - Purpose: The fee proposed as a percentage of first-year salary.
+  - Done when: Deal records show Fee percent and it accepts the right values.
+- [ ] **Create field Exclusivity (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Exclusivity__c`.
+  - Purpose: Whether we are the only agency on the work. Exclusive or retained roles fill far more often.
+  - Options: Exclusive, Preferred supplier, Shared with others
+  - Done when: Deal records show Exclusivity and it accepts the right values.
+- [ ] **Create field Expected roles per year (number)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Number (18, 0), API name `Expected_roles_per_year__c`.
+  - Purpose: How many roles the client is likely to give us in a year. Used to size the account.
+  - Done when: Deal records show Expected roles per year and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Role
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Job title and client name, for example Finance manager at Client name.
+  - Done when: Role records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the role stands with the client. Roles are reported on by status, so this is a select, not a stage.
+  - Options: Open, On hold, Offer stage, Filled by us, Filled elsewhere, Withdrawn
+  - Done when: Role records show Status and it accepts the right values.
+- [ ] **Create field Search model (select)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Picklist, API name `Search_model__c`.
+  - Purpose: How this role is engaged. Decides when we are paid.
+  - Options: Contingent, Retained, Container, Contract or temp
+  - Done when: Role records show Search model and it accepts the right values.
+- [ ] **Create field Employment type (select)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Picklist, API name `Employment_type__c`.
+  - Purpose: Permanent, contract or temporary. Contract and temporary roles are paid by margin, not percentage.
+  - Options: Permanent, Contract, Temporary
+  - Done when: Role records show Employment type and it accepts the right values.
+- [ ] **Create field Specialism (select)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Picklist, API name `Specialism__c`.
+  - Purpose: The desk or specialism responsible. Used to route roles and report by desk.
+  - Options: Technology, Finance, Engineering, Sales and marketing, Operations, Healthcare, Other
+  - Done when: Role records show Specialism and it accepts the right values.
+- [ ] **Create field Salary minimum (currency)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Currency (18, 2), API name `Salary_min__c`.
+  - Purpose: Bottom of the annual salary range the client has given us.
+  - Done when: Role records show Salary minimum and it accepts the right values.
+- [ ] **Create field Salary maximum (currency)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Currency (18, 2), API name `Salary_max__c`.
+  - Purpose: Top of the annual salary range. The fee estimate uses the midpoint.
+  - Done when: Role records show Salary maximum and it accepts the right values.
+- [ ] **Create field Fee percent (percent)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Percent (5, 2), API name `Fee_percent__c`.
+  - Purpose: Fee as a percentage of first-year salary for this role. Defaults from the client's terms.
+  - Done when: Role records show Fee percent and it accepts the right values.
+- [ ] **Create field Fee estimate (currency)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Currency (18, 2), API name `Fee_estimate__c`.
+  - Purpose: Expected fee if the role is filled, from fee percent and salary midpoint. Used for the weighted forecast.
+  - Done when: Role records show Fee estimate and it accepts the right values.
+- [ ] **Create field Work location (select)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Picklist, API name `Work_location__c`.
+  - Purpose: Where the work happens. Used to match candidates.
+  - Options: On-site, Hybrid, Remote
+  - Done when: Role records show Work location and it accepts the right values.
+- [ ] **Create field Openings (number)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Number (18, 0), API name `Openings__c`.
+  - Purpose: Number of people the client wants to hire into this role.
+  - Done when: Role records show Openings and it accepts the right values.
+- [ ] **Create field Received date (date)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Date, API name `Received_date__c`.
+  - Purpose: The day the client gave us the role. Used to measure time to fill.
+  - Done when: Role records show Received date and it accepts the right values.
+- [ ] **Create field Target fill date (date)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Date, API name `Target_fill_date__c`.
+  - Purpose: The day the client needs the role filled by.
+  - Done when: Role records show Target fill date and it accepts the right values.
+- [ ] **Create field Consultant (user)**
+  - Where: Setup, Object Manager, Role, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Consultant__c`.
+  - Purpose: The recruiter responsible for the role.
+  - Done when: Role records show Consultant and it accepts the right values.
+
+### Submission
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Candidate name and role, for example Candidate name for Finance manager.
+  - Done when: Submission records show Name and it accepts the right values.
+- [ ] **Create field Source (select)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Picklist, API name `Source__c`.
+  - Purpose: How the candidate came to this role. Used to see which channels produce placements.
+  - Options: Our database, Job board, LinkedIn, Referral, Inbound application, Headhunted
+  - Done when: Submission records show Source and it accepts the right values.
+- [ ] **Create field Rejection reason (select)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Picklist, API name `Rejection_reason__c`.
+  - Purpose: Why the candidate did not move forward. Required on the rejected stage.
+  - Options: Skills not a fit, Culture not a fit, Salary mismatch, Candidate withdrew, Accepted another offer, Role filled elsewhere, Failed checks, Offer declined, Other
+  - Done when: Submission records show Rejection reason and it accepts the right values.
+- [ ] **Create field Salary expected (currency)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Currency (18, 2), API name `Salary_expected__c`.
+  - Purpose: Annual salary the candidate expects for this role.
+  - Done when: Submission records show Salary expected and it accepts the right values.
+- [ ] **Create field Agreed salary (currency)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Currency (18, 2), API name `Agreed_salary__c`.
+  - Purpose: Annual salary in the accepted offer. The fee is calculated from this.
+  - Done when: Submission records show Agreed salary and it accepts the right values.
+- [ ] **Create field CV sent date (date)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Date, API name `Cv_sent_date__c`.
+  - Purpose: The day the candidate was formally submitted to the client.
+  - Done when: Submission records show CV sent date and it accepts the right values.
+- [ ] **Create field Interview date (date)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Date, API name `Interview_date__c`.
+  - Purpose: The date of the next or most recent client interview.
+  - Done when: Submission records show Interview date and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: The day the candidate starts. The fee is earned on this date and the rebate period runs from it.
+  - Done when: Submission records show Start date and it accepts the right values.
+- [ ] **Create field Fee amount (currency)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Currency (18, 2), API name `Fee_amount__c`.
+  - Purpose: Fee due for this placement, from agreed salary and the fee percent on the role.
+  - Done when: Submission records show Fee amount and it accepts the right values.
+- [ ] **Create field Invoice status (select)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Picklist, API name `Invoice_status__c`.
+  - Purpose: Where the placement invoice stands. Invoicing itself happens in the finance system.
+  - Options: Not due, To invoice, Invoiced, Paid, Rebated
+  - Done when: Submission records show Invoice status and it accepts the right values.
+- [ ] **Create field Checks complete (checkbox)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Checkbox, API name `Checks_complete__c`.
+  - Purpose: Right to work, references and any required qualification checks are done.
+  - Done when: Submission records show Checks complete and it accepts the right values.
+- [ ] **Create field Consultant (user)**
+  - Where: Setup, Object Manager, Submission, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Consultant__c`.
+  - Purpose: The recruiter who owns this candidate on this role.
+  - Done when: Submission records show Consultant and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Block submissions without terms**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A submission is created for a role whose client has terms status other than signed.
+  - Action: Notify the consultant and the desk manager that the client has no signed terms, and flag the submission.
+  - Done when: the automation runs on a test record and the result matches: Notify the consultant and the desk manager that the client has no signed terms, and flag the submission.
+- [ ] **Calculate fee**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A submission has an agreed salary set.
+  - Action: Set fee amount from the agreed salary and the fee percent on the role.
+  - Done when: the automation runs on a test record and the result matches: Set fee amount from the agreed salary and the fee percent on the role.
+- [ ] **Mark role filled**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A submission moves to placed and the role's openings are all filled.
+  - Action: Set the role status to filled by us and close other open submissions on the role as rejected with role filled elsewhere.
+  - Done when: the automation runs on a test record and the result matches: Set the role status to filled by us and close other open submissions on the role as rejected with role filled elsewhere.
+- [ ] **Rebate period reminder**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A placed submission's start date plus the client's rebate period is 14 days away.
+  - Action: Notify the consultant to check in with the client and the new starter.
+  - Done when: the automation runs on a test record and the result matches: Notify the consultant to check in with the client and the new starter.
+- [ ] **Mark dormant client**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An active client has had no new role for 6 months.
+  - Action: Set client status to dormant client and add the company to the reactivation view.
+  - Done when: the automation runs on a test record and the result matches: Set client status to dormant client and add the company to the reactivation view.
+- [ ] **Review candidate data**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A person of type candidate has a data review date in 30 days.
+  - Action: Notify the owner to confirm consent or delete the record.
+  - Done when: the automation runs on a test record and the result matches: Notify the owner to confirm consent or delete the record.
+- [ ] **Flag stalled deals**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An open deal has no next step date, or the date is more than 7 days past.
+  - Action: Notify the deal owner and add the deal to the stalled deals view.
+  - Done when: the automation runs on a test record and the result matches: Notify the deal owner and add the deal to the stalled deals view.
+
+## 6. Views
+
+- [ ] **Open roles**
+  - Where: Generated as list view `Open_roles`. Open Roles, choose the view, then set the sort (Target fill date, soonest first.) from the list controls and save.
+  - Object: role
+  - Filter: Status is open or offer stage.
+  - Sort: Target fill date, soonest first.
+  - Done when: the view Open roles is saved and shows the expected records.
+- [ ] **My candidates in process**
+  - Where: Open Submissions, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: submission
+  - Filter: Consultant is me and stage is open.
+  - Sort: Interview date, soonest first.
+  - Done when: the view My candidates in process is saved and shows the expected records.
+- [ ] **Offers to close**
+  - Where: Generated as list view `Offers_to_close`. Open Submissions, choose the view, then set the sort (Start date, soonest first.) from the list controls and save.
+  - Object: submission
+  - Filter: Stage is offer or offer accepted.
+  - Sort: Start date, soonest first.
+  - Done when: the view Offers to close is saved and shows the expected records.
+- [ ] **Placements to invoice**
+  - Where: Generated as list view `Placements_to_invoice`. Open Submissions, choose the view, then set the sort (Start date, oldest first.) from the list controls and save.
+  - Object: submission
+  - Filter: Stage is placed and invoice status is to invoice.
+  - Sort: Start date, oldest first.
+  - Done when: the view Placements to invoice is saved and shows the expected records.
+- [ ] **Candidates due for data review**
+  - Where: Open People, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: person
+  - Filter: Person type includes candidate and data review date is within 30 days.
+  - Sort: Data review date, soonest first.
+  - Done when: the view Candidates due for data review is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

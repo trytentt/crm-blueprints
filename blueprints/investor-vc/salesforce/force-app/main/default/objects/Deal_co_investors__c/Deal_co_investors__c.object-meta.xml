@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Records the other investors in a round we are looking at, including who leads.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Deal to company link</label>
+    <nameField>
+        <displayFormat>DCI-{00000}</displayFormat>
+        <label>Deal to company link number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Deal to company links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

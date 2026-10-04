@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_lines__c</fullName>
+    <description>The services in the proposal. Used to report revenue and win rate by service.</description>
+    <label>Service lines</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Paid media</fullName>
+                <default>false</default>
+                <label>Paid media</label>
+            </value>
+            <value>
+                <fullName>SEO and content</fullName>
+                <default>false</default>
+                <label>SEO and content</label>
+            </value>
+            <value>
+                <fullName>Social</fullName>
+                <default>false</default>
+                <label>Social</label>
+            </value>
+            <value>
+                <fullName>Brand and creative</fullName>
+                <default>false</default>
+                <label>Brand and creative</label>
+            </value>
+            <value>
+                <fullName>Web build</fullName>
+                <default>false</default>
+                <label>Web build</label>
+            </value>
+            <value>
+                <fullName>Email and CRM</fullName>
+                <default>false</default>
+                <label>Email and CRM</label>
+            </value>
+            <value>
+                <fullName>GTM engineering</fullName>
+                <default>false</default>
+                <label>GTM engineering</label>
+            </value>
+            <value>
+                <fullName>Strategy and consulting</fullName>
+                <default>false</default>
+                <label>Strategy and consulting</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

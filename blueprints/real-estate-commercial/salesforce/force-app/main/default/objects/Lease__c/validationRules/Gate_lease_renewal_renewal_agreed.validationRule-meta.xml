@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_lease_renewal_renewal_agreed</fullName>
+    <active>true</active>
+    <description>Stage gate: Lease renewal, Renewal agreed and later stages need Annual rent and Expiry date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Upcoming", 1, "Tenant contacted", 2, "Terms discussed", 3, "Renewal agreed", 4, "Renewed", 5, 0) &gt;= 4, OR(ISBLANK(Annual_rent__c), ISBLANK(Expiry_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Annual rent and Expiry date before moving to Renewal agreed.</errorMessage>
+</ValidationRule>

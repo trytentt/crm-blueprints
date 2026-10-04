@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_deal_flow_partner_meeting</fullName>
+    <active>true</active>
+    <description>Stage gate: Deal flow, Partner meeting and later stages need Our role, Pre-money valuation and Conviction.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Deal_flow", CASE(StageName, "Sourced", 1, "Screening", 2, "First meeting", 3, "Deep dive", 4, "Partner meeting", 5, "Term sheet", 6, "Due diligence", 7, "Investment committee", 8, "Invested", 9, 0) &gt;= 5, OR(ISBLANK(TEXT(Our_role__c)), ISBLANK(Pre_money_valuation__c), ISBLANK(TEXT(Conviction__c))))</errorConditionFormula>
+    <errorMessage>Fill in Our role, Pre-money valuation and Conviction before moving to Partner meeting.</errorMessage>
+</ValidationRule>

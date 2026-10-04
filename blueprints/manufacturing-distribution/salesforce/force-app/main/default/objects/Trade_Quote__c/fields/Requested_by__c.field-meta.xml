@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_by__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Records who at the customer asked for the quote.</description>
+    <externalId>false</externalId>
+    <label>Requested by</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Quotes requested</relationshipLabel>
+    <relationshipName>Quotes_requested</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

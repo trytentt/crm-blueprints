@@ -1,0 +1,574 @@
+# Build sheet: Financial advisers, client households (salesforce)
+
+An independent adviser or wealth management practice that wins clients by referral, advises households rather than single people, and keeps them through a scheduled review cycle. Winning a client, producing advice and reviewing the relationship are three separate records. Fields that hold regulated or sensitive personal data are flagged in their descriptions.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is advice work tracked on its own object rather than as stages on the new-client deal?**
+  - Recommended default: Yes. The deal wins the client and ends at client won. Advice cases and reviews are delivery, run by advisers and paraplanners on their own dates, and they repeat for years.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are clients modelled as households or as individual people?**
+  - Recommended default: Households. Advice, fees and reviews are agreed for the household, and people link to it. Each human keeps one person record, matched by email, whatever household they belong to.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Which regulated or sensitive personal data does the CRM hold?**
+  - Recommended default: As little as possible. Hold banded or yes/no values here and keep the full fact find, valuations, health detail and identity documents in the planning and document systems. Fields marked DATA PROTECTION in their description need restricted access, and the client confirms a legal basis and retention rule before the build.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Can the client's CRM plan restrict access to individual fields or records?**
+  - Recommended default: Check before the build. If it cannot, move flagged fields to the planning system and keep only status fields in the CRM, then record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: What triggers a review and who sets its frequency?**
+  - Recommended default: The service tier sets the frequency. The next review date is the last review date plus the frequency, and review records open 90 days before it.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the firm need its regulatory statements and record-keeping rules built in?**
+  - Recommended default: Not by this blueprint. It keeps to general structure. The firm's compliance lead confirms its own record-keeping, suitability and customer-outcome requirements, and any required fields or approval steps are added as amendments.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow custom objects for Household, Advice case and Review?**
+  - Recommended default: Check before the build. If not, use the Company object as the household and deal pipelines for advice cases and reviews, and record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Household**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Household, plural Households, API name `Client_Household__c`, record name a Text field.
+  - Purpose: A client unit, one person or a couple or family, that the practice advises together. Holds the service terms, risk profile and review dates. People link to it, so each human keeps one record.
+  - Done when: the object Household exists with plural name Households.
+- [ ] **Create object Advice case**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Advice case, plural Advice cases, API name `Advice_Case__c`, record name a Text field.
+  - Purpose: One piece of advice work for a household, from fact find to recommendation to products placed. This is the delivery of advice and stays apart from the deal that won the client.
+  - Done when: the object Advice case exists with plural name Advice cases.
+- [ ] **Create object Review**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Review, plural Reviews, API name `Client_Review__c`, record name a Text field.
+  - Purpose: One scheduled review of a household's plan, usually yearly. Tracks the invitation, the meeting and the follow-up actions so no household goes unreviewed.
+  - Done when: the object Review exists with plural name Reviews.
+- [ ] **Create relationship person to household (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Household__c` on Contact to Client_Household__c.
+  - Purpose: Groups the people in a client unit while each human keeps one record.
+  - Done when: a person record shows the link as 'Household' and a household record shows it as 'Members'.
+- [ ] **Create relationship deal to household (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Household__c` on Opportunity to Client_Household__c.
+  - Purpose: Links the deal that won a client to their household.
+  - Done when: a deal record shows the link as 'Household' and a household record shows it as 'Deals'.
+- [ ] **Create relationship advice_case to household (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Household__c` on Advice_Case__c to Client_Household__c.
+  - Purpose: Gives the full history of advice for a household.
+  - Done when: a advice_case record shows the link as 'Household' and a household record shows it as 'Advice cases'.
+- [ ] **Create relationship advice_case to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Won_deal__c` on Advice_Case__c to Opportunity.
+  - Purpose: Links the first advice case to the deal that created it.
+  - Done when: a advice_case record shows the link as 'Won deal' and a deal record shows it as 'Advice cases'.
+- [ ] **Create relationship review to household (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Household__c` on Client_Review__c to Client_Household__c.
+  - Purpose: Shows every review a household has had.
+  - Done when: a review record shows the link as 'Household' and a household record shows it as 'Reviews'.
+- [ ] **Create relationship household to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Referred_by__c` on Client_Household__c to Account.
+  - Purpose: Shows which professional introducer brought each household, for referral reporting.
+  - Done when: a household record shows the link as 'Referred by' and a company record shows it as 'Households referred'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline New client on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `New_client`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `New_client`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline New client exists with 7 stages in the order below.
+- [ ] **Stage 1: Enquiry**
+  - Type: open. Probability: 10%.
+  - Entered when a prospect is logged with a referral source and a way to contact them.
+  - Stage value `Enquiry`: closed false, won false, probability 10, forecast category Pipeline. Validation rule `Gate_new_client_enquiry` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 1, ISBLANK(TEXT(Referral_source__c)))`. Error message: Fill in Referral source before moving to Enquiry.
+  - Done when: the stage Enquiry is in position 1 and its rule is in place.
+- [ ] **Stage 2: Initial meeting booked**
+  - Type: open. Probability: 25%.
+  - Entered when the free initial meeting is in the diary.
+  - Stage value `Initial meeting booked`: closed false, won false, probability 25, forecast category Pipeline. Validation rule `Gate_new_client_initial_meeting_booked` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 2, OR(ISBLANK(TEXT(Service_interest__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Service interest and Next step date before moving to Initial meeting booked.
+  - Done when: the stage Initial meeting booked is in position 2 and its rule is in place.
+- [ ] **Stage 3: Initial meeting held**
+  - Type: open. Probability: 40%.
+  - Entered when the initial meeting has taken place and services and fees have been explained.
+  - Stage value `Initial meeting held`: closed false, won false, probability 40, forecast category Pipeline. Validation rule `Gate_new_client_initial_meeting_held` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 3, OR(NOT(Initial_meeting_held__c), ISBLANK(Expected_investable_assets__c)))`. Error message: Fill in Initial meeting held and Expected investable assets before moving to Initial meeting held.
+  - Done when: the stage Initial meeting held is in position 3 and its rule is in place.
+- [ ] **Stage 4: Fee proposal**
+  - Type: open. Probability: 60%.
+  - Entered when a written proposal of services and fees has been sent.
+  - Stage value `Fee proposal`: closed false, won false, probability 60, forecast category Pipeline. Validation rule `Gate_new_client_fee_proposal` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 4, OR(ISBLANK(TEXT(Fee_basis_agreed__c)), ISBLANK(Next_step_date__c)))`. Error message: Fill in Fee basis agreed and Next step date before moving to Fee proposal.
+  - Done when: the stage Fee proposal is in position 4 and its rule is in place.
+- [ ] **Stage 5: Agreement out**
+  - Type: open. Probability: 80%.
+  - Entered when the prospect has said yes to the proposal and the client agreement has been sent for signature.
+  - Stage value `Agreement out`: closed false, won false, probability 80, forecast category Pipeline. Validation rule `Gate_new_client_agreement_out` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 5, OR(ISBLANK(TEXT(Fee_basis_agreed__c)), ISBLANK(Amount), ISBLANK(CloseDate)))`. Error message: Fill in Fee basis agreed, Amount and Close date before moving to Agreement out.
+  - Done when: the stage Agreement out is in position 5 and its rule is in place.
+- [ ] **Stage 6: Client won**
+  - Type: won. Probability: 100%.
+  - Entered when the client agreement is signed and identity checks are complete.
+  - Stage value `Client won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_new_client_client_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", CASE(StageName, "Enquiry", 1, "Initial meeting booked", 2, "Initial meeting held", 3, "Fee proposal", 4, "Agreement out", 5, "Client won", 6, 0) >= 6, OR(NOT(Engagement_signed__c), ISBLANK(CloseDate)))`. Error message: Fill in Client agreement signed and Close date before moving to Client won.
+  - Done when: the stage Client won is in position 6 and its rule is in place.
+- [ ] **Stage 7: Lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the prospect declines, chooses another adviser or does not reply after three follow-ups over 30 days.
+  - Stage value `Lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_new_client_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "New_client", ISPICKVAL(StageName, "Lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Lost.
+  - Done when: the stage Lost is in position 7 and its rule is in place.
+- [ ] **Create pipeline Advice delivery on advice_case**
+  - Where: Create the restricted picklist field `Stage__c` on Advice case: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Advice delivery exists with 7 stages in the order below.
+- [ ] **Stage 1: Fact find**
+  - Type: open. Probability: 20%.
+  - Entered when the client agreement is signed and the fact find has been issued to the household.
+  - Validation rule `Gate_advice_delivery_fact_find` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 1, OR(ISBLANK(Adviser__c), ISBLANK(TEXT(Advice_topic__c))))`. Error message: Fill in Adviser and Advice topic before moving to Fact find.
+  - Done when: the stage Fact find is in position 1 and its rule is in place.
+- [ ] **Stage 2: Analysis**
+  - Type: open. Probability: 40%.
+  - Entered when the fact find and supporting documents are complete and checked.
+  - Validation rule `Gate_advice_delivery_analysis` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 2, OR(NOT(Fact_find_complete__c), ISBLANK(Paraplanner__c)))`. Error message: Fill in Fact find complete and Paraplanner before moving to Analysis.
+  - Done when: the stage Analysis is in position 2 and its rule is in place.
+- [ ] **Stage 3: Report drafted**
+  - Type: open. Probability: 60%.
+  - Entered when the recommendation report is drafted and sent for internal checking.
+  - Validation rule `Gate_advice_delivery_report_drafted` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 3, ISBLANK(TEXT(Compliance_check__c)))`. Error message: Fill in Compliance check before moving to Report drafted.
+  - Done when: the stage Report drafted is in position 3 and its rule is in place.
+- [ ] **Stage 4: Report issued**
+  - Type: open. Probability: 75%.
+  - Entered when the checked report has been sent to the client and a meeting to discuss it is booked.
+  - Validation rule `Gate_advice_delivery_report_issued` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 4, OR(ISBLANK(Report_issued_date__c), ISBLANK(TEXT(Compliance_check__c))))`. Error message: Fill in Report issued date and Compliance check before moving to Report issued.
+  - Done when: the stage Report issued is in position 4 and its rule is in place.
+- [ ] **Stage 5: Accepted**
+  - Type: open. Probability: 90%.
+  - Entered when the client has decided to proceed with some or all recommendations.
+  - Validation rule `Gate_advice_delivery_accepted` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 5, ISBLANK(TEXT(Client_decision__c)))`. Error message: Fill in Client decision before moving to Accepted.
+  - Done when: the stage Accepted is in position 5 and its rule is in place.
+- [ ] **Stage 6: Completed**
+  - Type: won. Probability: 100%.
+  - Entered when applications are placed and the client has confirmation of every agreed action.
+  - Validation rule `Gate_advice_delivery_completed` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Fact find", 1, "Analysis", 2, "Report drafted", 3, "Report issued", 4, "Accepted", 5, "Completed", 6, 0) >= 6, OR(NOT(Applications_submitted__c), ISBLANK(Completion_date__c)))`. Error message: Fill in Applications submitted and Completion date before moving to Completed.
+  - Done when: the stage Completed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Closed without advice**
+  - Type: lost. Probability: 0%.
+  - Entered when the case ends before completion because the client withdrew or the practice could not advise.
+  - Validation rule `Lost_advice_delivery_closed_witho_8a963f` (Setup, Object Manager, Advice case, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Closed without advice"), ISBLANK(TEXT(Closure_reason__c)))`. Error message: Fill in Closure reason before closing this as Closed without advice.
+  - Done when: the stage Closed without advice is in position 7 and its rule is in place.
+- [ ] **Create pipeline Review cycle on review**
+  - Where: Create the restricted picklist field `Stage__c` on Review: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Review cycle exists with 6 stages in the order below.
+- [ ] **Stage 1: Due**
+  - Type: open. Probability: 20%.
+  - Entered when the household is within 90 days of its review due date.
+  - Validation rule `Gate_review_cycle_due` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) >= 1, OR(ISBLANK(TEXT(Review_type__c)), ISBLANK(Due_date__c)))`. Error message: Fill in Review type and Due date before moving to Due.
+  - Done when: the stage Due is in position 1 and its rule is in place.
+- [ ] **Stage 2: Invited**
+  - Type: open. Probability: 40%.
+  - Entered when the client has been sent the review invitation and questionnaire.
+  - Validation rule `Gate_review_cycle_invited` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) >= 2, ISBLANK(Adviser__c))`. Error message: Fill in Adviser before moving to Invited.
+  - Done when: the stage Invited is in position 2 and its rule is in place.
+- [ ] **Stage 3: Booked**
+  - Type: open. Probability: 60%.
+  - Entered when the review meeting is in the diary.
+  - Validation rule `Gate_review_cycle_booked` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) >= 3, ISBLANK(Meeting_date__c))`. Error message: Fill in Meeting date before moving to Booked.
+  - Done when: the stage Booked is in position 3 and its rule is in place.
+- [ ] **Stage 4: Meeting held**
+  - Type: open. Probability: 80%.
+  - Entered when the review meeting has taken place.
+  - Validation rule `Gate_review_cycle_meeting_held` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) >= 4, OR(NOT(Circumstances_changed__c), NOT(Risk_profile_reconfirmed__c)))`. Error message: Fill in Circumstances changed and Risk profile reconfirmed before moving to Meeting held.
+  - Done when: the stage Meeting held is in position 4 and its rule is in place.
+- [ ] **Stage 5: Review completed**
+  - Type: won. Probability: 100%.
+  - Entered when the review letter has been sent and follow-up actions are logged.
+  - Validation rule `Gate_review_cycle_review_completed` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Due", 1, "Invited", 2, "Booked", 3, "Meeting held", 4, "Review completed", 5, 0) >= 5, OR(ISBLANK(TEXT(Outcome__c)), NOT(Risk_profile_reconfirmed__c)))`. Error message: Fill in Outcome and Risk profile reconfirmed before moving to Review completed.
+  - Done when: the stage Review completed is in position 5 and its rule is in place.
+- [ ] **Stage 6: Not completed**
+  - Type: lost. Probability: 0%.
+  - Entered when the review will not happen in this cycle, because the client declined or could not be reached.
+  - Validation rule `Lost_review_cycle_not_completed` (Setup, Object Manager, Review, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Not completed"), ISBLANK(TEXT(Missed_reason__c)))`. Error message: Fill in Missed reason before closing this as Not completed.
+  - Done when: the stage Not completed is in position 6 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Company type (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Company_type__c`.
+  - Purpose: What the organisation is to the practice. Used to report referral sources and manage provider contacts.
+  - Options: Professional referrer, Employer, Product provider or platform, Outsourced partner, Other
+  - Done when: Company records show Company type and it accepts the right values.
+- [ ] **Create field Referral agreement (checkbox)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Checkbox, API name `Referral_agreement__c`.
+  - Purpose: A written referral agreement is in place with this organisation.
+  - Done when: Company records show Referral agreement and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Client status (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Client_status__c`.
+  - Purpose: Where this person is with the practice. Drives views and which automations apply.
+  - Options: Prospect, Client, Former client, Professional contact
+  - Done when: Person records show Client status and it accepts the right values.
+- [ ] **Create field Household role (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Household_role__c`.
+  - Purpose: The person's place in their household. Used to address correspondence and find the main contact.
+  - Options: Main client, Partner, Dependant, Attorney or trustee
+  - Done when: Person records show Household role and it accepts the right values.
+- [ ] **Create field Date of birth (date)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Date, API name `Date_of_birth__c`.
+  - Purpose: DATA PROTECTION: personal data. Used for age-based planning and identity checks. Visible to advisers and administrators only.
+  - Done when: Person records show Date of birth and it accepts the right values.
+- [ ] **Create field Employment status (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Employment_status__c`.
+  - Purpose: DATA PROTECTION: personal financial data. Needed to assess income and retirement planning.
+  - Options: Employed, Self-employed, Company director, Retired, Not working
+  - Done when: Person records show Employment status and it accepts the right values.
+- [ ] **Create field Vulnerability flag (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Vulnerability_flag__c`.
+  - Purpose: DATA PROTECTION: may reveal health or personal circumstances. Records whether the client may need extra care or adjusted service. Visible to advisers and compliance only. Keep detail in the case notes, not here.
+  - Options: None identified, Possible, Confirmed
+  - Done when: Person records show Vulnerability flag and it accepts the right values.
+- [ ] **Create field Identity verified (checkbox)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Checkbox, API name `Id_verified__c`.
+  - Purpose: DATA PROTECTION: identity checks are complete and the evidence is held in the document system, not in the CRM. Required before advice work starts.
+  - Done when: Person records show Identity verified and it accepts the right values.
+- [ ] **Create field Marketing consent (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Marketing_consent__c`.
+  - Purpose: Whether the person agreed to receive newsletters and invitations. Respect it in every campaign and sync.
+  - Options: Opted in, Opted out, Not asked
+  - Done when: Person records show Marketing consent and it accepts the right values.
+- [ ] **Create field Preferred contact method (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Preferred_contact__c`.
+  - Purpose: How the client prefers to be contacted. Used when booking reviews.
+  - Options: Email, Phone, Post, Video call
+  - Done when: Person records show Preferred contact method and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the prospect did not become a client. Required on the lost stage.
+  - Options: Chose another adviser, Fees too high, No need now, Outside our service, Did not proceed after advice, No response, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Open deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Referral source (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Referral_source__c`.
+  - Purpose: How the prospect found the practice. Most business is by introduction, so this is reported monthly.
+  - Options: Existing client, Accountant or solicitor, Employer or workplace, Website, Seminar or event, Other
+  - Done when: Deal records show Referral source and it accepts the right values.
+- [ ] **Create field Service interest (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Service_interest__c`.
+  - Purpose: What the prospect wants help with. Used to route to the right adviser and set the fee basis.
+  - Options: Retirement planning, Investments, Protection, Mortgages, Inheritance planning, Whole-of-life planning
+  - Done when: Deal records show Service interest and it accepts the right values.
+- [ ] **Create field Expected investable assets (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Expected_investable_assets__c`.
+  - Purpose: DATA PROTECTION: personal financial data. The prospect's own estimate of assets to be advised on. Used to forecast fees.
+  - Done when: Deal records show Expected investable assets and it accepts the right values.
+- [ ] **Create field Initial meeting held (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Initial_meeting_held__c`.
+  - Purpose: The free initial meeting has taken place and the services and fees were explained.
+  - Done when: Deal records show Initial meeting held and it accepts the right values.
+- [ ] **Create field Fee basis agreed (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Fee_basis_agreed__c`.
+  - Purpose: How the practice will be paid. Must be agreed before advice work starts.
+  - Options: Not discussed, Initial plus ongoing, Fixed fee, Hourly, Percentage of assets
+  - Done when: Deal records show Fee basis agreed and it accepts the right values.
+- [ ] **Create field Client agreement signed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Engagement_signed__c`.
+  - Purpose: The client agreement and terms of business are signed and held in the document system.
+  - Done when: Deal records show Client agreement signed and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Household
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Household name, for example the family name followed by household.
+  - Done when: Household records show Name and it accepts the right values.
+- [ ] **Create field Status (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Status__c`.
+  - Purpose: Where the household is with the practice.
+  - Options: Prospect, Onboarding, Ongoing client, One-off client, Former client
+  - Done when: Household records show Status and it accepts the right values.
+- [ ] **Create field Service tier (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Service_tier__c`.
+  - Purpose: The level of service the household pays for. Sets review frequency and who attends.
+  - Options: Premier, Standard, Essential, One-off advice
+  - Done when: Household records show Service tier and it accepts the right values.
+- [ ] **Create field Lead adviser (user)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Lead_adviser__c`.
+  - Purpose: The adviser responsible for the household.
+  - Done when: Household records show Lead adviser and it accepts the right values.
+- [ ] **Create field Attitude to risk (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Attitude_to_risk__c`.
+  - Purpose: DATA PROTECTION: personal financial data. The risk level agreed with the client from the practice's risk questionnaire. Reconfirmed at each review.
+  - Options: Cautious, Cautious to balanced, Balanced, Balanced to adventurous, Adventurous
+  - Done when: Household records show Attitude to risk and it accepts the right values.
+- [ ] **Create field Capacity for loss (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Capacity_for_loss__c`.
+  - Purpose: DATA PROTECTION: personal financial data. How much loss the household could bear without harm to its standard of living. Assessed separately from attitude to risk.
+  - Options: Low, Medium, High
+  - Done when: Household records show Capacity for loss and it accepts the right values.
+- [ ] **Create field Assets under advice band (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Assets_under_advice_band__c`.
+  - Purpose: DATA PROTECTION: personal financial data. Banded size of assets advised on. Used for tiering and fee reporting without storing exact balances.
+  - Options: Under 100k, 100k to 250k, 250k to 500k, 500k to 1m, Over 1m
+  - Done when: Household records show Assets under advice band and it accepts the right values.
+- [ ] **Create field Annual ongoing fee (currency)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Currency (18, 2), API name `Annual_fee__c`.
+  - Purpose: Expected ongoing fee per year. Used to forecast recurring income.
+  - Done when: Household records show Annual ongoing fee and it accepts the right values.
+- [ ] **Create field Review frequency (select)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Picklist, API name `Review_frequency__c`.
+  - Purpose: How often the household is reviewed under its service agreement.
+  - Options: Annual, Six-monthly, Quarterly, As needed
+  - Done when: Household records show Review frequency and it accepts the right values.
+- [ ] **Create field Last review date (date)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Date, API name `Last_review_date__c`.
+  - Purpose: Date of the most recent completed review. Set by automation.
+  - Done when: Household records show Last review date and it accepts the right values.
+- [ ] **Create field Next review date (date)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Date, API name `Next_review_date__c`.
+  - Purpose: Date the next review is due. Set from the last review date and frequency. Drives the review cycle.
+  - Done when: Household records show Next review date and it accepts the right values.
+- [ ] **Create field Agreement date (date)**
+  - Where: Setup, Object Manager, Household, Fields & Relationships, New. Data type Date, API name `Agreement_date__c`.
+  - Purpose: Date the client agreement was signed. Starts the service.
+  - Done when: Household records show Agreement date and it accepts the right values.
+
+### Advice case
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Household name and the advice topic, for example retirement planning.
+  - Done when: Advice case records show Name and it accepts the right values.
+- [ ] **Create field Advice topic (select)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Picklist, API name `Advice_topic__c`.
+  - Purpose: The area of advice. Used to route work and report volumes.
+  - Options: Retirement, Investments, Protection, Mortgage, Inheritance, General planning
+  - Done when: Advice case records show Advice topic and it accepts the right values.
+- [ ] **Create field Adviser (user)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Adviser__c`.
+  - Purpose: The adviser accountable for the recommendation.
+  - Done when: Advice case records show Adviser and it accepts the right values.
+- [ ] **Create field Paraplanner (user)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Paraplanner__c`.
+  - Purpose: The team member who researches and drafts the report.
+  - Done when: Advice case records show Paraplanner and it accepts the right values.
+- [ ] **Create field Fact find complete (checkbox)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Checkbox, API name `Fact_find_complete__c`.
+  - Purpose: DATA PROTECTION: personal financial data. The client's circumstances, goals and documents have been gathered and checked. The detail is held in the planning system.
+  - Done when: Advice case records show Fact find complete and it accepts the right values.
+- [ ] **Create field Report issued date (date)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Date, API name `Report_issued_date__c`.
+  - Purpose: Date the written recommendation was sent to the client.
+  - Done when: Advice case records show Report issued date and it accepts the right values.
+- [ ] **Create field Compliance check (select)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Picklist, API name `Compliance_check__c`.
+  - Purpose: Progress of the internal check of the advice before it goes to the client.
+  - Options: Not required, Pending, Passed, Rework needed
+  - Done when: Advice case records show Compliance check and it accepts the right values.
+- [ ] **Create field Client decision (select)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Picklist, API name `Client_decision__c`.
+  - Purpose: What the client decided after the recommendation. Reported to see how often advice is followed.
+  - Options: Awaiting, Accepted, Partly accepted, Declined
+  - Done when: Advice case records show Client decision and it accepts the right values.
+- [ ] **Create field Applications submitted (checkbox)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Checkbox, API name `Applications_submitted__c`.
+  - Purpose: Applications to the product providers or platforms have been sent.
+  - Done when: Advice case records show Applications submitted and it accepts the right values.
+- [ ] **Create field Closure reason (select)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Picklist, API name `Closure_reason__c`.
+  - Purpose: Why the case closed without completing. Required on the closed-without-advice stage.
+  - Options: Client withdrew, Advice declined, Unable to advise, No response, Circumstances changed
+  - Done when: Advice case records show Closure reason and it accepts the right values.
+- [ ] **Create field Completion date (date)**
+  - Where: Setup, Object Manager, Advice case, Fields & Relationships, New. Data type Date, API name `Completion_date__c`.
+  - Purpose: Date all agreed actions were completed.
+  - Done when: Advice case records show Completion date and it accepts the right values.
+
+### Review
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Household name and review year, for example the family name 2027 review.
+  - Done when: Review records show Name and it accepts the right values.
+- [ ] **Create field Review type (select)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Picklist, API name `Review_type__c`.
+  - Purpose: The kind of review. Used to prepare the right agenda.
+  - Options: Annual, Six-monthly, Life event, Ad hoc
+  - Done when: Review records show Review type and it accepts the right values.
+- [ ] **Create field Due date (date)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Date, API name `Due_date__c`.
+  - Purpose: Date by which the review should be held under the service agreement.
+  - Done when: Review records show Due date and it accepts the right values.
+- [ ] **Create field Meeting date (datetime)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Date/Time, API name `Meeting_date__c`.
+  - Purpose: When the review meeting is or was held.
+  - Done when: Review records show Meeting date and it accepts the right values.
+- [ ] **Create field Circumstances changed (checkbox)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Checkbox, API name `Circumstances_changed__c`.
+  - Purpose: DATA PROTECTION: personal circumstances. Something material changed since the last review, such as family, income, health or goals. Detail goes in the planning system.
+  - Done when: Review records show Circumstances changed and it accepts the right values.
+- [ ] **Create field Risk profile reconfirmed (checkbox)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Checkbox, API name `Risk_profile_reconfirmed__c`.
+  - Purpose: The attitude to risk and capacity for loss were checked again at this review.
+  - Done when: Review records show Risk profile reconfirmed and it accepts the right values.
+- [ ] **Create field Outcome (select)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Picklist, API name `Outcome__c`.
+  - Purpose: What the review concluded. Reported to see how many reviews lead to new advice.
+  - Options: No change, Minor changes, New advice needed, Service level change
+  - Done when: Review records show Outcome and it accepts the right values.
+- [ ] **Create field Missed reason (select)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Picklist, API name `Missed_reason__c`.
+  - Purpose: Why the review did not happen. Required on the not-completed stage.
+  - Options: Client declined, Client unresponsive, Moved to another adviser, Left the practice, Other
+  - Done when: Review records show Missed reason and it accepts the right values.
+- [ ] **Create field Adviser (user)**
+  - Where: Setup, Object Manager, Review, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Adviser__c`.
+  - Purpose: The adviser who runs the review.
+  - Done when: Review records show Adviser and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Start advice case on client won**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the new client pipeline moves to client won.
+  - Action: Set the household status to onboarding, set the agreement date, create an advice case at fact find assigned to the lead adviser, and set the next review date from the review frequency.
+  - Done when: the automation runs on a test record and the result matches: Set the household status to onboarding, set the agreement date, create an advice case at fact find assigned to the lead adviser, and set the next review date from the review frequency.
+- [ ] **Open review**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A household's next review date is 90 days away and its status is ongoing client.
+  - Action: Create a review at due for the household, assigned to the lead adviser.
+  - Done when: the automation runs on a test record and the result matches: Create a review at due for the household, assigned to the lead adviser.
+- [ ] **Roll the review cycle forward**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A review moves to review completed.
+  - Action: Set the household's last review date to the meeting date and its next review date to the date plus its review frequency.
+  - Done when: the automation runs on a test record and the result matches: Set the household's last review date to the meeting date and its next review date to the date plus its review frequency.
+- [ ] **Chase overdue reviews**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A review is open and its due date has passed.
+  - Action: Notify the lead adviser and add the review to the overdue reviews view.
+  - Done when: the automation runs on a test record and the result matches: Notify the lead adviser and add the review to the overdue reviews view.
+- [ ] **Vulnerability flag alert**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A person's vulnerability flag changes to possible or confirmed.
+  - Action: Notify the lead adviser and compliance lead to check the service and communication preferences.
+  - Done when: the automation runs on a test record and the result matches: Notify the lead adviser and compliance lead to check the service and communication preferences.
+- [ ] **Compliance check request**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: An advice case moves to report drafted.
+  - Action: Notify the compliance lead and set the compliance check to pending.
+  - Done when: the automation runs on a test record and the result matches: Notify the compliance lead and set the compliance check to pending.
+- [ ] **Thank the referrer**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal with a professional referral source moves to client won.
+  - Action: Create a task for the lead adviser to thank the referrer, subject to the referral agreement and client consent.
+  - Done when: the automation runs on a test record and the result matches: Create a task for the lead adviser to thank the referrer, subject to the referral agreement and client consent.
+
+## 6. Views
+
+- [ ] **Reviews due in 90 days**
+  - Where: Generated as list view `Reviews_due_90_days`. Open Households, choose the view, then set the sort (Next review date, soonest first.) from the list controls and save.
+  - Object: household
+  - Filter: Status is ongoing client and next review date is within 90 days.
+  - Sort: Next review date, soonest first.
+  - Done when: the view Reviews due in 90 days is saved and shows the expected records.
+- [ ] **Overdue reviews**
+  - Where: Open Reviews, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: review
+  - Filter: Review is open and due date is in the past.
+  - Sort: Due date, oldest first.
+  - Done when: the view Overdue reviews is saved and shows the expected records.
+- [ ] **My advice cases**
+  - Where: Open Advice cases, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: advice_case
+  - Filter: Adviser or paraplanner is me and stage is open.
+  - Sort: Report issued date, oldest first.
+  - Done when: the view My advice cases is saved and shows the expected records.
+- [ ] **My prospects**
+  - Where: Generated as list view `New_client_pipeline`. Open Deals, choose the view, then set the sort (Next step date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Next step date, soonest first.
+  - Done when: the view My prospects is saved and shows the expected records.
+- [ ] **Clients with a vulnerability flag**
+  - Where: Generated as list view `Flagged_clients`. Open People, choose the view, then set the sort (Last name, A to Z.) from the list controls and save.
+  - Object: person
+  - Filter: Vulnerability flag is possible or confirmed.
+  - Sort: Last name, A to Z.
+  - Done when: the view Clients with a vulnerability flag is saved and shows the expected records.
+- [ ] **Households by service tier**
+  - Where: Generated as list view `Households_by_tier`. Open Households, choose the view, then set the sort (Service tier, then name.) from the list controls and save.
+  - Object: household
+  - Filter: Status is ongoing client.
+  - Sort: Service tier, then name.
+  - Done when: the view Households by service tier is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Links the hiring sponsor, chair and HR lead on the client side to the search.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Search to person link</label>
+    <nameField>
+        <displayFormat>SCC-{00000}</displayFormat>
+        <label>Search to person link number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Search to person links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

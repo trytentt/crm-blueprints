@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_business_lead</fullName>
+    <active>true</active>
+    <description>Stage gate: New business, Lead and later stages need Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_business", CASE(StageName, "Lead", 1, "Discovery", 2, "Brief and scope", 3, "Proposal sent (New business)", 4, "Pitch or review", 5, "Negotiation (New business)", 6, "Closed won", 7, 0) &gt;= 1, ISBLANK(Next_step_date__c))</errorConditionFormula>
+    <errorDisplayField>Next_step_date__c</errorDisplayField>
+    <errorMessage>Fill in Next step date before moving to Lead.</errorMessage>
+</ValidationRule>

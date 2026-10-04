@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Instruction_type__c</fullName>
+    <description>Whom we act for on this deal. Sets the fee basis and conflicts check.</description>
+    <label>Instruction type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Acting for landlord</fullName>
+                <default>false</default>
+                <label>Acting for landlord</label>
+            </value>
+            <value>
+                <fullName>Acting for tenant</fullName>
+                <default>false</default>
+                <label>Acting for tenant</label>
+            </value>
+            <value>
+                <fullName>Joint agency</fullName>
+                <default>false</default>
+                <label>Joint agency</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

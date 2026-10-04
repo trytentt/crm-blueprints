@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trigger__c</fullName>
+    <description>The event or date that makes this instalment due.</description>
+    <label>Trigger</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>On engagement</fullName>
+                <default>false</default>
+                <label>On engagement</label>
+            </value>
+            <value>
+                <fullName>On shortlist presented</fullName>
+                <default>false</default>
+                <label>On shortlist presented</label>
+            </value>
+            <value>
+                <fullName>On placement</fullName>
+                <default>false</default>
+                <label>On placement</label>
+            </value>
+            <value>
+                <fullName>On a set date</fullName>
+                <default>false</default>
+                <label>On a set date</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

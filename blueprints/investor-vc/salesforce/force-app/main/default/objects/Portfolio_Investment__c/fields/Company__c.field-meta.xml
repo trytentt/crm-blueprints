@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows each investment we hold in a company across rounds.</description>
+    <externalId>false</externalId>
+    <label>Company</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Our investments</relationshipLabel>
+    <relationshipName>Our_investments</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

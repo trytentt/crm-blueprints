@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandate_deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Ties each search to the deal that won it.</description>
+    <externalId>false</externalId>
+    <label>Mandate deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Searches</relationshipLabel>
+    <relationshipName>Searches</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

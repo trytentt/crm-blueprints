@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fee_basis__c</fullName>
+    <description>Whether any money passes. Fees between healthcare providers can be restricted, so legal checks any value other than none.</description>
+    <label>Fee basis</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Fixed fee</fullName>
+                <default>false</default>
+                <label>Fixed fee</label>
+            </value>
+            <value>
+                <fullName>Revenue share</fullName>
+                <default>false</default>
+                <label>Revenue share</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

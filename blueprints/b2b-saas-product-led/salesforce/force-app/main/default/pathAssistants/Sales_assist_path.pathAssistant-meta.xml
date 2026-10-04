@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Sales assist path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Pql_trigger__c</fieldNames>
+        <info>Entered when a workspace meets the PQL rule and a sales-assist rep has accepted it.</info>
+        <picklistValueName>Product-qualified lead</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the rep has spoken to a workspace admin or owner.</info>
+        <picklistValueName>Conversation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Need_summary__c</fieldNames>
+        <fieldNames>Expected_seats__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has named what they need beyond the current plan and who approves spend.</info>
+        <picklistValueName>Need confirmed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Target_plan__c</fieldNames>
+        <fieldNames>Expected_seats__c</fieldNames>
+        <fieldNames>Billing_term__c</fieldNames>
+        <info>Entered when a quote has been sent for a named plan, seat count and billing term.</info>
+        <picklistValueName>Proposal (Sales assist)</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Security_review__c</fieldNames>
+        <info>Entered when the buyer has asked for changes to price, terms or security answers.</info>
+        <picklistValueName>Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the paid plan is live in the product and payment terms are accepted.</info>
+        <picklistValueName>Closed won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the buyer says no, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Sales_assist</recordTypeName>
+</PathAssistant>

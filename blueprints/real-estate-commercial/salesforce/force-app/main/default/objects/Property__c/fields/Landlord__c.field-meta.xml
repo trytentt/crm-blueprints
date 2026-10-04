@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Landlord__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Shows which landlord owns each property.</description>
+    <externalId>false</externalId>
+    <label>Landlord</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Properties owned</relationshipLabel>
+    <relationshipName>Properties_owned</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_letter_signed_date__c</fullName>
+    <description>The date the client signed the engagement letter. Empty means work should not have started.</description>
+    <label>Engagement letter signed date</label>
+    <required>false</required>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BusinessProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewals_expansion</fullName>
+    <description>Renewals and expansion</description>
+    <isActive>true</isActive>
+    <values>
+        <fullName>Upcoming</fullName>
+        <default>true</default>
+    </values>
+    <values>
+        <fullName>Outreach</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Proposal sent</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Negotiation (Renewals and expansion)</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Awaiting signature</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Renewed</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Churned</fullName>
+        <default>false</default>
+    </values>
+</BusinessProcess>

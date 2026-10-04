@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Employer and insurer contracts path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Service_interest__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a named buyer at an employer or insurer has a stated need and enough people to be worth a contract.</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Covered_headcount__c</fieldNames>
+        <fieldNames>Sites_covered__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the first needs call has happened and sites, headcount and services are written down.</info>
+        <picklistValueName>Discovery</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Pricing_model__c</fieldNames>
+        <fieldNames>Contract_term_months__c</fieldNames>
+        <info>Entered when a priced proposal with services and pricing model has been sent.</info>
+        <picklistValueName>Proposal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the buyer has started their data protection, clinical governance or procurement review.</info>
+        <picklistValueName>Governance review</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Pilot_agreed__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a pilot has been agreed in writing and has a start date.</info>
+        <picklistValueName>Pilot</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Governance_review_passed__c</fieldNames>
+        <info>Entered when the governance review is passed and the contract has been sent for signature.</info>
+        <picklistValueName>Contract out</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>Governance_review_passed__c</fieldNames>
+        <info>Entered when the signed contract is received and a service contract record is created.</info>
+        <picklistValueName>Closed won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the buyer says no, or has not replied after three follow-ups over 30 days.</info>
+        <picklistValueName>Closed lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Employer_insurer_contracts</recordTypeName>
+</PathAssistant>

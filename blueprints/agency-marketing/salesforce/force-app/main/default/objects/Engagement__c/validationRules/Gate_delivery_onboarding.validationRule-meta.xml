@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delivery_onboarding</fullName>
+    <active>true</active>
+    <description>Stage gate: Delivery, Onboarding and later stages need Account lead and Delivery lead.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Onboarding", 1, "Kickoff done", 2, "First deliverables", 3, "Steady state", 4, "At risk", 5, "Wrapping up", 6, "Completed", 7, 0) &gt;= 1, OR(ISBLANK(Account_lead__c), ISBLANK(Delivery_lead__c)))</errorConditionFormula>
+    <errorMessage>Fill in Account lead and Delivery lead before moving to Onboarding.</errorMessage>
+</ValidationRule>

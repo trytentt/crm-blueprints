@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_corporate_training_enquiry_q_bfe4d4</fullName>
+    <active>true</active>
+    <description>Stage gate: Corporate training, Enquiry qualified and later stages need Training need and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Corporate_training", CASE(StageName, "Enquiry qualified", 1, "Needs analysis", 2, "Proposal sent", 3, "Stakeholder review", 4, "Terms agreed", 5, "Booked", 6, 0) &gt;= 1, OR(ISBLANK(TEXT(Training_need__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Training need and Next step date before moving to Enquiry qualified.</errorMessage>
+</ValidationRule>

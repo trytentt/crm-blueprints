@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_mandate_acquisition_mandate_won</fullName>
+    <active>true</active>
+    <description>Stage gate: Mandate acquisition, Mandate won and later stages need Amount, Close date and Fee structure.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) &gt;= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Fee_structure__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Fee structure before moving to Mandate won.</errorMessage>
+</ValidationRule>

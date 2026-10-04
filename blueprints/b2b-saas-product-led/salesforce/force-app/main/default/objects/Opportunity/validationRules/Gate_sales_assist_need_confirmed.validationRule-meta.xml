@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sales_assist_need_confirmed</fullName>
+    <active>true</active>
+    <description>Stage gate: Sales assist, Need confirmed and later stages need Need summary, Expected seats and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sales_assist", CASE(StageName, "Product-qualified lead", 1, "Conversation", 2, "Need confirmed", 3, "Proposal (Sales assist)", 4, "Negotiation", 5, "Closed won", 6, 0) &gt;= 3, OR(ISBLANK(Need_summary__c), ISBLANK(Expected_seats__c), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Need summary, Expected seats and Next step date before moving to Need confirmed.</errorMessage>
+</ValidationRule>

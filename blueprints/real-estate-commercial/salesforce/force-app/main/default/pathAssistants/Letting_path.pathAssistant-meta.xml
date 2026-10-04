@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Letting path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Instruction_type__c</fieldNames>
+        <info>Entered when an occupier or landlord enquiry is logged against a contact.</info>
+        <picklistValueName>Enquiry</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Requirement_size_sqft__c</fieldNames>
+        <fieldNames>Target_move_date__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when size, budget, location and move date have been confirmed with a decision maker.</info>
+        <picklistValueName>Requirement qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a viewing is booked for specific space.</info>
+        <picklistValueName>Viewing</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Viewing_held__c</fieldNames>
+        <fieldNames>Headline_rent__c</fieldNames>
+        <info>Entered when the occupier has viewed the space and made a first offer on rent and term.</info>
+        <picklistValueName>Offer</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Heads_of_terms_status__c</fieldNames>
+        <fieldNames>Headline_rent__c</fieldNames>
+        <info>Entered when landlord and tenant have agreed the main terms and heads of terms are issued, subject to contract.</info>
+        <picklistValueName>Heads of terms</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Referencing_status__c</fieldNames>
+        <info>Entered when heads of terms are signed back and tenant reference checks are under way.</info>
+        <picklistValueName>Referencing</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Referencing_status__c</fieldNames>
+        <fieldNames>Solicitors_instructed__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when referencing has passed and both sides have instructed solicitors.</info>
+        <picklistValueName>Legals</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Headline_rent__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the lease is signed by both sides and the lease record is created.</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when either side withdraws, the space is let elsewhere, or there is no reply after three follow-ups over 30 days.</info>
+        <picklistValueName>Lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Letting</recordTypeName>
+</PathAssistant>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Person_type__c</fullName>
+    <description>What this person is to us. One human has one record, so a candidate who later becomes a client carries both types.</description>
+    <label>Person type</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client contact</fullName>
+                <default>false</default>
+                <label>Client contact</label>
+            </value>
+            <value>
+                <fullName>Candidate</fullName>
+                <default>false</default>
+                <label>Candidate</label>
+            </value>
+            <value>
+                <fullName>Source or market expert</fullName>
+                <default>false</default>
+                <label>Source or market expert</label>
+            </value>
+            <value>
+                <fullName>Referee</fullName>
+                <default>false</default>
+                <label>Referee</label>
+            </value>
+            <value>
+                <fullName>Investor or board member</fullName>
+                <default>false</default>
+                <label>Investor or board member</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

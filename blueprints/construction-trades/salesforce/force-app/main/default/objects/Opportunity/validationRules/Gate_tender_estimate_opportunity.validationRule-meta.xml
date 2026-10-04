@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_tender_estimate_opportunity</fullName>
+    <active>true</active>
+    <description>Stage gate: Tender and estimate, Opportunity and later stages need Procurement route and Work type.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Tender_estimate", CASE(StageName, "Opportunity", 1, "Go or no-go", 2, "Estimating", 3, "Bid submitted", 4, "Clarification", 5, "Preferred bidder", 6, "Awarded", 7, 0) &gt;= 1, OR(ISBLANK(TEXT(Procurement_route__c)), ISBLANK(TEXT(Work_type__c))))</errorConditionFormula>
+    <errorMessage>Fill in Procurement route and Work type before moving to Opportunity.</errorMessage>
+</ValidationRule>

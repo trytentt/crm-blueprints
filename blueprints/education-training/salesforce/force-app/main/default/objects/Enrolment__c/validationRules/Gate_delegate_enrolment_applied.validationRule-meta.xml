@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_delegate_enrolment_applied</fullName>
+    <active>true</active>
+    <description>Stage gate: Delegate enrolment, Applied and later stages need Application date.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Enquiry", 1, "Applied", 2, "Place offered", 3, "Awaiting payment", 4, "Enrolled", 5, 0) &gt;= 2, ISBLANK(Application_date__c))</errorConditionFormula>
+    <errorDisplayField>Application_date__c</errorDisplayField>
+    <errorMessage>Fill in Application date before moving to Applied.</errorMessage>
+</ValidationRule>

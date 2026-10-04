@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_new_work_enquiry</fullName>
+    <active>true</active>
+    <description>Stage gate: New work, Enquiry and later stages need Service area and Next step date.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "New_work", CASE(StageName, "Enquiry", 1, "Qualified", 2, "Conflict check", 3, "Proposal", 4, "Proposal sent", 5, "Terms agreed", 6, "Engagement letter out", 7, "Closed won", 8, 0) &gt;= 1, OR(ISBLANK(TEXT(Service_area__c)), ISBLANK(Next_step_date__c)))</errorConditionFormula>
+    <errorMessage>Fill in Service area and Next step date before moving to Enquiry.</errorMessage>
+</ValidationRule>

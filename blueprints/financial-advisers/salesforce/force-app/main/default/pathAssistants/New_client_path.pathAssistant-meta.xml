@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>New client path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Referral_source__c</fieldNames>
+        <info>Entered when a prospect is logged with a referral source and a way to contact them.</info>
+        <picklistValueName>Enquiry</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Service_interest__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the free initial meeting is in the diary.</info>
+        <picklistValueName>Initial meeting booked</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Initial_meeting_held__c</fieldNames>
+        <fieldNames>Expected_investable_assets__c</fieldNames>
+        <info>Entered when the initial meeting has taken place and services and fees have been explained.</info>
+        <picklistValueName>Initial meeting held</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Fee_basis_agreed__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a written proposal of services and fees has been sent.</info>
+        <picklistValueName>Fee proposal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Fee_basis_agreed__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the prospect has said yes to the proposal and the client agreement has been sent for signature.</info>
+        <picklistValueName>Agreement out</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Engagement_signed__c</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the client agreement is signed and identity checks are complete.</info>
+        <picklistValueName>Client won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Lost_reason__c</fieldNames>
+        <info>Entered when the prospect declines, chooses another adviser or does not reply after three follow-ups over 30 days.</info>
+        <picklistValueName>Lost</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>New_client</recordTypeName>
+</PathAssistant>

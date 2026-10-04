@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_type__c</fullName>
+    <description>Whether this is a new account, a new product line for an existing account or a one-off project.</description>
+    <label>Opportunity type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New account</fullName>
+                <default>false</default>
+                <label>New account</label>
+            </value>
+            <value>
+                <fullName>New product line</fullName>
+                <default>false</default>
+                <label>New product line</label>
+            </value>
+            <value>
+                <fullName>One-off project</fullName>
+                <default>false</default>
+                <label>One-off project</label>
+            </value>
+            <value>
+                <fullName>Tender</fullName>
+                <default>false</default>
+                <label>Tender</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

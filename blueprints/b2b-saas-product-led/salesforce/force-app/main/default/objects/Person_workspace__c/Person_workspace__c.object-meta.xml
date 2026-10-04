@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Links product users to the workspaces they belong to. One person can sit in many workspaces.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Person to workspace link</label>
+    <nameField>
+        <displayFormat>PW-{00000}</displayFormat>
+        <label>Person to workspace link number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Person to workspace links</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

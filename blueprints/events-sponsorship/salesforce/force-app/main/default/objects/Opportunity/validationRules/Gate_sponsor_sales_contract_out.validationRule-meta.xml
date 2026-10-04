@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_sponsor_sales_contract_out</fullName>
+    <active>true</active>
+    <description>Stage gate: Sponsor sales, Contract out and later stages need Amount, Close date and Payment terms.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Sponsor_sales", CASE(StageName, "Prospect", 1, "Meeting held", 2, "Proposal sent", 3, "Negotiating", 4, "Contract out", 5, "Signed", 6, 0) &gt;= 5, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Payment_terms__c))))</errorConditionFormula>
+    <errorMessage>Fill in Amount, Close date and Payment terms before moving to Contract out.</errorMessage>
+</ValidationRule>

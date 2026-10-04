@@ -1,0 +1,642 @@
+# Build sheet: Executive search (salesforce)
+
+A retained executive search firm. Winning a mandate runs on deals. Each mandate is a search with its own delivery pipeline, candidates are tracked from longlist to placement on a search-candidate record, and the fee is billed in instalments tied to milestones. Clients and candidates are both People, told apart by a type field.
+
+Generated from `design.yaml`. Do not edit by hand: change the design and regenerate. Work top to bottom. Build in a sandbox first.
+
+## 1. Decisions
+
+- [ ] **Decide: Is the search tracked on its own object rather than as stages on the mandate deal?**
+  - Recommended default: Yes. The deal ends at mandate won. The search has its own partner, consultant, timetable and delivery pipeline, and carries candidates and fees.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are candidates their own object, or People with a type?**
+  - Recommended default: People with a type. Candidates become clients and clients become candidates, and a person stays one record. The search candidate record carries the stage for each search, so one person can be on several searches.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Are retained fee instalments tracked on their own object?**
+  - Recommended default: Yes. A fee in thirds produces three dated payments with their own status. The instalment pipeline gives a forecast of cash by stage. Invoices stay in the finance system, matched by invoice reference.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are confidential searches protected in the CRM?**
+  - Recommended default: Use a neutral code name, a confidential flag, and permissions that limit the search, its candidates and its deal to the search team. Never put the incumbent's name in a record name or note. Confirm access rules with the managing partner before go-live.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: How are off-limits companies enforced?**
+  - Recommended default: A date on the company and a contact restriction on each person. A longlist view excludes both. The rule is only as good as the discipline of setting it when a mandate is signed, so an automation sets it from the client agreement.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the client's CRM plan allow several custom objects, and a pipeline on each?**
+  - Recommended default: Check before the build. The design uses three custom objects. If the plan allows fewer, build Search and Search candidate first, and track fees as custom properties on Search until the plan allows more. Record the gap in the client notes.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+- [ ] **Decide: Does the firm also take contingent or short-notice work?**
+  - Recommended default: Not in this blueprint. If it does, use the recruitment agency blueprint for those desks, or add a search model select to the mandate deal.
+  - Done when: the answer is written in the client notes, and `design.yaml` is changed if it differs from the default.
+
+## 2. Objects and relationships
+
+- [ ] **Confirm standard object Company (`Account`) is enabled**
+  - Done when: Company records can be created and listed.
+- [ ] **Confirm standard object Person (`Contact`) is enabled**
+  - Done when: Person records can be created and listed.
+- [ ] **Confirm standard object Deal (`Opportunity`) is enabled**
+  - Done when: Deal records can be created and listed.
+- [ ] **Create object Search**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Search, plural Searches, API name `Search__c`, record name a Text field.
+  - Purpose: One retained mandate to fill one senior role: the position, fee terms, timetable and team. Created when a mandate deal is won, and has its own delivery pipeline.
+  - Done when: the object Search exists with plural name Searches.
+- [ ] **Create object Search candidate**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Search candidate, plural Search candidates, API name `Search_Candidate__c`, record name a Text field.
+  - Purpose: One individual considered for one search. Tracks them from longlist to shortlist, client interview, offer and placement. Candidates are Person records. This is the link, with its stage.
+  - Done when: the object Search candidate exists with plural name Search candidates.
+- [ ] **Create object Fee instalment**
+  - Where: Setup, then Object Manager, then Create, then Custom Object. Label Fee instalment, plural Fee instalments, API name `Fee_Instalment__c`, record name a Text field.
+  - Purpose: One scheduled payment of a search's retained fee, such as the first third at engagement. Tracks when it falls due, is invoiced and is paid.
+  - Done when: the object Fee instalment exists with plural name Fee instalments.
+- [ ] **Create relationship search to company (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Client__c` on Search__c to Account.
+  - Purpose: Shows every search a client has retained us for.
+  - Done when: a search record shows the link as 'Client' and a company record shows it as 'Searches'.
+- [ ] **Create relationship search to deal (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Mandate_deal__c` on Search__c to Opportunity.
+  - Purpose: Ties each search to the deal that won it.
+  - Done when: a search record shows the link as 'Mandate deal' and a deal record shows it as 'Searches'.
+- [ ] **Create relationship search to person (many_to_many)**
+  - Where: Setup, then Object Manager, then Create, then Custom Object for the junction, then add two Master-Detail fields (one to search, one to person). Junction object `Search_client_contact__c` with two master-detail fields.
+  - Purpose: Links the hiring sponsor, chair and HR lead on the client side to the search.
+  - Done when: a search record shows the link as 'Client contacts' and a person record shows it as 'Searches as client contact'.
+- [ ] **Create relationship search_candidate to search (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Search__c` on Search_Candidate__c to Search__c.
+  - Purpose: Lists every individual considered for the search, with their stage.
+  - Done when: a search_candidate record shows the link as 'Search' and a search record shows it as 'Candidates'.
+- [ ] **Create relationship search_candidate to person (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Candidate__c` on Search_Candidate__c to Contact.
+  - Purpose: Shows every search a person has been considered for. The candidate is a Person with type candidate.
+  - Done when: a search_candidate record shows the link as 'Candidate' and a person record shows it as 'Search candidacies'.
+- [ ] **Create relationship fee_instalment to search (many_to_one)**
+  - Where: Setup, then Object Manager, then the child object, then Fields & Relationships, then New, then Lookup Relationship. Lookup `Search__c` on Fee_Instalment__c to Search__c.
+  - Purpose: Lists the fee schedule for the search.
+  - Done when: a fee_instalment record shows the link as 'Search' and a search record shows it as 'Fee instalments'.
+
+## 3. Pipelines and stage rules
+
+- [ ] **Create pipeline Mandate acquisition on deal**
+  - Where: Add the stage values: Setup, Object Manager, Opportunity, Fields & Relationships, Stage. Sales process `Mandate_acquisition`: Setup, Feature Settings, Sales, Sales Processes, New. Record type `Mandate_acquisition`: Object Manager, Opportunity, Record Types, New, with that sales process. Path: Setup, User Interface, Path Settings, New.
+  - Done when: the pipeline Mandate acquisition exists with 8 stages in the order below.
+- [ ] **Stage 1: Target**
+  - Type: open. Probability: 5%.
+  - Entered when a senior hire or a likely leadership change is identified at a company, with a named sponsor.
+  - Stage value `Target`: closed false, won false, probability 5, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_target` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 1, ISBLANK(Next_step_date__c))`. Error message: Fill in Next step date before moving to Target.
+  - Done when: the stage Target is in position 1 and its rule is in place.
+- [ ] **Stage 2: Introduction**
+  - Type: open. Probability: 15%.
+  - Entered when a partner has met the sponsor and discussed a specific role.
+  - Stage value `Introduction`: closed false, won false, probability 15, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_introduction` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 2, OR(ISBLANK(Role_title__c), ISBLANK(Next_step_date__c)))`. Error message: Fill in Role title and Next step date before moving to Introduction.
+  - Done when: the stage Introduction is in position 2 and its rule is in place.
+- [ ] **Stage 3: Brief**
+  - Type: open. Probability: 30%.
+  - Entered when the client has shared a role brief and agreed to see a proposal.
+  - Stage value `Brief`: closed false, won false, probability 30, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_brief` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 3, OR(ISBLANK(Role_title__c), ISBLANK(Expected_total_compensation__c), ISBLANK(TEXT(Competing_firms__c))))`. Error message: Fill in Role title, Expected total compensation and Competing firms before moving to Brief.
+  - Done when: the stage Brief is in position 3 and its rule is in place.
+- [ ] **Stage 4: Proposal sent**
+  - Type: open. Probability: 50%.
+  - Entered when a written proposal with approach, timetable and fee has been sent to the sponsor.
+  - Stage value `Proposal sent`: closed false, won false, probability 50, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_proposal_sent` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 4, OR(ISBLANK(Fee_percent__c), ISBLANK(TEXT(Fee_structure__c)), ISBLANK(Amount)))`. Error message: Fill in Fee percent, Fee structure and Amount before moving to Proposal sent.
+  - Done when: the stage Proposal sent is in position 4 and its rule is in place.
+- [ ] **Stage 5: Pitch or finalist**
+  - Type: open. Probability: 65%.
+  - Entered when the client has invited us to present to a wider group or named us a finalist.
+  - Stage value `Pitch or finalist`: closed false, won false, probability 65, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_pitch_or_617cd9` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 5, OR(ISBLANK(TEXT(Competing_firms__c)), ISBLANK(CloseDate)))`. Error message: Fill in Competing firms and Close date before moving to Pitch or finalist.
+  - Done when: the stage Pitch or finalist is in position 5 and its rule is in place.
+- [ ] **Stage 6: Terms agreed**
+  - Type: open. Probability: 85%.
+  - Entered when the client has verbally chosen us and fee, structure and exclusivity are agreed.
+  - Stage value `Terms agreed`: closed false, won false, probability 85, forecast category Pipeline. Validation rule `Gate_mandate_acquisition_terms_agreed` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 6, OR(ISBLANK(Fee_percent__c), ISBLANK(TEXT(Fee_structure__c)), NOT(Exclusivity_confirmed__c), ISBLANK(CloseDate)))`. Error message: Fill in Fee percent, Fee structure, Exclusivity confirmed and Close date before moving to Terms agreed.
+  - Done when: the stage Terms agreed is in position 6 and its rule is in place.
+- [ ] **Stage 7: Mandate won**
+  - Type: won. Probability: 100%.
+  - Entered when the signed search agreement is received and the search record is created.
+  - Stage value `Mandate won`: closed true, won true, probability 100, forecast category Closed. Validation rule `Gate_mandate_acquisition_mandate_won` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", CASE(StageName, "Target", 1, "Introduction", 2, "Brief", 3, "Proposal sent", 4, "Pitch or finalist", 5, "Terms agreed", 6, "Mandate won", 7, 0) >= 7, OR(ISBLANK(Amount), ISBLANK(CloseDate), ISBLANK(TEXT(Fee_structure__c))))`. Error message: Fill in Amount, Close date and Fee structure before moving to Mandate won.
+  - Done when: the stage Mandate won is in position 7 and its rule is in place.
+- [ ] **Stage 8: Mandate lost**
+  - Type: lost. Probability: 0%.
+  - Entered when the client chooses another route or firm, or cancels the role, or has not replied after three follow-ups over 30 days.
+  - Stage value `Mandate lost`: closed true, won false, probability 0, forecast category Omitted. Validation rule `Lost_mandate_acquisition_mandate_lost` (Setup, Object Manager, Opportunity, Validation Rules, New). Formula: `AND(RecordType.DeveloperName = "Mandate_acquisition", ISPICKVAL(StageName, "Mandate lost"), ISBLANK(TEXT(Lost_reason__c)))`. Error message: Fill in Lost reason before closing this as Mandate lost.
+  - Done when: the stage Mandate lost is in position 8 and its rule is in place.
+- [ ] **Create pipeline Search delivery on search**
+  - Where: Create the restricted picklist field `Stage__c` on Search: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Search delivery exists with 8 stages in the order below.
+- [ ] **Stage 1: Position specification**
+  - Type: open. Probability: 100%.
+  - Entered when the search record is created from a won mandate and a partner and consultant are named.
+  - Validation rule `Gate_search_delivery_position_spec` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 1, OR(ISBLANK(Partner__c), ISBLANK(Consultant__c)))`. Error message: Fill in Partner and Consultant before moving to Position specification.
+  - Done when: the stage Position specification is in position 1 and its rule is in place.
+- [ ] **Stage 2: Market mapping**
+  - Type: open. Probability: 100%.
+  - Entered when the client has signed off the position specification and target company list.
+  - Validation rule `Gate_search_delivery_market_mapping` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 2, OR(ISBLANK(Engaged_date__c), ISBLANK(Target_shortlist_date__c)))`. Error message: Fill in Engaged date and Target shortlist date before moving to Market mapping.
+  - Done when: the stage Market mapping is in position 2 and its rule is in place.
+- [ ] **Stage 3: Longlist**
+  - Type: open. Probability: 100%.
+  - Entered when a longlist of people to approach has been agreed with the client.
+  - Validation rule `Gate_search_delivery_longlist` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 3, ISBLANK(Longlist_size__c))`. Error message: Fill in Longlist size before moving to Longlist.
+  - Done when: the stage Longlist is in position 3 and its rule is in place.
+- [ ] **Stage 4: Shortlist**
+  - Type: open. Probability: 100%.
+  - Entered when a shortlist of assessed candidates has been presented to the client.
+  - Validation rule `Gate_search_delivery_shortlist` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 4, ISBLANK(Target_placement_date__c))`. Error message: Fill in Target placement date before moving to Shortlist.
+  - Done when: the stage Shortlist is in position 4 and its rule is in place.
+- [ ] **Stage 5: Client interviews**
+  - Type: open. Probability: 100%.
+  - Entered when the client has interviewed at least one shortlisted candidate.
+  - Validation rule `Gate_search_delivery_client_interviews` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 5, ISBLANK(Target_placement_date__c))`. Error message: Fill in Target placement date before moving to Client interviews.
+  - Done when: the stage Client interviews is in position 5 and its rule is in place.
+- [ ] **Stage 6: Offer and references**
+  - Type: open. Probability: 100%.
+  - Entered when the client has chosen a preferred candidate and offer and reference work has begun.
+  - Validation rule `Gate_search_delivery_offer_and_re_90f60c` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 6, ISBLANK(Total_fee__c))`. Error message: Fill in Total fee before moving to Offer and references.
+  - Done when: the stage Offer and references is in position 6 and its rule is in place.
+- [ ] **Stage 7: Placed**
+  - Type: won. Probability: 100%.
+  - Entered when a candidate has signed the offer and a start date is agreed.
+  - Validation rule `Gate_search_delivery_placed` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Position specification", 1, "Market mapping", 2, "Longlist", 3, "Shortlist", 4, "Client interviews", 5, "Offer and references", 6, "Placed", 7, 0) >= 7, ISBLANK(Total_fee__c))`. Error message: Fill in Total fee before moving to Placed.
+  - Done when: the stage Placed is in position 7 and its rule is in place.
+- [ ] **Stage 8: Closed without placement**
+  - Type: lost. Probability: 0%.
+  - Entered when the search ends without a placement, whether the client or the firm ends it.
+  - Validation rule `Lost_search_delivery_closed_witho_f1864a` (Setup, Object Manager, Search, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Closed without placement"), ISBLANK(TEXT(Close_reason__c)))`. Error message: Fill in Close reason before closing this as Closed without placement.
+  - Done when: the stage Closed without placement is in position 8 and its rule is in place.
+- [ ] **Create pipeline Candidate progress on search_candidate**
+  - Where: Create the restricted picklist field `Stage__c` on Search candidate: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Candidate progress exists with 9 stages in the order below.
+- [ ] **Stage 1: Identified**
+  - Type: open. Probability: 5%.
+  - Entered when a person is on the longlist for a search and has no contact restriction.
+  - Validation rule `Gate_candidate_progress_identified` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 1, ISBLANK(TEXT(Source__c)))`. Error message: Fill in Source before moving to Identified.
+  - Done when: the stage Identified is in position 1 and its rule is in place.
+- [ ] **Stage 2: Approached**
+  - Type: open. Probability: 15%.
+  - Entered when the first confidential approach has been made.
+  - Validation rule `Gate_candidate_progress_approached` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 2, ISBLANK(Outreach_date__c))`. Error message: Fill in Outreach date before moving to Approached.
+  - Done when: the stage Approached is in position 2 and its rule is in place.
+- [ ] **Stage 3: Engaged**
+  - Type: open. Probability: 30%.
+  - Entered when the person has replied and agreed to talk about the role.
+  - Validation rule `Gate_candidate_progress_engaged` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 3, ISBLANK(TEXT(Motivation__c)))`. Error message: Fill in Motivation before moving to Engaged.
+  - Done when: the stage Engaged is in position 3 and its rule is in place.
+- [ ] **Stage 4: Assessed**
+  - Type: open. Probability: 45%.
+  - Entered when we have completed a full interview and rated the person.
+  - Validation rule `Gate_candidate_progress_assessed` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 4, OR(ISBLANK(Interview_date__c), ISBLANK(TEXT(Assessment_rating__c))))`. Error message: Fill in Interview date and Assessment rating before moving to Assessed.
+  - Done when: the stage Assessed is in position 4 and its rule is in place.
+- [ ] **Stage 5: Shortlisted**
+  - Type: open. Probability: 60%.
+  - Entered when the candidate's profile has been presented to the client with their agreement.
+  - Validation rule `Gate_candidate_progress_shortlisted` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 5, OR(ISBLANK(TEXT(Assessment_rating__c)), ISBLANK(TEXT(Client_feedback__c))))`. Error message: Fill in Assessment rating and Client feedback before moving to Shortlisted.
+  - Done when: the stage Shortlisted is in position 5 and its rule is in place.
+- [ ] **Stage 6: Client interview**
+  - Type: open. Probability: 75%.
+  - Entered when the client has scheduled an interview with the candidate.
+  - Validation rule `Gate_candidate_progress_client_interview` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 6, ISBLANK(Client_interview_date__c))`. Error message: Fill in Client interview date before moving to Client interview.
+  - Done when: the stage Client interview is in position 6 and its rule is in place.
+- [ ] **Stage 7: Offer**
+  - Type: open. Probability: 90%.
+  - Entered when the client has said they want to make an offer to the candidate.
+  - Validation rule `Gate_candidate_progress_offer` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 7, ISBLANK(Offered_compensation__c))`. Error message: Fill in Offered compensation before moving to Offer.
+  - Done when: the stage Offer is in position 7 and its rule is in place.
+- [ ] **Stage 8: Placed**
+  - Type: won. Probability: 100%.
+  - Entered when the candidate has accepted the offer in writing and a start date is agreed.
+  - Validation rule `Gate_candidate_progress_placed` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Identified", 1, "Approached", 2, "Engaged", 3, "Assessed", 4, "Shortlisted", 5, "Client interview", 6, "Offer", 7, "Placed", 8, 0) >= 8, OR(ISBLANK(Offered_compensation__c), ISBLANK(Start_date__c), NOT(References_complete__c)))`. Error message: Fill in Offered compensation, Start date and References complete before moving to Placed.
+  - Done when: the stage Placed is in position 8 and its rule is in place.
+- [ ] **Stage 9: Out**
+  - Type: lost. Probability: 0%.
+  - Entered when the candidate withdraws or is declined at any step.
+  - Validation rule `Lost_candidate_progress_out` (Setup, Object Manager, Search candidate, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Out"), ISBLANK(TEXT(Out_reason__c)))`. Error message: Fill in Out reason before closing this as Out.
+  - Done when: the stage Out is in position 9 and its rule is in place.
+- [ ] **Create pipeline Fee collection on fee_instalment**
+  - Where: Create the restricted picklist field `Stage__c` on Fee instalment: Setup, Object Manager, the object, Fields & Relationships, New.
+  - Done when: the pipeline Fee collection exists with 5 stages in the order below.
+- [ ] **Stage 1: Scheduled**
+  - Type: open. Probability: 80%.
+  - Entered when the instalment is created from the signed fee schedule.
+  - Validation rule `Gate_fee_collection_scheduled` (Setup, Object Manager, Fee instalment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) >= 1, OR(ISBLANK(Amount__c), ISBLANK(TEXT(Trigger__c))))`. Error message: Fill in Amount and Trigger before moving to Scheduled.
+  - Done when: the stage Scheduled is in position 1 and its rule is in place.
+- [ ] **Stage 2: Due**
+  - Type: open. Probability: 90%.
+  - Entered when the trigger event has happened or the set date has arrived.
+  - Validation rule `Gate_fee_collection_due` (Setup, Object Manager, Fee instalment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) >= 2, ISBLANK(Due_date__c))`. Error message: Fill in Due date before moving to Due.
+  - Done when: the stage Due is in position 2 and its rule is in place.
+- [ ] **Stage 3: Invoiced**
+  - Type: open. Probability: 95%.
+  - Entered when the invoice has been issued and its reference recorded.
+  - Validation rule `Gate_fee_collection_invoiced` (Setup, Object Manager, Fee instalment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) >= 3, ISBLANK(Invoice_reference__c))`. Error message: Fill in Invoice reference before moving to Invoiced.
+  - Done when: the stage Invoiced is in position 3 and its rule is in place.
+- [ ] **Stage 4: Paid**
+  - Type: won. Probability: 100%.
+  - Entered when payment has been received in the bank.
+  - Validation rule `Gate_fee_collection_paid` (Setup, Object Manager, Fee instalment, Validation Rules, New). Formula: `AND(CASE(Stage__c, "Scheduled", 1, "Due", 2, "Invoiced", 3, "Paid", 4, 0) >= 4, ISBLANK(Invoice_reference__c))`. Error message: Fill in Invoice reference before moving to Paid.
+  - Done when: the stage Paid is in position 4 and its rule is in place.
+- [ ] **Stage 5: Waived**
+  - Type: lost. Probability: 0%.
+  - Entered when the instalment is cancelled or waived by agreement.
+  - Validation rule `Lost_fee_collection_waived` (Setup, Object Manager, Fee instalment, Validation Rules, New). Formula: `AND(ISPICKVAL(Stage__c, "Waived"), ISBLANK(TEXT(Waiver_reason__c)))`. Error message: Fill in Waiver reason before closing this as Waived.
+  - Done when: the stage Waived is in position 5 and its rule is in place.
+
+## 4. Fields
+
+### Company
+
+- [ ] **Create field Domain (text)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Text (255), API name `Domain__c`.
+  - Purpose: Primary web domain without the scheme, for example example.com. Used to find duplicates.
+  - Done when: Company records show Domain and it accepts the right values.
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The company's LinkedIn page.
+  - Done when: Company records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Client status (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Client_status__c`.
+  - Purpose: Where the company is in its life with us. Drives which views and automations apply.
+  - Options: Prospect, Active client, Past client, Off-limits
+  - Done when: Company records show Client status and it accepts the right values.
+- [ ] **Create field Off-limits until (date)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Date, API name `Off_limits_until__c`.
+  - Purpose: If the company is off-limits for candidate approaches because of a client agreement, the date that ends the restriction.
+  - Done when: Company records show Off-limits until and it accepts the right values.
+- [ ] **Create field Sector (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Sector__c`.
+  - Purpose: The company's sector. Used to match partners and to map the market for searches.
+  - Options: Financial services, Technology, Consumer and retail, Industrial, Healthcare and life sciences, Private equity portfolio, Public and not-for-profit, Other
+  - Done when: Company records show Sector and it accepts the right values.
+- [ ] **Create field Lead source (select)**
+  - Where: Setup, Object Manager, Account, Fields & Relationships, New. Data type Picklist, API name `Lead_source__c`.
+  - Purpose: How the company first came to us. Set once, never overwritten.
+  - Options: Referral, Repeat client, Investor introduction, Inbound, Outbound
+  - Done when: Company records show Lead source and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Company records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Company records.
+- [ ] **Confirm standard field Employee count (`NumberOfEmployees`) exists**
+  - Done when: Employee count is visible on Company records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Company records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Company records.
+
+### Person
+
+- [ ] **Create field LinkedIn URL (url)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type URL, API name `Linkedin_url__c`.
+  - Purpose: The person's LinkedIn profile.
+  - Done when: Person records show LinkedIn URL and it accepts the right values.
+- [ ] **Create field Person type (multi_select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist (Multi-Select), API name `Person_type__c`.
+  - Purpose: What this person is to us. One human has one record, so a candidate who later becomes a client carries both types.
+  - Options: Client contact, Candidate, Source or market expert, Referee, Investor or board member, Other
+  - Done when: Person records show Person type and it accepts the right values.
+- [ ] **Create field Seniority (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Seniority__c`.
+  - Purpose: For candidates and contacts, their level. Used to map the market and brief the right partner.
+  - Options: Board or chair, C-suite, VP or director, Head of function, Other
+  - Done when: Person records show Seniority and it accepts the right values.
+- [ ] **Create field Function (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Function__c`.
+  - Purpose: For candidates, their function. Used to find people for searches.
+  - Options: General management, Finance, Technology, Operations, Commercial, People, Legal, Other
+  - Done when: Person records show Function and it accepts the right values.
+- [ ] **Create field Contact restriction (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Contact_restriction__c`.
+  - Purpose: Whether we may approach this person. Set before any outreach and honoured across all searches.
+  - Options: None, Do not contact, Off-limits because of a client, Waiting for consent
+  - Done when: Person records show Contact restriction and it accepts the right values.
+- [ ] **Create field Privacy basis (select)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Picklist, API name `Privacy_basis__c`.
+  - Purpose: The lawful basis for holding and contacting this person, recorded when they are added.
+  - Options: Consent, Legitimate interest, Contract, Unknown
+  - Done when: Person records show Privacy basis and it accepts the right values.
+- [ ] **Create field Current total compensation (currency)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Currency (18, 2), API name `Current_total_compensation__c`.
+  - Purpose: Candidate's current annual total pay as they told us. Sensitive personal data. Visible to the search team only.
+  - Done when: Person records show Current total compensation and it accepts the right values.
+- [ ] **Create field Data review date (date)**
+  - Where: Setup, Object Manager, Contact, Fields & Relationships, New. Data type Date, API name `Data_review_date__c`.
+  - Purpose: The date this record must be reviewed or deleted under the firm's retention policy.
+  - Done when: Person records show Data review date and it accepts the right values.
+- [ ] **Confirm standard field First name (`FirstName`) exists**
+  - Done when: First name is visible on Person records.
+- [ ] **Confirm standard field Last name (`LastName`) exists**
+  - Done when: Last name is visible on Person records.
+- [ ] **Confirm standard field Email (`Email`) exists**
+  - Done when: Email is visible on Person records.
+- [ ] **Confirm standard field Phone (`Phone`) exists**
+  - Done when: Phone is visible on Person records.
+- [ ] **Confirm standard field Job title (`Title`) exists**
+  - Done when: Job title is visible on Person records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Person records.
+
+### Deal
+
+- [ ] **Create field Lost reason (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Lost_reason__c`.
+  - Purpose: Why the mandate deal was lost. Required on every lost stage.
+  - Options: Chose another firm, Went contingent, Hired internally, Role cancelled, Fee terms, Conflict or off-limits, No decision made, Other
+  - Done when: Deal records show Lost reason and it accepts the right values.
+- [ ] **Create field Next step date (date)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Date, API name `Next_step_date__c`.
+  - Purpose: When the next step is due. Deals with no future date are stalled.
+  - Done when: Deal records show Next step date and it accepts the right values.
+- [ ] **Create field Role title (text)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Text (255), API name `Role_title__c`.
+  - Purpose: The senior role the client wants to fill, as they describe it.
+  - Done when: Deal records show Role title and it accepts the right values.
+- [ ] **Create field Expected total compensation (currency)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Currency (18, 2), API name `Expected_total_compensation__c`.
+  - Purpose: The role's expected first-year total pay. The fee is calculated from it.
+  - Done when: Deal records show Expected total compensation and it accepts the right values.
+- [ ] **Create field Fee percent (percent)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Percent (5, 2), API name `Fee_percent__c`.
+  - Purpose: Retained fee as a percentage of first-year total compensation.
+  - Done when: Deal records show Fee percent and it accepts the right values.
+- [ ] **Create field Fee structure (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Fee_structure__c`.
+  - Purpose: How the retained fee is split into instalments. Agreed in the proposal.
+  - Options: Thirds on engagement, shortlist and placement, Thirds on a monthly schedule, Half on engagement, half on placement, Fixed fee, Other
+  - Done when: Deal records show Fee structure and it accepts the right values.
+- [ ] **Create field Confidential search (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Confidential_search__c`.
+  - Purpose: The incumbent does not know the role is open. Restricts who sees the deal and how it is named.
+  - Done when: Deal records show Confidential search and it accepts the right values.
+- [ ] **Create field Competing firms (select)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Picklist, API name `Competing_firms__c`.
+  - Purpose: Whether other firms are pitching for the mandate.
+  - Options: Sole pitch, Two or three firms, Panel or formal tender, Unknown
+  - Done when: Deal records show Competing firms and it accepts the right values.
+- [ ] **Create field Exclusivity confirmed (checkbox)**
+  - Where: Setup, Object Manager, Opportunity, Fields & Relationships, New. Data type Checkbox, API name `Exclusivity_confirmed__c`.
+  - Purpose: The client has confirmed we are the only firm retained for the role.
+  - Done when: Deal records show Exclusivity confirmed and it accepts the right values.
+- [ ] **Confirm standard field Name (`Name`) exists**
+  - Done when: Name is visible on Deal records.
+- [ ] **Confirm standard field Amount (`Amount`) exists**
+  - Done when: Amount is visible on Deal records.
+- [ ] **Confirm standard field Close date (`CloseDate`) exists**
+  - Done when: Close date is visible on Deal records.
+- [ ] **Confirm standard field Owner (`OwnerId`) exists**
+  - Done when: Owner is visible on Deal records.
+- [ ] **Confirm standard field Description (`Description`) exists**
+  - Done when: Description is visible on Deal records.
+- [ ] **Confirm standard field Next step (`NextStep`) exists**
+  - Done when: Next step is visible on Deal records.
+
+### Search
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: A neutral code name, not the incumbent's name or the real title for confidential searches.
+  - Done when: Search records show Name and it accepts the right values.
+- [ ] **Create field Role title (text)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Text (255), API name `Role_title__c`.
+  - Purpose: The senior role being filled. Kept off confidential searches' visible names.
+  - Done when: Search records show Role title and it accepts the right values.
+- [ ] **Create field Function (select)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Picklist, API name `Function__c`.
+  - Purpose: The function of the role. Used to report by practice.
+  - Options: General management, Finance, Technology, Operations, Commercial, People, Legal, Other
+  - Done when: Search records show Function and it accepts the right values.
+- [ ] **Create field Seniority (select)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Picklist, API name `Seniority__c`.
+  - Purpose: The level of the role. Used to report by level.
+  - Options: Board or chair, C-suite, VP or director, Head of function, Other
+  - Done when: Search records show Seniority and it accepts the right values.
+- [ ] **Create field Confidential (checkbox)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Checkbox, API name `Confidential__c`.
+  - Purpose: The incumbent or market must not know. Restricts record access and sets approach rules.
+  - Done when: Search records show Confidential and it accepts the right values.
+- [ ] **Create field Expected total compensation (currency)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Currency (18, 2), API name `Expected_total_compensation__c`.
+  - Purpose: The role's expected first-year total pay, from the signed mandate.
+  - Done when: Search records show Expected total compensation and it accepts the right values.
+- [ ] **Create field Total fee (currency)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Currency (18, 2), API name `Total_fee__c`.
+  - Purpose: Total retained fee agreed in the mandate, excluding expenses.
+  - Done when: Search records show Total fee and it accepts the right values.
+- [ ] **Create field Engaged date (date)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Date, API name `Engaged_date__c`.
+  - Purpose: The date the mandate was signed. The timetable runs from here.
+  - Done when: Search records show Engaged date and it accepts the right values.
+- [ ] **Create field Target shortlist date (date)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Date, API name `Target_shortlist_date__c`.
+  - Purpose: The date the mandate promises a shortlist to the client.
+  - Done when: Search records show Target shortlist date and it accepts the right values.
+- [ ] **Create field Target placement date (date)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Date, API name `Target_placement_date__c`.
+  - Purpose: The date the client wants the new executive to start.
+  - Done when: Search records show Target placement date and it accepts the right values.
+- [ ] **Create field Longlist size (number)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Number (18, 0), API name `Longlist_size__c`.
+  - Purpose: Number of people agreed on the longlist. Used to see how much mapping each search needs.
+  - Done when: Search records show Longlist size and it accepts the right values.
+- [ ] **Create field Partner (user)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Partner__c`.
+  - Purpose: The partner accountable for the search and the client relationship.
+  - Done when: Search records show Partner and it accepts the right values.
+- [ ] **Create field Consultant (user)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Lookup Relationship to User, API name `Consultant__c`.
+  - Purpose: The consultant who runs the search day to day.
+  - Done when: Search records show Consultant and it accepts the right values.
+- [ ] **Create field Close reason (select)**
+  - Where: Setup, Object Manager, Search, Fields & Relationships, New. Data type Picklist, API name `Close_reason__c`.
+  - Purpose: Why the search ended without a placement. Required on the closed stage.
+  - Options: Client filled internally, Role cancelled, Client paused indefinitely, We withdrew, Candidate pool exhausted, Other
+  - Done when: Search records show Close reason and it accepts the right values.
+
+### Search candidate
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Candidate name and search code name.
+  - Done when: Search candidate records show Name and it accepts the right values.
+- [ ] **Create field Source (select)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Picklist, API name `Source__c`.
+  - Purpose: How the candidate came to this search. Used to see which channels produce shortlisted people.
+  - Options: Market mapping, Network referral, Inbound application, Client suggestion, Our database
+  - Done when: Search candidate records show Source and it accepts the right values.
+- [ ] **Create field Assessment rating (select)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Picklist, API name `Assessment_rating__c`.
+  - Purpose: The consultant's rating after the first full interview. Decides whether the candidate reaches the shortlist.
+  - Options: Strong, Good, Marginal, Not suitable
+  - Done when: Search candidate records show Assessment rating and it accepts the right values.
+- [ ] **Create field Motivation (select)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Picklist, API name `Motivation__c`.
+  - Purpose: How open the candidate is to moving. Used to prioritise outreach.
+  - Options: Actively looking, Open to move, Would consider for the right role, Not interested
+  - Done when: Search candidate records show Motivation and it accepts the right values.
+- [ ] **Create field Client feedback (select)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Picklist, API name `Client_feedback__c`.
+  - Purpose: The client's decision after seeing the candidate's profile or meeting them.
+  - Options: Pending, Want to meet, Not proceeding, Offer wanted
+  - Done when: Search candidate records show Client feedback and it accepts the right values.
+- [ ] **Create field Outreach date (date)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Date, API name `Outreach_date__c`.
+  - Purpose: The date of the first approach to the candidate.
+  - Done when: Search candidate records show Outreach date and it accepts the right values.
+- [ ] **Create field Interview date (date)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Date, API name `Interview_date__c`.
+  - Purpose: The date of our full interview with the candidate.
+  - Done when: Search candidate records show Interview date and it accepts the right values.
+- [ ] **Create field Client interview date (date)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Date, API name `Client_interview_date__c`.
+  - Purpose: The date of the next or latest interview with the client.
+  - Done when: Search candidate records show Client interview date and it accepts the right values.
+- [ ] **Create field Offered compensation (currency)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Currency (18, 2), API name `Offered_compensation__c`.
+  - Purpose: First-year total pay in the offer. Confirms the fee basis.
+  - Done when: Search candidate records show Offered compensation and it accepts the right values.
+- [ ] **Create field Start date (date)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Date, API name `Start_date__c`.
+  - Purpose: The day the candidate starts. Triggers the final fee instalment where the fee is tied to placement.
+  - Done when: Search candidate records show Start date and it accepts the right values.
+- [ ] **Create field References complete (checkbox)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Checkbox, API name `References_complete__c`.
+  - Purpose: Referee checks are done and held in the document system. Record completion only.
+  - Done when: Search candidate records show References complete and it accepts the right values.
+- [ ] **Create field Out reason (select)**
+  - Where: Setup, Object Manager, Search candidate, Fields & Relationships, New. Data type Picklist, API name `Out_reason__c`.
+  - Purpose: Why the candidate left the search. Required on the out stage.
+  - Options: Declined approach, Not suitable on assessment, Client did not proceed, Withdrew, Accepted another role, Offer declined, Off-limits, Other
+  - Done when: Search candidate records show Out reason and it accepts the right values.
+
+### Fee instalment
+
+- [ ] **Create field Name (text, required)**
+  - Where: The standard Name field of the object, set when the object is created.
+  - Purpose: Search code name and instalment number, for example Project code 1 of 3.
+  - Done when: Fee instalment records show Name and it accepts the right values.
+- [ ] **Create field Instalment number (number)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Number (18, 0), API name `Instalment_number__c`.
+  - Purpose: Position of this instalment in the fee schedule, starting at 1.
+  - Done when: Fee instalment records show Instalment number and it accepts the right values.
+- [ ] **Create field Trigger (select)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Picklist, API name `Trigger__c`.
+  - Purpose: The event or date that makes this instalment due.
+  - Options: On engagement, On shortlist presented, On placement, On a set date
+  - Done when: Fee instalment records show Trigger and it accepts the right values.
+- [ ] **Create field Amount (currency)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Currency (18, 2), API name `Amount__c`.
+  - Purpose: The instalment amount before tax and expenses.
+  - Done when: Fee instalment records show Amount and it accepts the right values.
+- [ ] **Create field Due date (date)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Date, API name `Due_date__c`.
+  - Purpose: The date the instalment may be invoiced. Empty until the trigger happens.
+  - Done when: Fee instalment records show Due date and it accepts the right values.
+- [ ] **Create field Invoice reference (text)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Text (255), API name `Invoice_reference__c`.
+  - Purpose: The invoice number in the finance system. Matches CRM to the ledger.
+  - Done when: Fee instalment records show Invoice reference and it accepts the right values.
+- [ ] **Create field Waiver reason (select)**
+  - Where: Setup, Object Manager, Fee instalment, Fields & Relationships, New. Data type Picklist, API name `Waiver_reason__c`.
+  - Purpose: Why the instalment was cancelled or waived. Required on the waived stage.
+  - Options: Search cancelled early, Commercial concession, Replaced by credit, Raised in error
+  - Done when: Fee instalment records show Waiver reason and it accepts the right values.
+
+## 5. Automations
+
+- [ ] **Create search on mandate won**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal in the mandate acquisition pipeline moves to mandate won.
+  - Action: Create a search from the deal's role title, compensation and fee terms, link it to the deal and company, set it to position specification, and set the company's client status to active client.
+  - Done when: the automation runs on a test record and the result matches: Create a search from the deal's role title, compensation and fee terms, link it to the deal and company, set it to position specification, and set the company's client status to active client.
+- [ ] **Create fee schedule**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A search is created with a total fee and a fee structure on its deal.
+  - Action: Create the fee instalments in the fee collection pipeline at scheduled, with trigger and amount from the fee structure.
+  - Done when: the automation runs on a test record and the result matches: Create the fee instalments in the fee collection pipeline at scheduled, with trigger and amount from the fee structure.
+- [ ] **Make instalments due**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A search reaches the shortlist stage or placed, or an instalment's set date arrives.
+  - Action: Move the matching instalment to due, set its due date and notify finance.
+  - Done when: the automation runs on a test record and the result matches: Move the matching instalment to due, set its due date and notify finance.
+- [ ] **Set off-limits on signing**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A deal moves to mandate won.
+  - Action: Set the company's off-limits until date from the agreement and flag its people as off-limits for approaches.
+  - Done when: the automation runs on a test record and the result matches: Set the company's off-limits until date from the agreement and flag its people as off-limits for approaches.
+- [ ] **Shortlist timetable alert**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A search is not yet at shortlist and its target shortlist date is 7 days away.
+  - Action: Notify the partner and consultant with the number of assessed candidates.
+  - Done when: the automation runs on a test record and the result matches: Notify the partner and consultant with the number of assessed candidates.
+- [ ] **Close other candidates**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A search candidate moves to placed.
+  - Action: Move every other open search candidate on the search to out with a reason of client did not proceed, set the search to placed, and prompt the consultant to send candidate courtesy notes.
+  - Done when: the automation runs on a test record and the result matches: Move every other open search candidate on the search to out with a reason of client did not proceed, set the search to placed, and prompt the consultant to send candidate courtesy notes.
+- [ ] **Review candidate data**
+  - Where: Setup, Process Automation, Flows, New Flow, Record-Triggered Flow.
+  - Trigger: A person of type candidate has a data review date in 30 days.
+  - Action: Notify the owner to confirm consent or delete the record.
+  - Done when: the automation runs on a test record and the result matches: Notify the owner to confirm consent or delete the record.
+
+## 6. Views
+
+- [ ] **Active searches**
+  - Where: Generated as list view `Active_searches`. Open Searches, choose the view, then set the sort (Target shortlist date, soonest first.) from the list controls and save.
+  - Object: search
+  - Filter: Stage is open.
+  - Sort: Target shortlist date, soonest first.
+  - Done when: the view Active searches is saved and shows the expected records.
+- [ ] **Longlist**
+  - Where: Open Search candidates, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: search_candidate
+  - Filter: Search is the chosen search and stage is identified, approached or engaged.
+  - Sort: Motivation, strongest first.
+  - Done when: the view Longlist is saved and shows the expected records.
+- [ ] **Shortlist**
+  - Where: Open Search candidates, then List View Controls, then New. Set the filter and sort by hand and save.
+  - Object: search_candidate
+  - Filter: Search is the chosen search and stage is shortlisted, client interview or offer.
+  - Sort: Assessment rating, strongest first.
+  - Done when: the view Shortlist is saved and shows the expected records.
+- [ ] **Instalments to invoice**
+  - Where: Generated as list view `Instalments_to_invoice`. Open Fee instalments, choose the view, then set the sort (Due date, oldest first.) from the list controls and save.
+  - Object: fee_instalment
+  - Filter: Stage is due.
+  - Sort: Due date, oldest first.
+  - Done when: the view Instalments to invoice is saved and shows the expected records.
+- [ ] **Outstanding fees**
+  - Where: Generated as list view `Outstanding_fees`. Open Fee instalments, choose the view, then set the sort (Due date, oldest first.) from the list controls and save.
+  - Object: fee_instalment
+  - Filter: Stage is invoiced.
+  - Sort: Due date, oldest first.
+  - Done when: the view Outstanding fees is saved and shows the expected records.
+- [ ] **My open mandate deals**
+  - Where: Generated as list view `My_open_mandate_deals`. Open Deals, choose the view, then set the sort (Close date, soonest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Owner is me and stage is open.
+  - Sort: Close date, soonest first.
+  - Done when: the view My open mandate deals is saved and shows the expected records.
+- [ ] **Stalled deals**
+  - Where: Generated as list view `Stalled_deals`. Open Deals, choose the view, then set the sort (Next step date, oldest first.) from the list controls and save.
+  - Object: deal
+  - Filter: Stage is open and next step date is empty or in the past.
+  - Sort: Next step date, oldest first.
+  - Done when: the view Stalled deals is saved and shows the expected records.
+
+## 7. QA and go-live
+
+- [ ] **Create a test record of each custom object and move a test deal through every stage**
+  - Done when: each stage's required fields block entry when empty, and a lost deal needs a reason.
+- [ ] **Check the relationships from both sides**
+  - Done when: a linked record shows on both records with the right labels.
+- [ ] **Run every automation once on test data**
+  - Done when: each one fires once and does nothing else.
+- [ ] **Check permissions with a non-admin test user**
+  - Done when: the user can see and edit what their role needs and nothing more.
+- [ ] **Import a small sample and check for duplicates**
+  - Done when: one person has one record, matched by email, and companies are matched by domain.
+- [ ] **Manual step: Check the Salesforce edition**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Run a check-only deploy, then deploy**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Manual step: Confirm the deploying user's permissions**
+  - Done when: a person has done it and written down who and when.
+- [ ] **Delete test records and sign off**
+  - Done when: the client has approved the build and the sign-off tag is on the design in git.

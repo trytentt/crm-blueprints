@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fulfilment_overdue</fullName>
+    <columns>NAME</columns>
+    <columns>Assets_due_date__c</columns>
+    <columns>Assets_received__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assets_received__c</field>
+        <operation>equals</operation>
+        <value></value>
+    </filters>
+    <filters>
+        <field>Assets_due_date__c</field>
+        <operation>lessThan</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Assets overdue</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

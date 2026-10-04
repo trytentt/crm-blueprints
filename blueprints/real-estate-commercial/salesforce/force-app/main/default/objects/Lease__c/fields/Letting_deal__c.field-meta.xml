@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Letting_deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Links a lease to the deal that created it, for fee reporting.</description>
+    <externalId>false</externalId>
+    <label>Letting deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Leases</relationshipLabel>
+    <relationshipName>Leases</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

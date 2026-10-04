@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Terms_agreed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Opening minimum, payment terms and returns policy are agreed in writing.</description>
+    <label>Terms agreed</label>
+    <type>Checkbox</type>
+</CustomField>

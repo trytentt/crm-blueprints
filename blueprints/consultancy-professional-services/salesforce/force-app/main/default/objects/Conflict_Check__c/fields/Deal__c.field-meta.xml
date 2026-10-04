@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Links each check to the opportunity it was run for.</description>
+    <externalId>false</externalId>
+    <label>Deal</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Conflict checks</relationshipLabel>
+    <relationshipName>Conflict_checks</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

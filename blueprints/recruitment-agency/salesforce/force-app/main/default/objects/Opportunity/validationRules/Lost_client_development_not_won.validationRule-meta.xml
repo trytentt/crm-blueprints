@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_client_development_not_won</fullName>
+    <active>true</active>
+    <description>Lost reason: Client development, Not won needs Lost reason.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName = "Client_development", ISPICKVAL(StageName, "Not won"), ISBLANK(TEXT(Lost_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Lost_reason__c</errorDisplayField>
+    <errorMessage>Fill in Lost reason before closing this as Not won.</errorMessage>
+</ValidationRule>

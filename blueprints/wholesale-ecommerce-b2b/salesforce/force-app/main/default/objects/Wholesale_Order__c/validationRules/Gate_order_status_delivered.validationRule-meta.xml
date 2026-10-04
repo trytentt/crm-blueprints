@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gate_order_status_delivered</fullName>
+    <active>true</active>
+    <description>Stage gate: Order status, Delivered and paid and later stages need Payment status.</description>
+    <errorConditionFormula>AND(CASE(Stage__c, "Placed", 1, "Confirmed", 2, "Picking", 3, "Shipped", 4, "Delivered and paid", 5, 0) &gt;= 5, ISBLANK(TEXT(Payment_status__c)))</errorConditionFormula>
+    <errorDisplayField>Payment_status__c</errorDisplayField>
+    <errorMessage>Fill in Payment status before moving to Delivered and paid.</errorMessage>
+</ValidationRule>

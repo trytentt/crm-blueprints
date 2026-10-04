@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hq_country__c</fullName>
+    <description>Where the company is based. Used to check geography rules and report by region.</description>
+    <label>Country</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Home market</fullName>
+                <default>false</default>
+                <label>Home market</label>
+            </value>
+            <value>
+                <fullName>Rest of Europe</fullName>
+                <default>false</default>
+                <label>Rest of Europe</label>
+            </value>
+            <value>
+                <fullName>North America</fullName>
+                <default>false</default>
+                <label>North America</label>
+            </value>
+            <value>
+                <fullName>Rest of world</fullName>
+                <default>false</default>
+                <label>Rest of world</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

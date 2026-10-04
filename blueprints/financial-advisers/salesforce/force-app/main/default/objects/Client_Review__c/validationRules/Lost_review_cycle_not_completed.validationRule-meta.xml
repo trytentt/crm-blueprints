@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_review_cycle_not_completed</fullName>
+    <active>true</active>
+    <description>Lost reason: Review cycle, Not completed needs Missed reason.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Stage__c, "Not completed"), ISBLANK(TEXT(Missed_reason__c)))</errorConditionFormula>
+    <errorDisplayField>Missed_reason__c</errorDisplayField>
+    <errorMessage>Fill in Missed reason before closing this as Not completed.</errorMessage>
+</ValidationRule>

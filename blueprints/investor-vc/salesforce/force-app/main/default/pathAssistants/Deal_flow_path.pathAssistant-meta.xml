@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Deal flow path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Deal_source__c</fieldNames>
+        <info>Entered when a startup is logged with a source and a founder contact.</info>
+        <picklistValueName>Sourced</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Deal_lead__c</fieldNames>
+        <fieldNames>Round_type__c</fieldNames>
+        <info>Entered when a team member has read the materials and picked the deal up for review.</info>
+        <picklistValueName>Screening</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Thesis_fit_confirmed__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when a founder meeting is booked after the deal passes screening.</info>
+        <picklistValueName>First meeting</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Conviction__c</fieldNames>
+        <fieldNames>Round_size__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the first meeting has happened and the deal lead has more calls and data requests planned.</info>
+        <picklistValueName>Deep dive</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Our_role__c</fieldNames>
+        <fieldNames>Pre_money_valuation__c</fieldNames>
+        <fieldNames>Conviction__c</fieldNames>
+        <info>Entered when the deal lead has presented to the partners and they agreed to a term sheet or diligence.</info>
+        <picklistValueName>Partner meeting</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Term_sheet_status__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>Pre_money_valuation__c</fieldNames>
+        <info>Entered when a term sheet has been issued to the startup.</info>
+        <picklistValueName>Term sheet</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Term_sheet_status__c</fieldNames>
+        <fieldNames>Next_step_date__c</fieldNames>
+        <info>Entered when the term sheet is signed and legal, financial and reference checks are running.</info>
+        <picklistValueName>Due diligence</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Diligence_complete__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <info>Entered when diligence is finished and the investment memo has gone to the committee.</info>
+        <picklistValueName>Investment committee</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Ic_approved__c</fieldNames>
+        <fieldNames>Amount</fieldNames>
+        <fieldNames>CloseDate</fieldNames>
+        <info>Entered when the investment is approved, documents are signed and funds are sent.</info>
+        <picklistValueName>Invested</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Pass_reason__c</fieldNames>
+        <info>Entered when we decide not to invest or the startup closes its round without us.</info>
+        <picklistValueName>Passed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Deal_flow</recordTypeName>
+</PathAssistant>
