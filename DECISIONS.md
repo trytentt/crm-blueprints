@@ -154,7 +154,7 @@ existing generator still raises.
 - Financial advisers store sensitive values as bands or yes/no only; detail stays in external planning systems. Fields holding regulated data start their description with "DATA PROTECTION:".
 - Real estate: landlord and tenant are a multi-select role on Company, with separate landlord and tenant relationships on lease and property.
 - Placeholder select options (market areas, fund names) are generic and marked "edit at build".
-- Industry reasoning in blueprint READMEs is general knowledge, not cited research (David, 2026-10-04: "these are just CRM builds").
+- Industry reasoning in blueprint READMEs is general knowledge, not cited research (owner instruction, 2026-10-04: "these are just CRM builds").
 
 ## D-12. Blueprint batches one and three judgement calls (2026-10-04)
 
@@ -200,3 +200,18 @@ existing generator still raises.
 - **Apply.** Dry run makes no HTTP call at all. Skipped (already satisfied) changes are listed in `adapter.skipped`, not in `applied`, `failed` or `remaining`. 429 retries five times with 1 s doubling to 10 s, or `Retry-After`; a `DAILY` policy is not retried. Other statuses are never retried, because a POST may have landed. Property groups are created on demand inside `add_field` because the planner does not see groups. A custom object's extra required properties are set by one PATCH after the property exists. Reorder uses `PATCH .../stages/{id}` with `displayOrder`, which the research lists but does not show a body for.
 - **Gates.** The adapter holds `needs_review` unless `mode.allow_review`, refuses destructive changes, and does not prompt for production (D-14: the CLI owns the prompt).
 - **Fixtures.** `tests/fixtures/hubspot/` follows the research examples with invented values. The limits and account-info responses are assumed shapes and the README there says so. `tests/hubspot_stub.py` is a small stateful HubSpot used in place of the network.
+
+## D-16. A public toolkit for anyone (2026-10-04)
+
+The repository is for public use by any GTM engineer, RevOps consultant or agency, not one firm's internal
+toolkit. This overrides the brief's "internal toolkit" and "private" wording.
+
+- No real company, person, client or account data anywhere: blueprints, fixtures, examples and docs use
+  invented, generic names only.
+- No internal information: no names of the authors' own company or people, no local machine paths, no
+  private URLs, workspace ids, tokens or account numbers.
+- Docs speak to "you, the builder" and "your client", not to one agency's team.
+- A test (`tests/test_public_safe.py`) scans the repository for local paths, secret-shaped strings and email
+  addresses outside an allow-list, so this stays true.
+- The repository is created private on GitHub first (as the brief says) so it can be checked before being
+  made public; whether and when to make it public, and under which licence, is the owner's call.

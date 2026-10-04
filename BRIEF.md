@@ -1,4 +1,4 @@
-<!-- The build brief for this repository, as given by David on 2026-10-04 (verbatim below the line).
+<!-- The build brief for this repository, as first written on 2026-10-04 (verbatim below the line). Since then the repository has become a public toolkit for anyone: see DECISIONS.md D-16, which overrides "private" and "internal toolkit" below.
      Every phase is built against this file. Where the build deviates, the reason is in DECISIONS.md. -->
 
 # Prompt: build the `crm-blueprints` repository
