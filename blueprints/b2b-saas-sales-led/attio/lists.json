@@ -1,0 +1,294 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/lists/create-a-list.md",
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 3,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "New business",
+          "api_slug": "new_business",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the New business pipeline. Qualified: Entered when a discovery call is booked with a person who has a buying role. Discovery: Entered when the first discovery call has happened and the pain is written down. Solution fit: Entered when the buyer has seen a tailored demo and agreed the product fits the pain. Technical validation: Entered when a trial or technical review is agreed, with named evaluators and dates. Proposal: Entered when the economic buyer has confirmed budget and asked for pricing. Negotiation: Entered when the buyer has reviewed the proposal and is discussing terms. Contract out: Entered when final terms are agreed and the contract has been sent for signature. Closed won: Entered when the signed contract is received and the subscription record is created. Closed lost: Entered when the buyer says no, or has not replied after three follow-ups over 30 days.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the customer churned. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose a competitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Product gap"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Bad timing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Champion left"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Company acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists",
+      "body": {
+        "data": {
+          "name": "Renewals and expansion",
+          "api_slug": "renewals_expansion",
+          "parent_object": "deals",
+          "workspace_access": "full-access",
+          "workspace_member_access": []
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Stage",
+          "description": "Stage of the Renewals and expansion pipeline. Upcoming: Entered when the subscription is 90 days from its renewal date. Outreach: Entered when the success owner has contacted the champion about the renewal. Proposal sent: Entered when a renewal quote has been sent to the buyer. Negotiation: Entered when the buyer has asked for changes to price or terms. Awaiting signature: Entered when the final renewal contract has been sent for signature. Renewed: Entered when the signed renewal is received and the subscription dates are updated. Churned: Entered when the customer confirms they will not renew, or the term ends unsigned.",
+          "api_slug": "stage",
+          "type": "status",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Probability",
+          "description": "Win probability in percent (0 to 100) for the current stage. Attio does not enforce it: set it to match the stage.",
+          "api_slug": "probability",
+          "type": "number",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes",
+      "body": {
+        "data": {
+          "title": "Lost reason",
+          "description": "Why the deal was lost or the customer churned. Required on every lost stage.",
+          "api_slug": "lost_reason",
+          "type": "select",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {}
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No budget"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "No decision made"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Chose a competitor"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Product gap"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Price"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Bad timing"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Champion left"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Company acquired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/lost_reason/options",
+      "body": {
+        "data": {
+          "title": "Other"
+        }
+      }
+    }
+  ]
+}

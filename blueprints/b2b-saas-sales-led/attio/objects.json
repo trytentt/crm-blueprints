@@ -1,0 +1,31 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/objects/create-an-object.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 1,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "subscriptions",
+          "singular_noun": "Subscription",
+          "plural_noun": "Subscriptions"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects",
+      "body": {
+        "data": {
+          "api_slug": "onboardings",
+          "singular_noun": "Onboarding",
+          "plural_noun": "Onboardings"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/endpoint-reference/attributes/create-an-attribute.md",
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-record-reference.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 2,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/objects/subscriptions/attributes",
+      "body": {
+        "data": {
+          "title": "Company",
+          "description": "Shows every contract a customer has had.",
+          "api_slug": "company",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "companies"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "companies",
+            "title": "Subscriptions",
+            "api_slug": "subscriptions",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/deals/attributes",
+      "body": {
+        "data": {
+          "title": "Subscription",
+          "description": "Ties the deal that created a subscription, and every later renewal or expansion deal, to it.",
+          "api_slug": "subscription",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "subscriptions"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "subscriptions",
+            "title": "Deals",
+            "api_slug": "deals",
+            "is_multiselect": true
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/objects/onboardings/attributes",
+      "body": {
+        "data": {
+          "title": "Subscription",
+          "description": "Tracks the work of getting each subscription live.",
+          "api_slug": "subscription",
+          "type": "record-reference",
+          "is_required": false,
+          "is_unique": false,
+          "is_multiselect": false,
+          "config": {
+            "record_reference": {
+              "allowed_objects": [
+                "subscriptions"
+              ]
+            }
+          },
+          "relationship": {
+            "object": "subscriptions",
+            "title": "Onboardings",
+            "api_slug": "onboardings",
+            "is_multiselect": true
+          }
+        }
+      }
+    }
+  ]
+}

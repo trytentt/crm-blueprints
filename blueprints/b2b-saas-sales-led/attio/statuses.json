@@ -1,0 +1,169 @@
+{
+  "source": [
+    "https://docs.attio.com/rest-api/attribute-types/attribute-types-status.md",
+    "https://api.attio.com/openapi/api"
+  ],
+  "order": 4,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Qualified",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Discovery",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Solution fit",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Technical validation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Negotiation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Contract out",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed won",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/new_business/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Closed lost",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Upcoming",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Outreach",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Proposal sent",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Negotiation",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Awaiting signature",
+          "celebration_enabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Renewed",
+          "celebration_enabled": true
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/lists/renewals_expansion/attributes/stage/statuses",
+      "body": {
+        "data": {
+          "title": "Churned",
+          "celebration_enabled": false
+        }
+      }
+    }
+  ]
+}
