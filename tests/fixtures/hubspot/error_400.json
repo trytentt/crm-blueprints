@@ -1,0 +1,17 @@
+{
+  "status": "error",
+  "message": "Property values were not valid: [{\"isValid\":false,\"message\":\"discount was not a valid number\"}]",
+  "category": "VALIDATION_ERROR",
+  "correlationId": "a43683b0-5717-4ceb-80b4-104d02915d8c",
+  "errors": [
+    {
+      "message": "discount was not a valid number",
+      "code": "INVALID_INTEGER",
+      "context": {
+        "propertyName": [
+          "discount"
+        ]
+      }
+    }
+  ]
+}

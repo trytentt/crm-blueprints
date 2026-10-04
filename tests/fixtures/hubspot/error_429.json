@@ -1,0 +1,8 @@
+{
+  "status": "error",
+  "message": "You have reached your ten_secondly_rolling limit.",
+  "errorType": "RATE_LIMIT",
+  "correlationId": "a43683b0-5717-4ceb-80b4-104d02915d8c",
+  "policyName": "TEN_SECONDLY_ROLLING",
+  "requestId": "0000"
+}

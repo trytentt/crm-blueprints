@@ -1,0 +1,352 @@
+{
+  "companies": [
+    {
+      "name": "name",
+      "label": "Name",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "domain",
+      "label": "Company domain name",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "description",
+      "label": "Description",
+      "type": "string",
+      "fieldType": "textarea",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "numberofemployees",
+      "label": "Number of employees",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "linkedin_company_page",
+      "label": "LinkedIn company page",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "socialmediainformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "phone",
+      "label": "Phone number",
+      "type": "string",
+      "fieldType": "phonenumber",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "hubspot_owner_id",
+      "label": "Company owner",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      },
+      "externalOptions": true,
+      "referencedObjectType": "OWNER"
+    },
+    {
+      "name": "createdate",
+      "label": "Create date",
+      "type": "datetime",
+      "fieldType": "date",
+      "groupName": "companyinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "name": "firstname",
+      "label": "First name",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "lastname",
+      "label": "Last name",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "email",
+      "label": "Email",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "phone",
+      "label": "Phone number",
+      "type": "string",
+      "fieldType": "phonenumber",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "jobtitle",
+      "label": "Job title",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "hs_linkedin_url",
+      "label": "LinkedIn URL",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "hubspot_owner_id",
+      "label": "Contact owner",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "contactinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      },
+      "externalOptions": true,
+      "referencedObjectType": "OWNER"
+    }
+  ],
+  "deals": [
+    {
+      "name": "dealname",
+      "label": "Deal Name",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "amount",
+      "label": "Amount",
+      "type": "number",
+      "fieldType": "number",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "closedate",
+      "label": "Close Date",
+      "type": "date",
+      "fieldType": "date",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "hubspot_owner_id",
+      "label": "Deal owner",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      },
+      "externalOptions": true,
+      "referencedObjectType": "OWNER"
+    },
+    {
+      "name": "description",
+      "label": "Deal Description",
+      "type": "string",
+      "fieldType": "textarea",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "hs_next_step",
+      "label": "Next step",
+      "type": "string",
+      "fieldType": "text",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      }
+    },
+    {
+      "name": "dealstage",
+      "label": "Deal Stage",
+      "type": "enumeration",
+      "fieldType": "select",
+      "groupName": "dealinformation",
+      "description": "",
+      "hidden": false,
+      "hubspotDefined": true,
+      "modificationMetadata": {
+        "archivable": false,
+        "readOnlyDefinition": true,
+        "readOnlyValue": false
+      },
+      "options": [
+        {
+          "label": "Appointment scheduled",
+          "value": "appointmentscheduled",
+          "displayOrder": 0,
+          "hidden": false
+        }
+      ]
+    }
+  ]
+}

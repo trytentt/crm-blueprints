@@ -1,0 +1,35 @@
+{
+  "id": "default",
+  "label": "Sales Pipeline",
+  "displayOrder": 0,
+  "archived": false,
+  "stages": [
+    {
+      "id": "appointmentscheduled",
+      "label": "Appointment Scheduled",
+      "displayOrder": 0,
+      "metadata": {
+        "isClosed": "false",
+        "probability": "0.2"
+      }
+    },
+    {
+      "id": "closedwon",
+      "label": "Closed Won",
+      "displayOrder": 1,
+      "metadata": {
+        "isClosed": "true",
+        "probability": "1.0"
+      }
+    },
+    {
+      "id": "closedlost",
+      "label": "Closed Lost",
+      "displayOrder": 2,
+      "metadata": {
+        "isClosed": "true",
+        "probability": "0.0"
+      }
+    }
+  ]
+}
