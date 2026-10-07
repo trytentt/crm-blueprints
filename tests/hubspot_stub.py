@@ -37,12 +37,15 @@ class Resp:
 class FakeHubSpot:
     """Stateful stub. `enterprise=False` makes the custom-object limits call return 403."""
 
-    def __init__(self, *, enterprise: bool = True, max_objects: int = 10, portal: int = 12345678) -> None:
+    def __init__(self, *, enterprise: bool = True, max_objects: int = 10, portal: int = 12345678,
+                 account_type: str | None = "DEVELOPER_TEST", portal_name: str | None = None) -> None:
         self.calls: list[tuple[str, str]] = []
         self.bodies: list[tuple[str, str, Any]] = []
         self.enterprise = enterprise
         self.max_objects = max_objects
         self.portal = portal
+        self.account_type = account_type
+        self.portal_name = portal_name
         self.schemas: dict[str, dict[str, Any]] = {}  # objectTypeId -> schema
         native = fixture("native_properties.json")
         self.props: dict[str, dict[str, dict[str, Any]]] = {
@@ -94,7 +97,14 @@ class FakeHubSpot:
     def _route(self, method: str, path: str, body: Any) -> Resp:
         p = path.split("?")[0]
         if p == "/account-info/v3/details":
-            return Resp(200, {**fixture("account_info.json"), "portalId": self.portal})
+            info = {**fixture("account_info.json"), "portalId": self.portal}
+            if self.account_type is None:
+                info.pop("accountType")
+            else:
+                info["accountType"] = self.account_type
+            if self.portal_name is not None:
+                info["portalName"] = self.portal_name
+            return Resp(200, info)
         if p == f"/crm/limits/{V}/custom-object-types":
             if not self.enterprise:
                 return Resp(403, {"status": "error", "message": "feature not available", "category": "FORBIDDEN"})

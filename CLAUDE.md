@@ -26,9 +26,10 @@ for the end-to-end steps. Use British English and short sentences.
 9. **Credentials come only from `.env`** (git-ignored) or the environment. Never read a credential
    into the conversation, a file, a log, a commit or an error message. Never write one into
    `.env.example`. Use sandbox or test accounts for routine work.
-10. **Never delete or archive** objects, fields, options, stages or records, and never change a field's
-    type in place. The tools turn these into destructive manual steps. Hand the steps to the user
-    with the data-migration instructions; do not do them through the API yourself.
+10. **Nothing is ever deleted.** Removals of options and stages hide, archive or deactivate them (the data
+    is kept) and run only with `--allow-review`. Removals of objects, fields, relationships and pipelines,
+    and any change of a field's type, are manual steps. Hand the steps to the user with the data-migration
+    instructions; do not do them through the API yourself.
 11. **Do not touch raw client data.** `clients/*/raw/` and `clients/*/build/apply-log/` are git-ignored
     because they can hold personal data. Do not commit them or paste them into chat.
 12. **Do not use beta or preview APIs.** They are off by default.

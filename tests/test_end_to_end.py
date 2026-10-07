@@ -463,7 +463,8 @@ def test_production_gate(blueprint, platform, monkeypatch, tmp_path, clients, ca
     # HubSpot needs a label even for production; give both platforms a name to confirm against
     if platform == "hubspot":
         world.env["HUBSPOT_TARGET"] = PORTAL_LABEL
-    name = PORTAL_LABEL if platform == "hubspot" else WORKSPACE
+    # what is typed is the name the platform reports for the live account, not the label (D-24)
+    name = f"HubSpot portal {world.fake.portal}" if platform == "hubspot" else WORKSPACE
     flags = ("--execute", "--production")
 
     # no terminal: refused
@@ -523,7 +524,9 @@ def test_production_gate_salesforce(blueprint, monkeypatch, tmp_path, clients, c
     design_file = start_client(blueprint, clients)
     plan_file = tmp_path / "plan.json"
     plan = plan_cli(world, design_file, plan_file)
-    assert plan.target == f"Acme Live Ltd ({SF_ALIAS})"  # what the person must type
+    assert plan.target == f"Acme Live Ltd ({SF_ALIAS})"  # a display name only
+    typed = "Acme Live Ltd"  # what the person must type: the live org name, from the org itself
+    assert plan.account.startswith(typed + " [username ")
     empty = world.state()
     capsys.readouterr()
 
@@ -551,7 +554,7 @@ def test_production_gate_salesforce(blueprint, monkeypatch, tmp_path, clients, c
     flags = ("--execute", "--production")
     # no terminal: refused
     monkeypatch.setattr(sys, "stdin", io.StringIO())
-    monkeypatch.setattr("builtins.input", lambda prompt="": plan.target)
+    monkeypatch.setattr("builtins.input", lambda prompt="": typed)
     assert apply_cli(world, plan_file, clients, *flags) == 2
     assert "interactive terminal" in capsys.readouterr().err
     assert world.state() == empty and world.writes_since(0) == []
@@ -563,8 +566,14 @@ def test_production_gate_salesforce(blueprint, monkeypatch, tmp_path, clients, c
     assert "did not match" in capsys.readouterr().err
     assert world.state() == empty and world.writes_since(0) == []
 
-    # the right name goes through, and the log says production
+    # the plan's display target is not the org's name either: aborts
     monkeypatch.setattr("builtins.input", lambda prompt="": plan.target)
+    assert apply_cli(world, plan_file, clients, *flags) == 2
+    assert "did not match" in capsys.readouterr().err
+    assert world.state() == empty and world.writes_since(0) == []
+
+    # the right name goes through, and the log says production
+    monkeypatch.setattr("builtins.input", lambda prompt="": typed)
     assert apply_cli(world, plan_file, clients, *flags) == 0
     assert world.state() != empty
     record = json.loads(sorted((clients / "acme" / "build" / "apply-log").glob("*.json"))[-1].read_text())
@@ -607,6 +616,59 @@ def test_removing_a_deal_stage_is_a_manual_step_on_salesforce(blueprint, monkeyp
     assert world.state() == built and world.writes_since(mark) == []
     assert crm_drift.main([str(design_file), "--platform", "salesforce"], env=world.env) == 1
     capsys.readouterr()
+
+
+def test_removing_a_shared_stage_from_one_pipeline_changes_nothing_in_the_other_on_salesforce(
+    monkeypatch, tmp_path, clients, capsys
+):
+    """D-26 (review finding S3): Negotiation exists in two deal pipelines, so its stored value is named after the
+    pipeline. Removing it from `new_business` alone renamed the generated value in `retainer_renewals`, which made a
+    "safe" add_stage plus a Retire-stage step for a pipeline whose design had not changed, and applying it added a
+    second Negotiation to the Retainer renewals process."""
+    world = make_world("salesforce", monkeypatch)
+    design_file = start_client("agency-marketing", clients)
+    build(world, design_file, clients, tmp_path)
+    process = next(n for n in world.fake.processes if "retainer" in n.lower())
+    before = list(world.fake.processes[process])
+    assert sum(v.startswith("Negotiation") for v in before) == 1
+
+    data = yaml.safe_load(design_file.read_text(encoding="utf-8"))
+    new_business = next(p for p in data["pipelines"] if p["key"] == "new_business")
+    new_business["stages"] = [s for s in new_business["stages"] if s["key"] != "negotiation"]
+    design_file.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=1000), encoding="utf-8")
+    built = world.state()
+    mark = len(world.calls())
+
+    plan = plan_cli(world, design_file, tmp_path / "shared.json")
+    touching = [c for c in plan.changes if "retainer_renewals" in c.target or "negotiation" in c.target]
+    assert touching == [], [(c.risk, c.kind, c.target) for c in touching]  # nothing automatic, safe or reviewed
+    assert not [c for c in plan.changes if c.kind in ("add_stage", "remove_stage", "add_pipeline")]
+
+    assert apply_cli(world, tmp_path / "shared.json", clients, "--execute") == 0
+    assert apply_cli(world, tmp_path / "shared.json", clients, "--execute", "--allow-review") == 0
+    assert world.state() == built and world.writes_since(mark) == []
+    assert world.fake.processes[process] == before
+    capsys.readouterr()
+
+
+def test_a_stage_added_beside_a_renamed_shared_stage_is_by_hand_on_salesforce(monkeypatch, tmp_path, clients):
+    """D-26 backstop: an object whose live stage values are spelt differently from what the design now generates
+    takes no automatic stage change, because the object's stage files share one value set."""
+    world = make_world("salesforce", monkeypatch)
+    design_file = start_client("agency-marketing", clients)
+    build(world, design_file, clients, tmp_path)
+    data = yaml.safe_load(design_file.read_text(encoding="utf-8"))
+    new_business = next(p for p in data["pipelines"] if p["key"] == "new_business")
+    new_business["stages"] = [s for s in new_business["stages"] if s["key"] != "negotiation"]
+    amended = copy.deepcopy(new_business["stages"][1])
+    amended.update(key=ADDED_STAGE, label="E2E added stage")
+    new_business["stages"].insert(2, amended)
+    design_file.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=1000), encoding="utf-8")
+
+    plan = plan_cli(world, design_file, tmp_path / "beside.json")
+    assert not [c for c in plan.changes if c.kind in ("add_stage", "remove_stage", "add_pipeline")]
+    held = [m for m in plan.manual_steps if "E2E added stage" in m.title]
+    assert len(held) == 1 and held[0].drift and "named differently" in held[0].reason
 
 
 # --- Salesforce: a Professional edition org cannot take a metadata deploy ---------------------------------------

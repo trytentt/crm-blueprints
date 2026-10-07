@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 clients/*/raw/
 clients/*/build/apply-log/
+clients/*/build/*.json
 clients/*/build/salesforce/
 *.log
 .DS_Store

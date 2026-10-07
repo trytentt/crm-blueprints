@@ -6,6 +6,7 @@ from dataclasses import replace
 from typing import Any
 
 from tools.crm.base import (
+    Account,
     Adapter,
     Change,
     Failure,
@@ -24,6 +25,7 @@ from tools.crm.safety import Mode, check_gates
 from tools.design import Design
 
 PLATFORM = "attio"
+FAKE_ACCOUNT = Account("Fake Sandbox Ltd", "fake id 1")
 
 
 def state_matching(design: Design, platform: str = PLATFORM) -> State:
@@ -46,12 +48,16 @@ class FakeAdapter(Adapter):
         self.mode = mode or Mode(dry_run=True, production=False, allow_review=False)
         self.fail_on = fail_on
         self.calls: list[Change] = []
+        self.account = FAKE_ACCOUNT
+
+    def read_account(self) -> Account:
+        return self.account
 
     def read_state(self) -> State:
         return self.state
 
     def plan(self, design: Design, state: State) -> Plan:
-        return plan_changes(design, state, build_payload, target="sandbox")
+        return replace(plan_changes(design, state, build_payload, target="sandbox"), account=self.account.identity)
 
     def apply(self, plan: Plan, *, dry_run: bool = True) -> Result:
         runnable, held = check_gates(plan, replace(self.mode, dry_run=dry_run))
@@ -103,7 +109,7 @@ class StatefulFakeAdapter(FakeAdapter):
     """
 
     def plan(self, design: Design, state: State) -> Plan:
-        return plan_changes(design, state, rich_payload, target="sandbox")
+        return replace(plan_changes(design, state, rich_payload, target="sandbox"), account=self.account.identity)
 
     def apply(self, plan: Plan, *, dry_run: bool = True) -> Result:
         result = super().apply(plan, dry_run=dry_run)

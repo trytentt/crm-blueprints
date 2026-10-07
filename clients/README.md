@@ -22,7 +22,11 @@ them with the design. `build/` is for what a run leaves behind: the logs and sta
 plan or state file you save there with `--out` (for example `build/plan.json`). Staging is used only
 when `crm_apply` is given `--client`.
 
-Git ignores `clients/*/raw/` (raw exports from the client's CRM, which hold personal data),
+**Keep client work in a private repository or a private fork.** A client folder holds the client's design,
+notes and discovery answers. If you use the public copy of this toolkit, do not commit a client folder to it.
+
+Git ignores `clients/*/build/*.json` (saved state and plans such as `state.json` and `plan.json`, which describe
+the client's live CRM structure and name the account), `clients/*/raw/` (raw exports from the client's CRM, which hold personal data),
 `clients/*/build/apply-log/` (apply logs) and `clients/*/build/salesforce/` (deploy staging). Never
 commit any of them. Logs are redacted, but redaction is
 best effort.

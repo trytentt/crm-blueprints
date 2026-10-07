@@ -7,12 +7,13 @@ import io
 import pytest
 
 from tests.fake_adapter import FakeAdapter, state_matching
-from tools.crm.base import Change, Plan
+from tools.crm.base import Account, Change, Plan
 from tools.crm.safety import (
     REDACTED,
     Mode,
     SafetyError,
     check_gates,
+    confirm_live_account,
     confirm_production,
     get_credential,
     redact,
@@ -69,23 +70,31 @@ def test_destructive_change_always_refused():
     plan = Plan("attio", "sb", (change("remove_field", "destructive"),))
     for mode in (Mode(True, False, True), Mode(False, False, True), Mode(False, True, True)):
         with pytest.raises(SafetyError, match="destructive"):
-            check_gates(plan, mode, confirm=lambda name: None)
+            check_gates(plan, mode)
 
 
-def test_production_execute_calls_confirmation_with_target():
+LIVE = Account("Acme Live Ltd", "username build-user.live")
+
+
+def test_production_confirmation_is_the_live_name_not_the_plan_target():
     seen = []
-    plan = Plan("attio", "Acme Production", (change(),))
-    check_gates(plan, Mode(False, True, False), confirm=seen.append)
-    assert seen == ["Acme Production"]
+    plan = Plan("attio", "acme-sbx", (change(),), account=LIVE.identity)
+    confirm_live_account(plan, LIVE, confirm=seen.append)
+    assert seen == ["Acme Live Ltd"]  # never "acme-sbx"
 
 
-def test_production_dry_run_and_sandbox_never_confirm():
+def test_a_plan_made_for_another_account_is_refused_before_any_prompt():
     def boom(name):
-        raise AssertionError("should not be asked")
+        raise AssertionError("must not be asked")
 
-    plan = Plan("attio", "sb", (change(),))
-    check_gates(plan, Mode(True, True, False), confirm=boom)
-    check_gates(plan, Mode(False, False, False), confirm=boom)
+    other = Plan("attio", "acme-sbx", (change(),), account=Account("Acme Sandbox", "username build-user.sandbox").identity)
+    with pytest.raises(SafetyError, match="made for the account"):
+        confirm_live_account(other, LIVE, confirm=boom)
+
+
+def test_a_plan_with_no_stored_account_is_refused_for_production():
+    with pytest.raises(SafetyError, match="no account identity"):
+        confirm_live_account(Plan("attio", "p", (change(),)), LIVE, confirm=lambda n: None)
 
 
 def test_production_refusal_stops_the_run():
@@ -93,13 +102,22 @@ def test_production_refusal_stops_the_run():
         raise SafetyError("no")
 
     with pytest.raises(SafetyError):
-        check_gates(Plan("attio", "p", (change(),)), Mode(False, True, False), confirm=refuse)
+        confirm_live_account(Plan("attio", "p", (change(),), account=LIVE.identity), LIVE, confirm=refuse)
 
 
 def test_default_confirmation_is_used_for_production(monkeypatch):
-    monkeypatch.setattr("tools.crm.safety.confirm_production", lambda name: (_ for _ in ()).throw(SafetyError("asked")))
-    with pytest.raises(SafetyError, match="asked"):
-        check_gates(Plan("attio", "p", (change(),)), Mode(False, True, False))
+    monkeypatch.setattr(
+        "tools.crm.safety.confirm_production", lambda name, detail="": (_ for _ in ()).throw(SafetyError(f"asked {name}"))
+    )
+    with pytest.raises(SafetyError, match="asked Acme Live Ltd"):
+        confirm_live_account(Plan("attio", "p", (change(),), account=LIVE.identity), LIVE)
+
+
+def test_confirmation_prompt_shows_the_live_details():
+    out = io.StringIO()
+    confirm_production("Acme Live Ltd", detail="username build-user.live", input_fn=lambda p: "Acme Live Ltd",
+                       interactive=True, out=out)
+    assert "Acme Live Ltd" in out.getvalue() and "username build-user.live" in out.getvalue()
 
 
 # --- confirmation prompt -----------------------------------------------------------------------

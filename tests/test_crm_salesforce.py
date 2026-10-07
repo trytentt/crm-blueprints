@@ -553,9 +553,10 @@ def test_production_detection_names_the_org(design):
     assert org.production and org.name == "Example Trading Ltd"
     plan = make_plan(ad, design)
     assert plan.target == "Example Trading Ltd (example-live)"
-    seen: list[str] = []
-    check_gates(plan, Mode(dry_run=False, production=True, allow_review=False), confirm=seen.append)
-    assert seen == ["Example Trading Ltd (example-live)"]
+    # what is typed and compared is the live org name and username, never the alias (D-24)
+    live = ad.read_account()
+    assert live.name == "Example Trading Ltd" and "username" in live.detail
+    assert plan.account == live.identity
     assert not make(FakeSf(sandbox=True)).read_org().production
     scratch = make(FakeSf(scratch=True)).read_org()
     assert scratch.is_scratch and not scratch.production

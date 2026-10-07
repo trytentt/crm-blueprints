@@ -6,7 +6,8 @@
     uv run python -m tools.crm_apply plan.json --client acme --execute --production
 
 Safety: needs_review changes are held unless --allow-review; destructive changes never run;
---production needs --execute and typing the account name. Before each change the live state is
+--production needs --execute and typing the LIVE account name, read from the platform (the plan must have
+been made for that same account). Before each change the live state is
 read again and a change already in place is skipped. The run stops at the first failure and
 reports applied, failed and remaining. Every run is logged, redacted, to
 clients/<client>/build/apply-log/<timestamp>.json. On Salesforce, with --client, each deploy is staged in
@@ -34,7 +35,7 @@ from tools.crm.safety import (
     Mode,
     SafetyError,
     check_gates,
-    confirm_production,
+    confirm_live_account,
     redact,
     redact_data,
     resolve_mode,
@@ -106,8 +107,14 @@ def run_plan(
     confirm: Callable[[str], None] | None = None,
     design_path: Path | None = None,
 ) -> Report:
-    """Apply `plan` through `adapter` under `mode`. Raises `SafetyError` when a gate refuses."""
-    runnable, held = check_gates(plan, mode, confirm=confirm)
+    """Apply `plan` through `adapter` under `mode`. Raises `SafetyError` when a gate refuses.
+
+    A real production run reads the account LIVE from the adapter, refuses a plan made for another
+    account, and asks the person to type the live name (D-24). `confirm` receives that live name.
+    """
+    runnable, held = check_gates(plan, mode)
+    if mode.production and not mode.dry_run:
+        confirm_live_account(plan, adapter.read_account(), confirm=confirm)
     report = Report(dry_run=mode.dry_run, held=list(held))
     if hasattr(adapter, "mode"):  # the CLI has already cleared these changes
         adapter.mode = replace(adapter.mode, dry_run=mode.dry_run, allow_review=mode.allow_review)
@@ -205,9 +212,10 @@ def main(
             raise SafetyError("--execute needs --client so the run can be logged.")
         platform = args.platform or plan.platform
         target = args.target or plan.target
-        plan = replace(plan, platform=platform, target=target)
-        # Only a target the user typed goes to the adapter. The plan's target is a display name
-        # (Attio: the workspace name) and need not equal ATTIO_TARGET or HUBSPOT_TARGET.
+        plan = replace(plan, platform=platform)
+        # --target is a label the user typed: it goes to the adapter (Attio checks it against ATTIO_TARGET, Salesforce
+        # uses it as the org alias) and never replaces the plan's own target or account identity. Which account is
+        # reached is checked separately, live, against the identity stored in the plan (D-24).
         adapter = (adapter_factory or default_factory)(platform, environment, args.target, mode.production)
         if args.client and hasattr(adapter, "build_dir"):
             # Salesforce stages each deploy in a folder. Under the client's build/ it can be inspected after a
@@ -215,7 +223,7 @@ def main(
             staging = args.clients_dir / args.client / "build" / "salesforce"
             staging.mkdir(parents=True, exist_ok=True)
             adapter.build_dir = staging
-        report = run_plan(plan, adapter, mode, confirm=confirm_production, design_path=args.design)
+        report = run_plan(plan, adapter, mode, design_path=args.design)
         report.notes = [str(n) for n in getattr(adapter, "notes", ()) or ()]
     except (SafetyError, RegistryError, DesignError) as exc:
         print(f"refused: {redact(str(exc), secrets)}", file=sys.stderr)
@@ -228,6 +236,7 @@ def main(
             "time": datetime.now(timezone.utc).isoformat(),
             "platform": platform,
             "target": target,
+            "account": plan.account,
             "executed": not mode.dry_run,
             "production": mode.production,
             "allow_review": mode.allow_review,

@@ -2,7 +2,8 @@
 
 Rules enforced here:
 1. Dry run unless `--execute`.
-2. Sandbox by default. Production needs `--execute --production` plus typing the account or org name.
+2. Sandbox by default. Production needs `--execute --production` plus typing the LIVE account or org
+   name, read from the platform at apply time, and the plan must have been made for that same account (D-24).
 3. Changes marked `needs_review` run only with `--allow-review`. Destructive changes never run.
 9. Credentials come from environment variables only, and never appear in logs or errors.
 """
@@ -16,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable, TextIO
 
-from tools.crm.base import Change, Plan
+from tools.crm.base import Account, Change, Plan
 
 REDACTED = "[redacted]"
 
@@ -49,11 +50,15 @@ def resolve_mode(*, execute: bool, production: bool, allow_review: bool = False)
 def confirm_production(
     account_name: str,
     *,
+    detail: str = "",
     input_fn: Callable[[str], str] | None = None,
     interactive: bool | None = None,
     out: TextIO | None = None,
 ) -> None:
     """Make the user type the account or org name. Raises `SafetyError` unless it matches exactly.
+
+    `account_name` must be the name read live from the platform, and `detail` (a username or portal
+    id) is shown beside it so the person can see which account it is.
 
     Refuses to run non-interactively, so a script or pipe cannot confirm on someone's behalf.
     `input_fn` and `interactive` exist for tests; the defaults read the real terminal.
@@ -66,24 +71,56 @@ def confirm_production(
         raise SafetyError("Production confirmation needs an interactive terminal.")
     stream = out or sys.stdout
     print(f"PRODUCTION: this will change the live account {account_name!r}.", file=stream)
+    if detail:
+        print(f"Account details read from the platform: {detail}", file=stream)
     reader = input_fn or input
     answer = reader(f"Type the account name ({account_name}) to continue: ")
     if answer.strip() != account_name.strip():
         raise SafetyError("Confirmation did not match the account name. Nothing was changed.")
 
 
-def check_gates(
+def verify_account(plan: Plan, live: Account) -> None:
+    """Refuse unless the plan was made for the account that is live now (D-24).
+
+    A plan with no stored identity is refused too: it cannot be shown to belong to this account.
+    """
+    if not plan.account:
+        raise SafetyError(
+            "The plan records no account identity, so it cannot be shown to belong to the live account. "
+            "Re-run crm_plan to make a new plan. Nothing was changed."
+        )
+    if plan.account != live.identity:
+        raise SafetyError(
+            f"The plan was made for the account {plan.account!r} but the live account is {live.identity!r}. "
+            "Nothing was changed."
+        )
+
+
+def confirm_live_account(
     plan: Plan,
-    mode: Mode,
+    live: Account,
     *,
     confirm: Callable[[str], None] | None = None,
-) -> tuple[tuple[Change, ...], tuple[Change, ...]]:
+) -> None:
+    """Production gate: the plan must belong to the live account, and the person types its live name.
+
+    `confirm` receives the live account name (never the plan's target). The default reads the terminal
+    and shows the account details.
+    """
+    verify_account(plan, live)
+    if confirm is None:
+        confirm_production(live.name, detail=live.detail)
+    else:
+        confirm(live.name)
+
+
+def check_gates(plan: Plan, mode: Mode) -> tuple[tuple[Change, ...], tuple[Change, ...]]:
     """Split a plan's changes into (runnable, held) for this mode.
 
     Raises `SafetyError` if the plan contains a destructive change (the planner never makes one,
     so this is a guard against a hand-edited plan file). `needs_review` changes are held unless
-    `allow_review` is set. For a production execute run, `confirm(plan.target)` is called first;
-    pass `confirm_production` or a stub. A dry run never asks.
+    `allow_review` is set. The production confirmation is `confirm_live_account`, which needs the
+    live account and so is called by the CLI, not here.
     """
     for change in plan.changes:
         if change.risk == "destructive":
@@ -91,8 +128,6 @@ def check_gates(
                 f"Plan contains a destructive change ({change.kind} {change.target}). "
                 "Destructive work is done by hand as a manual step."
             )
-    if mode.production and not mode.dry_run:
-        (confirm or confirm_production)(plan.target)
     runnable: list[Change] = []
     held: list[Change] = []
     for change in plan.changes:

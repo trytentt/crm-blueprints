@@ -33,6 +33,7 @@ from typing import Any, Callable, Mapping
 import requests
 
 from tools.crm.base import (
+    Account,
     Adapter,
     Change,
     Failure,
@@ -47,7 +48,7 @@ from tools.crm.base import (
     StateStage,
 )
 from tools.crm.planner import plan_changes
-from tools.crm.safety import Mode, check_gates, get_credential, redact
+from tools.crm.safety import Mode, SafetyError, check_gates, get_credential, redact
 from tools.design import REPO_ROOT, Design, load_core_model
 from tools.generators import hubspot as gen
 from tools.generators.hubspot import API_VERSION, PLATFORM
@@ -301,6 +302,21 @@ class Identity:
     portal_id: str | None
     source: str
     account_type: str | None = None
+    name: str | None = None
+
+
+# `accountType` values that mean a test or sandbox account. UNCONFIRMED against a live account (D-25): the values
+# are those HubSpot's Account Information API documents for developer test accounts and sandboxes, matched after
+# upper-casing and turning spaces and hyphens into underscores. Anything else, an unknown value or no value at all
+# is production, so a wrong guess here costs an extra --production and typed confirmation, never a silent write.
+NON_PRODUCTION_ACCOUNT_TYPES = frozenset({"DEVELOPER_TEST", "SANDBOX"})
+
+
+def is_production_account(account_type: str | None) -> bool:
+    """True unless `account_type` is a documented developer-test or sandbox value (D-25)."""
+    if not isinstance(account_type, str):
+        return True
+    return re.sub(r"[\s-]+", "_", account_type.strip().upper()) not in NON_PRODUCTION_ACCOUNT_TYPES
 
 
 @dataclass(frozen=True)
@@ -330,6 +346,89 @@ def _first_number(data: Any, names: tuple[str, ...]) -> int | None:
             if hit is not None:
                 return hit
     return None
+
+
+# --- what a plan file may ask for ------------------------------------------------------------
+
+_REF = r"[\w.{}-]+"
+_VP = re.escape(V)
+_P_SCHEMAS = re.compile(rf"^/crm-object-schemas/{_VP}/schemas$")
+_P_SCHEMA = re.compile(rf"^/crm-object-schemas/{_VP}/schemas/{_REF}$")
+_P_LABELS = re.compile(rf"^/crm/associations/{_VP}/{_REF}/{_REF}/labels$")
+_P_LIMITS = re.compile(rf"^/crm/associations/{_VP}/definitions/configurations/{_REF}/{_REF}/batch/create$")
+_P_PIPELINES = re.compile(rf"^/crm/pipelines/{_VP}/{_REF}$")
+_P_PIPELINE = re.compile(rf"^/crm/pipelines/{_VP}/{_REF}/{_REF}$")
+_P_STAGES = re.compile(rf"^/crm/pipelines/{_VP}/{_REF}/{_REF}/stages$")
+_P_STAGE = re.compile(rf"^/crm/pipelines/{_VP}/{_REF}/{_REF}/stages/{_REF}$")
+_P_PROPS = re.compile(rf"^/crm/properties/{_VP}/{_REF}$")
+_P_GROUPS = re.compile(rf"^/crm/properties/{_VP}/{_REF}/groups$")
+_P_PROP = re.compile(rf"^/crm/properties/{_VP}/{_REF}/{_REF}$")
+
+# kind -> (payload key, allowed path pattern) for every path the handler will use, plus the HTTP method the handler
+# sends for the payload's own path and the body keys a PATCH may carry (D-27).
+_PAYLOAD_RULES: dict[str, tuple[tuple[tuple[str, re.Pattern[str]], ...], str | None, frozenset[str] | None]] = {
+    "add_object": ((("path", _P_SCHEMAS),), "POST", None),
+    "add_relationship": ((), None, None),
+    "add_pipeline": ((("path", _P_PIPELINES),), "POST", None),
+    "add_stage": ((("path", _P_STAGES), ("pipeline_path", _P_PIPELINE)), "POST", None),
+    "rename_stage": ((("path", _P_STAGE), ("pipeline_path", _P_PIPELINE)), "PATCH", frozenset({"label", "displayOrder", "metadata"})),
+    "update_stage": ((("path", _P_STAGE), ("pipeline_path", _P_PIPELINE)), "PATCH", frozenset({"label", "displayOrder", "metadata"})),
+    "reorder_stages": ((("pipeline_path", _P_PIPELINE),), None, None),
+    "add_field": ((("path", _P_PROPS), ("groups_path", _P_GROUPS), ("required_via", _P_SCHEMA)), "POST", None),
+    "rename_field": ((("path", _P_PROP),), "PATCH", frozenset({"label"})),
+    "add_option": ((("path", _P_PROP),), None, None),
+    "rename_option": ((("path", _P_PROP),), None, None),
+    "remove_option": ((("path", _P_PROP),), None, None),
+}
+
+
+def _mentions_archived(value: Any) -> bool:
+    if isinstance(value, dict):
+        return any(
+            (k in ("archived", "hidden") and v is True) or _mentions_archived(v) for k, v in value.items()
+        )
+    if isinstance(value, list):
+        return any(_mentions_archived(v) for v in value)
+    return False
+
+
+def check_payload(change: Change) -> None:
+    """Refuse a change whose paths, method or body are not those its kind uses (D-27). Raises `SafetyError`.
+
+    The plan file is editable. The handlers use the payload's paths and bodies as written, so each is checked
+    against the pattern for the kind: a "safe" add_field cannot point at another object's properties, a rename can
+    set only the label, and nothing but a remove_option may hide or archive.
+    """
+    where = f"{change.kind} {change.target}"
+    rule = _PAYLOAD_RULES.get(change.kind)
+    p = change.payload
+    if rule is None or not isinstance(p, dict) or not p:
+        raise SafetyError(f"Plan change {where} has no payload this adapter applies. Nothing was changed.")
+    paths, method, patch_keys = rule
+    for key, pattern in paths:
+        value = p.get(key)
+        if value is None and key in ("groups_path", "required_via"):
+            continue
+        if not isinstance(value, str) or not pattern.match(value):
+            raise SafetyError(f"Plan change {where} has a {key} {value!r} that a {change.kind} may not use. Nothing was changed.")
+    if method is not None and p.get("method", method) != method:
+        raise SafetyError(f"Plan change {where} uses method {p.get('method')!r}, which a {change.kind} may not. Nothing was changed.")
+    if change.kind == "add_relationship":
+        label = p.get("label")
+        if not isinstance(label, dict) or not isinstance(label.get("path"), str) or not _P_LABELS.match(label["path"]):
+            raise SafetyError(f"Plan change {where} has a label request a relationship may not send. Nothing was changed.")
+        for lim in p.get("limits") or []:
+            req = lim.get("request") if isinstance(lim, dict) else None
+            if not isinstance(req, dict) or not isinstance(req.get("path"), str) or not _P_LIMITS.match(req["path"]):
+                raise SafetyError(f"Plan change {where} has a limit request a relationship may not send. Nothing was changed.")
+    if patch_keys is not None:
+        body = p.get("body")
+        if not isinstance(body, dict) or not set(body) <= patch_keys:
+            raise SafetyError(f"Plan change {where} sets fields a {change.kind} may not. Nothing was changed.")
+    if change.kind in ("add_option", "rename_option", "remove_option") and set(p) != {"path", "value", "label"}:
+        raise SafetyError(f"Plan change {where} carries more than a path, a value and a label. Nothing was changed.")
+    if change.kind != "remove_option" and _mentions_archived(p.get("body")):
+        raise SafetyError(f"Plan change {where} would archive or hide something. Nothing was changed.")
 
 
 # --- the adapter -----------------------------------------------------------------------------
@@ -376,7 +475,11 @@ class HubSpotAdapter(Adapter):
         if reply.status == 401:
             raise HubSpotError("GET /account-info/v3/details -> HTTP 401: the access token was refused", status=401)
         if reply.status == 200 and isinstance(reply.data, dict) and reply.data.get("portalId"):
-            self._identity = Identity(str(reply.data["portalId"]), "account-info", reply.data.get("accountType"))
+            raw_name = next(
+                (reply.data[k] for k in ("portalName", "companyName", "name") if isinstance(reply.data.get(k), str) and reply.data[k].strip()),
+                None,
+            )
+            self._identity = Identity(str(reply.data["portalId"]), "account-info", reply.data.get("accountType"), raw_name)
             return self._identity
         for schema in self._schemas():
             m = _PORTAL_FROM_FQN.match(str(schema.get("fullyQualifiedName") or ""))
@@ -385,6 +488,22 @@ class HubSpotAdapter(Adapter):
                 return self._identity
         self._identity = Identity(None, "none")
         return self._identity
+
+    def read_account(self) -> Account:
+        """The live portal: its id, and its name when the account-info response has one.
+
+        The typed confirmation is the portal name (or `HubSpot portal <id>` when none is returned) and the
+        id is the detail, so two portals with the same name are still told apart. Raises `SafetyError` when no
+        call gives a portal id. The response shape is unconfirmed until a live run (D-15, D-25).
+        """
+        ident = self.read_identity()
+        if not ident.portal_id:
+            raise SafetyError(
+                "HubSpot gave no portal id, so the live account cannot be named or checked against the plan. "
+                "Nothing was changed."
+            )
+        name = ident.name or f"HubSpot portal {ident.portal_id}"
+        return Account(name=name, detail=f"portal id {ident.portal_id}")
 
     def target_label(self) -> str:
         """The name a production confirmation must type: the target label plus the portal id."""
@@ -568,7 +687,11 @@ class HubSpotAdapter(Adapter):
             extra_manual_steps=_generator_steps(design),
         )
         changes, converted = self._limit_changes(design, base.changes)
-        return replace(base, changes=tuple(changes), manual_steps=base.manual_steps + tuple(converted))
+        try:
+            account = self.read_account().identity
+        except SafetyError:
+            account = ""  # an apply of this plan to a production account will refuse it
+        return replace(base, changes=tuple(changes), manual_steps=base.manual_steps + tuple(converted), account=account)
 
     def _bind(self, design: Design, state: State) -> State:
         """Finish mapping live names to design keys, which needs the design."""
@@ -759,12 +882,18 @@ class HubSpotAdapter(Adapter):
         `self.skipped`), and stops at the first failure. The production prompt belongs to the caller
         (D-14); this method does not ask again. HubSpot sources are in each handler's docstring.
         """
-        runnable, held = check_gates(
-            plan, replace(self.mode, dry_run=dry_run), confirm=lambda _target: None
-        )
+        runnable, held = check_gates(plan, replace(self.mode, dry_run=dry_run))
         self.skipped = []
+        for change in runnable:
+            check_payload(change)
         if dry_run:
             return Result(applied=(), remaining=runnable + held, dry_run=True)
+        if not self.production and is_production_account(self.read_identity().account_type):
+            raise SafetyError(
+                "This HubSpot account is not a documented developer test account or sandbox (or its type could not "
+                "be read), so it is treated as production. Re-run with --production and type the account name. "
+                "Nothing was changed."
+            )
         applied: list[Change] = []
         for i, change in enumerate(runnable):
             handler = _HANDLERS.get(change.kind)

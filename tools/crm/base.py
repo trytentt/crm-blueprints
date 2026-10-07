@@ -109,19 +109,42 @@ class ManualStep:
 
 
 @dataclass(frozen=True)
+class Account:
+    """Which live account an adapter reaches, read from the platform itself (D-24).
+
+    `name` is what a person must type to confirm a production run. `detail` is shown beside it
+    (a username, a portal id) and is part of the identity that a plan is checked against.
+    """
+
+    name: str
+    detail: str = ""
+
+    @property
+    def identity(self) -> str:
+        """The single string stored in a plan and compared at apply time."""
+        return f"{self.name} [{self.detail}]" if self.detail else self.name
+
+
+@dataclass(frozen=True)
 class Plan:
-    """Ordered changes and manual steps for one platform and target (sandbox or org name)."""
+    """Ordered changes and manual steps for one platform and target (sandbox or org name).
+
+    `account` is the identity of the live account the plan was made against (`Account.identity`),
+    or empty when it could not be read. Apply compares it with the live account (D-24).
+    """
 
     platform: str
     target: str
     changes: tuple[Change, ...] = ()
     manual_steps: tuple[ManualStep, ...] = ()
+    account: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         """Plain dict, safe for JSON."""
         return {
             "platform": self.platform,
             "target": self.target,
+            "account": self.account,
             "changes": [asdict(c) for c in self.changes],
             "manual_steps": [asdict(m) for m in self.manual_steps],
         }
@@ -134,6 +157,7 @@ class Plan:
             target=data["target"],
             changes=tuple(Change(**c) for c in data.get("changes", [])),
             manual_steps=tuple(ManualStep(**m) for m in data.get("manual_steps", [])),
+            account=str(data.get("account", "")),
         )
 
     def to_json(self) -> str:
@@ -193,3 +217,11 @@ class Adapter(ABC):
     @abstractmethod
     def apply(self, plan: Plan, *, dry_run: bool = True) -> Result:
         """Apply a plan. Dry run by default; stop on the first failure."""
+
+    @abstractmethod
+    def read_account(self) -> Account:
+        """Read the live account's identity from the platform (never from the plan or a flag).
+
+        Raises `SafetyError` when the platform gives no usable name. Production confirmation and the
+        check that a plan belongs to this account are built on it (D-24).
+        """

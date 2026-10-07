@@ -45,6 +45,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping, NamedTuple, Sequence
 
 from tools.crm.base import (
+    Account,
     Adapter,
     Change,
     Failure,
@@ -589,6 +590,52 @@ def _stage_from_row(row: Mapping[str, Any], value: str, info: Any | None) -> Sta
     return StateStage(st.key, label, live_type, prob)
 
 
+def _value_candidates(p: Any, si: Any) -> list[str]:
+    """Every name the generator can give a stage's value, depending on which other pipelines share its label (D-17).
+
+    The three forms are the plain label, `label (pipeline name)` and `label (stage key)`. Which one is used depends
+    on the whole design, so an org built from an earlier edit of the design can hold a different one (D-26).
+    """
+    label = " ".join(si.stage.label.split())
+    return [label, f"{label} ({p.pipeline.name})", f"{label} ({si.stage.key})"]
+
+
+def _stage_aliases(p: Any, live_values: Sequence[str]) -> dict[str, Any]:
+    """Live stage values that are an earlier or later spelling of a design stage's value, mapped to that stage.
+
+    A stage whose generated value is live is never aliased, and a spelling that is another of this pipeline's own
+    stage values is never claimed.
+    """
+    live = set(live_values)
+    taken = {si.value for si in p.stages}
+    out: dict[str, Any] = {}
+    for si in p.stages:
+        if si.value in live:
+            continue
+        for cand in _value_candidates(p, si):
+            if cand in live and cand not in taken and cand not in out:
+                out[cand] = si
+                break
+    return out
+
+
+def _live_stage_values(snap: Snapshot, p: Any, build: Any) -> list[str]:
+    """The stage values this pipeline holds live: its business process (Opportunity) or its object's Stage field."""
+    if p.is_opp:
+        if snap.processes is not None and p.bp in snap.processes:
+            return list(snap.processes[p.bp])
+        return []
+    desc = snap.describes.get(p.obj_api)
+    f_api = build.stage_field.get(p.pipeline.object, "")
+    fld = next((f for f in (desc or {}).get("fields") or [] if f.get("name") == f_api), None)
+    return [str(pv.get("value")) for pv in _active_values(fld)] if fld else []
+
+
+def renamed_stage_objects(snap: Snapshot, build: Any) -> set[str]:
+    """Objects whose live stage values are spelt differently from what the design now generates (D-26)."""
+    return {p.pipeline.object for p in build.pipes if _stage_aliases(p, _live_stage_values(snap, p, build))}
+
+
 def _build_pipelines(snap: Snapshot, names: _Names, design: Design | None) -> list[StatePipeline]:
     out: list[StatePipeline] = []
     build = names.build
@@ -616,6 +663,7 @@ def _build_pipelines(snap: Snapshot, names: _Names, design: Design | None) -> li
             by_value = {si.value: si for si in p.stages}
             if snap.processes is not None and p.bp in snap.processes:
                 values = [v for v in snap.processes[p.bp] if v in rows]
+                by_value.update(_stage_aliases(p, values))  # the same stage under another spelling (D-26)
             else:  # the retrieve was not possible: assume the design's stages that exist
                 values = [si.value for si in p.stages if si.value in rows]
             stages = tuple(_stage_from_row(rows[v], v, by_value.get(v)) for v in values)
@@ -631,16 +679,19 @@ def _build_pipelines(snap: Snapshot, names: _Names, design: Design | None) -> li
         live = {str(pv.get("value")): pv for pv in _active_values(fld)}
         single = sum(1 for q in build.pipes if q.pipeline.object == pl.object) == 1
         design_values = {si.value for si in p.stages}
+        aliases = _stage_aliases(p, list(live))  # the same stage under another spelling (D-26)
+        by_alias = {si.stage.key: value for value, si in aliases.items()}
         stages_list: list[StateStage] = []
         for si in p.stages:
-            if si.value in live:
-                pv_label = str(live[si.value].get("label") or si.value)
+            value = si.value if si.value in live else by_alias.get(si.stage.key)
+            if value is not None:
+                pv_label = str(live[value].get("label") or value)
                 stages_list.append(StateStage(
                     si.stage.key, si.stage.label if pv_label == si.value else pv_label, si.stage.type, None,
                 ))
         if single:
             for value in live:
-                if value not in design_values:
+                if value not in design_values and value not in aliases:
                     stages_list.append(StateStage(_slug(value), value, "open", None))
         out.append(StatePipeline(pl.object, pl.key, pl.name, tuple(stages_list)))
     return out
@@ -787,13 +838,24 @@ class SalesforceAdapter(Adapter):
         rec = records[0]
         sandbox = _truthy(rec.get("IsSandbox")) or ".sandbox." in instance
         self._org_info = OrgInfo(
-            name=str(rec.get("Name") or self.target), edition=str(rec.get("OrganizationType") or ""),
+            name=str(rec.get("Name") or ""), edition=str(rec.get("OrganizationType") or ""),
             is_sandbox=sandbox, is_scratch=scratch, username=username, instance_url=instance,
         )
         return self._org_info
 
+    def read_account(self) -> Account:
+        """The live org: its name (what a production confirmation types) and the username the CLI logged in as.
+
+        Both come from `sf org display` and the Organization query, never from the alias the person passed, so an
+        alias that points at the wrong org is shown for what it is (D-24).
+        """
+        org = self.read_org()
+        if not org.name.strip():
+            raise SafetyError("The Salesforce org gave no name, so the live account cannot be named. Nothing was changed.")
+        return Account(name=org.name, detail=f"username {org.username or 'unknown'}")
+
     def target_label(self) -> str:
-        """The name a production confirmation must type: the org's name and the alias."""
+        """The org's name and the alias, for display in a plan."""
         return f"{self.read_org().name} ({self.target})"
 
     # -- reading ------------------------------------------------------------------------------
@@ -932,7 +994,13 @@ class SalesforceAdapter(Adapter):
             extra_manual_steps=_generator_steps(design, b) + _limit_steps(design, b, org) + _deploy_rest_steps(design),
         )
         changes, converted = _fit_changes(design, b, base.changes, org)
-        return replace(base, changes=tuple(changes), manual_steps=base.manual_steps + tuple(converted))
+        if self._last is not None:
+            changes, held_back = _hold_renamed_stage_changes(changes, renamed_stage_objects(self._last[1], b))
+            converted = converted + held_back
+        return replace(
+            base, changes=tuple(changes), manual_steps=base.manual_steps + tuple(converted),
+            account=self.read_account().identity,
+        )
 
     # -- applying ------------------------------------------------------------------------------
 
@@ -945,7 +1013,7 @@ class SalesforceAdapter(Adapter):
         Metadata API it changes nothing and reports the changes as remaining. It stops at the first
         failure. The production prompt belongs to the caller (D-14). Deploy sources are in `_deploy`.
         """
-        runnable, held = check_gates(plan, replace(self.mode, dry_run=dry_run), confirm=lambda _t: None)
+        runnable, held = check_gates(plan, replace(self.mode, dry_run=dry_run))
         self.skipped = []
         todo = list(runnable)
         org = self.read_org()
@@ -961,6 +1029,9 @@ class SalesforceAdapter(Adapter):
                 f"The org {org.name!r} is a production org. Re-run with --production (and confirm the org name)."
             )
         missing = [c for c in todo if not c.payload.get("components") or not c.payload.get("files")]
+        for c in todo:
+            if c not in missing:
+                check_payload(c)
         if missing:
             return Result((), (Failure(missing[0], f"No Salesforce payload for {missing[0].kind} {missing[0].target}; re-plan with this tool."),),
                           tuple(c for c in todo if c is not missing[0]) + held, dry_run=dry_run)
@@ -994,11 +1065,13 @@ class SalesforceAdapter(Adapter):
         """Re-read the org and drop changes that are already in place (they go to `self.skipped`)."""
         checks = [c.payload.get("check") or {} for c in batch]
         apis = {a for chk in checks for a in _check_objects(chk)}
+        apis |= {m.partition(".")[0] for c in batch for t, m in c.payload.get("components") or [] if t == "CustomField"}
         need_stages = any(chk.get("stage_values") or chk.get("process_values") for chk in checks)
         need_process = any(chk.get("process_values") for chk in checks)
         snap = self._snapshot(apis=sorted(apis), stages=need_stages, processes=need_process)
         pending: list[Change] = []
         for change, chk in zip(batch, checks):
+            _check_field_types(change, snap)
             if _satisfied(chk, snap):
                 self.skipped.append(change)
             else:
@@ -1058,6 +1131,99 @@ class SalesforceAdapter(Adapter):
             path = root / BASE / rel
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(text, encoding="utf-8")
+
+
+# --- what a plan file may ask for ---------------------------------------------------------------
+
+_PIPELINE_TYPES = frozenset({
+    "StandardValueSet", "BusinessProcess", "RecordType", "PathAssistant", "Settings", "CustomField", "ValidationRule",
+})
+# kind -> the metadata types its components may have (D-27). A hand-edited plan cannot widen a change's reach.
+_KIND_TYPES: dict[str, frozenset[str]] = {
+    "add_object": frozenset({"CustomObject"}),
+    "add_relationship": frozenset({"CustomObject", "CustomField"}),
+    "add_field": frozenset({"CustomField"}),
+    "add_option": frozenset({"CustomField"}),
+    "remove_option": frozenset({"CustomField"}),
+    "add_pipeline": _PIPELINE_TYPES,
+    "add_stage": _PIPELINE_TYPES,
+    "remove_stage": _PIPELINE_TYPES,
+}
+_MEMBER = re.compile(r"^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)?$")
+_REMOVAL_KINDS = frozenset({"remove_option", "remove_stage"})
+# Metadata field type (lower case) to the describe types it may have live. A type missing from this table is not judged.
+_FIELD_TYPES: dict[str, frozenset[str]] = {
+    "picklist": frozenset({"picklist"}), "multiselectpicklist": frozenset({"multipicklist"}),
+    "text": frozenset({"string"}), "longtextarea": frozenset({"textarea"}), "html": frozenset({"textarea"}),
+    "number": frozenset({"double", "int"}), "currency": frozenset({"currency"}), "percent": frozenset({"percent"}),
+    "date": frozenset({"date"}), "datetime": frozenset({"datetime"}), "checkbox": frozenset({"boolean"}),
+    "email": frozenset({"email"}), "phone": frozenset({"phone"}), "url": frozenset({"url"}),
+    "lookup": frozenset({"reference"}), "masterdetail": frozenset({"reference"}),
+}
+_ALL_LIVE_TYPES = frozenset().union(*_FIELD_TYPES.values())
+
+
+def _component_path(ctype: str, member: str) -> str | None:
+    """Where the source-format file of a component lives, or None for a type this tool does not write."""
+    obj, _, name = member.partition(".")
+    return {
+        "CustomObject": f"objects/{member}/{member}.object-meta.xml",
+        "CustomField": f"objects/{obj}/fields/{name}.field-meta.xml",
+        "StandardValueSet": f"standardValueSets/{member}.standardValueSet-meta.xml",
+        "BusinessProcess": f"objects/{obj}/businessProcesses/{name}.businessProcess-meta.xml",
+        "RecordType": f"objects/{obj}/recordTypes/{name}.recordType-meta.xml",
+        "PathAssistant": f"pathAssistants/{member}.pathAssistant-meta.xml",
+        "Settings": f"settings/{member}.settings-meta.xml",
+        "ValidationRule": f"objects/{obj}/validationRules/{name}.validationRule-meta.xml",
+    }.get(ctype)
+
+
+def check_payload(change: Change) -> None:
+    """Refuse a change whose components or files are not what its kind deploys (D-27). Raises `SafetyError`.
+
+    The plan file is editable and its file text is deployed as written, so: only the metadata types the kind uses may
+    appear, every file must be the file of one of those components and no other, and only the two removal kinds may
+    write an inactive value. A field's type against the live org is checked later, once the org is read.
+    """
+    where = f"{change.kind} {change.target}"
+    allowed = _KIND_TYPES.get(change.kind)
+    comps, files = change.payload.get("components"), change.payload.get("files")
+    if allowed is None or not isinstance(comps, list) or not isinstance(files, dict) or not comps:
+        raise SafetyError(f"Plan change {where} has no payload this adapter deploys. Nothing was changed.")
+    expected: set[str] = set()
+    for comp in comps:
+        if not (isinstance(comp, list) and len(comp) == 2 and all(isinstance(x, str) for x in comp)):
+            raise SafetyError(f"Plan change {where} has a component of the wrong shape. Nothing was changed.")
+        ctype, member = comp
+        path = _component_path(ctype, member) if _MEMBER.match(member) else None
+        if ctype not in allowed or path is None:
+            raise SafetyError(f"Plan change {where} deploys {ctype} {member!r}, which a {change.kind} may not. Nothing was changed.")
+        expected.add(path)
+    if set(files) != expected or not all(isinstance(t, str) for t in files.values()):
+        raise SafetyError(f"Plan change {where} carries files that are not those of its components. Nothing was changed.")
+    if change.kind not in _REMOVAL_KINDS and any(re.search(r"<isActive>\s*false\s*</isActive>", t) for t in files.values()):
+        raise SafetyError(f"Plan change {where} would deactivate a value. Nothing was changed.")
+
+
+def _check_field_types(change: Change, snap: "Snapshot") -> None:
+    """Refuse a field file whose type differs from the live field's (a deploy would not be a safe change)."""
+    for ctype, member in change.payload.get("components") or []:
+        if ctype != "CustomField":
+            continue
+        obj, _, name = member.partition(".")
+        path = _component_path(ctype, member)
+        text = (change.payload.get("files") or {}).get(path or "", "")
+        m = re.search(r"<type>\s*([A-Za-z]+)\s*</type>", text)
+        live = next((f for f in (snap.describes.get(obj, {}).get("fields") or []) if f.get("name") == name), None)
+        if m is None or live is None:
+            continue
+        wanted = _FIELD_TYPES.get(m.group(1).lower())
+        have = str(live.get("type") or "").lower()
+        if wanted is not None and have in _ALL_LIVE_TYPES and have not in wanted:
+            raise SafetyError(
+                f"Plan change {change.kind} {change.target} would change {member} from live type {have} to "
+                f"{m.group(1)}. Types are never changed in place. Nothing was changed."
+            )
 
 
 # --- checks of live state (used before each deploy phase) --------------------------------------
@@ -1313,6 +1479,38 @@ def _fit_changes(
                 drift=True,
             ))
         kept = []
+    return kept, manual
+
+
+_STAGE_KINDS = frozenset({"add_pipeline", "add_stage", "remove_stage", "rename_stage", "update_stage", "reorder_stages"})
+
+
+def _hold_renamed_stage_changes(
+    changes: Sequence[Change], objects: set[str]
+) -> tuple[list[Change], list[ManualStep]]:
+    """Turn every stage change on an object whose live stage values are spelt differently into a manual step (D-26).
+
+    The stage files of one object share their values: a deploy of one pipeline's change writes the object's whole stage
+    value set. If the org holds a value under another spelling, that deploy could add a second copy or change a
+    pipeline the person did not touch, and a safe-looking change would not be safe. Nothing is deployed for it.
+    """
+    kept: list[Change] = []
+    manual: list[ManualStep] = []
+    for c in changes:
+        if c.kind in _STAGE_KINDS and c.target.split(".")[0] in objects:
+            manual.append(ManualStep(
+                title=f"{c.summary} by hand",
+                reason=(
+                    "A stage value on this object is named differently in the org from the name this design now "
+                    "generates (another pipeline shares the stage's label, D-17). Deploying could add a second copy of "
+                    "a value or change a pipeline this change does not touch, so it is not deployed."
+                ),
+                ui_path=_ADD_PATHS.get(c.kind, f"{_SETUP}, pick the object"),
+                done_when="The org shows the design's wording and re-planning shows no difference.",
+                drift=True,
+            ))
+        else:
+            kept.append(c)
     return kept, manual
 
 

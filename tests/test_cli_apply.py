@@ -89,7 +89,7 @@ def test_production_runs_after_the_right_name(design, tmp_path, monkeypatch):
     path, adapter = make_plan_file(design, tmp_path)
     factory = factory_for(adapter)
     monkeypatch.setattr(sys, "stdin", _Tty())
-    monkeypatch.setattr("builtins.input", lambda prompt="": "Acme Ltd")
+    monkeypatch.setattr("builtins.input", lambda prompt="": "Fake Sandbox Ltd")  # the LIVE name, not --target
     argv = [str(path), "--clients-dir", str(tmp_path / "clients"), "--execute", "--production",
             "--client", "acme", "--target", "Acme Ltd"]
     assert crm_apply.main(argv, adapter_factory=factory, env={}) == 0

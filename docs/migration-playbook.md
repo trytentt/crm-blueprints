@@ -1,8 +1,8 @@
 # Migration playbook
 
 How to move data into a new or amended CRM safely, and how to do the destructive manual steps that
-the planner emits. The tools never delete, archive or retype anything. A person does these steps,
-in the sandbox first.
+the planner emits. The tools never delete or retype anything. They archive, hide or deactivate only an option or a
+stage, and only with `--allow-review`. A person does these steps, in the sandbox first.
 
 ## Rules
 

@@ -85,15 +85,20 @@ Work in a sandbox or test account until sign-off. Platform notes are in the tabl
 | 6 | Plan | `uv run python -m tools.crm_pull --platform hubspot --out clients/acme/build/state.json` (optional: see what is there), then `uv run python -m tools.crm_plan clients/acme/design.yaml --platform hubspot --out clients/acme/build/plan.json` |
 | 7 | Apply to sandbox | Dry run first: `uv run python -m tools.crm_apply clients/acme/build/plan.json --client acme`. Then, once the plan has been read and agreed: add `--execute`. Add `--allow-review` only for `needs_review` changes someone has read. |
 | 8 | QA | Do the manual steps in `manual-steps.md`. Work through [checklists/go-live-qa.md](checklists/go-live-qa.md). Re-plan; the result must be empty. |
-| 9 | Sign-off tag | Commit the client folder, then `git tag acme-v1.0 -m "Acme signed off"`. |
+| 9 | Sign-off tag | Commit the client folder, then `git tag acme-v1.0 -m "Acme signed off"`. **If you work from the public copy of this repository, keep client work in a private repository or a private fork:** a client folder holds the client's design and notes. Build artefacts (`clients/*/build/state.json`, `plan.json` and the like) hold the client's live CRM structure and are git-ignored; do not force-add them. |
 | 10 | Amendment | Edit `design.yaml`. `uv run python -m tools.diff_design acme-v1.0:clients/acme/design.yaml clients/acme/design.yaml` shows what changes and its risk. Then validate, generate, plan, apply, as above. Record it in `clients/acme/CHANGELOG.md`. |
-| 11 | Drift check | `uv run python -m tools.crm_drift clients/acme/design.yaml --platform hubspot` (exit 0 means no drift). Run it monthly, with [checklists/monthly-data-quality.md](checklists/monthly-data-quality.md). |
+| 11 | Drift check | `uv run python -m tools.crm_drift clients/acme/design.yaml --platform hubspot` (exit 0 means no drift the tool can see: detection is partial on Attio and HubSpot, where a pending reorder and similar manual steps are not counted, D-23). Run it monthly, with [checklists/monthly-data-quality.md](checklists/monthly-data-quality.md). |
 
 Notes on the steps:
 
-- `--target` names the sandbox or org. The default is the sandbox. `--production` exists, but only the
-  engineer at the keyboard uses it, after sign-off, and it asks them to type the account name. See
-  [docs/automated-builds.md](docs/automated-builds.md).
+- `--target` is a label you type: the Salesforce org alias, or a label checked against `ATTIO_TARGET` or
+  `HUBSPOT_TARGET`. It never says which account is reached; the account is read from the platform and
+  stored in the plan. The default is the sandbox. `--production` exists, but only the engineer at the
+  keyboard uses it, after sign-off, and it shows the live account and asks them to type its name. A plan
+  made for a different account is refused. See [docs/automated-builds.md](docs/automated-builds.md).
+- **HubSpot:** an account counts as production unless the account-information call reports a developer
+  test account or sandbox type. Those `accountType` values are unconfirmed until a live run (D-25), so a
+  test account that reports something else needs `--production` too.
 - A plan has three kinds of change: `safe` (adds), `needs_review` (renames, reorders, hiding options
   or stages) and manual steps. Removals and type changes are never applied. They appear as destructive
   manual steps with data-migration instructions. See [docs/migration-playbook.md](docs/migration-playbook.md).
@@ -133,8 +138,11 @@ Points to know before quoting a client:
 
 ## Safety in one paragraph
 
-Nothing changes a CRM unless `--execute` is passed. Production needs `--execute --production` and a
-typed account name. The tools never delete or archive anything and never change a field type in place.
+Nothing changes a CRM unless `--execute` is passed. Production needs `--execute --production`, a plan
+made for that same account, and the live account name typed by the person (read from the platform at apply
+time, not from the plan or a flag). Nothing is ever deleted. Removals of options and stages hide, archive
+or deactivate them (the data is kept) and run only with `--allow-review`; removals of objects, fields,
+relationships and pipelines are manual steps. A field type is never changed in place.
 Credentials come only from environment variables. The nine rules and where each is enforced are in
 [docs/automated-builds.md](docs/automated-builds.md).
 

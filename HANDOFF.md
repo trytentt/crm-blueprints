@@ -20,7 +20,7 @@ features. 4 Open questions. 5 How it was tested. 6 Recommended next steps. 7 Def
 | CRM tools | `tools/crm_pull.py`, `crm_plan.py`, `crm_apply.py`, `crm_drift.py` | Pull state, plan, apply (dry run by default), and drift. |
 | Docs and skill | `README.md`, `CLAUDE.md`, `docs/`, `checklists/`, `skills/crm-builder/` | Workflow, principles, discovery questions, naming, build sequence, migration playbook, platform comparison, automated builds, go-live and monthly checklists. |
 | Tests and CI | `tests/`, `.github/workflows/ci.yml` | 566 tests (section 5). CI runs validate, generate `--check` and pytest. |
-| Decisions | `DECISIONS.md` | D-1 to D-23: every judgement call, with why and what would change it. Read D-19 (Salesforce adapter) and D-21 to D-23 first. |
+| Decisions | `DECISIONS.md` | D-1 to D-28: every judgement call, with why and what would change it. Read D-19 (Salesforce adapter), D-21 to D-23 (found and left open) and D-24 to D-28 (the review's fixes) first. |
 
 Public use (D-16): no real company, person or account data, and no internal names or local paths.
 `tests/test_public_safe.py` scans for them. The licence is MIT (`LICENSE`).
@@ -104,8 +104,11 @@ first run in a test account or sandbox to confirm.** Record each answer in the o
 **HubSpot**
 
 - LIVE: the account-information call. `GET /account-info/v3/details` and its response shape are not
-  confirmed (D-15). Without it the production prompt falls back to the portal id from a custom
-  object's `fullyQualifiedName`, and then to `HUBSPOT_TARGET` alone.
+  confirmed (D-15): the portal id, whether it returns a portal name, and the `accountType` values
+  (D-25). The tool takes only `DEVELOPER_TEST` and `SANDBOX` as test accounts and treats every other
+  or unreadable value as production, so a real developer test account that reports something else
+  will need `--production` until the values are confirmed. Without the call the portal id comes from a
+  custom object's `fullyQualifiedName`; with no id at all a production apply is refused (D-24).
 - LIVE: the custom-object limits response (`GET /crm/limits/{V}/custom-object-types`) has no
   documented shape. The adapter reads any `maxLimit` or `limit` and `usage` number (D-15).
 - LIVE: the "already exists" status and category for property, group, schema, pipeline, label and
@@ -128,6 +131,15 @@ first run in a test account or sandbox to confirm.** Record each answer in the o
   differs from what was sent only in elements Salesforce adds (G, steps 2 and 4).
 - LIVE: whether a field-file deploy puts a new picklist value mid-order, and whether a business
   process keeps design order (D-23). The adapter reads Opportunity order but not a custom object's.
+- LIVE: whether a real `BusinessProcess` deploy merges the values it lists into the existing process
+  or replaces them (the simulator merges; D-26). The stage-name fix does not depend on the answer, but
+  any later stage work does.
+- LIVE: what Salesforce does to live picklist values that are missing from a deployed field file:
+  keeps them, deactivates them, or rejects the deploy. The tool assumes a removal needs an explicit
+  inactive value (D-26).
+- LIVE: the Professional-edition dry run prints "Would apply: N" and then the adapter's note that
+  nothing can be deployed (D-23 item 4). Check that this reads clearly to a person, and whether the
+  CLI should say "nothing can be deployed" itself.
 - LIVE: how `OpportunityStage` behaves on deploy: default stages staying (E10), and whether a source
   deploy can deactivate one. Until known, an Opportunity stage removal is a manual step.
 - LIVE: record-type picklist values (E4), the `__Master__` path record type (E11), global value set
@@ -146,9 +158,12 @@ first run in a test account or sandbox to confirm.** Record each answer in the o
   (D1). HubSpot is pinned to `2026-09`.
 - **No read-only metadata permission on Salesforce** (C2). A build user that can retrieve can also
   deploy. The safety is in the tool (dry run by default, no destructive flags), not the permission.
-- **Shared stage names (D-23).** Two Opportunity pipelines that share a stage label get the value
-  "label (pipeline name)" when type or probability differ. Remove the stage from one and the other is
-  renamed in the design's eyes, so the next plan asks to add a value the org holds under the old name.
+- **Shared stage names (D-23, fixed by D-26).** Two Opportunity pipelines that share a stage label get
+  the value "label (pipeline name)" when type or probability differ. Remove the stage from one and the
+  other's generated value changes. The adapter now recognises the old spelling in the org as the same
+  stage (a manual rename step, no add or remove), and any stage change on an object holding a
+  differently spelt value is a manual step, never a deploy. How a real deploy treats such values is on
+  the live-run list.
 - **Drift is partial (D-23).** Only Salesforce marks manual steps that stand for a difference. A
   pending stage reorder on Attio is not reported as drift.
 - **Gaps in the design format:** view sort and automations are manual everywhere; `one_to_one` has
@@ -165,10 +180,10 @@ naming a missing field fails as it would in an org).
 
 | Suite | Files | Tests |
 |---|---|---|
-| Unit: design, validation, planner, safety, generators, adapters, CLIs | `test_design`, `test_validate`, `test_planner`, `test_safety`, `test_plan_json`, `test_generate`, `test_generator_*`, `test_crm_*`, `test_cli_*` | 431 (includes 3 live tests, skipped) |
-| End to end | `test_end_to_end.py` | 117 |
+| Unit: design, validation, planner, safety, generators, adapters, CLIs | `test_design`, `test_validate`, `test_planner`, `test_safety`, `test_plan_json`, `test_generate`, `test_generator_*`, `test_crm_*`, `test_cli_*`, `test_review_fixes` | 473 (includes 3 live tests, skipped) |
+| End to end | `test_end_to_end.py` | 119 |
 | Public safety | `test_public_safe.py` | 18 |
-| **All** | | **566 collected: 563 passed, 3 skipped** |
+| **All** | | **610 collected: 607 passed, 3 skipped** |
 
 The end-to-end suite drives the real command-line entry points (`new_client`, `crm_plan`, `crm_apply`,
 `crm_drift`, `diff_design`) with the real registry and adapters; only the HTTP session (Attio,
@@ -248,7 +263,9 @@ uv run python -m tools.crm_plan clients/live-hubspot/design.yaml --platform hubs
 uv run python -m tools.crm_drift clients/live-hubspot/design.yaml --platform hubspot                    # expect exit 0
 ```
 
-First read the plan's target: it should show the portal id (D-15). Then check the open points in
+First read the plan's `account` (in the plan JSON; the dry run prints the account at the prompt): it
+should show the portal id, and the portal name if the response has one (D-24). Check the `accountType`
+the call returns against D-25 before relying on the test-account shortcut. Then check the open points in
 4.1: the account-information call, the limits call, duplicate-create responses and stage reorder (the
 amendment leaves one `needs_review` reorder; apply it with `--allow-review` once you have read it).
 
@@ -281,8 +298,8 @@ lists the command), assign the permission set to a test user, and check field ac
 
 1. Replace the authored fixtures in `tests/fixtures/` with recorded ones (remove any token first) and
    update the fixture READMEs.
-2. Settle D-23: decide on stable Opportunity stage value names, and on reading a custom object's
-   stage order.
+2. Settle the rest of D-23: reading a custom object's stage order, and the live-run questions in 4.1
+   about `BusinessProcess` deploys and missing picklist values (stable stage names are done, D-26).
 3. Make the repository public only after the public-safety test passes on the final tree and the
    owner agrees. It is created private first (BRIEF section 10); there is no remote yet.
 
@@ -306,7 +323,7 @@ live result" marks anything proven only against simulators.
   folders. The formats match the documentation as read; none has been accepted by a real API yet
   (section 4.1). Not a live result.
 - [x] **Pull, plan, apply, drift and diff tools working; apply tested against fixtures, and against
-  sandboxes if credentials were provided.** The 117 end-to-end tests drive `crm_plan`, `crm_apply`,
+  sandboxes if credentials were provided.** The 119 end-to-end tests drive `crm_plan`, `crm_apply`,
   `crm_drift` and `diff_design` for every blueprint on every platform; `test_cli_read_only.py` covers
   `crm_pull`. No credentials were provided, so no sandbox run happened; the three live tests skip.
 - [x] **Amending a blueprint (add field, add option, add stage, remove field) produces the right
@@ -320,7 +337,7 @@ live result" marks anything proven only against simulators.
   (`test_production_gate`, `test_production_gate_salesforce`).
 - [~] **CI green.** The steps of `.github/workflows/ci.yml` were run locally in order: `uv sync`;
   `uv run python -m tools.validate --all --strict` (0 errors, 0 warnings);
-  `uv run python -m tools.generate --all --check` (exit 0); `uv run pytest` (563 passed, 3 skipped).
+  `uv run python -m tools.generate --all --check` (exit 0); `uv run pytest` (607 passed, 3 skipped).
   GitHub Actions has not run: the repository has no remote yet.
 - [x] **Docs, `CLAUDE.md` and skill complete.** a `git grep` for the confirmation marker comments (the ones that began "confirm once", in
   README.md, docs/ and the skill) prints nothing. `README.md`, `CLAUDE.md`, `skills/crm-builder/SKILL.md`, seven files in `docs/` and two in
@@ -329,5 +346,6 @@ live result" marks anything proven only against simulators.
   `SF_CLI`). `uv run pytest tests/test_public_safe.py` passes (18).
 - [x] **`HANDOFF.md` at the root.** This file.
 
-Not part of section 12 and not done: Phase 7, publishing (the repository has no remote, and this
-round's changes are uncommitted).
+Not part of section 12 and not done: Phase 7, publishing (the repository has no remote). All work,
+including the review fixes of D-24 to D-28, is committed on `main`; nothing has been pushed. The review's
+finding S5 (git history and author metadata) is the owner's decision and was left alone.

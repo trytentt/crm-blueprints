@@ -45,6 +45,7 @@ from typing import Any, Callable, Mapping
 import requests
 
 from tools.crm.base import (
+    Account,
     Adapter,
     Change,
     Failure,
@@ -421,6 +422,78 @@ _RE_SUB_COLL = re.compile(r"^/v2/(objects|lists)/([^/]+)/attributes/([^/]+)/(opt
 _RE_SUB = re.compile(r"^/v2/(objects|lists)/([^/]+)/attributes/([^/]+)/(options|statuses)/([^/]+)$")
 
 
+def _re_path(pattern: str) -> re.Pattern[str]:
+    return re.compile(pattern)
+
+
+_RE_OBJECTS_COLL = _re_path(r"^/v2/objects$")
+_RE_LISTS_COLL = _re_path(r"^/v2/lists$")
+_RE_OBJ_ATTR_COLL = _re_path(r"^/v2/objects/[^/]+/attributes$")
+_RE_STATUS_COLL = _re_path(r"^/v2/lists/[^/]+/attributes/[^/]+/statuses$")
+_RE_STATUS = _re_path(r"^/v2/lists/[^/]+/attributes/[^/]+/statuses/[^/]+$")
+_RE_OPTION_COLL = _re_path(r"^/v2/(?:objects|lists)/[^/]+/attributes/[^/]+/options$")
+_RE_OPTION = _re_path(r"^/v2/(?:objects|lists)/[^/]+/attributes/[^/]+/options/[^/]+$")
+_RE_OBJ_ATTR = _re_path(r"^/v2/objects/[^/]+/attributes/[^/]+$")
+_RE_LIST_ATTR_COLL = _re_path(r"^/v2/lists/[^/]+/attributes$")
+
+# What each change kind may send: (method, path pattern, PATCH body keys or None for a create). A hand-edited plan
+# cannot make a "safe" change do something else, such as archive an attribute (D-27).
+_ALLOWED_REQUESTS: dict[str, tuple[tuple[str, re.Pattern[str], frozenset[str] | None], ...]] = {
+    "add_object": (("POST", _RE_OBJECTS_COLL, None),),
+    "rename_object": (("PATCH", _RE_OBJECT, frozenset({"singular_noun", "plural_noun"})),),
+    "add_relationship": (("POST", _RE_OBJ_ATTR_COLL, None),),
+    "add_pipeline": (
+        ("POST", _RE_LISTS_COLL, None), ("POST", _RE_LIST_ATTR_COLL, None),
+        ("POST", _RE_STATUS_COLL, None), ("POST", _RE_OPTION_COLL, None),
+    ),
+    "add_stage": (("POST", _RE_STATUS_COLL, None),),
+    "rename_stage": (("PATCH", _RE_STATUS, frozenset({"title"})),),
+    "update_stage": (("PATCH", _RE_STATUS, frozenset({"celebration_enabled"})),),
+    "remove_stage": (("PATCH", _RE_STATUS, frozenset({"is_archived"})),),
+    "add_field": (("POST", _RE_OBJ_ATTR_COLL, None), ("POST", _RE_OPTION_COLL, None)),
+    "rename_field": (("PATCH", _RE_OBJ_ATTR, frozenset({"title"})),),
+    "add_option": (("POST", _RE_OPTION_COLL, None),),
+    "rename_option": (("PATCH", _RE_OPTION, frozenset({"title"})),),
+    "remove_option": (("PATCH", _RE_OPTION, frozenset({"is_archived"})),),
+}
+_ARCHIVING_KINDS = frozenset({"remove_stage", "remove_option"})
+
+
+def check_payload(change: Change) -> None:
+    """Refuse a change whose requests are not the ones its kind may send (D-27). Raises `SafetyError`.
+
+    The plan file is editable, so a payload is checked against the kind at apply time: each request must use a method
+    and path the kind allows, a PATCH may set only the keys the kind sets, and only the two removal kinds may archive.
+    """
+    rules = _ALLOWED_REQUESTS.get(change.kind)
+    where = f"{change.kind} {change.target}"
+    if rules is None:
+        raise SafetyError(f"Plan change {where} has a kind this adapter does not apply. Nothing was changed.")
+    requests = change.payload.get("requests") if isinstance(change.payload, dict) else None
+    if not isinstance(requests, list) or not requests:
+        raise SafetyError(f"Plan change {where} has no requests. Nothing was changed.")
+    for req in requests:
+        method, path, body = (req.get("method"), req.get("path"), req.get("body")) if isinstance(req, dict) else (None,) * 3
+        rule = next(
+            (r for r in rules if r[0] == method and isinstance(path, str) and r[1].match(path)), None
+        )
+        if rule is None:
+            raise SafetyError(
+                f"Plan change {where} sends {method} {path}, which a {change.kind} may not. Nothing was changed."
+            )
+        data = body.get("data") if isinstance(body, dict) and set(body) == {"data"} else None
+        if not isinstance(data, dict):
+            raise SafetyError(f"Plan change {where} has a request body of the wrong shape. Nothing was changed.")
+        if rule[2] is not None and set(data) != rule[2]:
+            raise SafetyError(
+                f"Plan change {where} sets {sorted(data)}, which a {change.kind} may not. Nothing was changed."
+            )
+        if change.kind in _ARCHIVING_KINDS and data != {"is_archived": True}:
+            raise SafetyError(f"Plan change {where} must only archive. Nothing was changed.")
+        if change.kind not in _ARCHIVING_KINDS and data.get("is_archived"):
+            raise SafetyError(f"Plan change {where} would archive something. Nothing was changed.")
+
+
 class AttioAdapter(Adapter):
     """Reads, plans and applies against one Attio workspace.
 
@@ -556,6 +629,13 @@ class AttioAdapter(Adapter):
         )
         return self.workspace
 
+    def read_account(self) -> Account:
+        """The live workspace: its name (what a production confirmation types) and its id, from `GET /v2/self`."""
+        live = self.identify()
+        if not live.name.strip():
+            raise SafetyError("Attio gave no workspace name, so the live account cannot be named. Nothing was changed.")
+        return Account(name=live.name, detail=f"workspace id {live.workspace_id or live.slug or 'unknown'}")
+
     # -- reading ---------------------------------------------------------------------------
 
     def _attributes(self, target: str, parent: str) -> list[dict[str, Any]]:
@@ -650,7 +730,10 @@ class AttioAdapter(Adapter):
             for c in plan.changes
             if c.kind == "reorder_stages"
         ]
-        return replace(plan, changes=changes, manual_steps=plan.manual_steps + tuple(reorders))
+        return replace(
+            plan, changes=changes, manual_steps=plan.manual_steps + tuple(reorders),
+            account=self.read_account().identity,
+        )
 
     @staticmethod
     def _manual_steps(design: Design, state: State) -> list[ManualStep]:
@@ -857,6 +940,7 @@ class AttioAdapter(Adapter):
         for change in plan.changes:
             if change.risk == "destructive":
                 raise SafetyError(f"Plan contains a destructive change ({change.kind} {change.target}).")
+            check_payload(change)
         if dry_run:
             return Result(applied=(), failed=(), remaining=plan.changes, dry_run=True)
         if self.production and not self._production_flag:

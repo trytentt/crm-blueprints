@@ -31,8 +31,16 @@ def test_json_is_stable_and_valid():
     text = sample().to_json()
     assert text.endswith("\n") and text == sample().to_json()
     data = json.loads(text)
-    assert list(data) == ["platform", "target", "changes", "manual_steps"]
+    assert list(data) == ["platform", "target", "account", "changes", "manual_steps"]
     assert data["changes"][0]["risk"] == "safe"
+
+
+def test_the_account_identity_round_trips_and_an_old_plan_without_it_loads():
+    plan = Plan("attio", "t", account="Acme [workspace id 1]")
+    assert Plan.from_json(plan.to_json()).account == "Acme [workspace id 1]"
+    old = json.loads(plan.to_json())
+    del old["account"]
+    assert Plan.from_json(json.dumps(old)).account == ""
 
 
 def test_empty_plan_round_trips():
