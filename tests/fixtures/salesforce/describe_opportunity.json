@@ -1,0 +1,161 @@
+{
+  "status": 0,
+  "result": {
+    "name": "Opportunity",
+    "label": "Opportunity",
+    "labelPlural": "Opportunities",
+    "custom": false,
+    "queryable": true,
+    "createable": true,
+    "fields": [
+      {
+        "name": "Id",
+        "label": "Opportunity ID",
+        "type": "id",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 18,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 120,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Amount",
+        "label": "Amount",
+        "type": "currency",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [],
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "CloseDate",
+        "label": "Close Date",
+        "type": "date",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "StageName",
+        "label": "Stage",
+        "type": "picklist",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [
+          {
+            "value": "Prospecting",
+            "label": "Prospecting",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Closed Won",
+            "label": "Closed Won",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Closed Lost",
+            "label": "Closed Lost",
+            "active": true,
+            "defaultValue": false
+          }
+        ],
+        "referenceTo": []
+      },
+      {
+        "name": "Description",
+        "label": "Description",
+        "type": "textarea",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 32000,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "NextStep",
+        "label": "Next Step",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 255,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "AccountId",
+        "label": "Account ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "Account"
+        ],
+        "relationshipName": "Account"
+      },
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "User"
+        ],
+        "relationshipName": "Owner"
+      }
+    ],
+    "recordTypeInfos": [
+      {
+        "active": true,
+        "available": true,
+        "defaultRecordTypeMapping": true,
+        "developerName": "Master",
+        "master": true,
+        "name": "Master",
+        "recordTypeId": "012000000000000AAA"
+      }
+    ],
+    "childRelationships": []
+  },
+  "warnings": []
+}

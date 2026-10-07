@@ -1,0 +1,28 @@
+{
+  "status": 68,
+  "result": {
+    "id": "0Af000000000001AAA",
+    "status": "SucceededPartial",
+    "success": false,
+    "done": true,
+    "checkOnly": false,
+    "numberComponentsTotal": 1,
+    "numberComponentsDeployed": 1,
+    "numberComponentErrors": 0,
+    "rollbackOnError": true,
+    "ignoreWarnings": false,
+    "details": {
+      "componentFailures": [],
+      "componentSuccesses": []
+    },
+    "files": [
+      {
+        "fullName": "Subscription__c",
+        "type": "CustomObject",
+        "state": "Created",
+        "filePath": "force-app/main/default/objects/Subscription__c/Subscription__c.object-meta.xml"
+      }
+    ]
+  },
+  "warnings": []
+}

@@ -1,0 +1,128 @@
+{
+  "status": 0,
+  "result": {
+    "name": "Contact",
+    "label": "Contact",
+    "labelPlural": "Contacts",
+    "custom": false,
+    "queryable": true,
+    "createable": true,
+    "fields": [
+      {
+        "name": "Id",
+        "label": "Contact ID",
+        "type": "id",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 18,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "FirstName",
+        "label": "First Name",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 40,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "LastName",
+        "label": "Last Name",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 80,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Email",
+        "label": "Email",
+        "type": "email",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 80,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Phone",
+        "label": "Business Phone",
+        "type": "phone",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 40,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Title",
+        "label": "Title",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 128,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "AccountId",
+        "label": "Account ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "Account"
+        ],
+        "relationshipName": "Account"
+      },
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "User"
+        ],
+        "relationshipName": "Owner"
+      }
+    ],
+    "recordTypeInfos": [
+      {
+        "active": true,
+        "available": true,
+        "defaultRecordTypeMapping": true,
+        "developerName": "Master",
+        "master": true,
+        "name": "Master",
+        "recordTypeId": "012000000000000AAA"
+      }
+    ],
+    "childRelationships": []
+  },
+  "warnings": []
+}

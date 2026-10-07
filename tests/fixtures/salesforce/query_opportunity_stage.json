@@ -1,0 +1,70 @@
+{
+  "status": 0,
+  "result": {
+    "totalSize": 5,
+    "done": true,
+    "records": [
+      {
+        "attributes": {
+          "type": "OpportunityStage"
+        },
+        "ApiName": "Prospecting",
+        "MasterLabel": "Prospecting",
+        "IsActive": true,
+        "IsClosed": false,
+        "IsWon": false,
+        "DefaultProbability": 10,
+        "SortOrder": 1
+      },
+      {
+        "attributes": {
+          "type": "OpportunityStage"
+        },
+        "ApiName": "Qualification",
+        "MasterLabel": "Qualification",
+        "IsActive": true,
+        "IsClosed": false,
+        "IsWon": false,
+        "DefaultProbability": 10,
+        "SortOrder": 2
+      },
+      {
+        "attributes": {
+          "type": "OpportunityStage"
+        },
+        "ApiName": "Needs Analysis",
+        "MasterLabel": "Needs Analysis",
+        "IsActive": true,
+        "IsClosed": false,
+        "IsWon": false,
+        "DefaultProbability": 20,
+        "SortOrder": 3
+      },
+      {
+        "attributes": {
+          "type": "OpportunityStage"
+        },
+        "ApiName": "Closed Won",
+        "MasterLabel": "Closed Won",
+        "IsActive": true,
+        "IsClosed": true,
+        "IsWon": true,
+        "DefaultProbability": 100,
+        "SortOrder": 4
+      },
+      {
+        "attributes": {
+          "type": "OpportunityStage"
+        },
+        "ApiName": "Closed Lost",
+        "MasterLabel": "Closed Lost",
+        "IsActive": true,
+        "IsClosed": true,
+        "IsWon": false,
+        "DefaultProbability": 0,
+        "SortOrder": 5
+      }
+    ]
+  },
+  "warnings": []
+}

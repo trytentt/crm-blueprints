@@ -1,0 +1,138 @@
+{
+  "status": 0,
+  "result": {
+    "name": "Account",
+    "label": "Account",
+    "labelPlural": "Accounts",
+    "custom": false,
+    "queryable": true,
+    "createable": true,
+    "fields": [
+      {
+        "name": "Id",
+        "label": "Account ID",
+        "type": "id",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 18,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Name",
+        "label": "Account Name",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 255,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Description",
+        "label": "Account Description",
+        "type": "textarea",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 32000,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "NumberOfEmployees",
+        "label": "Employees",
+        "type": "int",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Phone",
+        "label": "Account Phone",
+        "type": "phone",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 40,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Industry",
+        "label": "Industry",
+        "type": "picklist",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [
+          {
+            "value": "Banking",
+            "label": "Banking",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Retail",
+            "label": "Retail",
+            "active": true,
+            "defaultValue": false
+          }
+        ],
+        "referenceTo": []
+      },
+      {
+        "name": "Website",
+        "label": "Website",
+        "type": "url",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 255,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "User"
+        ],
+        "relationshipName": "Owner"
+      }
+    ],
+    "recordTypeInfos": [
+      {
+        "active": true,
+        "available": true,
+        "defaultRecordTypeMapping": true,
+        "developerName": "Master",
+        "master": true,
+        "name": "Master",
+        "recordTypeId": "012000000000000AAA"
+      }
+    ],
+    "childRelationships": []
+  },
+  "warnings": []
+}

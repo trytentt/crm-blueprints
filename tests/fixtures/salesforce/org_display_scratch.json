@@ -1,0 +1,18 @@
+{
+  "status": 0,
+  "result": {
+    "accessToken": "TEST-ONLY-NOT-A-TOKEN",
+    "apiVersion": "67.0",
+    "id": "00D000000000001AAA",
+    "username": "build-user.scratch",
+    "status": "Active",
+    "connectedStatus": "Connected",
+    "instanceUrl": "https://example-scratch.scratch.my.salesforce.com",
+    "alias": "example-scratch",
+    "devHubId": "build-user.hub",
+    "expirationDate": "2026-11-01",
+    "edition": "Enterprise",
+    "orgName": "Example scratch"
+  },
+  "warnings": []
+}

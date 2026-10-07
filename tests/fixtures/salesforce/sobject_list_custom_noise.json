@@ -1,0 +1,10 @@
+{
+  "status": 0,
+  "result": [
+    "Legacy_note__c",
+    "acme__Thing__c",
+    "Reading__mdt",
+    "Subscription__c"
+  ],
+  "warnings": []
+}

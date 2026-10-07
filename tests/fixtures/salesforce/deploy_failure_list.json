@@ -1,0 +1,69 @@
+{
+  "status": 1,
+  "result": {
+    "id": "0Af000000000001AAA",
+    "status": "Failed",
+    "success": "false",
+    "done": true,
+    "checkOnly": false,
+    "numberComponentsTotal": 1,
+    "numberComponentsDeployed": 0,
+    "numberComponentErrors": 2,
+    "rollbackOnError": true,
+    "ignoreWarnings": false,
+    "details": {
+      "componentFailures": [
+        {
+          "componentType": "ValidationRule",
+          "fileName": "objects/Opportunity.object",
+          "fullName": "Opportunity.Gate_new_business_proposal",
+          "problem": "Field Decision_process__c does not exist. Check spelling.",
+          "problemType": "Error",
+          "lineNumber": "1",
+          "columnNumber": "1",
+          "success": "false",
+          "created": "false",
+          "changed": "false",
+          "deleted": "false"
+        },
+        {
+          "componentType": "CustomField",
+          "fileName": "objects/Subscription__c.object",
+          "fullName": "Subscription__c.Status__c",
+          "problem": "Picklist value is too long.",
+          "problemType": "Error",
+          "lineNumber": "1",
+          "columnNumber": "1",
+          "success": false,
+          "created": "false",
+          "changed": "false",
+          "deleted": "false"
+        }
+      ],
+      "componentSuccesses": []
+    },
+    "files": [
+      {
+        "fullName": "Opportunity.Gate_new_business_proposal",
+        "type": "ValidationRule",
+        "state": "Failed",
+        "filePath": "force-app/main/default/objects/Opportunity/validationRules/Gate_new_business_proposal.validationRule-meta.xml",
+        "error": "Field Decision_process__c does not exist. Check spelling. (Line: 1, Col: 1)",
+        "problemType": "Error",
+        "lineNumber": 1,
+        "columnNumber": 1
+      },
+      {
+        "fullName": "Subscription__c.Status__c",
+        "type": "CustomField",
+        "state": "Failed",
+        "filePath": "force-app/main/default/objects/Subscription__c/fields/Status__c.field-meta.xml",
+        "error": "Picklist value is too long. (Line: 1, Col: 1)",
+        "problemType": "Error",
+        "lineNumber": 1,
+        "columnNumber": 1
+      }
+    ]
+  },
+  "warnings": []
+}

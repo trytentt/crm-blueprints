@@ -1,0 +1,44 @@
+{
+  "status": 1,
+  "result": {
+    "id": "0Af000000000001AAA",
+    "status": "Failed",
+    "success": false,
+    "done": true,
+    "checkOnly": false,
+    "numberComponentsTotal": 1,
+    "numberComponentsDeployed": 0,
+    "numberComponentErrors": 1,
+    "rollbackOnError": true,
+    "ignoreWarnings": false,
+    "details": {
+      "componentFailures": {
+        "componentType": "ValidationRule",
+        "fileName": "objects/Opportunity.object",
+        "fullName": "Opportunity.Gate_new_business_proposal",
+        "problem": "Field Decision_process__c does not exist. Check spelling.",
+        "problemType": "Error",
+        "lineNumber": "1",
+        "columnNumber": "1",
+        "success": "false",
+        "created": "false",
+        "changed": "false",
+        "deleted": "false"
+      },
+      "componentSuccesses": []
+    },
+    "files": [
+      {
+        "fullName": "Opportunity.Gate_new_business_proposal",
+        "type": "ValidationRule",
+        "state": "Failed",
+        "filePath": "force-app/main/default/objects/Opportunity/validationRules/Gate_new_business_proposal.validationRule-meta.xml",
+        "error": "Field Decision_process__c does not exist. Check spelling. (Line: 1, Col: 1)",
+        "problemType": "Error",
+        "lineNumber": 1,
+        "columnNumber": 1
+      }
+    ]
+  },
+  "warnings": []
+}

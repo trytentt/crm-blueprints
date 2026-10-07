@@ -1,0 +1,14 @@
+{
+  "status": 0,
+  "result": {
+    "accessToken": "TEST-ONLY-NOT-A-TOKEN",
+    "apiVersion": "67.0",
+    "id": "00D000000000001AAA",
+    "username": "build-user.sandbox",
+    "status": "Active",
+    "connectedStatus": "Connected",
+    "instanceUrl": "https://example-trading--dev1.sandbox.my.salesforce.com",
+    "alias": "example-sbx"
+  },
+  "warnings": []
+}

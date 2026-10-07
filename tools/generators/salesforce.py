@@ -296,9 +296,13 @@ class Build:
     skipped_required: list[FieldDef] = field(default_factory=list)
     multi_blank: bool = False
     names: Names = field(default_factory=Names)
+    # Read by the live adapter (tools/crm/salesforce.py); they do not change any generated file.
+    component_paths: dict[tuple[str, str], str] = field(default_factory=dict)  # (type, member) -> path under BASE
+    rel_components: dict[str, list[tuple[str, str]]] = field(default_factory=dict)  # relationship key -> components
 
     def add(self, ctype: str, member: str, path: str, text: str) -> None:
         self.components.add((ctype, member))
+        self.component_paths[(ctype, member)] = path
         self.files[path] = text
 
     def rules_for(self, pipeline: Pipeline, stage: Stage) -> list[Rule]:
@@ -498,27 +502,33 @@ def _emit_relationships(b: Build) -> None:
         if frm is None or to is None:
             continue
         desc = rel.purpose or f"Link from {frm.label} to {to.label}."
-        if rel.cardinality == "many_to_many":
-            _emit_junction(b, rel, frm, to, desc)
-            continue
-        if rel.cardinality == "one_to_many":
-            child, parent, child_label, list_label = to, frm, rel.to_label, rel.from_label
-        else:  # many_to_one and one_to_one: the field sits on the `from` side
-            child, parent, child_label, list_label = frm, to, rel.from_label, rel.to_label
-        child_api, parent_api = b.obj_api[child.key], b.obj_api[parent.key]
-        base = b.names.take(child_api, [_title(child_label), _title(rel.key)])
-        api = base + "__c"
-        name = _rel_name(b, parent_api, list_label, base)
-        text = xml_doc("CustomField", [
-            ("fullName", api), ("label", _fit_label(child_label)), ("description", _clip(desc, DESCRIPTION_LIMIT)),
-            ("type", "Lookup"), ("referenceTo", parent_api), ("deleteConstraint", "SetNull"),
-            ("externalId", False), ("required", False),
-            ("relationshipLabel", _clip(list_label, 80)), ("relationshipName", name),
-        ])
-        b.add("CustomField", f"{child_api}.{api}", f"objects/{child_api}/fields/{api}.field-meta.xml", text)
-        b.field_perms.add(f"{child_api}.{api}")
-        b.object_perms.add(child_api)
-        b.rel_fields[rel.key] = f"Lookup `{api}` on {child_api} to {parent_api}"
+        before = set(b.components)
+        _emit_relationship(b, rel, frm, to, desc)
+        b.rel_components[rel.key] = sorted(b.components - before)
+
+
+def _emit_relationship(b: Build, rel: RelationshipDef, frm: ObjectDef, to: ObjectDef, desc: str) -> None:
+    if rel.cardinality == "many_to_many":
+        _emit_junction(b, rel, frm, to, desc)
+        return
+    if rel.cardinality == "one_to_many":
+        child, parent, child_label, list_label = to, frm, rel.to_label, rel.from_label
+    else:  # many_to_one and one_to_one: the field sits on the `from` side
+        child, parent, child_label, list_label = frm, to, rel.from_label, rel.to_label
+    child_api, parent_api = b.obj_api[child.key], b.obj_api[parent.key]
+    base = b.names.take(child_api, [_title(child_label), _title(rel.key)])
+    api = base + "__c"
+    name = _rel_name(b, parent_api, list_label, base)
+    text = xml_doc("CustomField", [
+        ("fullName", api), ("label", _fit_label(child_label)), ("description", _clip(desc, DESCRIPTION_LIMIT)),
+        ("type", "Lookup"), ("referenceTo", parent_api), ("deleteConstraint", "SetNull"),
+        ("externalId", False), ("required", False),
+        ("relationshipLabel", _clip(list_label, 80)), ("relationshipName", name),
+    ])
+    b.add("CustomField", f"{child_api}.{api}", f"objects/{child_api}/fields/{api}.field-meta.xml", text)
+    b.field_perms.add(f"{child_api}.{api}")
+    b.object_perms.add(child_api)
+    b.rel_fields[rel.key] = f"Lookup `{api}` on {child_api} to {parent_api}"
 
 
 def _emit_junction(b: Build, rel: RelationshipDef, frm: ObjectDef, to: ObjectDef, desc: str) -> None:

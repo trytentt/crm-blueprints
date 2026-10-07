@@ -1,0 +1,14 @@
+{
+  "status": 0,
+  "result": {
+    "accessToken": "TEST-ONLY-NOT-A-TOKEN",
+    "apiVersion": "67.0",
+    "id": "00D000000000001AAA",
+    "username": "build-user.live",
+    "status": "Active",
+    "connectedStatus": "Connected",
+    "instanceUrl": "https://example-trading.my.salesforce.com",
+    "alias": "example-live"
+  },
+  "warnings": []
+}

@@ -1,0 +1,19 @@
+{
+  "status": 0,
+  "result": {
+    "totalSize": 1,
+    "done": true,
+    "records": [
+      {
+        "attributes": {
+          "type": "Organization",
+          "url": "/services/data/v67.0/sobjects/Organization/00D000000000001AAA"
+        },
+        "Name": "Example Trading Ltd",
+        "OrganizationType": "Enterprise Edition",
+        "IsSandbox": false
+      }
+    ]
+  },
+  "warnings": []
+}

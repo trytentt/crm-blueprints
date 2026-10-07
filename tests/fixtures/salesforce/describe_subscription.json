@@ -1,0 +1,203 @@
+{
+  "status": 0,
+  "result": {
+    "name": "Subscription__c",
+    "label": "Subscription",
+    "labelPlural": "Subscriptions",
+    "custom": true,
+    "queryable": true,
+    "createable": true,
+    "fields": [
+      {
+        "name": "Id",
+        "label": "Record ID",
+        "type": "id",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 18,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Name",
+        "label": "Subscription Name",
+        "type": "string",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 80,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "custom": false,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "User"
+        ],
+        "relationshipName": "Owner"
+      },
+      {
+        "name": "Arr__c",
+        "label": "Arr",
+        "type": "currency",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [],
+        "precision": 18,
+        "scale": 2
+      },
+      {
+        "name": "Status__c",
+        "label": "Status",
+        "type": "picklist",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [
+          {
+            "value": "Pending start",
+            "label": "Pending start",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Active",
+            "label": "Active",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "In renewal",
+            "label": "In renewal",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Churned",
+            "label": "Churned",
+            "active": true,
+            "defaultValue": false
+          },
+          {
+            "value": "Legacy status",
+            "label": "Legacy status",
+            "active": false,
+            "defaultValue": false
+          }
+        ],
+        "referenceTo": [],
+        "restrictedPicklist": true
+      },
+      {
+        "name": "Seats__c",
+        "label": "Seats",
+        "type": "double",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [],
+        "precision": 18,
+        "scale": 0
+      },
+      {
+        "name": "Success_owner__c",
+        "label": "Success owner",
+        "type": "reference",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "User"
+        ],
+        "relationshipName": "Subscription_Success_owner"
+      },
+      {
+        "name": "Company__c",
+        "label": "Company",
+        "type": "reference",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 0,
+        "picklistValues": [],
+        "referenceTo": [
+          "Account"
+        ],
+        "relationshipName": "Subscriptions"
+      },
+      {
+        "name": "Notes__c",
+        "label": "Notes",
+        "type": "textarea",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 32768,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "Contract_code__c",
+        "label": "Contract code",
+        "type": "string",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 255,
+        "picklistValues": [],
+        "referenceTo": []
+      },
+      {
+        "name": "acme__Tier__c",
+        "label": "Tier",
+        "type": "string",
+        "custom": true,
+        "nillable": true,
+        "createable": true,
+        "updateable": true,
+        "length": 255,
+        "picklistValues": [],
+        "referenceTo": []
+      }
+    ],
+    "recordTypeInfos": [
+      {
+        "active": true,
+        "available": true,
+        "defaultRecordTypeMapping": true,
+        "developerName": "Master",
+        "master": true,
+        "name": "Master",
+        "recordTypeId": "012000000000000AAA"
+      }
+    ],
+    "childRelationships": []
+  },
+  "warnings": []
+}
