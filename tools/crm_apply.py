@@ -9,7 +9,8 @@ Safety: needs_review changes are held unless --allow-review; destructive changes
 --production needs --execute and typing the account name. Before each change the live state is
 read again and a change already in place is skipped. The run stops at the first failure and
 reports applied, failed and remaining. Every run is logged, redacted, to
-clients/<client>/build/apply-log/<timestamp>.json.
+clients/<client>/build/apply-log/<timestamp>.json. On Salesforce, with --client, each deploy is staged in
+clients/<client>/build/salesforce/ and a failed one is left there to inspect.
 Exit codes: 0 done, 1 a change failed, 2 refused or error.
 """
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":  # pragma: no cover - allow `python tools/crm_apply.p
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.cli_common import AdapterFactory, default_factory, load_env, secret_values
-from tools.crm.base import Adapter, Change, Failure, Plan, State
+from tools.crm.base import Adapter, Change, Failure, Plan, Result, State
 from tools.crm.registry import RegistryError
 from tools.crm.safety import (
     Mode,
@@ -80,6 +81,7 @@ class Report:
     failed: list[Failure] = field(default_factory=list)
     remaining: list[Change] = field(default_factory=list)
     held: list[Change] = field(default_factory=list)
+    notes: list[str] = field(default_factory=list)  # what the adapter says about the run (for example, no deploy possible)
 
     def to_dict(self) -> dict[str, Any]:
         """Plain dict for the log."""
@@ -92,6 +94,7 @@ class Report:
             "failed": [{"change": asdict(f.change), "error": f.error} for f in self.failed],
             "remaining": [asdict(c) for c in self.remaining],
             "held_for_review": [asdict(c) for c in self.held],
+            "notes": list(self.notes),
         }
 
 
@@ -140,8 +143,12 @@ def run_plan(
         # An adapter that found the change already in place reports it in `skipped`; do not log it as applied.
         if change in getattr(adapter, "skipped", ()):
             report.skipped.append(change)
-        else:
+        elif change in result.applied:
             report.applied.append(change)
+        else:
+            # The adapter did nothing and failed nothing (Salesforce on an edition without the Metadata API):
+            # the change is still to do, so it is not logged as applied.
+            report.remaining.append(change)
     return report
 
 
@@ -162,6 +169,7 @@ def render_report(report: Report) -> str:
     for f in report.failed:
         lines.append(f"  - [{f.change.kind}] {f.change.summary}")
         lines.append(f"    error: {redact(f.error)}")
+    lines += [f"Note: {n}" for n in report.notes]
     return "\n".join(lines) + "\n"
 
 
@@ -201,7 +209,14 @@ def main(
         # Only a target the user typed goes to the adapter. The plan's target is a display name
         # (Attio: the workspace name) and need not equal ATTIO_TARGET or HUBSPOT_TARGET.
         adapter = (adapter_factory or default_factory)(platform, environment, args.target, mode.production)
+        if args.client and hasattr(adapter, "build_dir"):
+            # Salesforce stages each deploy in a folder. Under the client's build/ it can be inspected after a
+            # failure (a successful deploy removes its own folder); otherwise it would sit in the system temp folder.
+            staging = args.clients_dir / args.client / "build" / "salesforce"
+            staging.mkdir(parents=True, exist_ok=True)
+            adapter.build_dir = staging
         report = run_plan(plan, adapter, mode, confirm=confirm_production, design_path=args.design)
+        report.notes = [str(n) for n in getattr(adapter, "notes", ()) or ()]
     except (SafetyError, RegistryError, DesignError) as exc:
         print(f"refused: {redact(str(exc), secrets)}", file=sys.stderr)
         return 2

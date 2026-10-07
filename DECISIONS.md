@@ -260,3 +260,37 @@ toolkit. This overrides the brief's "internal toolkit" and "private" wording.
 - **Failure reporting.** A deploy is all or nothing (rollback on error), so a failed phase applies nothing; `applied` holds earlier phases, `failed` holds the change that owns the first failed component (matched by full name or file path, else the first in the phase) with the redacted component errors, and `remaining` holds everything else including held changes. Exit code 69 is a failure that tells the person to check the job with `sf project deploy report`; it is never retried.
 - **Working folders.** Each deploy and retrieve uses a temporary project folder (under `build_dir` when given, else the system temp directory). It is removed afterwards, except that a failed deploy is kept when `build_dir` is set.
 - **Fixtures.** `tests/fixtures/salesforce/` is authored from the documented shapes, not recorded (D-2); `tests/salesforce_stub.py` is a stateful stand-in for `sf` that checks the manifest against the files written and cross references (a record type or rule naming a missing field fails), so phase order is tested.
+
+## D-20. Licence and the finishing pass (2026-10-07)
+
+- **Licence.** The owner chose MIT. `LICENSE` names the holder "crm-blueprints contributors" and the year 2026, and the README says so. This settles the question D-16 left open. Whether the repository is made public is still the owner's call.
+- **Markers.** Every adapters-land confirmation marker (an HTML comment) was resolved against the code. The variable names are `ATTIO_ACCESS_TOKEN` and `ATTIO_TARGET`, `HUBSPOT_ACCESS_TOKEN` and `HUBSPOT_TARGET`, `SF_TARGET_ORG` with optional `SF_API_VERSION` and `SF_CLI`; `.env.example` already matched. The docs now say plainly that no live CRM has been exercised.
+- **Where generated files go.** `tools.generate` writes platform folders next to the design (`clients/<client>/<platform>/`, `blueprints/<name>/<platform>/`). `clients/README.md` said `build/`; the docs now match the code. `build/` holds what a run leaves behind: `apply-log/`, any plan or state file saved there with `--out`, and Salesforce deploy staging.
+- **Salesforce deploy staging moved under `build/`.** The adapter supported a `build_dir` (D-19) but no CLI set it, so staging always went to the system temp folder and a failed deploy could not be inspected. `crm_apply` now sets it to `clients/<client>/build/salesforce/` when `--client` is given. A successful deploy still removes its own folder; a failed one is left. The folder is git-ignored. The alternative, documenting that staging is temporary, was rejected because a failed deploy is exactly when the files are wanted.
+
+## D-21. Bugs the Salesforce end-to-end run found (2026-10-07)
+
+- **`crm_apply` logged a change as applied when the adapter did nothing.** On an edition without the Metadata API the Salesforce adapter returns nothing applied and nothing failed (D-19). The CLI appended every such change to `applied`, so a Professional org's log claimed dozens of builds that never happened. A change now counts as applied only if the adapter's result says so; otherwise it stays in `remaining`. The adapter's `notes` are printed ("Note: ...") and written to the log. Regression: `tests/test_cli_apply.py::test_a_change_the_adapter_declined_is_not_logged_as_applied`, and the Professional case in `tests/test_end_to_end.py`.
+- **`crm_drift` said "No drift" for an unbuilt Professional org.** On such an org every change is a manual step, and drift counted only changes and destructive steps. `ManualStep` gains `drift: bool = False` (additive, default false, so saved plans still load), the Salesforce adapter sets it on every manual step that stands for a difference it could not close (edition, renames, reorders, fields with no file), and `crm_drift` counts those. Routine hand work such as building a flow is still not drift. Regression: `tests/test_cli_read_only.py::test_drift_counts_a_manual_step_that_stands_for_a_difference` and the Professional case.
+
+## D-22. Salesforce end-to-end allowances (2026-10-07)
+
+The Salesforce matrix runs the same journey as the other two platforms with these differences, each from D-17 or D-19 and none weakening an assertion:
+
+- **Build order** is the adapter's (objects, relationships, fields, pipelines), not the planner's.
+- **Automations and views** are found by name ("Build the view ...", "Set the sort on ..."), because Salesforce steps are titled after the flow or view, not "workflow".
+- **The removed field** is never an `owner` field. A custom object's `owner` is the standard Owner (D-17), so removing it from the design leaves nothing to remove in the org.
+- **The added stage** goes on a deal pipeline with room for it (investor VC's is at the eight-open-stage limit and uses another). A deal pipeline's order is read from its business process, so the follow-up reorder appears as exactly one manual step, as on Attio. For a pipeline on a custom object the order cannot be read back, so no reorder is asked for.
+- **A separate test removes a deal stage** and asserts it is a destructive manual step, no change, nothing deployed.
+- **Production** is the org itself. The gate test uses a Developer Edition org that is not a sandbox, which counts as production, and checks every refusal (no org named, no `--production`, no terminal, wrong name) before the right name goes through. A check-only run on production is allowed.
+- **A Professional edition org** gets only manual steps pointing at the build sheet and nothing is deployed, applying an Enterprise-made plan to it changes nothing, and drift is reported.
+- **A refused deploy** stops the run, reports applied, failed and remaining, and the same plan resumes to a zero-change re-plan.
+
+## D-23. Found and left open (2026-10-07)
+
+These were seen while testing Salesforce. They are recorded rather than fixed because each is a design decision, not a slip.
+
+- **A stage value two pipelines share is renamed when only one keeps it.** Values with the same label and different type or probability are named "label (pipeline name)" (D-17). Remove the stage from one pipeline and the other's value is named plainly, so the next plan asks to add a stage the org holds under the old name. Measured on `agency-marketing`: `Negotiation (Retainer renewals)` becomes `Negotiation`. Naming from the whole design is what makes this happen; stable names would need a stored mapping. The end-to-end stage-removal test picks a label no other pipeline uses.
+- **A custom object's stage order is not read back**, so a stage added mid-pipeline there is never flagged for reordering. Whether a deploy of the field file puts the value in the right place is one of the points a live run must settle (HANDOFF.md).
+- **Manual steps on Attio and HubSpot are not counted as drift** (a reorder on Attio, for example). Only the Salesforce adapter sets `ManualStep.drift` so far.
+- **Applying a plan to a Professional edition org prints "Would apply: N" in a dry run**, followed by the adapter's note that nothing can be deployed. The adapter cannot tell the CLI which of the two it means; the note is the signal.

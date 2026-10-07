@@ -18,7 +18,11 @@ Each step needs the one before it. Skipping ahead causes rework or a half-built 
 
 About step 3: the planner's passes run objects, relationships, pipelines, then fields, as the
 tests require (DECISIONS D-8). A platform that checks stage-rule fields at creation time handles the
-ordering inside its adapter or generator. <!-- confirm once adapters land: how the Salesforce generator orders stage-gating validation rules against fields -->
+ordering inside its adapter or generator. On Salesforce the generator writes every file into one
+folder with one `package.xml`, so a single deploy resolves rules against fields. The adapter
+deploys in four phases, objects, relationships, fields, then pipelines (record types, paths and
+stage-gating validation rules), because a rule or record type that names a field fails if the field
+does not exist yet. Building by hand from the build sheet, create the fields before the rules.
 
 ## What is automated and what is by hand
 

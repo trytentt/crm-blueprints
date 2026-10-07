@@ -229,3 +229,23 @@ def test_a_change_the_adapter_found_in_place_is_logged_as_skipped(design, tmp_pa
     assert run(path, adapter, tmp_path, "--execute", "--client", "acme") == 0
     (log,) = read_logs(tmp_path / "clients", "acme")
     assert log["applied"] == [] and len(log["already_satisfied"]) == 3
+
+
+def test_a_change_the_adapter_declined_is_not_logged_as_applied(design, tmp_path, capsys):
+    """Regression: Salesforce on an edition without the Metadata API returns nothing applied and nothing failed.
+
+    The CLI used to log every such change as applied. It is still to do, and the adapter's note says why.
+    """
+    path, adapter = make_plan_file(design, tmp_path)
+    adapter.notes = ["This edition cannot use the Metadata API. Nothing was deployed."]
+
+    def declines(plan, *, dry_run=True):
+        return crm_apply.Result((), (), plan.changes, dry_run=dry_run)
+
+    adapter.apply = declines  # type: ignore[method-assign]
+    assert run(path, adapter, tmp_path, "--execute", "--client", "acme") == 0
+    (log,) = read_logs(tmp_path / "clients", "acme")
+    assert log["applied"] == [] and len(log["remaining"]) == 3
+    assert log["notes"] == ["This edition cannot use the Metadata API. Nothing was deployed."]
+    out = capsys.readouterr().out
+    assert "Applied: 0" in out and "Note: This edition cannot use the Metadata API" in out

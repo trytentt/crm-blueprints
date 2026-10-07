@@ -75,6 +75,16 @@ def test_drift_reports_extras_in_live(design, capsys):
     assert "deal.extra" in capsys.readouterr().out
 
 
+def test_drift_counts_a_manual_step_that_stands_for_a_difference(design):
+    """Regression: on an edition with no deploy API every change is a manual step, and an unbuilt org is not 'no drift'."""
+    from tools.crm.base import ManualStep, Plan
+    from tools.crm_drift import drift_plan
+    gap = ManualStep("Add field", "cannot deploy here", "UI", "exists", drift=True)
+    routine = ManualStep("Build flow", "no API", "UI", "runs")
+    assert drift_plan(Plan("salesforce", "t", (), (routine, gap))).manual_steps == (gap,)
+    assert Plan.from_json(Plan("salesforce", "t", (), (gap,)).to_json()).manual_steps == (gap,)
+
+
 def test_drift_ignores_safe_manual_steps(design):
     from tools.crm.base import ManualStep, Plan
     from tools.crm_drift import drift_plan

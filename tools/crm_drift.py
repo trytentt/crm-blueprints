@@ -25,10 +25,11 @@ from tools.design import DesignError, load_design
 
 
 def drift_plan(plan: Plan) -> Plan:
-    """Keep only what counts as drift: every change, and destructive manual steps (extras in live)."""
+    """Keep only what counts as drift: every change, destructive manual steps (extras in live), and manual steps
+    that stand for a difference the adapter could not close itself (`ManualStep.drift`)."""
     return Plan(
         plan.platform, plan.target, plan.changes,
-        tuple(m for m in plan.manual_steps if m.risk == "destructive"),
+        tuple(m for m in plan.manual_steps if m.risk == "destructive" or m.drift),
     )
 
 

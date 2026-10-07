@@ -4,7 +4,8 @@
     uv run python -m tools.generate --all
     uv run python -m tools.generate --all --check
 
-Output goes to blueprints/<name>/<platform>/. --check writes nothing and exits 1 if any committed
+Output goes next to the design: blueprints/<name>/<platform>/ for a blueprint, clients/<client>/<platform>/ for a
+client design. --check writes nothing and exits 1 if any committed
 file differs from a fresh generation. A platform with no generator module yet is reported and skipped.
 """
 

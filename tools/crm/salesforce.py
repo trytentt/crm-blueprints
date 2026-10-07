@@ -1273,6 +1273,7 @@ def _fit_changes(
                 title=title.format(t=c.target), reason=why + f" Change wanted: {c.summary}.",
                 ui_path=_ADD_PATHS.get(c.kind, f"{_SETUP}, pick the object"),
                 done_when="The org shows the design's wording and re-planning shows no difference.",
+                drift=True,
             ))
             continue
         if not c.payload:
@@ -1295,6 +1296,7 @@ def _fit_changes(
                     reason="This item has no metadata file (a standard field or a value shared by another pipeline).",
                     ui_path=_ADD_PATHS.get(c.kind, f"{_SETUP}, pick the object"),
                     done_when="The org shows the design's wording and re-planning shows no difference.",
+                    drift=True,
                 ))
             continue
         kept.append(c)
@@ -1308,6 +1310,7 @@ def _fit_changes(
                         f"Build by hand from {sheet}."),
                 ui_path=_ADD_PATHS.get(c.kind, f"{_SETUP}, pick the object"),
                 done_when="The org shows the design's wording and re-planning shows no difference.",
+                drift=True,
             ))
         kept = []
     return kept, manual

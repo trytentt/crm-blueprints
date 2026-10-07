@@ -102,6 +102,10 @@ class ManualStep:
     done_when: str
     risk: str = "safe"
     instructions: str = ""
+    # True when the step stands for a difference between the design and the live account that this tool could
+    # not close itself (an edition without a deploy API, a rename). `crm_drift` counts these; routine hand work
+    # such as building a flow is not drift.
+    drift: bool = False
 
 
 @dataclass(frozen=True)

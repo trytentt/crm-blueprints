@@ -209,7 +209,10 @@ field is for. Do not make up descriptions. Ask the client, or leave them as TODO
 | Needs | Plan with enough objects | Custom objects: Enterprise | Enterprise, Unlimited, Performance or Developer edition to deploy |
 | Manual | Workflows, views, won/lost flags, stage rules | Workflows, views, stage rules, permissions | Flows, view sort, permission assignment, page layouts |
 
-<!-- confirm once adapters land: the table above against the HubSpot and Salesforce adapters -->
+Variables the adapters read: `ATTIO_ACCESS_TOKEN` and `ATTIO_TARGET`; `HUBSPOT_ACCESS_TOKEN` and
+`HUBSPOT_TARGET`; `SF_TARGET_ORG` (plus optional `SF_API_VERSION`, `SF_CLI`). A Salesforce org that is
+not a sandbox or scratch org, including a Developer Edition one, counts as production. On a
+Professional or Essentials org every change is a manual step and nothing is deployed.
 
 ## Stop and ask when
 

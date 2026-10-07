@@ -4,10 +4,10 @@ How the tools read, plan and change a live CRM, what stops them doing harm, and 
 credentials. For the order of work see [build-sequence.md](build-sequence.md). For platform
 differences see [platform-comparison.md](platform-comparison.md).
 
-Adapter status when this page was written: Attio is built. The HubSpot and Salesforce adapters and
-the Salesforce generator were still in progress. Statements about them come from the research and
-[../DECISIONS.md](../DECISIONS.md) and carry a marker until checked against the code.
-<!-- confirm once adapters land: adapter status sentence above -->
+All three adapters (Attio, HubSpot, Salesforce) and all three generators are built and tested against
+in-memory simulators. **No live CRM has been exercised yet**, so every API shape is taken from the
+platforms' documentation; the points a first live run must confirm are listed in
+[../HANDOFF.md](../HANDOFF.md). Decisions behind the behaviour are in [../DECISIONS.md](../DECISIONS.md).
 
 ## How it works
 
@@ -22,9 +22,12 @@ live CRM ──adapter.read_state─> State ─┘                              
 1. **Adapter** (`tools/crm/<platform>.py`). One per platform, behind one interface in
    `tools/crm/base.py`: `read_state()`, `plan(design, state)` and `apply(plan, dry_run=True)`. The
    adapter knows the platform's API: how to read it, how to build a payload, and how to wording
-   manual steps. Attio and HubSpot call REST APIs. Salesforce writes metadata into the client's
-   build folder and calls the `sf` CLI (`sf project deploy start`, check-only for a dry run).
-   <!-- confirm once adapters land: HubSpot and Salesforce adapter behaviour -->
+   manual steps. Attio and HubSpot call REST APIs (HubSpot pins API version `2026-09`). Salesforce writes
+   the files for exactly the components a change needs into a temporary project folder and calls the `sf`
+   CLI (`sf project deploy start`; a dry run is one `--dry-run` check-only deploy, a real run deploys in
+   four phases: objects, relationships, fields, pipelines). Every `sf` call goes through one runner, and
+   the adapter refuses flags that bypass checks (`--ignore-errors`, `--ignore-conflicts`,
+   `--ignore-warnings`, `--purge-on-delete`, the destructive-changes flags and `--test-level`).
 2. **State.** The live CRM in canonical terms: objects, fields with type and options, relationships,
    pipelines with ordered stages. The adapter maps live names back to design keys. Items that come with
    the platform are marked `native`, so the planner never proposes removing them.
@@ -56,9 +59,9 @@ Nine rules. Each is enforced in code and covered by a test. Run the tests with `
 
 | # | Rule | Enforced in | Tests |
 |---|---|---|---|
-| 1 | **Dry run unless `--execute`.** | `resolve_mode` in `tools/crm/safety.py` turns no flag into `dry_run=True`. `run_plan` in `tools/crm_apply.py` calls `adapter.apply(..., dry_run=True)` in that mode. The Attio adapter sends no HTTP write at all in a dry run. | `tests/test_safety.py::test_default_is_dry_run`; `tests/test_cli_apply.py::test_dry_run_is_the_default` |
-| 2 | **Sandbox by default. Production needs `--execute --production` and a typed account name.** | `resolve_mode` refuses `--production` without `--execute`. `confirm_production` makes the user type the account or org name exactly, and refuses to run when stdin is not a terminal. `check_gates` calls it for production execute runs. The Attio adapter also treats a workspace as production unless `ATTIO_TARGET` marks it as a test workspace. | `tests/test_safety.py::test_production_without_execute_is_refused`, `test_confirm_*`, `test_production_execute_calls_confirmation_with_target`; `tests/test_cli_apply.py::test_production_*` |
-| 3 | **Never delete or archive objects, fields, options, stages or records.** Removals become destructive manual steps with data-migration instructions. | `tools/crm/planner.py`: removal of an object, field, relationship or pipeline is a `ManualStep` with risk `destructive`, never a `Change`. `check_gates` raises on any destructive `Change`, in case a plan file was edited by hand. The Attio adapter's request helper refuses the `DELETE` method. Option and stage removals are `needs_review` changes that adapters carry out by hiding or archiving, which hides the item and keeps its data. <!-- confirm once adapters land: that the HubSpot and Salesforce adapters hide rather than delete --> | `tests/test_planner.py::test_field_removal_is_destructive_manual_step`, `test_object_removal_*`, `test_no_change_is_ever_destructive`; `tests/test_cli_apply.py::test_destructive_change_in_plan_is_refused`; `tests/test_safety.py::test_destructive_change_always_refused` |
+| 1 | **Dry run unless `--execute`.** | `resolve_mode` in `tools/crm/safety.py` turns no flag into `dry_run=True`. `run_plan` in `tools/crm_apply.py` calls `adapter.apply(..., dry_run=True)` in that mode. The Attio and HubSpot adapters send no HTTP write at all in a dry run. The Salesforce adapter makes one check-only deploy, which the org validates and saves nothing from. | `tests/test_safety.py::test_default_is_dry_run`; `tests/test_cli_apply.py::test_dry_run_is_the_default` |
+| 2 | **Sandbox by default. Production needs `--execute --production` and a typed account name.** | `resolve_mode` refuses `--production` without `--execute`. `confirm_production` makes the user type the account or org name exactly, and refuses to run when stdin is not a terminal. `check_gates` calls it for production execute runs. The Attio adapter also treats a workspace as production unless `ATTIO_TARGET` marks it as a test workspace. The HubSpot adapter refuses to run without `HUBSPOT_TARGET`. The Salesforce adapter reads the org itself: anything that is not a sandbox or scratch org, a Developer Edition org included, is production, a real deploy there is refused without `--production`, and the typed name is `<org name> (<alias>)`. | `tests/test_safety.py::test_production_without_execute_is_refused`, `test_confirm_*`, `test_production_execute_calls_confirmation_with_target`; `tests/test_cli_apply.py::test_production_*` |
+| 3 | **Never delete or archive objects, fields, options, stages or records.** Removals become destructive manual steps with data-migration instructions. | `tools/crm/planner.py`: removal of an object, field, relationship or pipeline is a `ManualStep` with risk `destructive`, never a `Change`. `check_gates` raises on any destructive `Change`, in case a plan file was edited by hand. The Attio adapter's request helper refuses the `DELETE` method. Option and stage removals are `needs_review` changes that adapters carry out by hiding, archiving or deactivating, which keeps the data: Attio archives the option or status, HubSpot hides the option, Salesforce deploys the picklist value as inactive. Where the platform documents no such step (a HubSpot stage, a Salesforce Opportunity stage) the adapter turns the removal into a destructive manual step. The Salesforce adapter never writes a destructive-changes file and refuses any `sf` argument that names one. | `tests/test_planner.py::test_field_removal_is_destructive_manual_step`, `test_object_removal_*`, `test_no_change_is_ever_destructive`; `tests/test_cli_apply.py::test_destructive_change_in_plan_is_refused`; `tests/test_safety.py::test_destructive_change_always_refused` |
 | 4 | **Never change a field type in place.** A manual migration step is produced. | `_existing_field` in `tools/crm/planner.py`. A type mismatch (including select to multi-select) produces a destructive manual step to create `<key>_new`, copy, repoint and archive. The same goes for a relationship's cardinality. | `tests/test_planner.py::test_type_change_is_manual_step_never_a_change`, `test_select_to_multi_select_is_a_type_change`, `test_cardinality_change_is_manual_step` |
 | 5 | **Add options and stages automatically. Renames, removals and reorders are `needs_review` and need `--allow-review`.** | `RISK_BY_KIND` in the planner sets the risk of each kind. `check_gates` holds `needs_review` changes unless `allow_review` is set. | `tests/test_planner.py::test_add_option_is_safe`, `test_add_stage_is_safe`, `test_renames_are_needs_review`, `test_reorder_stages_is_needs_review`; `tests/test_safety.py::test_review_changes_held_without_allow_review`; `tests/test_cli_apply.py::test_execute_applies_safe_and_holds_review` |
 | 6 | **Idempotent.** Re-running a plan is a no-op. The live state is re-checked before each change. | The planner returns an empty plan when state matches the design. `run_plan` reads state before every change and skips one already in place (`is_satisfied`), or re-plans against `--design` when given. Attio treats `409 slug_conflict` as "already exists" and checks the live item. Salesforce deploys are create-or-update. | `tests/test_planner.py::test_matching_state_gives_zero_changes`, `test_replanning_after_fake_apply_is_noop`; `tests/test_cli_apply.py::test_reapplying_the_same_plan_changes_nothing`, `test_skips_a_change_made_by_someone_else_meanwhile` |
@@ -79,13 +82,12 @@ tools cannot tell a client's live account from a test account on Attio, so the e
 Credentials live in `.env` (git-ignored) or the shell environment. `.env.example` lists the names.
 Use sandbox or test accounts for routine work. Give each client its own credential, and take it
 away at the end of the engagement. Never paste a token into a chat, a ticket or a commit.
-<!-- confirm once adapters land: variable names below for HubSpot and Salesforce, and .env.example -->
+The variable names below are the ones the adapters read, and `.env.example` lists the same names.
 
 ### Attio
 
-Variables: `ATTIO_ACCESS_TOKEN` and `ATTIO_TARGET` (as the adapter reads them).
-The research notes call the token `ATTIO_API_KEY`; the adapter code uses `ATTIO_ACCESS_TOKEN`.
-<!-- confirm once adapters land: which Attio variable name is final and that .env.example matches -->
+Variables: `ATTIO_ACCESS_TOKEN` and `ATTIO_TARGET`.
+(Some research notes call the token `ATTIO_API_KEY`; the adapter and `.env.example` use `ATTIO_ACCESS_TOKEN`.)
 
 1. A workspace admin opens the menu beside the workspace name, then **Workspace settings**,
    **Developers**, **+ New access token**.
@@ -103,7 +105,9 @@ Source: `platforms/attio/reference/auth-and-setup.md`.
 
 ### HubSpot
 
-Variable: `HUBSPOT_ACCESS_TOKEN`. <!-- confirm once adapters land -->
+Variables: `HUBSPOT_ACCESS_TOKEN` and `HUBSPOT_TARGET`. The target is a label you choose for a test
+account or sandbox (for example `dev-test`); it is not a secret. The adapter refuses to run with
+it unset, even for production, so every run names the account it means.
 
 1. A super admin (or a user with "Developer tools access") opens **Development**, **Keys**,
    **Service keys**, **Create service key**.
@@ -123,7 +127,10 @@ carries a 90-day Enterprise trial, so custom objects can be tried. The API versi
 ### Salesforce
 
 No token goes in `.env`. The `sf` CLI keeps its own credentials. The repo holds only an org alias.
-Variable name for the alias: <!-- confirm once adapters land: Salesforce alias variable name (research suggests SF_TARGET_ORG is the CLI's own variable) -->
+Variables: `SF_TARGET_ORG` (the org alias or username you logged in with), and optionally
+`SF_API_VERSION` (default `67.0`) and `SF_CLI` (the program name or path, default `sf`). An org that
+is not a sandbox or scratch org counts as production, and so does a Developer Edition org that is not
+a sandbox: it needs `--execute --production` and the typed org name.
 
 1. Install the `sf` CLI. Confirm the client's edition is Enterprise, Unlimited, Performance or Developer.
    Professional and Essentials cannot be built this way.

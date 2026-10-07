@@ -107,8 +107,8 @@ What the tools do for each platform, honestly. Detail is in `platforms/<crm>/REA
 
 | | Attio | HubSpot | Salesforce |
 |---|---|---|---|
-| Generated files | Yes | Yes | <!-- confirm once adapters land --> Generator in progress |
-| Read live state, plan, apply | Yes (REST API) | <!-- confirm once adapters land --> In progress (REST API) | <!-- confirm once adapters land --> In progress (`sf` CLI) |
+| Generated files | Yes | Yes | Yes (SFDX source, `package.xml`) |
+| Read live state, plan, apply | Yes (REST API) | Yes (REST API) | Yes (`sf` CLI: check-only or real deploy) |
 | Objects, fields, options | Automated | Automated | Automated |
 | Relationships | Automated | Automated; labels and limits need Professional or Enterprise | Automated (lookup, master-detail, junction) |
 | Pipelines and stages | Automated, as a list with a status field | Automated. Won and lost only on deals | Automated on Opportunity; a stage picklist on other objects |
@@ -140,5 +140,4 @@ Credentials come only from environment variables. The nine rules and where each 
 
 ## Licence
 
-<!-- owner to choose licence -->
-No licence has been chosen yet.
+MIT. See [LICENSE](LICENSE).
