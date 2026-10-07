@@ -9,6 +9,7 @@ import pytest
 
 from tests.cli_helpers import behind_state, factory_for, make_plan_file, read_logs
 from tools import crm_apply
+from tools.crm.base import Plan
 from tools.design import load_design
 
 
@@ -204,3 +205,27 @@ def test_unreadable_plan_is_an_error(tmp_path, design, capsys):
     bad = tmp_path / "bad.json"
     bad.write_text("not json", encoding="utf-8")
     assert run(bad, adapter, tmp_path) == 2
+
+
+def test_only_a_typed_target_reaches_the_adapter(design, tmp_path):
+    """Regression: the plan's target is a display name. Passing it on clashed with ATTIO_TARGET."""
+    path, adapter = make_plan_file(design, tmp_path)
+    factory = factory_for(adapter)
+    argv = [str(path), "--clients-dir", str(tmp_path / "clients"), "--execute", "--client", "acme"]
+    assert crm_apply.main(argv, adapter_factory=factory, env={}) == 0
+    assert factory.calls == [("attio", None, False)]
+
+
+def test_a_change_the_adapter_found_in_place_is_logged_as_skipped(design, tmp_path):
+    """Regression: an adapter that sends nothing because the thing exists must not be logged as applied."""
+    path, adapter = make_plan_file(design, tmp_path)
+    original = adapter.apply
+
+    def already_there(plan, *, dry_run=True):
+        adapter.skipped = list(plan.changes)
+        return original(Plan(plan.platform, plan.target, ()), dry_run=dry_run)
+
+    adapter.apply = already_there  # type: ignore[method-assign]
+    assert run(path, adapter, tmp_path, "--execute", "--client", "acme") == 0
+    (log,) = read_logs(tmp_path / "clients", "acme")
+    assert log["applied"] == [] and len(log["already_satisfied"]) == 3

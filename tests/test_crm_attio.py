@@ -343,9 +343,9 @@ def test_error_report_redacts_token(design):
     a = adapter(fake)
     plan = a.plan(design, a.read_state())
     path = plan.changes[0].payload["requests"][0]["path"]
-    fake.fail[f"POST {path}"] = error(400, "validation_type", f"bad request for {TOKEN} by a@b.com")
+    fake.fail[f"POST {path}"] = error(400, "validation_type", f"bad request for {TOKEN} by a@example.com")
     result = a.apply(plan, dry_run=False)
-    assert TOKEN not in result.failed[0].error and "a@b.com" not in result.failed[0].error
+    assert TOKEN not in result.failed[0].error and "a@example.com" not in result.failed[0].error
 
 
 # --- live ----------------------------------------------------------------------------------------

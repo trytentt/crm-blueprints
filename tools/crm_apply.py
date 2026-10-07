@@ -137,7 +137,11 @@ def run_plan(
             report.failed = list(result.failed)
             report.remaining = list(runnable[i + 1 :])
             return report
-        report.applied.append(change)
+        # An adapter that found the change already in place reports it in `skipped`; do not log it as applied.
+        if change in getattr(adapter, "skipped", ()):
+            report.skipped.append(change)
+        else:
+            report.applied.append(change)
     return report
 
 
@@ -194,7 +198,9 @@ def main(
         platform = args.platform or plan.platform
         target = args.target or plan.target
         plan = replace(plan, platform=platform, target=target)
-        adapter = (adapter_factory or default_factory)(platform, environment, target, mode.production)
+        # Only a target the user typed goes to the adapter. The plan's target is a display name
+        # (Attio: the workspace name) and need not equal ATTIO_TARGET or HUBSPOT_TARGET.
+        adapter = (adapter_factory or default_factory)(platform, environment, args.target, mode.production)
         report = run_plan(plan, adapter, mode, confirm=confirm_production, design_path=args.design)
     except (SafetyError, RegistryError, DesignError) as exc:
         print(f"refused: {redact(str(exc), secrets)}", file=sys.stderr)

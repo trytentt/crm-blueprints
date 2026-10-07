@@ -155,8 +155,12 @@ class _Builder:
         if rel.key in by_key:
             return by_key[rel.key]
         if self.platform in rel.native:
+            # A native relationship may be live under the platform's own name. Never take one that
+            # another design relationship owns by key: two relationships can join the same objects
+            # (a deal's company, and its co-investor companies).
+            owned = {r.key for r in self.design.relationships}
             for r in self.state.relationships:
-                if (r.from_object, r.to_object) == (rel.from_object, rel.to_object):
+                if (r.from_object, r.to_object) == (rel.from_object, rel.to_object) and r.key not in owned:
                     return r
         return None
 

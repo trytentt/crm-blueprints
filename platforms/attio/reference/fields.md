@@ -65,9 +65,9 @@ On read, `config` always has both `currency` and `record_reference` keys; the un
 | `select` | option title or id | Yes (`is_multiselect`) | Cannot create options on write. |
 | `status` | `[{"status":"Lead"}]` | No | Cannot create statuses on write. |
 | `record-reference` | `{"target_object":"companies","target_record_id":"<uuid>"}` | Yes | Can also match by a unique attribute, for example `domains`. |
-| `actor-reference` | `"person@co.com"` or `{"referenced_actor_type":"workspace-member","referenced_actor_id":"<uuid>"}` | Yes | Only workspace members can be written. |
+| `actor-reference` | `"person@example.com"` or `{"referenced_actor_type":"workspace-member","referenced_actor_id":"<uuid>"}` | Yes | Only workspace members can be written. |
 | `domain` | `"acme.com"` | Yes | Stores domains only; paths and queries are trimmed. Not for URLs. |
-| `email-address` | `"a@b.com"` | Yes | Strictly validated. |
+| `email-address` | `"a@example.com"` | Yes | Strictly validated. |
 | `phone-number` | `"+447700900123"` | Yes | E.164 with `+` prefix, or `{original_phone_number, country_code}`. |
 | `location` | object | Yes | Not used in our mapping. |
 

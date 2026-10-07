@@ -210,7 +210,7 @@ def test_redact_ignores_empty_and_tiny_secrets():
 def test_redact_data_nested():
     data = {
         "headers": {"Authorization": "Bearer abcdef123456", "Accept": "json"},
-        "body": {"email": "a@b.com", "items": ["call 07700 900123", 5]},
+        "body": {"email": "a@example.com", "items": ["call 07700 900123", 5]},
         "api_key": "whatever",
     }
     out = redact_data(data)
@@ -222,9 +222,9 @@ def test_redact_data_nested():
 
 
 def test_write_apply_log_redacts(tmp_path):
-    path = write_apply_log(tmp_path / "build" / "apply-log", "run.log", "user a@b.com token=secret123456")
+    path = write_apply_log(tmp_path / "build" / "apply-log", "run.log", "user a@example.com token=secret123456")
     text = path.read_text()
-    assert "a@b.com" not in text and "secret123456" not in text
+    assert "a@example.com" not in text and "secret123456" not in text
 
 
 def test_get_credential():

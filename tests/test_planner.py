@@ -138,6 +138,20 @@ def test_native_relationship_matched_by_endpoints_not_key(design):
     assert plan_for(design, s).is_empty
 
 
+def test_native_relationship_is_not_matched_to_a_custom_one_between_the_same_objects(design_dict, write_design):
+    """Regression: deal-to-company (native) and a co-investor link (custom, many_to_many) join the same pair."""
+    design_dict["add_relationships"].append({
+        "key": "deal_co_investors", "from": "deal", "to": "company", "cardinality": "many_to_many",
+        "from_label": "Co-investors", "to_label": "Co-invested deals", "purpose": "Other funds in the round.",
+    })
+    design = load_design(write_design(design_dict))
+    s = state_matching(design)
+    # Live has the custom link but no native deal_company: the native one must not be matched to it.
+    s = replace(s, relationships=tuple(r for r in s.relationships if r.key != "deal_company"))
+    plan = plan_for(design, s)
+    assert plan.is_empty, [m.title for m in plan.manual_steps]
+
+
 # --- needs_review ------------------------------------------------------------------------------
 
 
